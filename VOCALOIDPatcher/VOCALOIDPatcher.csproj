@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
+        <RootNamespace>Microsoft.Xaml.Behaviors</RootNamespace>
+        <Company>Microsoft Corporation</Company>
+        <Product>Microsoft.Xaml.Behaviors</Product>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
+        <FileVersion>1.1.135.29210</FileVersion>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="VOCALOID6">
+        <HintPath>C:\Program Files\VOCALOID6\Editor\VOCALOID6.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+
+</Project>
