@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.IO;
 using System.Resources;
 using HarmonyLib;
 using VOCALOIDPatcher.Translation;
@@ -25,14 +24,8 @@ public class VPResourceManagerPatch
 
         if (!string.IsNullOrEmpty(translated))
         {
-            File.AppendAllText("E:\\translerr.txt", name + ": " + translated + Environment.NewLine);
             __result = translated;
             return false;
-        }
-        else
-        {
-            // PatcherDebug.ShowErrorMessage("Translation not found: " + name);
-            File.AppendAllText("E:\\translerr.txt", name + Environment.NewLine);
         }
 
         return true;
