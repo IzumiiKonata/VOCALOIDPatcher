@@ -1,8 +1,6 @@
 ﻿namespace VOCALOIDPatcher;
 
-#if PATCHER_DEBUG
 using MessageBox = System.Windows.MessageBox;
-#endif
 
 public class PatcherDebug
 {

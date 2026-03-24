@@ -11,7 +11,7 @@
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <FileVersion>1.1.135.29210</FileVersion>
         <UseWPF>true</UseWPF>
-        <DefineConstants>PATCHER_DEBUG</DefineConstants>
+<!--        <DefineConstants>PATCHER_DEBUG</DefineConstants>-->
     </PropertyGroup>
 
     <ItemGroup>

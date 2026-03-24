@@ -84,6 +84,11 @@ public static class Patcher
             };
             languageItems.Add(item);
         }
+        
+        MenuItem it = new MenuItem();
+        it.Name = "VOCALOIDPatcherLanguageItemFooter";
+        it.Header = "Made with <3 by IzumiiKonata";
+        languageItems.Add(it);
 
         return languageItems.ToArray();
     }
