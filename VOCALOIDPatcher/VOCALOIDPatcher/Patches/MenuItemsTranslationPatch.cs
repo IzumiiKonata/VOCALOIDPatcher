@@ -18,11 +18,34 @@ public static class MenuItemsTranslationPatch
     {
         DoTranslate();
         Patcher.AddTranslationsItem();
+        
+        FixFilepathSeparator();
     }
 
+    /**
+     * 修复 文件 -> 最近打开... 中的文件分隔符全都是￥的问题
+     */
+    private static void FixFilepathSeparator()
+    {
+        MenuItem? xRecentFiles = Patcher.GetWindowField<MenuItem>("xRecentFiles");
+
+        if (xRecentFiles != null)
+        {
+            xRecentFiles.FontFamily = new FontFamily("Consolas");
+        }
+        else
+        {
+            PatcherDebug.ShowErrorMessage("Cannot get xRecentFiles!");
+        }
+    }
+
+    /**
+     * 翻译所有控件
+     * 因为劫持的 dll 拉起要比窗口创建晚, 所以还需要手动刷新一下
+     */
     public static void DoTranslate()
     {
-        IterateAndTranslate(Patcher.GetXMenu().Items);
+        IterateAndTranslate(Patcher.GetMainMenu().Items);
     }
 
     private static void IterateAndTranslate(ItemCollection collection)
@@ -42,6 +65,10 @@ public static class MenuItemsTranslationPatch
         }
     }
     
+    /**
+     * 从已翻译的文本获取本地化键值
+     * "Open Recent..." -> "MainMenu_File_OpenRecent_Header"
+     */
     private static string GetResourceKey(string value)
     {
         var type = typeof(Resources);
@@ -57,9 +84,9 @@ public static class MenuItemsTranslationPatch
             if (prop.PropertyType == typeof(string) && prop.CanRead)
             {
                 string name = prop.Name;
-                VPResourceManagerPatch.Skip = true;
+                ResourceManagerPatch.Skip = true;
                 string v = (string) prop.GetValue(null);
-                VPResourceManagerPatch.Skip = false;
+                ResourceManagerPatch.Skip = false;
 
                 if (value == v)
                 {

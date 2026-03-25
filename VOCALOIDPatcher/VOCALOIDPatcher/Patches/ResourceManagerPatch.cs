@@ -6,7 +6,7 @@ using VOCALOIDPatcher.Translation;
 namespace VOCALOIDPatcher.Patches;
 
 [HarmonyPatch(typeof(ResourceManager), "GetString", typeof(string), typeof(CultureInfo))]
-public class VPResourceManagerPatch
+public class ResourceManagerPatch
 {
 
     public static bool Skip = false;

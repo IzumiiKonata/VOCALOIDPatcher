@@ -14,6 +14,9 @@ namespace VOCALOIDPatcher;
 
 public static class Patcher
 {
+    
+    public static readonly string Version = "1.0.1";
+    
     [ModuleInitializer]
     public static void Init()
     {
@@ -24,9 +27,6 @@ public static class Patcher
         try
         {
             var harmony = new Harmony("VOCALOIDPatcher");
-
-            // var original = typeof(App).GetMethod("ValidateAuthorization", BindingFlags.NonPublic | BindingFlags.Static);
-            // var prefix = typeof(PatchValidation).GetMethod("Prefix");
         
             harmony.PatchAll();
         } catch(Exception e)
@@ -35,19 +35,36 @@ public static class Patcher
         }
     }
 
-    public static Menu GetXMenu()
+    public static MainWindow GetMainWindow()
     {
-        Window mainWindow = (MainWindow) Application.Current.MainWindow;
+        return (MainWindow) Application.Current.MainWindow;
+    }
+    
+    public static Menu GetMainMenu()
+    {
+        MainWindow mainWindow = GetMainWindow();
         Type mainWindowType = mainWindow.GetType();
-        FieldInfo fieldInfo = mainWindowType.GetField("xMainMenu", BindingFlags.Instance | BindingFlags.NonPublic);
+        FieldInfo? fieldInfo = mainWindowType.GetField("xMainMenu", BindingFlags.Instance | BindingFlags.NonPublic);
         return (fieldInfo.GetValue(mainWindow)) as Menu;
+    }
+
+    public static T? GetWindowField<T>(string fieldName) where T: class
+    {
+        MainWindow mainWindow = GetMainWindow();
+        Type mainWindowType = mainWindow.GetType();
+        FieldInfo? fieldInfo = mainWindowType.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+
+        if (fieldInfo == null)
+            return null;
+        
+        return (fieldInfo.GetValue(mainWindow)) as T;
     }
 
     public static void AddTranslationsItem()
     {
         try
         {
-            Menu menu = GetXMenu();
+            Menu menu = GetMainMenu();
         
             MenuItem languageItem = new MenuItem();
         
@@ -75,7 +92,7 @@ public static class Patcher
         {
             var lang = TranslationManager.AvailableLanguages[i];
             MenuItem item = new MenuItem();
-            item.Name = "VOCALOIDPatcherLanguageItem" + i;
+            item.Name = $"VOCALOIDPatcherLanguageItem{i}";
             item.Header = lang;
             item.Click += (object sender, RoutedEventArgs args) =>
             {
@@ -85,12 +102,19 @@ public static class Patcher
             languageItems.Add(item);
         }
         
-        MenuItem it = new MenuItem();
-        it.Name = "VOCALOIDPatcherLanguageItemFooter";
-        it.Header = "Made with <3 by IzumiiKonata";
-        languageItems.Add(it);
+        languageItems.Add(BuildItemLabel($"VOCALOIDPatcher {Version}"));
+        languageItems.Add(BuildItemLabel("Made with <3 by IzumiiKonata"));
 
         return languageItems.ToArray();
+    }
+
+    private static int distinctCounter = 0;
+    private static MenuItem BuildItemLabel(string label)
+    {
+        MenuItem it = new MenuItem();
+        it.Name = $"VOCALOIDPatcherLanguageItemLabel{distinctCounter++}";
+        it.Header = label;
+        return it;
     }
     
 }

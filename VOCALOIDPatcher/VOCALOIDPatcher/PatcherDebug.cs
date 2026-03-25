@@ -10,9 +10,9 @@ public class PatcherDebug
         MessageBox.Show(message);
 #endif
     }
-
-    public static void ShowErrorMessage(string message)
+    
+    public static void ShowErrorMessage(string message, string title = "VOCALOIDPatcher Error")
     {
-        MessageBox.Show(message, "VOCALOIDPatcher Error");
+        MessageBox.Show(message, title);
     }
 }
