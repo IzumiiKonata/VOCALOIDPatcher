@@ -9,7 +9,7 @@ using VOCALOIDPatcher.Translation;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.Properties;
 
-namespace VOCALOIDPatcher;
+namespace VOCALOIDPatcher.Patches;
 
 [HarmonyPatch(typeof(MainWindow), "InitializeCommandBindings")]
 public static class MenuItemsTranslationPatch
