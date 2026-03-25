@@ -2,12 +2,10 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using HarmonyLib;
+using VOCALOIDPatcher.Patches;
 using VOCALOIDPatcher.Translation;
 using Yamaha.VOCALOID;
-using Yamaha.VOCALOID.Properties;
-using MessageBox = System.Windows.MessageBox;
 
 
 namespace VOCALOIDPatcher;
