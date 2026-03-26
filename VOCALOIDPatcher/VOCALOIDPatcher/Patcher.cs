@@ -19,6 +19,14 @@ public static class Patcher
     public static void Init()
     {
         PatcherDebug.ShowDbgMessage("Nuck Figgers 有感觉吗");
+
+#if PATCHER_DEBUG
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            Exception ex = (Exception) args.ExceptionObject;
+            PatcherDebug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "Patcher Unhandled Exception");
+        };
+#endif
         
         TranslationManager.Initialize();
         
