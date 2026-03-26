@@ -3,14 +3,19 @@ using System.Resources;
 using HarmonyLib;
 using VOCALOIDPatcher.Translation;
 
-namespace VOCALOIDPatcher.Patches;
+namespace VOCALOIDPatcher.Patch.Patches;
 
-[HarmonyPatch(typeof(ResourceManager), "GetString", typeof(string), typeof(CultureInfo))]
-public class ResourceManagerPatch
+public class ResourceManagerPatch : PatchBase
 {
+    public override string PatchName => "ResourceManagerPatch";
+    public override Type TargetClass => typeof(ResourceManager);
+    public override string TargetMethodName => "GetString";
+
+    public override Type[]? ArgumentTypes => [ typeof(string), typeof(CultureInfo) ];
 
     public static bool Skip = false;
     
+    [HarmonyPrefix]
     static bool Prefix(string name, CultureInfo culture, ref string __result)
     {
 

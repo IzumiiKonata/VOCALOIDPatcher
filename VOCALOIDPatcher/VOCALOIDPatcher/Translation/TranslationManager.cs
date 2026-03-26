@@ -1,34 +1,41 @@
 ﻿using System.IO;
 using System.Xml.Linq;
+using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Translation;
 
 public static class TranslationManager
 {
-    private static readonly Dictionary<string, string> _dict = new();
+    private static readonly Dictionary<string, string> Dict = new();
 
     public static List<string> AvailableLanguages { get; } = new();
 
-    public static string CurrentLanguage { get; private set; }
+    public static string? CurrentLanguage { get; private set; }
 
-    private static readonly string _translationsDir =
+    private static readonly string TranslationsDir =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher", "translations");
 
-    public static void Initialize(string defaultLanguage = null)
+    public static void Initialize(string? defaultLanguage = null)
     {
-        if (!Directory.Exists(_translationsDir))
+        if (!Directory.Exists(TranslationsDir))
+        {
+            MessageUtils.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
+        }
 
         AvailableLanguages.Clear();
 
-        foreach (var file in Directory.GetFiles(_translationsDir, "*.xml"))
+        foreach (var file in Directory.GetFiles(TranslationsDir, "*.xml"))
         {
             var lang = Path.GetFileNameWithoutExtension(file);
             AvailableLanguages.Add(lang);
         }
 
         if (AvailableLanguages.Count == 0)
+        {
+            MessageUtils.ShowErrorMessage("未找到任何翻译! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
+        }
 
         if (!string.IsNullOrEmpty(defaultLanguage) && AvailableLanguages.Contains(defaultLanguage))
         {
@@ -42,12 +49,15 @@ public static class TranslationManager
 
     public static bool LoadLanguage(string language)
     {
-        var path = Path.Combine(_translationsDir, language + ".xml");
+        var path = Path.Combine(TranslationsDir, language + ".xml");
 
         if (!File.Exists(path))
+        {
+            MessageUtils.ShowErrorMessage($"试图加载不存在的翻译: {language}.xml");
             return false;
+        }
 
-        _dict.Clear();
+        Dict.Clear();
 
         try
         {
@@ -64,9 +74,9 @@ public static class TranslationManager
                 var key = keyAttr.Value;
                 var value = valueElement.Value;
 
-                if (!_dict.ContainsKey(key))
+                if (!Dict.ContainsKey(key))
                 {
-                    _dict[key] = value;
+                    Dict[key] = value;
                 }
             }
 
@@ -81,7 +91,7 @@ public static class TranslationManager
 
     public static string? Get(string key)
     {
-        if (_dict.TryGetValue(key, out var value))
+        if (Dict.TryGetValue(key, out var value))
             return value;
 
         return null;

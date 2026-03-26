@@ -1,0 +1,56 @@
+﻿using System.Reflection;
+using HarmonyLib;
+using VOCALOIDPatcher.Utils;
+
+namespace VOCALOIDPatcher.Patch;
+
+public abstract class PatchBase
+{
+    public abstract string PatchName { get; }
+    public abstract Type TargetClass { get; }
+    public abstract string TargetMethodName { get; }
+    
+    public virtual Type[]? ArgumentTypes => null;
+
+    public void Apply(Harmony harmony)
+    {
+        var original = GetTargetMethod();
+
+        if (original == null)
+        {
+            MessageUtils.ShowErrorMessage($"{PatchName}: 未在 {TargetClass.FullName} 中找到方法 {TargetMethodName}");
+            return;
+        }
+
+        var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+        var prefix      = FindHarmonyMethod(methods, typeof(HarmonyPrefix));
+        var postfix     = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
+        var transpiler  = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
+        var finalizer   = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
+
+        try
+        {
+            harmony.Patch(original, prefix, postfix, transpiler, finalizer);
+        }
+        catch (Exception e)
+        {
+            MessageUtils.ShowErrorMessage($"{PatchName}: patch 失败, \n{e.Message}\n{e.StackTrace}");
+        }
+    }
+
+    private MethodBase? GetTargetMethod()
+    {
+        var targetClass = TargetClass;
+        var targetMethodName = TargetMethodName;
+        
+        return AccessTools.Method(targetClass, targetMethodName, ArgumentTypes ?? Type.EmptyTypes);
+    }
+    
+    private static HarmonyMethod? FindHarmonyMethod(MethodInfo[] methods, Type attrType)
+    {
+        var method = methods.FirstOrDefault(m => m.GetCustomAttributes(attrType, false).Any());
+        return method != null ? new HarmonyMethod(method) : null;
+    }
+
+}

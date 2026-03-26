@@ -4,16 +4,20 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using HarmonyLib;
-using VOCALOIDPatcher.Patches;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.Properties;
 
-namespace VOCALOIDPatcher.Patches;
+namespace VOCALOIDPatcher.Patch.Patches;
 
-[HarmonyPatch(typeof(MainWindow), "InitializeCommandBindings")]
-public static class MenuItemsTranslationPatch
+public class MenuItemsTranslationPatch : PatchBase
 {
+    public override string PatchName        => "MenuItemsTranslationPatch";
+    public override Type   TargetClass      => typeof(MainWindow);
+    public override string TargetMethodName => "InitializeCommandBindings";
+
+    [HarmonyPrefix]
     static void Prefix()
     {
         DoTranslate();
@@ -35,7 +39,7 @@ public static class MenuItemsTranslationPatch
         }
         else
         {
-            PatcherDebug.ShowErrorMessage("Cannot get xRecentFiles!");
+            MessageUtils.ShowErrorMessage("Cannot get xRecentFiles!");
         }
     }
 

@@ -3,41 +3,51 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
-using VOCALOIDPatcher.Patches;
+using VOCALOIDPatcher.Patch;
+using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
-
 
 namespace VOCALOIDPatcher;
 
 public static class Patcher
 {
     
-    public static readonly string Version = "1.0.1";
+    public static readonly string Version = "1.0.2";
+
+    public static readonly bool DebugMode = /*KeyState.IsKeyDown(0xA2) && */KeyState.IsKeyDown(0xA0);
     
     [ModuleInitializer]
     public static void Init()
     {
-        PatcherDebug.ShowDbgMessage("Nuck Figgers 有感觉吗");
-
-#if PATCHER_DEBUG
-        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        if (DebugMode)
         {
-            Exception ex = (Exception) args.ExceptionObject;
-            PatcherDebug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "Patcher Unhandled Exception");
-        };
-#endif
+            MessageUtils.ShowDbgMessage("VOCALOIDPatcher 已被加载");
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                Exception ex = (Exception) args.ExceptionObject;
+                MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "Patcher Unhandled Exception");
+            };
+        }
         
         TranslationManager.Initialize();
         
         try
         {
             var harmony = new Harmony("VOCALOIDPatcher");
-        
-            harmony.PatchAll();
+
+            List<PatchBase> patches = [
+                new AppLanguagePatch(),
+                new MenuItemsTranslationPatch(),
+                new ResourceManagerPatch()
+            ];
+            
+            patches.ForEach(p => p.Apply(harmony));
         } catch(Exception e)
         {
-            PatcherDebug.ShowErrorMessage(e.Message + e.StackTrace);
+            MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
         }
     }
 
@@ -86,7 +96,7 @@ public static class Patcher
             menu.Items.Insert(menu.Items.Count - 1, languageItem);
         } catch(Exception e)
         {
-            PatcherDebug.ShowErrorMessage(e.Message + e.StackTrace);
+            MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
         }
     }
 

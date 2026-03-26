@@ -5,13 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
-        <RootNamespace>Microsoft.Xaml.Behaviors</RootNamespace>
         <Company>Microsoft Corporation</Company>
         <Product>Microsoft.Xaml.Behaviors</Product>
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <FileVersion>1.1.135.29210</FileVersion>
         <UseWPF>true</UseWPF>
-<!--        <DefineConstants>PATCHER_DEBUG</DefineConstants>-->
+        <RootNamespace />
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +22,10 @@
         <HintPath>C:\Program Files\VOCALOID6\Editor\VOCALOID6.dll</HintPath>
       </Reference>
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="ilrepack /out:E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\Microsoft.Xaml.Behaviors.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\0Harmony.dll" />
+    </Target>
 
 
 </Project>
