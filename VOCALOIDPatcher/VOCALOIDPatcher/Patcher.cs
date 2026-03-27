@@ -209,7 +209,7 @@ public static class Patcher
         }
         
         languageItems.Add(BuildItemLabel($"VOCALOIDPatcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
-        languageItems.Add(BuildItemLabel("Made with <3 by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
+        languageItems.Add(BuildItemLabel("Made with ❤ by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
 
         return languageItems.ToArray();
     }
