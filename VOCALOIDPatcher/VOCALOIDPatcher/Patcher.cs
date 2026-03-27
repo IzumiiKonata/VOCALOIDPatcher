@@ -20,23 +20,27 @@ namespace VOCALOIDPatcher;
 public static class Patcher
 {
     
-    public static string Version => "1.0.2";
+    public static string Version => "1.0.3";
 
     public static bool DebugMode => KeyState.IsKeyDown(0xA0); // left shift
 
-    public static string AppDir =>
+    public static string ConfigDir =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VOCALOIDPatcher");
 
     public static string ConfigFile =>
-        Path.Combine(AppDir, "config.json");
+        Path.Combine(ConfigDir, "config.json");
+
+    public static string DataDir =>
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher");
+        
     
     public static readonly ConfigManager ConfigManager;
 
     static Patcher()
     {
-        if (!Path.Exists(AppDir))
+        if (!Path.Exists(ConfigDir))
         {
-            Directory.CreateDirectory(AppDir);
+            Directory.CreateDirectory(ConfigDir);
         }
         
         try
@@ -87,6 +91,7 @@ public static class Patcher
                 new AppLanguagePatch(),
                 new MenuItemsTranslationPatch(),
                 new ResourceManagerPatch(),
+                new DependencyObjectPatch(),
                 MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
                 MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView),      "OnContextMenuOpening"),
                 MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),

@@ -4,8 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.Properties;
+using MessageBox = System.Windows.MessageBox;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
@@ -37,12 +39,30 @@ public class MenuItemsTranslationPatch : PatchBase
         return OriginalMapping[obj];
     }
 
+    private static readonly List<string> MissingKeyList = [];
+
     private static string GetTranslatedText(string value)
     {
         var resourceKey = GetResourceKey(value);
-        return string.IsNullOrEmpty(resourceKey)
-            ? value
-            : TranslationManager.Get(resourceKey) ?? value;
+
+        var isNullOrEmpty = string.IsNullOrEmpty(resourceKey);
+
+        if (isNullOrEmpty)
+        {
+            if (!TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var res))
+            {
+                if (!MissingKeyList.Contains(value))
+                {
+                    MessageUtils.Dbg($"Key not found: {value}");
+                    MissingKeyList.Add(value);
+                }
+                return value;
+            }
+            
+            return TranslationManager.Get(res) ?? value;
+        }
+        
+        return TranslationManager.Get(resourceKey) ?? value;
     }
 
     /**
@@ -75,7 +95,9 @@ public class MenuItemsTranslationPatch : PatchBase
         return "";
     }
 
-    private static void TranslateElement(object element)
+    public static bool TranslateTextBox = false;
+
+    public static void TranslateElement(object element)
     {
         switch (element)
         {
@@ -91,6 +113,19 @@ public class MenuItemsTranslationPatch : PatchBase
                 break;
             case ContentControl cc when cc.Content is string text:
                 cc.Content = GetTranslatedText(GetOriginal(cc, text));
+                break;
+            case Viewbox vb:
+                var containerVisual = Patcher.GetField<ContainerVisual, Viewbox>(vb, "_internalVisual");
+                foreach (var c in containerVisual.Children)
+                {
+                    Refresh(c);
+                }
+                break;
+            case TextBlock tb:
+                // 对 TextBlock 不使用最开始的文字的映射
+                // 避免文本输入框中的内容被自动翻译
+                if (TranslateTextBox)
+                    tb.Text = GetTranslatedText(tb.Text);
                 break;
         }
 
@@ -108,10 +143,10 @@ public class MenuItemsTranslationPatch : PatchBase
             TranslateElement(child);
     }
 
-    private static void Refresh(DependencyObject root)
+    public static void Refresh(DependencyObject root)
     {
         var count = VisualTreeHelper.GetChildrenCount(root);
-
+        
         for (var i = 0; i < count; i++)
         {
             var child = VisualTreeHelper.GetChild(root, i);
@@ -139,7 +174,7 @@ public class MenuItemsTranslationPatch : PatchBase
         Refresh(mainMenu);
         RefreshContextMenu(mainMenu);
         TranslateCollection(mainMenu.Items);
-
+        
         foreach (Window window in Application.Current.Windows)
         {
             Refresh(window);

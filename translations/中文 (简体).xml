@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Hardcoded -->
+  <data name="HomeWindow_PushButton_NEW_PROJECT_Header" xml:space="preserve"><value>新建工程</value></data>
+  <data name="HomeWindow_PushButton_OPEN_Header" xml:space="preserve"><value>打开</value></data>
   <data name="VOCALOIDPatcher_Language_Header" xml:space="preserve"><value>语言</value></data>
+
+  <!-- Editor Properties -->
   <data name="ContextMenu_LyricMoveRight_Header" xml:space="preserve"><value>歌词整体右移一格(_R)</value></data>
   <data name="ImportSettingsDlg_TrackType" xml:space="preserve"><value>音轨类型</value></data>
   <data name="MainMenu_Help_Header" xml:space="preserve"><value>帮助</value></data>

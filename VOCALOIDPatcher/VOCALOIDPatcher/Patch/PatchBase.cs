@@ -9,6 +9,7 @@ public abstract class PatchBase
     public abstract string PatchName { get; }
     public abstract Type TargetClass { get; }
     public abstract string TargetMethodName { get; }
+    public virtual bool IsConstructor => false;
     public virtual Type[]? ArgumentTypes => null;
 
     public void Apply(Harmony harmony)
@@ -47,9 +48,13 @@ public abstract class PatchBase
     private MethodBase? GetTargetMethod()
     {
         var targetClass = TargetClass;
-        var targetMethodName = TargetMethodName;
-        
-        return AccessTools.Method(targetClass, targetMethodName, ArgumentTypes ?? Type.EmptyTypes);
+
+        if (IsConstructor)
+        {
+            return AccessTools.Constructor(targetClass, ArgumentTypes ?? Type.EmptyTypes);
+        }
+
+        return AccessTools.Method(targetClass, TargetMethodName, ArgumentTypes ?? Type.EmptyTypes);
     }
     
     private static HarmonyMethod? FindHarmonyMethod(MethodInfo[] methods, Type attrType)

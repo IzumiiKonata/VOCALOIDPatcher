@@ -15,7 +15,9 @@ public static class TranslationManager
     public static string? CurrentLanguage { get; private set; }
 
     private static readonly string TranslationsDir =
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher", "translations");
+        Path.Combine(Patcher.DataDir, "translations");
+    
+    public static readonly Dictionary<string, string> HardcodedPropertyMapping = new();
 
     public static void Initialize()
     {
@@ -24,6 +26,8 @@ public static class TranslationManager
             MessageUtils.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
         }
+        
+        LoadHardcodedMappings();
 
         AvailableLanguages.Clear();
 
@@ -43,6 +47,39 @@ public static class TranslationManager
         {
             LoadLanguage(AvailableLanguages[0]);
             Patcher.ConfigManager.Set("Language", AvailableLanguages[0]);
+        }
+    }
+
+    private static void LoadHardcodedMappings()
+    {
+        var path = Path.Combine(Patcher.DataDir, "HardcodedPropertyMap.xml");
+        
+        if (!File.Exists(path))
+        {
+            MessageUtils.ShowErrorMessage($"硬编码映射不存在: HardcodedPropertyMap.xml");
+            return;
+        }
+        
+        try
+        {
+            var doc = XDocument.Load(path);
+
+            foreach (var data in doc.Descendants("data"))
+            {
+                var keyAttr = data.Attribute("name");
+                var valueElement = data.Element("value");
+
+                if (keyAttr == null || valueElement == null)
+                    continue;
+
+                var key = keyAttr.Value;
+                var value = valueElement.Value;
+
+                HardcodedPropertyMapping.TryAdd(key, value);
+            }
+        }
+        catch (Exception _)
+        {
         }
     }
 
@@ -91,8 +128,18 @@ public static class TranslationManager
         }
     }
 
+    private static readonly List<string> MissingKeyList = [];
+
     public static string? Get(string key)
     {
-        return Dict.GetValueOrDefault(key);
+        var value = Dict.GetValueOrDefault(key);
+
+        if (value == null && !MissingKeyList.Contains(key))
+        {
+            MessageUtils.Dbg($"Missing key: {key}");
+            MissingKeyList.Add(key);
+        }
+        
+        return value;
     }
 }
