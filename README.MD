@@ -13,7 +13,7 @@
 ![img](./res/screenshot.png)
 
 ## 调试
-在打开 `VOCALOID 6` 编辑器时长按 `左 Shift` 会打开控制台, `VOCALOIDPatcher` 会在其中显示一些 Debug 日志。
+安装该补丁后, 在打开 `VOCALOID 6` 编辑器时长按 `左 Shift` 会打开控制台, `VOCALOIDPatcher` 会在其中显示一些 Debug 日志。
 
 ## 更新翻译
 拉取项目, 运行 `ResourceTranslationComparer`, 控制台中会输出待翻译的条目
