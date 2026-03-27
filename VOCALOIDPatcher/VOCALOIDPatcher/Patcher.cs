@@ -58,13 +58,13 @@ public static class Patcher
         
         ConfigManager = new ConfigManager(ConfigFile);
         
-        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             Exception ex = (Exception) args.ExceptionObject;
             MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOIDPatcher 错误");
         };
 
-        GetMainWindow().Closing += (sender, args) =>
+        GetMainWindow().Closing += (_, _) =>
         {
             ConfigManager.Save();
         };
@@ -104,6 +104,8 @@ public static class Patcher
         
         TranslationManager.Initialize();
         MessageUtils.Dbg("TranslationManager 已初始化");
+
+        AddTranslationsItem();
     }
 
     public static MainWindow GetMainWindow()
@@ -152,24 +154,26 @@ public static class Patcher
         return fieldInfo.GetValue(fieldHolder) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
 
+    private static MenuItem LanguageItem;
+
     public static void AddTranslationsItem()
     {
         try
         {
             Menu menu = GetMainMenu();
         
-            MenuItem languageItem = new MenuItem();
+            LanguageItem = new MenuItem();
         
-            languageItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
-            languageItem.Name = "VOCALOIDPatcherLanguageItem";
+            LanguageItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
+            LanguageItem.Name = "VOCALOIDPatcherLanguageItem";
             MenuItem[] items = BuildLanguageItems();
         
             foreach (MenuItem item in items)
             {
-                languageItem.Items.Add(item);
+                LanguageItem.Items.Add(item);
             }
         
-            menu.Items.Insert(menu.Items.Count - 1, languageItem);
+            menu.Items.Insert(menu.Items.Count - 1, LanguageItem);
         } catch(Exception e)
         {
             MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
@@ -185,28 +189,42 @@ public static class Patcher
             var lang = TranslationManager.AvailableLanguages[i];
             MenuItem item = new MenuItem();
             item.Name = $"VOCALOIDPatcherLanguageItem{i}";
-            item.Header = lang;
-            item.Click += (object sender, RoutedEventArgs args) =>
+            item.Header = (TranslationManager.CurrentLanguage == lang ? "✓ " : "   ") + lang;
+            item.Click += (_, _) =>
             {
                 ConfigManager.Set("Language", lang);
                 TranslationManager.LoadLanguage(lang);
                 MenuItemsTranslationPatch.DoTranslate();
+                
+                for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
+                {
+                    var l = TranslationManager.AvailableLanguages[j];
+                    MenuItem it = (MenuItem) LanguageItem.Items[j];
+                    it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
+                }
+                
             };
             languageItems.Add(item);
         }
         
-        languageItems.Add(BuildItemLabel($"VOCALOIDPatcher {Version}"));
-        languageItems.Add(BuildItemLabel("Made with <3 by IzumiiKonata"));
+        languageItems.Add(BuildItemLabel($"VOCALOIDPatcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
+        languageItems.Add(BuildItemLabel("Made with <3 by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
 
         return languageItems.ToArray();
     }
 
     private static int distinctCounter = 0;
-    private static MenuItem BuildItemLabel(string label)
+    private static MenuItem BuildItemLabel(string label, Action? action = null)
     {
         MenuItem it = new MenuItem();
         it.Name = $"VOCALOIDPatcherLanguageItemLabel{distinctCounter++}";
         it.Header = label;
+
+        if (action != null)
+        {
+            it.Click += (_, _) => action();
+        }
+        
         return it;
     }
     

@@ -1,0 +1,3 @@
+﻿VOCALOID6.dll
+System\..*
+Microsoft\..*

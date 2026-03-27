@@ -24,7 +24,6 @@ public class MenuItemsTranslationPatch : PatchBase
     static void Prefix()
     {
         DoTranslate();
-        Patcher.AddTranslationsItem();
         
         FixFilepathSeparator();
     }
