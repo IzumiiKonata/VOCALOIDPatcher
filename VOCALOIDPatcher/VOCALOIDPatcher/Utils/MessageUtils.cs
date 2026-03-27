@@ -31,7 +31,7 @@ public static class MessageUtils
         Console.WriteLine($"[{fileName}:{line}] [{title}] {message}");
     }
     
-    public static void ShowErrorMessage(string message, string title = "VOCALOIDPatcher Error")
+    public static void ShowErrorMessage(string message, string title = "VOCALOID Patcher Error")
     {
         ShowMessageBox(message, title);
     }

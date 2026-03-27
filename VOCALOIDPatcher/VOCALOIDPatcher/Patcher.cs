@@ -56,13 +56,13 @@ public static class Patcher
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception) args.ExceptionObject;
-            MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOIDPatcher 错误");
+            MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
         
         if (DebugMode)
         {
             ConsoleHelper.InitConsole();
-            MessageUtils.Dbg("已拉起 VOCALOIDPatcher");
+            MessageUtils.Dbg("已拉起 VOCALOID Patcher");
             MessageUtils.Dbg($"版本: {Version}");
             MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
             
@@ -190,7 +190,7 @@ public static class Patcher
             
             PatcherMenuItem.Items.Add(LanguageMenuItem);
             
-            PatcherMenuItem.Items.Add(BuildItemLabel($"VOCALOIDPatcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
+            PatcherMenuItem.Items.Add(BuildItemLabel($"VOCALOID Patcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
             PatcherMenuItem.Items.Add(BuildItemLabel("Made with ❤ by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
         
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
