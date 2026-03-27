@@ -257,6 +257,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="ContextMenu_StyleSearch_EditStylePreset" xml:space="preserve"><value>編輯預設風格屬性(_E)</value></data>
   <data name="PreferencesDlg_Advanced_Lyrics_GroupHeader" xml:space="preserve"><value>歌詞</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizeNext" xml:space="preserve"><value>下一個格線</value></data>
+  <data name="CustomizeShortcutDlg_CommandQuantizePrevious" xml:space="preserve"><value>上一個格線</value></data>
   <data name="MainMenu_File_OpenRecent_Header" xml:space="preserve"><value>最近開啟...</value></data>
   <data name="PreferencesDlg_Advanced_DataUse_Caption" xml:space="preserve"><value>資料使用</value></data>
   <data name="ToolBar_Metronome_ToolTip" xml:space="preserve"><value>節拍器</value></data>

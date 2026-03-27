@@ -42,6 +42,7 @@ public static class Patcher
             ConsoleHelper.InitConsole();
             MessageUtils.Dbg("已拉起 VOCALOIDPatcher");
             MessageUtils.Dbg($"版本: {Version}");
+            MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
             
             Type targetType = typeof(App);
             Assembly asm = targetType.Assembly;
@@ -94,7 +95,7 @@ public static class Patcher
 
             patches.ForEach(p =>
             {
-                MessageUtils.Dbg($"正在应用 {p.PatchName}...");
+                MessageUtils.Dbg($"应用 {p.PatchName}...");
                 p.Apply(harmony);
             });
         } catch(Exception e)

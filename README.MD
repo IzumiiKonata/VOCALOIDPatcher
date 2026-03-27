@@ -9,6 +9,5 @@
 将压缩包中的所有文件 _(除了 README.txt)_ 复制并替换到 `C:\Program Files\VOCALOID6\Editor` 中  
 打开编辑器并打开一个工程, 如果菜单栏中出现 `语言` 选项则安装成功。  
 
-
 ## 调试
 在打开 `VOCALOID 6` 编辑器时长按 `左 Shift` 会打开控制台, `VOCALOIDPatcher` 会在其中显示一些 Debug 日志。

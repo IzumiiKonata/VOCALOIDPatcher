@@ -236,7 +236,7 @@ public class MenuItemsTranslationPatch : PatchBase
             this.methodName = methodName;
         }
         
-        public override string PatchName => $"XContextMenuPatch{targetClass.Name}";
+        public override string PatchName => $"XContextMenuPatch{targetClass.Name}Patch";
         public override Type TargetClass => targetClass;
         public override string TargetMethodName => methodName;
         public override Type[] ArgumentTypes => [typeof(object), typeof(T)];
