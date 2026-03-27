@@ -2,7 +2,7 @@
 
 namespace VOCALOIDPatcher.Utils;
 
-public class BrowseUtils
+public static class BrowseUtils
 {
     public static void Browse(string url)
     {

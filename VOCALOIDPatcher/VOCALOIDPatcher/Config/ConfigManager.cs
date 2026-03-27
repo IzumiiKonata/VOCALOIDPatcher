@@ -30,15 +30,14 @@ public class ConfigManager
             return;
         }
 
-        string json = File.ReadAllText(filePath);
-
+        var json = File.ReadAllText(filePath);
         data = JsonSerializer.Deserialize<Dictionary<string, object>>(json, options)
                 ?? new Dictionary<string, object>();
     }
 
     public void Save()
     {
-        string json = JsonSerializer.Serialize(data, options);
+        var json = JsonSerializer.Serialize(data, options);
         File.WriteAllText(filePath, json);
     }
 

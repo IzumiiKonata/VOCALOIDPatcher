@@ -9,7 +9,6 @@ public abstract class PatchBase
     public abstract string PatchName { get; }
     public abstract Type TargetClass { get; }
     public abstract string TargetMethodName { get; }
-    
     public virtual Type[]? ArgumentTypes => null;
 
     public void Apply(Harmony harmony)

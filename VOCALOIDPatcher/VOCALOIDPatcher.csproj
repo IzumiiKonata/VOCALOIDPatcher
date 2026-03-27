@@ -11,6 +11,7 @@
         <FileVersion>1.1.135.29210</FileVersion>
         <UseWPF>true</UseWPF>
         <RootNamespace />
+        <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

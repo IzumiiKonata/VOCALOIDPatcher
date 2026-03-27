@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -15,16 +14,15 @@ using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.TrackEditor;
 using Yamaha.VOCALOID.WaveEditor;
 using RulerView = Yamaha.VOCALOID.TrackEditor.RulerView;
-using ViewBase = System.Windows.Controls.ViewBase;
 
 namespace VOCALOIDPatcher;
 
 public static class Patcher
 {
     
-    public static readonly string Version = "1.0.2";
+    public static string Version => "1.0.2";
 
-    public static readonly bool DebugMode = /*KeyState.IsKeyDown(0xA2) && */KeyState.IsKeyDown(0xA0);
+    public static bool DebugMode => KeyState.IsKeyDown(0xA0); // left shift
 
     public static string AppDir =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VOCALOIDPatcher");
@@ -32,11 +30,35 @@ public static class Patcher
     public static string ConfigFile =>
         Path.Combine(AppDir, "config.json");
     
-    public static ConfigManager ConfigManager;
+    public static readonly ConfigManager ConfigManager;
+
+    static Patcher()
+    {
+        if (!Path.Exists(AppDir))
+        {
+            Directory.CreateDirectory(AppDir);
+        }
+        
+        try
+        {
+            ConfigManager = new ConfigManager(ConfigFile);
+        }
+        catch (Exception e)
+        {
+            throw new ApplicationException($"初始化 ConfigManager 失败!\n{e.Message}\n{e.StackTrace}");
+        }
+    }
     
+    #pragma warning disable CA2255
     [ModuleInitializer]
     public static void Init()
     {
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+        {
+            var ex = (Exception) args.ExceptionObject;
+            MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOIDPatcher 错误");
+        };
+        
         if (DebugMode)
         {
             ConsoleHelper.InitConsole();
@@ -44,26 +66,12 @@ public static class Patcher
             MessageUtils.Dbg($"版本: {Version}");
             MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
             
-            Type targetType = typeof(App);
-            Assembly asm = targetType.Assembly;
-
-            Version version = asm.GetName().Version;
+            var targetType = typeof(App);
+            var asm = targetType.Assembly;
+            var version = asm.GetName().Version;
 
             MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
         }
-
-        if (!Path.Exists(AppDir))
-        {
-            Directory.CreateDirectory(AppDir);
-        }
-        
-        ConfigManager = new ConfigManager(ConfigFile);
-        
-        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
-        {
-            Exception ex = (Exception) args.ExceptionObject;
-            MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOIDPatcher 错误");
-        };
 
         GetMainWindow().Closing += (_, _) =>
         {
@@ -79,18 +87,18 @@ public static class Patcher
                 new AppLanguagePatch(),
                 new MenuItemsTranslationPatch(),
                 new ResourceManagerPatch(),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>(typeof(PianorollView), "OnContextMenuOpened"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
                 MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView),      "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
                 MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
+                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
             ];
 
             patches.ForEach(p =>
@@ -132,9 +140,9 @@ public static class Patcher
 
     public static T GetWindowField<T>(string fieldName) where T: class
     {
-        MainWindow mainWindow = GetMainWindow();
-        Type mainWindowType = mainWindow.GetType();
-        FieldInfo? fieldInfo = mainWindowType.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+        var mainWindow = GetMainWindow();
+        var mainWindowType = mainWindow.GetType();
+        var fieldInfo = mainWindowType.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 
         if (fieldInfo == null)
             throw new MissingFieldException(mainWindow.GetType().FullName + "." + fieldName, fieldName);
@@ -155,21 +163,19 @@ public static class Patcher
         return fieldInfo.GetValue(fieldHolder) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
 
-    private static MenuItem LanguageItem;
+    private static readonly MenuItem LanguageItem = new();
 
     public static void AddTranslationsItem()
     {
         try
         {
-            Menu menu = GetMainMenu();
-        
-            LanguageItem = new MenuItem();
+            var menu = GetMainMenu();
         
             LanguageItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
             LanguageItem.Name = "VOCALOIDPatcherLanguageItem";
-            MenuItem[] items = BuildLanguageItems();
+            var items = BuildLanguageItems();
         
-            foreach (MenuItem item in items)
+            foreach (var item in items)
             {
                 LanguageItem.Items.Add(item);
             }
@@ -188,9 +194,11 @@ public static class Patcher
         for (var i = 0; i < TranslationManager.AvailableLanguages.Count; i++)
         {
             var lang = TranslationManager.AvailableLanguages[i];
-            MenuItem item = new MenuItem();
-            item.Name = $"VOCALOIDPatcherLanguageItem{i}";
-            item.Header = (TranslationManager.CurrentLanguage == lang ? "✓ " : "   ") + lang;
+            var item = new MenuItem
+            {
+                Header = (TranslationManager.CurrentLanguage == lang ? "✓ " : "   ") + lang,
+                Name = $"VOCALOIDPatcherLanguageItem{i}"
+            };
             item.Click += (_, _) =>
             {
                 ConfigManager.Set("Language", lang);
@@ -200,8 +208,10 @@ public static class Patcher
                 for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
                 {
                     var l = TranslationManager.AvailableLanguages[j];
-                    MenuItem it = (MenuItem) LanguageItem.Items[j];
-                    it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
+                    if (LanguageItem.Items[j] is MenuItem it)
+                    {
+                        it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
+                    }
                 }
                 
             };
@@ -214,12 +224,14 @@ public static class Patcher
         return languageItems.ToArray();
     }
 
-    private static int distinctCounter = 0;
+    private static int distinctCounter;
     private static MenuItem BuildItemLabel(string label, Action? action = null)
     {
-        MenuItem it = new MenuItem();
-        it.Name = $"VOCALOIDPatcherLanguageItemLabel{distinctCounter++}";
-        it.Header = label;
+        var it = new MenuItem
+        {
+            Header = label,
+            Name = $"VOCALOIDPatcherLanguageItemLabel{distinctCounter++}"
+        };
 
         if (action != null)
         {

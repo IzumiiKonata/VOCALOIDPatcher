@@ -73,11 +73,10 @@ public static class TranslationManager
 
                 var key = keyAttr.Value;
                 var value = valueElement.Value;
-
-                if (!Dict.ContainsKey(key))
+                
+                if (Dict.TryAdd(key, value))
                 {
-                    Dict[key] = value;
-                    string? reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
+                    var reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
                     if (reversed != null)
                         ResourceManagerPatch.ReversedMap[value] = reversed;
                 }
@@ -86,7 +85,7 @@ public static class TranslationManager
             CurrentLanguage = language;
             return true;
         }
-        catch (Exception ex)
+        catch (Exception _)
         {
             return false;
         }
@@ -94,9 +93,6 @@ public static class TranslationManager
 
     public static string? Get(string key)
     {
-        if (Dict.TryGetValue(key, out var value))
-            return value;
-
-        return null;
+        return Dict.GetValueOrDefault(key);
     }
 }

@@ -4,9 +4,9 @@ namespace VOCALOIDPatcher.Utils;
 
 using System.Runtime.CompilerServices;
 
-public class MessageUtils
+public static class MessageUtils
 {
-    
+    #pragma warning disable SYSLIB1054
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern IntPtr MessageBox(IntPtr hWnd, string text, string caption, uint type);
 
@@ -27,7 +27,7 @@ public class MessageUtils
             return;
         }
         
-        var fileName = System.IO.Path.GetFileName(file);
+        string fileName = System.IO.Path.GetFileName(file);
         Console.WriteLine($"[{fileName}:{line}] [{title}] {message}");
     }
     

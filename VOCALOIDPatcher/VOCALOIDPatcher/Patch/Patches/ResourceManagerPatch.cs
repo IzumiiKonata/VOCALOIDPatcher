@@ -2,7 +2,6 @@
 using System.Resources;
 using HarmonyLib;
 using VOCALOIDPatcher.Translation;
-using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
@@ -15,12 +14,11 @@ public class ResourceManagerPatch : PatchBase
 
     public static bool Skip = false;
 
-    public static Dictionary<string, string> ReversedMap = new();
+    public static readonly Dictionary<string, string> ReversedMap = new();
     
     [HarmonyPrefix]
     static bool Prefix(object __instance, string name, CultureInfo? culture, ref string __result)
     {
-
         if (Skip)
             return true;
         
@@ -29,16 +27,11 @@ public class ResourceManagerPatch : PatchBase
 
         var translated = TranslationManager.Get(name);
 
-        if (!string.IsNullOrEmpty(translated))
-        {
-            // var s = GetString(__instance, name, culture);
-            // if (s != null)
-                // ReversedMap[translated] = s;
-            __result = translated;
-            return false;
-        }
-
-        return true;
+        if (string.IsNullOrEmpty(translated))
+            return true;
+        
+        __result = translated;
+        return false;
     }
 
     

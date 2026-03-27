@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 public static class ConsoleHelper
 {
+    #pragma warning disable SYSLIB1054
     [DllImport("kernel32.dll")]
     private static extern bool AllocConsole();
 

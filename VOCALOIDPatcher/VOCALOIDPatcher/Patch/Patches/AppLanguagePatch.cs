@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Reflection;
 using HarmonyLib;
 using Yamaha.VOCALOID;
 
