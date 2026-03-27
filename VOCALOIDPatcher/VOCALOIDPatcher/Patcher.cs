@@ -114,7 +114,7 @@ public static class Patcher
         TranslationManager.Initialize();
         MessageUtils.Dbg("TranslationManager 已初始化");
 
-        AddTranslationsItem();
+        AddPatcherMenuItem();
     }
 
     public static MainWindow GetMainWindow()
@@ -163,24 +163,37 @@ public static class Patcher
         return fieldInfo.GetValue(fieldHolder) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
 
-    private static readonly MenuItem LanguageItem = new();
+    private static readonly MenuItem PatcherMenuItem = new()
+    {
+        Header = "VOCALOID Patcher",
+        Name = "VOCALOIDPatcherMenuItem"
+    };
 
-    public static void AddTranslationsItem()
+    private static readonly MenuItem LanguageMenuItem = new()
+    {
+        Name = "VOCALOIDPatcherMenuItem_LanguageMenuItem"
+    };
+
+    public static void AddPatcherMenuItem()
     {
         try
         {
             var menu = GetMainMenu();
-        
-            LanguageItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
-            LanguageItem.Name = "VOCALOIDPatcherLanguageItem";
+
+            LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
             var items = BuildLanguageItems();
         
             foreach (var item in items)
             {
-                LanguageItem.Items.Add(item);
+                LanguageMenuItem.Items.Add(item);
             }
+            
+            PatcherMenuItem.Items.Add(LanguageMenuItem);
+            
+            PatcherMenuItem.Items.Add(BuildItemLabel($"VOCALOIDPatcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
+            PatcherMenuItem.Items.Add(BuildItemLabel("Made with ❤ by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
         
-            menu.Items.Insert(menu.Items.Count - 1, LanguageItem);
+            menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
         } catch(Exception e)
         {
             MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
@@ -208,7 +221,7 @@ public static class Patcher
                 for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
                 {
                     var l = TranslationManager.AvailableLanguages[j];
-                    if (LanguageItem.Items[j] is MenuItem it)
+                    if (LanguageMenuItem.Items[j] is MenuItem it)
                     {
                         it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
                     }
@@ -217,9 +230,6 @@ public static class Patcher
             };
             languageItems.Add(item);
         }
-        
-        languageItems.Add(BuildItemLabel($"VOCALOIDPatcher {Version}", () => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
-        languageItems.Add(BuildItemLabel("Made with ❤ by IzumiiKonata", () => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
 
         return languageItems.ToArray();
     }
