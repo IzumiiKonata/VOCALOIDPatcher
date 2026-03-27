@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Xml.Linq;
+using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Utils;
+using Yamaha.VOCALOID.Properties;
 
 namespace VOCALOIDPatcher.Translation;
 
@@ -15,7 +17,7 @@ public static class TranslationManager
     private static readonly string TranslationsDir =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher", "translations");
 
-    public static void Initialize(string? defaultLanguage = null)
+    public static void Initialize()
     {
         if (!Directory.Exists(TranslationsDir))
         {
@@ -37,13 +39,10 @@ public static class TranslationManager
             return;
         }
 
-        if (!string.IsNullOrEmpty(defaultLanguage) && AvailableLanguages.Contains(defaultLanguage))
-        {
-            LoadLanguage(defaultLanguage);
-        }
-        else
+        if (!LoadLanguage(Patcher.ConfigManager.Get("Language", AvailableLanguages[0])))
         {
             LoadLanguage(AvailableLanguages[0]);
+            Patcher.ConfigManager.Set("Language", AvailableLanguages[0]);
         }
     }
 
@@ -58,6 +57,7 @@ public static class TranslationManager
         }
 
         Dict.Clear();
+        // ResourceManagerPatch.ReversedMap.Clear();
 
         try
         {
@@ -77,6 +77,9 @@ public static class TranslationManager
                 if (!Dict.ContainsKey(key))
                 {
                     Dict[key] = value;
+                    string? reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
+                    if (reversed != null)
+                        ResourceManagerPatch.ReversedMap[value] = reversed;
                 }
             }
 

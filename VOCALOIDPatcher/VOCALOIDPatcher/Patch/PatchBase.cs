@@ -28,10 +28,16 @@ public abstract class PatchBase
         var postfix     = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
         var transpiler  = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
         var finalizer   = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
+        var reversePatch= FindHarmonyMethod(methods, typeof(HarmonyReversePatch));
 
         try
         {
             harmony.Patch(original, prefix, postfix, transpiler, finalizer);
+
+            if (reversePatch != null)
+            {
+                harmony.CreateReversePatcher(original, reversePatch).Patch();
+            }
         }
         catch (Exception e)
         {

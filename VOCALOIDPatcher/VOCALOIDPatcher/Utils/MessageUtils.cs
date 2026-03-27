@@ -15,9 +15,9 @@ public class MessageUtils
         MessageBox(IntPtr.Zero, msg, title, 0x00001000);
     }
     
-    public static void ShowDbgMessage(
+    public static void Dbg(
         string message, 
-        string title = "Patcher Debug Message",
+        string title = "Debug",
         [CallerFilePath] string file = "",
         [CallerLineNumber] int line = 0
     )
@@ -28,7 +28,7 @@ public class MessageUtils
         }
         
         var fileName = System.IO.Path.GetFileName(file);
-        ShowMessageBox($"{fileName}:{line}\n{message}", title);
+        Console.WriteLine($"[{fileName}:{line}] [{title}] {message}");
     }
     
     public static void ShowErrorMessage(string message, string title = "VOCALOIDPatcher Error")

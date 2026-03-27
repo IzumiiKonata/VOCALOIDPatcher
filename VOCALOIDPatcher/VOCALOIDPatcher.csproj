@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="ilrepack /out:E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\Microsoft.Xaml.Behaviors.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\0Harmony.dll" />
+      <Exec Command="ilrepack /out:E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\0Harmony.dll E:\Projects\C#\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\Microsoft.Xaml.Behaviors.dll" />
     </Target>
 
 
