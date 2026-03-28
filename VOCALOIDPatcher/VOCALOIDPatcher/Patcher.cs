@@ -22,7 +22,7 @@ public static class Patcher
     
     public static string Version => "1.0.3";
 
-    public static bool DebugMode => KeyState.IsKeyDown(0xA0); // left shift
+    public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
     public static string ConfigDir =>
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VOCALOIDPatcher");
@@ -63,47 +63,59 @@ public static class Patcher
             MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
         
-        if (DebugMode)
+        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
         {
-            ConsoleHelper.InitConsole();
-            MessageUtils.Dbg("已拉起 VOCALOID Patcher");
-            MessageUtils.Dbg($"版本: {Version}");
-            MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
-            
-            var targetType = typeof(App);
-            var asm = targetType.Assembly;
-            var version = asm.GetName().Version;
-
-            MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
-        }
-
-        GetMainWindow().Closing += (_, _) =>
-        {
-            ConfigManager.Save();
+            if (args.Name.StartsWith("0Harmony") ||  args.Name.StartsWith("VOCALOID6"))
+            {
+                return Assembly.GetExecutingAssembly();
+            }
+            return null;
         };
-
+        
         try
         {
+            if (DebugMode)
+            {
+                ConsoleHelper.InitConsole();
+                
+                MessageUtils.Dbg("已拉起 VOCALOID Patcher");
+                MessageUtils.Dbg($"版本: {Version}");
+                MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
+            
+                var targetType = typeof(App);
+                var asm = targetType.Assembly;
+                var version = asm.GetName().Version;
+
+                MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
+            }
+
+            GetMainWindow().Closing += (_, _) =>
+            {
+                ConfigManager.Save();
+            };
+            
             var harmony = new Harmony("VOCALOIDPatcher");
 
             List<PatchBase> patches =
             [
                 new AppLanguagePatch(),
-                new MenuItemsTranslationPatch(),
+                new WPFTranslationPatch(),
                 new ResourceManagerPatch(),
                 new DependencyObjectPatch(),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView),      "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
-                MenuItemsTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
+                new MainWindowPatch.UpdateRightZonePatch(),
+                new MainViewModelPatch.ShowAudioEffectWindowPatch(),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView),      "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
+                WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
             ];
 
             patches.ForEach(p =>
@@ -111,15 +123,15 @@ public static class Patcher
                 MessageUtils.Dbg($"应用 {p.PatchName}...");
                 p.Apply(harmony);
             });
+            
+            TranslationManager.Initialize();
+            MessageUtils.Dbg("TranslationManager 已初始化");
+
+            AddPatcherMenuItem();
         } catch(Exception e)
         {
             MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
         }
-        
-        TranslationManager.Initialize();
-        MessageUtils.Dbg("TranslationManager 已初始化");
-
-        AddPatcherMenuItem();
     }
 
     public static MainWindow GetMainWindow()
@@ -143,7 +155,7 @@ public static class Patcher
                ?? throw new InvalidCastException("获取 xMainMenu 失败。");
     }
 
-    public static T GetWindowField<T>(string fieldName) where T: class
+    public static T GetMainWindowField<T>(string fieldName) where T: class
     {
         var mainWindow = GetMainWindow();
         var mainWindowType = mainWindow.GetType();
@@ -155,17 +167,29 @@ public static class Patcher
         return fieldInfo.GetValue(mainWindow) as T ?? throw new InvalidCastException(mainWindow.GetType().FullName + "." + fieldName);
     }
 
-    public static TFieldType GetField<TFieldType, THolderType>(THolderType fieldHolder, string fieldName) 
+    public static TFieldType GetField<TFieldType>(object holderInstance, string fieldName) 
         where TFieldType : class
-        where THolderType : class
     {
-        var type = typeof(THolderType);
+        var type = holderInstance.GetType();
         FieldInfo? fieldInfo  = AccessTools.Field(type, fieldName);
 
         if (fieldInfo == null)
             throw new MissingFieldException(type.FullName + "." + fieldName, fieldName);
         
-        return fieldInfo.GetValue(fieldHolder) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
+        return fieldInfo.GetValue(holderInstance) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
+    }
+    
+    public static TFieldType GetFirstFieldWithType<TFieldType>(object holderInstance) 
+        where TFieldType : class
+    {
+        var type = holderInstance.GetType();
+        var declaredFields = AccessTools.GetDeclaredFields(type);
+
+        var fieldInfo = declaredFields.Find(field => field.FieldType == typeof(TFieldType));
+        if (fieldInfo == null)
+            throw new MissingFieldException(type.FullName + ", typeof " + typeof(TFieldType).FullName, typeof(TFieldType).FullName);
+
+        return (TFieldType) (fieldInfo.GetValue(holderInstance) ?? throw new MissingFieldException(type.FullName + ", typeof " + typeof(TFieldType).FullName,typeof(TFieldType).FullName));
     }
 
     private static readonly MenuItem PatcherMenuItem = new()
@@ -221,7 +245,7 @@ public static class Patcher
             {
                 ConfigManager.Set("Language", lang);
                 TranslationManager.LoadLanguage(lang);
-                MenuItemsTranslationPatch.DoTranslate();
+                WPFTranslationPatch.ReTranslate();
                 
                 for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
                 {

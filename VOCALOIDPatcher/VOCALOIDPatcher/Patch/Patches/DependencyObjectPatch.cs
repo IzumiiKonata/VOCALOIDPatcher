@@ -10,17 +10,17 @@ public class DependencyObjectPatch : PatchBase
 {
     public override string PatchName => "DependencyObjectPatch";
     public override Type TargetClass => typeof(DependencyObject);
-    public override string TargetMethodName => "SetValue";
+    public override string TargetMethodName => nameof(DependencyObject.SetValue);
     public override Type[] ArgumentTypes => [ typeof(DependencyProperty), typeof(object) ];
     
     [HarmonyPrefix]
     static void Prefix(object __instance, DependencyProperty dp, ref object value)
     {
-        if (__instance is PushButton && dp.Name == "NormalIcon" && value is Viewbox vb)
+        if ((__instance is PushButton || __instance is PushToggleButton) && value is Viewbox vb)
         {
-            MenuItemsTranslationPatch.TranslateTextBox = true;
-            MenuItemsTranslationPatch.TranslateElement(vb);
-            MenuItemsTranslationPatch.TranslateTextBox = false;
+            WPFTranslationPatch.TranslateTextBox = true;
+            WPFTranslationPatch.TranslateElement(vb);
+            WPFTranslationPatch.TranslateTextBox = false;
         }
     }
 }

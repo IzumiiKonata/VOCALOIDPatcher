@@ -2,4 +2,77 @@
 <root>
     <data name="NEW PROJECT" xml:space="preserve"><value>HomeWindow_PushButton_NEW_PROJECT_Header</value></data>
     <data name="OPEN" xml:space="preserve"><value>HomeWindow_PushButton_OPEN_Header</value></data>
+    
+    <data name="Main" xml:space="preserve"><value>MixerView_MainTrack_Header</value></data>
+    <data name="EFFECT" xml:space="preserve"><value>MixerView_Effect_Header</value></data>
+    <data name="NOTE" xml:space="preserve"><value>NotePropertiesView_Header</value></data>
+    <data name="LYRIC" xml:space="preserve"><value>NotePropertiesView_Lyric_Header</value></data>
+    <data name="LETTER" xml:space="preserve"><value>NotePropertiesView_Lyric_Letter_Header</value></data>
+    <data name="PHONETIC SYMBOL" xml:space="preserve"><value>NotePropertiesView_Lyric_PhoneticSymbol_Header</value></data>
+    <data name="ATTACK EFFECT" xml:space="preserve"><value>NotePropertiesView_AttackEffect_Header</value></data>
+    <data name="RELEASE EFFECT" xml:space="preserve"><value>NotePropertiesView_ReleaseEffect_Header</value></data>
+    <data name="PITCH" xml:space="preserve"><value>NotePropertiesView_Pitch_Header</value></data>
+    <data name="DYNAMIC" xml:space="preserve"><value>NotePropertiesView_Dynamic_Header</value></data>
+    <data name="TONE" xml:space="preserve"><value>NotePropertiesView_Tone_Header</value></data>
+    <data name="ORNAMENTATION" xml:space="preserve"><value>NotePropertiesView_Ornamentation_Header</value></data>
+    
+    <data name="PART" xml:space="preserve"><value>PartPropertiesView_Header</value></data>
+    <data name="PART NAME" xml:space="preserve"><value>PartPropertiesView_PartName_Header</value></data>
+    <data name="VOICE" xml:space="preserve"><value>PartPropertiesView_Voice_Header</value></data>
+    <data name="LANGUAGE" xml:space="preserve"><value>PartPropertiesView_Voice_Language_Header</value></data>
+    <data name="STYLE" xml:space="preserve"><value>PartPropertiesView_Style_Header</value></data>
+    <data name="STYLE PRESET" xml:space="preserve"><value>PartPropertiesView_Style_StylePreset_Header</value></data>
+    <data name="STYLE PRESET NAME" xml:space="preserve"><value>PartPropertiesView_Style_StylePresetName_Header</value></data>
+    <data name="ROBOT VOICE" xml:space="preserve"><value>PartPropertiesView_Style_RobotVoice_Header</value></data>
+    <data name="BREATH" xml:space="preserve"><value>PartPropertiesView_Style_Breath_Header</value></data>
+    <data name="EXHALATION" xml:space="preserve"><value>PartPropertiesView_Style_Breath_Exhalation_Header</value></data>
+    <data name="SOFT" xml:space="preserve"><value>PartPropertiesView_Style_Breath_Soft_Header</value></data>
+    <data name="HARD" xml:space="preserve"><value>PartPropertiesView_Style_Breath_Hard_Header</value></data>
+    <data name="SINGING SKILL" xml:space="preserve"><value>PartPropertiesView_Style_SingingSkill_Header</value></data>
+    <data name="SKILL" xml:space="preserve"><value>PartPropertiesView_Style_SingingSkill_Skill_Header</value></data>
+    <data name="AMOUNT" xml:space="preserve"><value>PartPropertiesView_Style_SingingSkill_Amount_Header</value></data>
+    <data name="TAKE" xml:space="preserve"><value>PartPropertiesView_Style_Take_Header</value></data>
+
+    <data name="VOICE COLOR" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Header</value></data>
+    <data name="EXCITER" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Exciter_Header</value></data>
+    <data name="MUFFLED" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Exciter_Muffled_Header</value></data>
+    <data name="BRIGHT" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Exciter_Bright_Header</value></data>
+    <data name="GROWL" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Growl_Header</value></data>
+    <data name="CLEAR" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Growl_Clear_Header</value></data>
+    <data name="BREATHINESS" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Breathiness_Header</value></data>
+    <data name="BREATHY" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Breathiness_Breathy_Header</value></data>
+    <data name="AIR" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Air_Header</value></data>
+    <data name="AIRY" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Air_Airy_Header</value></data>
+    <data name="MOUTH" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Mouth_Header</value></data>
+    <data name="CLOSE" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Mouth_Close_Header</value></data>
+    <data name="CHARACTER" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Character_Header</value></data>
+    <data name="COOL" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Character_Cool_Header</value></data>
+    <data name="CUTE" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Character_Cute_Header</value></data>
+    <data name="EXPRESSION" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Expression_Header</value></data>
+    <data name="POWERFUL" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Powerful_Header</value></data>
+    
+    <data name="PROCESSES" xml:space="preserve"><value>AudioPropertiesView_Processes_Header</value></data>
+    <data name="CHANGE PITCH" xml:space="preserve"><value>AudioPropertiesView_Processes_ChangePitch_Header</value></data>
+    <data name="REVERSE" xml:space="preserve"><value>AudioPropertiesView_Processes_Reverse_Header</value></data>
+    
+    <data name="MEDIA" xml:space="preserve"><value>MediaLibraryView_Header</value></data>
+    <data name="VENDOR" xml:space="preserve"><value>MediaLibraryView_Vendor_Header</value></data>
+    <data name="MONITOR" xml:space="preserve"><value>MediaLibraryView_Monitor_Header</value></data>
+    <data name="TRANSPOSE" xml:space="preserve"><value>MediaLibraryView_Transpose_Header</value></data>
+    
+    <data name="No Effect*" xml:space="preserve"><value>PianoRollView_Style_NoEffect_Header</value></data>
+    
+    <data name="GAIN" xml:space="preserve"><value>AudioEffectsView_Gain_Header</value></data>
+    <data name="DE-ESSER" xml:space="preserve"><value>AudioEffectsView_DeEsser_Header</value></data>
+    <data name="COMPRESSOR" xml:space="preserve"><value>AudioEffectsView_Compressor_Header</value></data>
+    <data name="EQUALIZER" xml:space="preserve"><value>AudioEffectsView_Equalizer_Header</value></data>
+    <data name="DISTORTION" xml:space="preserve"><value>AudioEffectsView_Distortion_Header</value></data>
+    <data name="CHORUS" xml:space="preserve"><value>AudioEffectsView_Chorus_Header</value></data>
+    <data name="PHASER" xml:space="preserve"><value>AudioEffectsView_Phaser_Header</value></data>
+    <data name="TREMOLO" xml:space="preserve"><value>AudioEffectsView_Tremolo_Header</value></data>
+    <data name="AUTO PAN" xml:space="preserve"><value>AudioEffectsView_AutoPan_Header</value></data>
+    <data name="DELAY" xml:space="preserve"><value>AudioEffectsView_Delay_Header</value></data>
+    <data name="REVERB" xml:space="preserve"><value>AudioEffectsView_Reverb_Header</value></data>
+    
+    
 </root>

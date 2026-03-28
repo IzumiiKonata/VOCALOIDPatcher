@@ -6,21 +6,23 @@ using HarmonyLib;
 using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
+using Yamaha.VOCALOID.Media;
+using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.Properties;
-using MessageBox = System.Windows.MessageBox;
+using Yamaha.VOCALOID.WaveEditor;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-public class MenuItemsTranslationPatch : PatchBase
+public class WPFTranslationPatch : PatchBase
 {
-    public override string PatchName        => "MenuItemsTranslationPatch";
+    public override string PatchName        => "WPFTranslationPatch";
     public override Type   TargetClass      => typeof(MainWindow);
     public override string TargetMethodName => "InitializeCommandBindings";
 
     [HarmonyPrefix]
     static void Prefix()
     {
-        DoTranslate();
+        ReTranslate();
         FixFilepathSeparator();
     }
 
@@ -115,7 +117,7 @@ public class MenuItemsTranslationPatch : PatchBase
                 cc.Content = GetTranslatedText(GetOriginal(cc, text));
                 break;
             case Viewbox vb:
-                var containerVisual = Patcher.GetField<ContainerVisual, Viewbox>(vb, "_internalVisual");
+                var containerVisual = Patcher.GetField<ContainerVisual>(vb, "_internalVisual");
                 foreach (var c in containerVisual.Children)
                 {
                     Refresh(c);
@@ -147,6 +149,8 @@ public class MenuItemsTranslationPatch : PatchBase
     {
         var count = VisualTreeHelper.GetChildrenCount(root);
         
+        // MessageUtils.Dbg($"Root {root} has {count} items.");
+        
         for (var i = 0; i < count; i++)
         {
             var child = VisualTreeHelper.GetChild(root, i);
@@ -155,7 +159,7 @@ public class MenuItemsTranslationPatch : PatchBase
         }
     }
 
-    private static void RefreshContextMenu(FrameworkElement element)
+    public static void RefreshContextMenu(FrameworkElement element)
     {
         if (element.ContextMenu == null)
             return;
@@ -168,7 +172,7 @@ public class MenuItemsTranslationPatch : PatchBase
      * 翻译所有控件。
      * 因为劫持的 dll 拉起要比窗口创建晚，所以还需要手动刷新一下。
      */
-    public static void DoTranslate()
+    public static void ReTranslate()
     {
         var mainMenu = Patcher.GetMainMenu();
         Refresh(mainMenu);
@@ -182,6 +186,30 @@ public class MenuItemsTranslationPatch : PatchBase
             if (window is FrameworkElement fe)
                 RefreshContextMenu(fe);
         }
+
+        var mainWindow = Patcher.GetMainWindow();
+        var audioEffectWindow = mainWindow.AudioEffectWindow;
+        
+        if (audioEffectWindow != null)
+        {
+            TranslateTextBox = true;
+            Refresh(audioEffectWindow);
+            RefreshContextMenu(audioEffectWindow);
+            TranslateTextBox = false;
+        }
+
+        var xRightZone = Patcher.GetMainWindowField<RightZone>("xRightZone");
+        Refresh(xRightZone);
+        RefreshContextMenu(xRightZone);
+
+        List<DependencyObject> refreshList = [
+            Patcher.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
+            Patcher.GetField<MidiPartInspector>(xRightZone, "xMidiPartInspector"),
+            Patcher.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
+            Patcher.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
+        ];
+        
+        refreshList.ForEach(Refresh);
     }
 
     /** 
@@ -189,7 +217,7 @@ public class MenuItemsTranslationPatch : PatchBase
      */
     private static void FixFilepathSeparator()
     {
-        var xRecentFiles = Patcher.GetWindowField<MenuItem>("xRecentFiles");
+        var xRecentFiles = Patcher.GetMainWindowField<MenuItem>("xRecentFiles");
         xRecentFiles.FontFamily = new FontFamily("Consolas");
     }
 

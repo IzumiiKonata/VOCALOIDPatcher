@@ -10,8 +10,8 @@
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <FileVersion>1.1.135.29210</FileVersion>
         <UseWPF>true</UseWPF>
-        <RootNamespace />
         <LangVersion>12</LangVersion>
+        <RootNamespace />
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="ilrepack /ndebug /internalize:$(ProjectDir)repackexcludes.txt /out:$(OutputPath)out\Microsoft.Xaml.Behaviors.dll $(OutputPath)0Harmony.dll $(OutputPath)Microsoft.Xaml.Behaviors.dll" />
+      <Exec Command="cd $(OutputPath) &amp;&amp; ilrepack /ndebug /internalize:$(ProjectDir)repackexcludes.txt /out:out\Microsoft.Xaml.Behaviors.dll Microsoft.Xaml.Behaviors.dll 0Harmony.dll" />
     </Target>
 
 

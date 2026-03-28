@@ -5,6 +5,77 @@
   <data name="HomeWindow_PushButton_OPEN_Header" xml:space="preserve"><value>打开</value></data>
   <data name="VOCALOIDPatcher_Language_Header" xml:space="preserve"><value>语言</value></data>
 
+  <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主轨道</value></data>
+  <data name="MixerView_Effect_Header" xml:space="preserve"><value>效果器</value></data>
+  <data name="NotePropertiesView_Header" xml:space="preserve"><value>音符</value></data>
+  <data name="NotePropertiesView_Lyric_Header" xml:space="preserve"><value>歌词</value></data>
+  <data name="NotePropertiesView_Lyric_Letter_Header" xml:space="preserve"><value>字母</value></data>
+  <data name="NotePropertiesView_Lyric_PhoneticSymbol_Header" xml:space="preserve"><value>发音符号</value></data>
+  <data name="NotePropertiesView_AttackEffect_Header" xml:space="preserve"><value>起音效果 (Attack)</value></data>
+  <data name="NotePropertiesView_ReleaseEffect_Header" xml:space="preserve"><value>释音效果 (Release)</value></data>
+  <data name="NotePropertiesView_Pitch_Header" xml:space="preserve"><value>音高</value></data>
+  <data name="NotePropertiesView_Dynamic_Header" xml:space="preserve"><value>动态</value></data>
+  <data name="NotePropertiesView_Tone_Header" xml:space="preserve"><value>语调</value></data>
+  <data name="NotePropertiesView_Ornamentation_Header" xml:space="preserve"><value>装饰</value></data>
+
+  <data name="PartPropertiesView_Header" xml:space="preserve"><value>乐段</value></data>
+  <data name="PartPropertiesView_PartName_Header" xml:space="preserve"><value>乐段名称</value></data>
+  <data name="PartPropertiesView_Voice_Header" xml:space="preserve"><value>声库</value></data>
+  <data name="PartPropertiesView_Voice_Language_Header" xml:space="preserve"><value>语言</value></data>
+  <data name="PartPropertiesView_Style_Header" xml:space="preserve"><value>风格</value></data>
+  <data name="PartPropertiesView_Style_StylePreset_Header" xml:space="preserve"><value>预设风格</value></data>
+  <data name="PartPropertiesView_Style_StylePresetName_Header" xml:space="preserve"><value>预设风格名称</value></data>
+  <data name="PartPropertiesView_Style_RobotVoice_Header" xml:space="preserve"><value>机械音</value></data>
+  <data name="PartPropertiesView_Style_Breath_Header" xml:space="preserve"><value>吸气</value></data>
+  <data name="PartPropertiesView_Style_Breath_Exhalation_Header" xml:space="preserve"><value>呼气</value></data>
+  <data name="PartPropertiesView_Style_Breath_Soft_Header" xml:space="preserve"><value>弱</value></data>
+  <data name="PartPropertiesView_Style_Breath_Hard_Header" xml:space="preserve"><value>强</value></data>
+  <data name="PartPropertiesView_Style_SingingSkill_Header" xml:space="preserve"><value>歌唱技巧</value></data>
+  <data name="PartPropertiesView_Style_SingingSkill_Skill_Header" xml:space="preserve"><value>技巧</value></data>
+  <data name="PartPropertiesView_Style_SingingSkill_Amount_Header" xml:space="preserve"><value>数量</value></data>
+  <data name="PartPropertiesView_Style_Take_Header" xml:space="preserve"><value>重录</value></data>
+
+  <data name="PartPropertiesView_Style_VoiceColor_Header" xml:space="preserve"><value>声音色彩</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Exciter_Header" xml:space="preserve"><value>兴奋</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Exciter_Muffled_Header" xml:space="preserve"><value>闷音</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Exciter_Bright_Header" xml:space="preserve"><value>明亮</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Growl_Header" xml:space="preserve"><value>怒音</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Growl_Clear_Header" xml:space="preserve"><value>清晰</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Breathiness_Header" xml:space="preserve"><value>呼吸度</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Breathiness_Breathy_Header" xml:space="preserve"><value>喘息</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Air_Header" xml:space="preserve"><value>气音</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Air_Airy_Header" xml:space="preserve"><value>轻盈的</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Mouth_Header" xml:space="preserve"><value>开口度</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Mouth_Close_Header" xml:space="preserve"><value>关</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Character_Header" xml:space="preserve"><value>性别值</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Character_Cool_Header" xml:space="preserve"><value>冷酷</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Character_Cute_Header" xml:space="preserve"><value>可爱</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Expression_Header" xml:space="preserve"><value>情感</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Powerful_Header" xml:space="preserve"><value>有力</value></data>
+
+  <data name="AudioPropertiesView_Processes_Header" xml:space="preserve"><value>处理</value></data>
+  <data name="AudioPropertiesView_Processes_ChangePitch_Header" xml:space="preserve"><value>音高更改</value></data>
+  <data name="AudioPropertiesView_Processes_Reverse_Header" xml:space="preserve"><value>反向</value></data>
+
+  <data name="MediaLibraryView_Header" xml:space="preserve"><value>媒体库</value></data>
+  <data name="MediaLibraryView_Vendor_Header" xml:space="preserve"><value>厂商</value></data>
+  <data name="MediaLibraryView_Monitor_Header" xml:space="preserve"><value>监听</value></data>
+  <data name="MediaLibraryView_Transpose_Header" xml:space="preserve"><value>移调</value></data>
+
+  <data name="PianoRollView_Style_NoEffect_Header" xml:space="preserve"><value>无效果*</value></data>
+
+  <data name="AudioEffectsView_Gain_Header" xml:space="preserve"><value>增益</value></data>
+  <data name="AudioEffectsView_DeEsser_Header" xml:space="preserve"><value>齿音去除</value></data>
+  <data name="AudioEffectsView_Compressor_Header" xml:space="preserve"><value>压缩</value></data>
+  <data name="AudioEffectsView_Equalizer_Header" xml:space="preserve"><value>均衡器</value></data>
+  <data name="AudioEffectsView_Distortion_Header" xml:space="preserve"><value>失真</value></data>
+  <data name="AudioEffectsView_Chorus_Header" xml:space="preserve"><value>合唱</value></data>
+  <data name="AudioEffectsView_Phaser_Header" xml:space="preserve"><value>相位器</value></data>
+  <data name="AudioEffectsView_Tremolo_Header" xml:space="preserve"><value>颤音</value></data>
+  <data name="AudioEffectsView_AutoPan_Header" xml:space="preserve"><value>自动声像</value></data>
+  <data name="AudioEffectsView_Delay_Header" xml:space="preserve"><value>延迟</value></data>
+  <data name="AudioEffectsView_Reverb_Header" xml:space="preserve"><value>混响</value></data>
+
   <!-- Editor Properties -->
   <data name="ContextMenu_LyricMoveRight_Header" xml:space="preserve"><value>歌词整体右移一格(_R)</value></data>
   <data name="ImportSettingsDlg_TrackType" xml:space="preserve"><value>音轨类型</value></data>
@@ -344,7 +415,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="CustomizeShortcutDlg_Delete" xml:space="preserve"><value>删除</value></data>
   <data name="SplitNote_PhoneticSymbolProtect_Label" xml:space="preserve"><value>保护音标:</value></data>
   <data name="StyleSaveAsDlg_StyleIsNotSelected" xml:space="preserve"><value>未指定风格。</value></data>
-  <data name="ToolBar_Inspector_ToolTip" xml:space="preserve"><value>属性窗格</value></data>
+  <data name="ToolBar_Inspector_ToolTip" xml:space="preserve"><value>属性</value></data>
   <data name="CustomizeShortcutDlg_Register" xml:space="preserve"><value>注册</value></data>
   <data name="MsgBox_AudioMixdown_TheFileNameContainsInvalidCharacters" xml:space="preserve"><value>文件名包含不合法字符。</value></data>
   <data name="MsgBox_Move_Track_Error" xml:space="preserve"><value>移动音轨失败。</value></data>
