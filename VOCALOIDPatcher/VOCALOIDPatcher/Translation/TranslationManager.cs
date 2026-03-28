@@ -17,7 +17,7 @@ public static class TranslationManager
     private static readonly string TranslationsDir =
         Path.Combine(Patcher.DataDir, "translations");
     
-    public static readonly Dictionary<string, string> HardcodedPropertyMapping = new();
+    public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(), HardcodedPropertyMappingReversed = new();
 
     public static void Initialize()
     {
@@ -76,6 +76,7 @@ public static class TranslationManager
                 var value = valueElement.Value;
 
                 HardcodedPropertyMapping.TryAdd(key, value);
+                HardcodedPropertyMappingReversed.TryAdd(value, key);
             }
         }
         catch (Exception _)
@@ -115,7 +116,22 @@ public static class TranslationManager
                 {
                     var reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
                     if (reversed != null)
-                        ResourceManagerPatch.ReversedMap[value] = reversed;
+                    {
+                        TranslatedToOriginalMap[value] = reversed;
+                        TranslatedToTranslationKeyMap[value] = key;
+                        // MessageUtils.Dbg($"ReversedMap[{value}] = {reversed}");
+                        // MessageUtils.Dbg($"TranslatedToTranslationKeyMap[{value}] = {key}");
+                    }
+                    else
+                    {
+                        if (HardcodedPropertyMappingReversed.TryGetValue(key, out var reversedValue))
+                        {
+                            TranslatedToOriginalMap[value] = reversedValue;
+                            TranslatedToTranslationKeyMap[value] = key;
+                            // MessageUtils.Dbg($"TranslatedToOriginalMap[{value}] = {reversedValue}");
+                            // MessageUtils.Dbg($"TranslatedToTranslationKeyMap[{value}] = {key}");
+                        }
+                    }
                 }
             }
 
@@ -142,4 +158,7 @@ public static class TranslationManager
         
         return value;
     }
+
+    public static readonly Dictionary<string, string> TranslatedToOriginalMap = new();
+    public static readonly Dictionary<string, string> TranslatedToTranslationKeyMap = new();
 }

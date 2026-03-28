@@ -19,7 +19,7 @@ public class DependencyObjectPatch : PatchBase
         if ((__instance is PushButton || __instance is PushToggleButton) && value is Viewbox vb)
         {
             WPFTranslationPatch.TranslateTextBox = true;
-            WPFTranslationPatch.TranslateElement(vb);
+            WPFTranslationPatch.RefreshAll(vb);
             WPFTranslationPatch.TranslateTextBox = false;
         }
     }

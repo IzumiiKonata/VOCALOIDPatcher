@@ -25,8 +25,7 @@ public class MainViewModelPatch
             if (audioEffectWindow != null)
             {
                 WPFTranslationPatch.TranslateTextBox = true;
-                WPFTranslationPatch.Refresh(audioEffectWindow);
-                WPFTranslationPatch.RefreshContextMenu(audioEffectWindow);
+                WPFTranslationPatch.RefreshAll(audioEffectWindow);
                 WPFTranslationPatch.TranslateTextBox = false;
             }
         }

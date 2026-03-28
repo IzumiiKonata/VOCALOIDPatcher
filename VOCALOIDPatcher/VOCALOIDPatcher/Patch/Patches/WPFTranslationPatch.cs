@@ -2,14 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using HarmonyLib;
 using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
-using Yamaha.VOCALOID.Media;
-using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.Properties;
-using Yamaha.VOCALOID.WaveEditor;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
@@ -28,14 +26,14 @@ public class WPFTranslationPatch : PatchBase
 
     private static readonly Dictionary<object, string> OriginalMapping = new();
 
-    private static string GetOriginal(object obj, string? original)
+    private static string GetOriginal(object obj, string? translated)
     {
         if (!OriginalMapping.ContainsKey(obj))
         {
-            OriginalMapping[obj] = original;
+            OriginalMapping[obj] = translated;
         }
         
-        if (original != null && ResourceManagerPatch.ReversedMap.TryGetValue(original, out var res))
+        if (translated != null && TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
             OriginalMapping[obj] = res;
 
         return OriginalMapping[obj];
@@ -53,6 +51,11 @@ public class WPFTranslationPatch : PatchBase
         {
             if (!TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var res))
             {
+                if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var r))
+                {
+                    return TranslationManager.Get(r) ?? value;
+                }
+                
                 if (!MissingKeyList.Contains(value))
                 {
                     MessageUtils.Dbg($"Key not found: {value}");
@@ -103,29 +106,24 @@ public class WPFTranslationPatch : PatchBase
     {
         switch (element)
         {
-            case HeaderedItemsControl hic when hic.Header is string hicHeader:
-                hic.Header = GetTranslatedText(GetOriginal(hic, hicHeader));
-                TranslateCollection(hic.Items);
+            case HeaderedItemsControl hic:
+                if (hic.Header is string hicHeader)
+                    hic.Header = GetTranslatedText(GetOriginal(hic, hicHeader));
                 break;
-            case HeaderedContentControl hcc when hcc.Header is string hccHeader:
-                hcc.Header = GetTranslatedText(GetOriginal(hcc, hccHeader));
+
+            case HeaderedContentControl hcc:
+                if (hcc.Header is string hccHeader)
+                    hcc.Header = GetTranslatedText(GetOriginal(hcc, hccHeader));
                 break;
-            case ItemsControl ic:
-                TranslateCollection(ic.Items);
-                break;
-            case ContentControl cc when cc.Content is string text:
-                cc.Content = GetTranslatedText(GetOriginal(cc, text));
-                break;
-            case Viewbox vb:
-                var containerVisual = Patcher.GetField<ContainerVisual>(vb, "_internalVisual");
-                foreach (var c in containerVisual.Children)
+
+            case ContentControl cc:
+                if (cc.Content is string text)
                 {
-                    Refresh(c);
+                    cc.Content = GetTranslatedText(GetOriginal(cc, text));
                 }
                 break;
+
             case TextBlock tb:
-                // 对 TextBlock 不使用最开始的文字的映射
-                // 避免文本输入框中的内容被自动翻译
                 if (TranslateTextBox)
                     tb.Text = GetTranslatedText(tb.Text);
                 break;
@@ -133,39 +131,68 @@ public class WPFTranslationPatch : PatchBase
 
         if (element is FrameworkElement fe)
         {
-            RefreshContextMenu(fe);
             if (fe.ToolTip is string tip)
                 fe.ToolTip = GetTranslatedText(GetOriginal(fe, tip));
         }
     }
 
-    private static void TranslateCollection(ItemCollection collection)
+    public static void RefreshAll(DependencyObject obj)
     {
-        foreach (var child in collection)
-            TranslateElement(child);
-    }
-
-    public static void Refresh(DependencyObject root)
-    {
-        var count = VisualTreeHelper.GetChildrenCount(root);
+        var visited = new HashSet<DependencyObject>();
+        // visited.Clear();
+        _RefreshAll(obj, visited);
         
-        // MessageUtils.Dbg($"Root {root} has {count} items.");
-        
-        for (var i = 0; i < count; i++)
+        if (obj is FrameworkElement fe && !fe.IsLoaded)
         {
-            var child = VisualTreeHelper.GetChild(root, i);
-            TranslateElement(child);
-            Refresh(child);
+            fe.Loaded += (_, _) =>
+            {
+                RefreshAll(fe);
+            };
         }
     }
-
-    public static void RefreshContextMenu(FrameworkElement element)
+    
+    private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited)
     {
-        if (element.ContextMenu == null)
-            return;
+        if (root == null || !visited.Add(root)) return;
 
-        foreach (var item in element.ContextMenu.Items)
-            TranslateElement(item);
+        visited.Add(root);
+
+        TranslateElement(root);
+
+        if (root is Visual || root is Visual3D)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(root);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                _RefreshAll(child, visited);
+            }
+        }
+
+        foreach (var child in LogicalTreeHelper.GetChildren(root))
+        {
+            if (child is DependencyObject dep)
+                _RefreshAll(dep, visited);
+        }
+
+        if (root is ItemsControl ic)
+        {
+            foreach (var item in ic.Items)
+            {
+                var container = ic.ItemContainerGenerator.ContainerFromItem(item);
+                if (container is DependencyObject dep)
+                    _RefreshAll(dep, visited);
+            }
+        }
+
+        if (root is FrameworkElement fe)
+        {
+            if (fe.ContextMenu != null)
+                _RefreshAll(fe.ContextMenu, visited);
+
+            if (fe.ToolTip is DependencyObject tip)
+                _RefreshAll(tip, visited);
+        }
     }
 
     /**
@@ -175,16 +202,11 @@ public class WPFTranslationPatch : PatchBase
     public static void ReTranslate()
     {
         var mainMenu = Patcher.GetMainMenu();
-        Refresh(mainMenu);
-        RefreshContextMenu(mainMenu);
-        TranslateCollection(mainMenu.Items);
+        RefreshAll(mainMenu);
         
         foreach (Window window in Application.Current.Windows)
         {
-            Refresh(window);
-
-            if (window is FrameworkElement fe)
-                RefreshContextMenu(fe);
+            RefreshAll(window);
         }
 
         var mainWindow = Patcher.GetMainWindow();
@@ -193,23 +215,10 @@ public class WPFTranslationPatch : PatchBase
         if (audioEffectWindow != null)
         {
             TranslateTextBox = true;
-            Refresh(audioEffectWindow);
-            RefreshContextMenu(audioEffectWindow);
+            RefreshAll(audioEffectWindow);
             TranslateTextBox = false;
         }
 
-        var xRightZone = Patcher.GetMainWindowField<RightZone>("xRightZone");
-        Refresh(xRightZone);
-        RefreshContextMenu(xRightZone);
-
-        List<DependencyObject> refreshList = [
-            Patcher.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
-            Patcher.GetField<MidiPartInspector>(xRightZone, "xMidiPartInspector"),
-            Patcher.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
-            Patcher.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
-        ];
-        
-        refreshList.ForEach(Refresh);
     }
 
     /** 
@@ -235,11 +244,7 @@ public class WPFTranslationPatch : PatchBase
         static void Postfix(object sender, T e)
         {
             var xContextMenu = (Control)sender;
-            Refresh(xContextMenu);
-            RefreshContextMenu(xContextMenu);
-
-            if (sender is ItemCollection ic)
-                TranslateCollection(ic);
+            RefreshAll(xContextMenu);
         }
     }
 }

@@ -21,7 +21,7 @@ public class MainWindowPatch
         static void Postfix(RightZoneTypeEnum rightZoneType)
         {
             var xRightZone = Patcher.GetMainWindowField<RightZone>("xRightZone");
-            WPFTranslationPatch.Refresh(xRightZone);
+            WPFTranslationPatch.RefreshAll(xRightZone);
 
             List<DependencyObject> refreshList = [
                 Patcher.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
@@ -30,7 +30,7 @@ public class MainWindowPatch
                 Patcher.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
             ];
         
-            refreshList.ForEach(WPFTranslationPatch.Refresh);
+            refreshList.ForEach(WPFTranslationPatch.RefreshAll);
         }
         
     }

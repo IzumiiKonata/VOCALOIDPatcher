@@ -14,8 +14,6 @@ public class ResourceManagerPatch : PatchBase
 
     public static bool Skip = false;
 
-    public static readonly Dictionary<string, string> ReversedMap = new();
-    
     [HarmonyPrefix]
     static bool Prefix(object __instance, string name, CultureInfo? culture, ref string __result)
     {

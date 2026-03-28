@@ -240,7 +240,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="PartPropertyDlg_SingingSkill" xml:space="preserve"><value>歌唱技巧</value></data>
   <data name="CustomizeShortcutsDlg_Title" xml:space="preserve"><value>自定义快捷键</value></data>
   <data name="StyleSaveAsDlg_NewStylePresetName" xml:space="preserve"><value>新预设风格名</value></data>
-  <data name="CustomizeShortcutDlg_CommandTransposeNote" xml:space="preserve"><value>转置</value></data>
+  <data name="CustomizeShortcutDlg_CommandTransposeNote" xml:space="preserve"><value>移调</value></data>
   <data name="MsgBox_Paste_Error" xml:space="preserve"><value>粘贴失败。</value></data>
   <data name="PreferencesDlg_Advanced_CultureKind_USEnglish" xml:space="preserve"><value>英语</value></data>
   <data name="InsertRest_Position_Label" xml:space="preserve"><value>插入位置:</value></data>
@@ -343,7 +343,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MsgBox_ImportAudioOnOne" xml:space="preserve"><value>单轨</value></data>
   <data name="InsertLyricsDlg_Title" xml:space="preserve"><value>插入歌词</value></data>
   <data name="MainMenu_Help_DownloadContents_Header" xml:space="preserve"><value>下载新内容...</value></data>
-  <data name="SplitNote_NoteTranspose_Label" xml:space="preserve"><value>转置拆分音符:</value></data>
+  <data name="SplitNote_NoteTranspose_Label" xml:space="preserve"><value>对拆分音符进行移调:</value></data>
   <data name="ContextMenu_ChangePhoneticSymbolProtect_Header" xml:space="preserve"><value>锁定音标(_P)</value></data>
   <data name="MidiPartPropertyDlg_Title" xml:space="preserve"><value>MIDI 乐段属性</value></data>
   <data name="MainMenu_File_SaveAs_Header" xml:space="preserve"><value>另存为...</value></data>
@@ -365,9 +365,9 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="PreferencesDlg_Advanced_CacheCapacityOption_None" xml:space="preserve"><value>无</value></data>
   <data name="StyleSaveAsDlg_AddNewTagDlg_Title" xml:space="preserve"><value>添加</value></data>
   <data name="StaccatoNote_Weak" xml:space="preserve"><value>弱</value></data>
-  <data name="TransposeNote_Title" xml:space="preserve"><value>转置</value></data>
+  <data name="TransposeNote_Title" xml:space="preserve"><value>移调</value></data>
   <data name="MediaTag_ComboBox_DefaultString" xml:space="preserve"><value>---</value></data>
-  <data name="TransposeNote_Label" xml:space="preserve"><value>转置:</value></data>
+  <data name="TransposeNote_Label" xml:space="preserve"><value>移调:</value></data>
   <data name="Button_OK" xml:space="preserve"><value>确定</value></data>
   <data name="AddTrackDlg_Creation_Caption" xml:space="preserve"><value>创建</value></data>
   <data name="StyleEditDlg_Title" xml:space="preserve"><value>编辑预设风格属性</value></data>
@@ -446,7 +446,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="PreferencesDlg_Advanced_CultureKind_Japanese" xml:space="preserve"><value>日语</value></data>
   <data name="MsgBox_Open_Sequence_InvalidDataException_Error" xml:space="preserve"><value>没有找到存档条目或存档条目已损坏。</value></data>
   <data name="AudioMixdownPartDlg_Title" xml:space="preserve"><value>导出至音频文件</value></data>
-  <data name="ContextMenu_TransposeNote_Header" xml:space="preserve"><value>转置(_T)</value></data>
+  <data name="ContextMenu_TransposeNote_Header" xml:space="preserve"><value>移调(_T)</value></data>
   <data name="VocaloChangerProgressDlg_Title" xml:space="preserve"><value>正在处理</value></data>
   <data name="MainMenu_Edit_Duplicate_Header" xml:space="preserve"><value>为选中元素创立副本</value></data>
   <data name="DivideNote_Title" xml:space="preserve"><value>均等分配音符</value></data>
