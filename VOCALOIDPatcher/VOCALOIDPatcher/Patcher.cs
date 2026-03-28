@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
@@ -65,20 +67,17 @@ public static class Patcher
         
         try
         {
-            if (DebugMode)
-            {
-                ConsoleHelper.InitConsole();
-                
-                MessageUtils.Dbg("已拉起 VOCALOID Patcher");
-                MessageUtils.Dbg($"版本: {Version}");
-                MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
+            ConsoleHelper.InitConsole();
             
-                var targetType = typeof(App);
-                var asm = targetType.Assembly;
-                var version = asm.GetName().Version;
+            MessageUtils.Dbg("已拉起 VOCALOID Patcher");
+            MessageUtils.Dbg($"版本: {Version}");
+            MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
+            
+            var targetType = typeof(App);
+            var asm = targetType.Assembly;
+            var version = asm.GetName().Version;
 
-                MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
-            }
+            MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
 
             GetMainWindow().Closing += (_, _) =>
             {

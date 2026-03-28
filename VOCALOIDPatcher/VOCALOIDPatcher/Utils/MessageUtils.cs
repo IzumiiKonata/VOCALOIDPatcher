@@ -22,11 +22,6 @@ public static class MessageUtils
         [CallerLineNumber] int line = 0
     )
     {
-        if (!Patcher.DebugMode)
-        {
-            return;
-        }
-        
         string fileName = System.IO.Path.GetFileName(file);
         Console.WriteLine($"[{fileName}:{line}] [{title}] {message}");
     }
