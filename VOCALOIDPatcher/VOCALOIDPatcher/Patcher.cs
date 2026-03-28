@@ -63,15 +63,6 @@ public static class Patcher
             MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
         
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-        {
-            if (args.Name.StartsWith("0Harmony") ||  args.Name.StartsWith("VOCALOID6"))
-            {
-                return Assembly.GetExecutingAssembly();
-            }
-            return null;
-        };
-        
         try
         {
             if (DebugMode)
