@@ -103,7 +103,7 @@
   <data name="MainMenu_Job_PlaybackGuideSound_Header" xml:space="preserve"><value>试听</value></data>
   <data name="MsgBox_Delete_Tempo_Error" xml:space="preserve"><value>删除曲速控点失败。</value></data>
   <data name="CustomizeShortcutDlg_CommandFullQuantizeNotes" xml:space="preserve"><value>量化</value></data>
-  <data name="MsgBox_SequenceOptimization" xml:space="preserve"><value>序列数据已为当前版本 VOCALOID 编辑器优化。</value></data>
+  <data name="MsgBox_SequenceOptimization" xml:space="preserve"><value>工程数据已为当前版本 VOCALOID 编辑器优化。</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizeTriplet" xml:space="preserve"><value>网格 - 三连音</value></data>
   <data name="MainMenu_Edit_Undo_Header" xml:space="preserve"><value>撤销</value></data>
   <data name="MainMenu_Job_ConvertPhoneticSymbols_Header" xml:space="preserve"><value>将音素转换为匹配语言</value></data>
@@ -163,7 +163,7 @@
   <data name="ContextMenu_SelectAllMasterVolumes_Header" xml:space="preserve"><value>主音量控点全选(_M)</value></data>
   <data name="PreferencesDlg_General_HorizontalScroll_ReverseMouseWheelDirection_Caption" xml:space="preserve"><value>反转鼠标滚轮方向</value></data>
   <data name="VerifyLicense_Remaining" xml:space="preserve"><value> (剩余 {0} 个声库)</value></data>
-  <data name="MsgBox_DialogsOpened_Info" xml:space="preserve"><value>在打开此序列前请关闭所有已打开的 VOCALOID 窗口。</value></data>
+  <data name="MsgBox_DialogsOpened_Info" xml:space="preserve"><value>在打开工程前请关闭所有已打开的 VOCALOID 窗口。</value></data>
   <data name="MsgBox_Add_Track_Error" xml:space="preserve"><value>添加音轨失败。</value></data>
   <data name="ToolGroup_Pencil_Caption" xml:space="preserve"><value>铅笔</value></data>
   <data name="MainMenu_Job_LyricInputMode_Letter_Header" xml:space="preserve"><value>输入歌词</value></data>
@@ -328,7 +328,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MainMenu_View_ToggleLowerZone_Header" xml:space="preserve"><value>显示或隐藏下方区域</value></data>
   <data name="MsgBox_Wave_TimeStretch_Error" xml:space="preserve"><value>时值拉伸失败。 错误</value></data>
   <data name="ContextMenu_SelectAllNotes_Header" xml:space="preserve"><value>全选音符(_N)</value></data>
-  <data name="MsgBox_Save_Confirmation" xml:space="preserve"><value>你想保存此序列吗？</value></data>
+  <data name="MsgBox_Save_Confirmation" xml:space="preserve"><value>你想保存此工程吗？</value></data>
   <data name="MsgBox_SingingSkill_DefaultSingingSkillNull" xml:space="preserve"><value>找不到默认演唱技巧。</value></data>
   <data name="ContextMenu_SetRepeatToSelectionRange_Header" xml:space="preserve"><value>将选中乐段作为重复区间</value></data>
   <data name="MainMenu_View_ZoomFull_Header" xml:space="preserve"><value>显示完整的音轨视图</value></data>
@@ -377,7 +377,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="CustomizeShortcutDlg_CommandBeginEditSongPosition" xml:space="preserve"><value>编辑歌曲位置</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Spanish" xml:space="preserve"><value>西班牙语</value></data>
   <data name="PreferencesDlg_Audio_Bit_Caption" xml:space="preserve"><value>位</value></data>
-  <data name="FileDlg_Openable_Filter" xml:space="preserve"><value>VOCALOID5/6 工程|*.vpr|VOCALOID3/4 序列|*.vsqx|Piapro Studio 歌曲|*.ppsf|所有文件|*.vpr;*.vsqx;*.ppsf|所有文件|*.*</value></data>
+  <data name="FileDlg_Openable_Filter" xml:space="preserve"><value>VOCALOID5/6 工程|*.vpr|VOCALOID3/4 工程|*.vsqx|Piapro Studio 歌曲|*.ppsf|所有文件|*.vpr;*.vsqx;*.ppsf|所有文件|*.*</value></data>
   <data name="MainMenu_View_ShowTempoTrack_Header" xml:space="preserve"><value>曲速轨道</value></data>
   <data name="ContextMenu_DivideNote_Header" xml:space="preserve"><value>均等分配音符(_D)</value></data>
   <data name="VerifyLicense_PurchaseLicense" xml:space="preserve"><value>从VOCALOID SHOP购入</value></data>
@@ -389,7 +389,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
 
 请额外安装它们。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_English" xml:space="preserve"><value>英语</value></data>
-  <data name="FileDlg_VSQX_Filter" xml:space="preserve"><value>VOCALOID3/4 序列|*.vsqx|所有文件|*.*</value></data>
+  <data name="FileDlg_VSQX_Filter" xml:space="preserve"><value>VOCALOID3/4 工程|*.vsqx|所有文件|*.*</value></data>
   <data name="PreferencesDlg_SettingsChangedMsg" xml:space="preserve"><value>请重新启动 VOCALOID 编辑器以应用更改。</value></data>
   <data name="MsgBox_ImportFile_Load_Error" xml:space="preserve"><value>导入文件失败。</value></data>
   <data name="MsgBox_Media_FailedToDeleteMedia" xml:space="preserve"><value>删除媒体素材失败。</value></data>
@@ -528,7 +528,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="StaccatoNote_Title" xml:space="preserve"><value>断奏</value></data>
   <data name="PreferencesDlg_Audio_StereoOutR_Caption" xml:space="preserve"><value>立体声输出 R</value></data>
   <data name="ContextMenu_PastePartProperty_Header" xml:space="preserve"><value>粘贴特殊部分</value></data>
-  <data name="FileDlg_V6Proj_Filter" xml:space="preserve"><value>VOCALOID6 序列|*.vpr</value></data>
+  <data name="FileDlg_V6Proj_Filter" xml:space="preserve"><value>VOCALOID6 工程|*.vpr</value></data>
   <data name="MainMenu_Edit_Delete_Header" xml:space="preserve"><value>删除</value></data>
   <data name="StaccatoNote_Label" xml:space="preserve"><value>断奏类型:</value></data>
   <data name="MsgBox_StyleManagerInitialization_Error" xml:space="preserve"><value>初始化风格管理器失败。</value></data>
