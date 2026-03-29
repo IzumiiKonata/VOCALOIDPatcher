@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HarmonyLib;
+using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
@@ -26,14 +27,19 @@ public class WPFTranslationPatch : PatchBase
 
     private static readonly Dictionary<object, string> OriginalMapping = new();
 
+    public static readonly HashSet<object> Untranslatable = new();
+
     private static string GetOriginal(object obj, string? translated)
     {
+        if (Untranslatable.Contains(obj))
+            return translated;
+        
         if (!OriginalMapping.ContainsKey(obj))
         {
             OriginalMapping[obj] = translated;
         }
         
-        if (translated != null && TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
+        if (translated is not null && TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
             OriginalMapping[obj] = res;
 
         return OriginalMapping[obj];
@@ -49,22 +55,23 @@ public class WPFTranslationPatch : PatchBase
 
         if (isNullOrEmpty)
         {
-            if (!TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var res))
+            if (Settings.TranslateHardcodedStrings && TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var res))
             {
-                if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var r))
-                {
-                    return TranslationManager.Get(r) ?? value;
-                }
-                
-                if (!MissingKeyList.Contains(value))
-                {
-                    MessageUtils.Dbg($"Key not found: {value}");
-                    MissingKeyList.Add(value);
-                }
-                return value;
+                return TranslationManager.Get(res) ?? value;
             }
             
-            return TranslationManager.Get(res) ?? value;
+            if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var r))
+            {
+                return TranslationManager.Get(r) ?? value;
+            }
+                
+            if (!MissingKeyList.Contains(value))
+            {
+                MessageUtils.Dbg($"Key not found: {value}");
+                MissingKeyList.Add(value);
+            }
+            
+            return value;
         }
         
         return TranslationManager.Get(resourceKey) ?? value;
@@ -104,6 +111,9 @@ public class WPFTranslationPatch : PatchBase
 
     public static void TranslateElement(object element)
     {
+        if (Untranslatable.Contains(element))
+            return;
+        
         switch (element)
         {
             case HeaderedItemsControl hic:
@@ -201,7 +211,7 @@ public class WPFTranslationPatch : PatchBase
      */
     public static void ReTranslate()
     {
-        var mainMenu = Patcher.GetMainMenu();
+        var mainMenu = ReflectionUtils.GetMainMenu();
         RefreshAll(mainMenu);
         
         foreach (Window window in Application.Current.Windows)
@@ -209,7 +219,7 @@ public class WPFTranslationPatch : PatchBase
             RefreshAll(window);
         }
 
-        var mainWindow = Patcher.GetMainWindow();
+        var mainWindow = ReflectionUtils.GetMainWindow();
         var audioEffectWindow = mainWindow.AudioEffectWindow;
         
         if (audioEffectWindow != null)
@@ -226,7 +236,7 @@ public class WPFTranslationPatch : PatchBase
      */
     private static void FixFilepathSeparator()
     {
-        var xRecentFiles = Patcher.GetMainWindowField<MenuItem>("xRecentFiles");
+        var xRecentFiles = ReflectionUtils.GetMainWindowField<MenuItem>("xRecentFiles");
         xRecentFiles.FontFamily = new FontFamily("Consolas");
     }
 

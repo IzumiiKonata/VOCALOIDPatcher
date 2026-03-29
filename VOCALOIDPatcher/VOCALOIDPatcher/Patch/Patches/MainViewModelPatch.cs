@@ -19,7 +19,7 @@ public class MainViewModelPatch
         [HarmonyPostfix]
         static void Postfix(object? selector)
         {
-            var mainWindow = Patcher.GetMainWindow();
+            var mainWindow = ReflectionUtils.GetMainWindow();
             var audioEffectWindow = mainWindow.AudioEffectWindow;
         
             if (audioEffectWindow != null)

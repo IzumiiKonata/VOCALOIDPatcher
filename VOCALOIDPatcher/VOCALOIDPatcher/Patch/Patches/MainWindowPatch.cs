@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using HarmonyLib;
+using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.Media;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -20,14 +21,14 @@ public class MainWindowPatch
         [HarmonyPostfix]
         static void Postfix(RightZoneTypeEnum rightZoneType)
         {
-            var xRightZone = Patcher.GetMainWindowField<RightZone>("xRightZone");
+            var xRightZone = ReflectionUtils.GetMainWindowField<RightZone>("xRightZone");
             WPFTranslationPatch.RefreshAll(xRightZone);
 
             List<DependencyObject> refreshList = [
-                Patcher.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
-                Patcher.GetField<MidiPartInspector>(xRightZone, "xMidiPartInspector"),
-                Patcher.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
-                Patcher.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
+                ReflectionUtils.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
+                ReflectionUtils.GetField<MidiPartInspector>(xRightZone, "xMidiPartInspector"),
+                ReflectionUtils.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
+                ReflectionUtils.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
             ];
         
             refreshList.ForEach(WPFTranslationPatch.RefreshAll);

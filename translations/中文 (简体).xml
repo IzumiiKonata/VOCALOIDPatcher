@@ -4,6 +4,8 @@
   <data name="HomeWindow_PushButton_NEW_PROJECT_Header" xml:space="preserve"><value>新建工程</value></data>
   <data name="HomeWindow_PushButton_OPEN_Header" xml:space="preserve"><value>打开</value></data>
   <data name="VOCALOIDPatcher_Language_Header" xml:space="preserve"><value>语言</value></data>
+  <data name="VOCALOIDPatcher_TranslateHardcodedStrings_Header" xml:space="preserve"><value>翻译硬编码字符串</value></data>
+  <data name="VOCALOIDPatcher_TranslateHardcodedStringsRestart" xml:space="preserve"><value>重启编辑器以应用更改。</value></data>
 
   <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主轨道</value></data>
   <data name="MixerView_Effect_Header" xml:space="preserve"><value>效果器</value></data>
