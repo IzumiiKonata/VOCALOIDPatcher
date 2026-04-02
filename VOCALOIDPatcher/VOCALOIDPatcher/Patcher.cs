@@ -22,7 +22,7 @@ namespace VOCALOIDPatcher;
 public static class Patcher
 {
     
-    public static string Version => "1.0.5";
+    public static string Version => "1.0.6";
 
     public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
