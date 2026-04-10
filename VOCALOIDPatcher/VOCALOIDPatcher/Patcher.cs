@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.IO;
-using System.Reflection;
+﻿using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
@@ -44,6 +41,20 @@ public static class Patcher
     [ModuleInitializer]
     public static void Initializer()
     {
+        AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
+        {
+            if (args.Name.StartsWith("VOCALOID6"))
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    if (assembly.GetName().Name.StartsWith("VOCALOID6"))
+                        return assembly;
+                }
+            }
+
+            return null;
+        };
+        
         try
         {
             PatcherInit();

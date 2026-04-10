@@ -23,7 +23,6 @@
 
 ### 注意事项
 你需要在默认目录中 `(C:\Program Files\VOCALOID6\Editor)` 安装一份最新的 VOCALOID6 编辑器  
-然后在安装目录中复制一份 `VOCALOID6.dll` 并重命名为 `VOCALOID6Ref.dll`, 使用 `dnSpy` 等工具将 `VOCALOID6Ref.dll` 的程序集版本修改为 `6.0.0.0`  
 使用 `dotnet tool install -g dotnet-ilrepack` 命令安装 `ilrepack` 工具。  
 复制一份 .net 8.0 的 `0Harmony.dll` (通常在 `C:\Users\<UserName>\.nuget\packages\lib.harmony\2.4.2\lib\net8.0\` 中) 到 `VOCALOIDPatcher\bin\Release\net8.0-windows` 中    
 编译完成后, 会自动运行 `ilrepack` 工具, 构建一个包含依赖的 `Microsoft.Xaml.Behaviors.dll`, 输出目录是 `VOCALOIDPatcher\bin\Release\net8.0-windows\out`。
