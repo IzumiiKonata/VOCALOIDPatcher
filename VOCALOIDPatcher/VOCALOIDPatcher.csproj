@@ -2,21 +2,30 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0-windows</TargetFramework>
-        <RuntimeFrameworkVersion>8.0.0</RuntimeFrameworkVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
+        <OutputType>Library</OutputType>
+        <PackageId>Microsoft.Xaml.Behaviors.Wpf</PackageId>
+        <Title>Microsoft.Xaml.Behaviors.Wpf</Title>
+        <Authors>Microsoft</Authors>
+        <Description>Easily add interactivity to your apps using XAML Behaviors for WPF. Behaviors encapsulate reusable functionalities for elements that can be easily added to your XAML without the need for more imperative code.</Description>
         <Company>Microsoft Corporation</Company>
         <Product>Microsoft.Xaml.Behaviors</Product>
-        <AssemblyVersion>1.1.0.0</AssemblyVersion>
-        <FileVersion>1.1.135.29210</FileVersion>
+        <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <UseWPF>true</UseWPF>
-        <LangVersion>12</LangVersion>
+        <NoWarn>1701;1702;1591</NoWarn>
+        <DelaySign>true</DelaySign>
+        <Version>1.1.0.0</Version>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
+        <FileVersion>1.1.0.0</FileVersion>
+        <Nullable>enable</Nullable>
         <RootNamespace />
+        <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+        <PackageReference Include="Lib.Harmony" Version="2.4.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,9 +37,20 @@
         </Reference>
     </ItemGroup>
 
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="cd $(OutputPath) &amp;&amp; ilrepack /ndebug /internalize:$(ProjectDir)repackexcludes.txt /out:out\Microsoft.Xaml.Behaviors.dll Microsoft.Xaml.Behaviors.dll 0Harmony.dll" />
-    </Target>
+    <ItemGroup>
+        <PackageReference Include="MicroBuild.Core" Version="0.3.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.VisualStudioEng.MicroBuild.Core" Version="0.4.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="cd $(OutputPath) &amp;&amp; ilrepack /keyfile:$(ProjectDir)\..\PubKey.snk /delaysign /ndebug /internalize:$(ProjectDir)repackexcludes.txt /out:out\Microsoft.Xaml.Behaviors.dll Microsoft.Xaml.Behaviors.dll 0Harmony.dll" />
+    </Target>
 
 </Project>

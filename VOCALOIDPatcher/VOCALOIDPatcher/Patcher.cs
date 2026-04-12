@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +23,7 @@ namespace VOCALOIDPatcher;
 public static class Patcher
 {
     
-    public static string Version => "1.0.6";
+    public static string Version => "1.0.7";
 
     public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
@@ -29,17 +33,18 @@ public static class Patcher
     public static string ConfigFile =>
         Path.Combine(ConfigDir, "config.json");
 
-    public static string DataDir =>
+    public static string DataDir =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher");
         
-    
     public static ConfigManager ConfigManager;
 
     private static Harmony Harmony;
 
+    public static bool VstPluginMode = false;
+
     #pragma warning disable CA2255
     [ModuleInitializer]
-    public static void Initializer()
+    public static void Initialize()
     {
         AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
         {
@@ -48,7 +53,9 @@ public static class Patcher
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     if (assembly.GetName().Name.StartsWith("VOCALOID6"))
+                    {
                         return assembly;
+                    }
                 }
             }
 
@@ -76,6 +83,8 @@ public static class Patcher
         {
             Directory.CreateDirectory(ConfigDir);
         }
+
+        VstPluginMode = IsVstPluginMode();
         
         ConfigManager = new ConfigManager(ConfigFile);
         Harmony = new Harmony("VOCALOIDPatcher");
@@ -92,17 +101,44 @@ public static class Patcher
 
         MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
 
+        if (VstPluginMode)
+        {
+            DataDir = Path.Combine([ Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" ]);
+            MessageUtils.Dbg("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
+            VstPluginPatch.ApplyPatches(Harmony);
+        }
+        
+        ApplyPatches();
+        TranslationManager.Initialize();
+        MessageUtils.Dbg("TranslationManager 已初始化");
+        
+        if (!VstPluginMode)
+        {
+            PostInject();
+        }
+    }
+
+    public static void PostInject()
+    {
         ReflectionUtils.GetMainWindow().Closing += (_, _) =>
         {
             ConfigManager.Save();
         };
-        
-        ApplyPatches();
-        
-        TranslationManager.Initialize();
-        MessageUtils.Dbg("TranslationManager 已初始化");
-
+            
         AddPatcherMenuItem();
+    }
+
+    private static bool IsVstPluginMode()
+    {
+        try
+        {
+            ReflectionUtils.GetMainWindow();
+            return false;
+        }
+        catch (Exception e)
+        {
+            return true;
+        }
     }
 
     private static void ApplyPatches()
@@ -147,7 +183,7 @@ public static class Patcher
         Name = "VOCALOIDPatcherMenuItem_LanguageMenuItem"
     };
 
-    private static void AddPatcherMenuItem()
+    public static void AddPatcherMenuItem()
     {
         try
         {

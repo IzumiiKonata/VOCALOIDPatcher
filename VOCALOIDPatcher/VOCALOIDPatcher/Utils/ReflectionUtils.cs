@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
@@ -51,6 +52,17 @@ public static class ReflectionUtils
             throw new MissingFieldException(type.FullName + "." + fieldName, fieldName);
         
         return fieldInfo.GetValue(holderInstance) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
+    }
+    
+    public static object GetField(object holderInstance, string fieldName) 
+    {
+        var type = holderInstance.GetType();
+        FieldInfo? fieldInfo = AccessTools.Field(type, fieldName);
+
+        if (fieldInfo == null)
+            throw new MissingFieldException(type.FullName + "." + fieldName, fieldName);
+        
+        return fieldInfo.GetValue(holderInstance) ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
 
     public static TFieldType GetFirstFieldWithType<TFieldType>(object holderInstance) 

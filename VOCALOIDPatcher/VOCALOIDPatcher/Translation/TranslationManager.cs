@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Utils;

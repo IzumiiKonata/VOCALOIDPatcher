@@ -1,8 +1,11 @@
-namespace Microsoft.Xaml.Behaviors;
-
-internal enum ScreenType
+﻿// Copyright (c) Microsoft. All rights reserved. 
+// Licensed under the MIT license. See LICENSE file in the project root for full license information. 
+namespace Microsoft.Xaml.Behaviors
 {
-	None,
-	Navigation,
-	Composition
+    internal enum ScreenType
+    {
+        None,
+        Navigation,
+        Composition,
+    }
 }

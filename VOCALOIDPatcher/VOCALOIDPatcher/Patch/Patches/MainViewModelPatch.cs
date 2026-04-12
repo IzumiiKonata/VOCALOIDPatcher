@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;

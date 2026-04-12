@@ -26,13 +26,20 @@ public static class ConsoleHelper
 
     public static void InitConsole()
     {
-        if (!AttachConsole(AttachParentProcess))
+        if (Patcher.VstPluginMode)
         {
-            int error = Marshal.GetLastWin32Error();
-
-            if (error != 5)
+            AllocConsole();
+        }
+        else
+        {
+            if (!AttachConsole(AttachParentProcess))
             {
-                AllocConsole();
+                int error = Marshal.GetLastWin32Error();
+
+                if (error != 5)
+                {
+                    AllocConsole();
+                }
             }
         }
 

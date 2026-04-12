@@ -1,120 +1,245 @@
-using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media.Animation;
-
-namespace Microsoft.Xaml.Behaviors;
-
-public abstract class TriggerBase<T> : TriggerBase where T : DependencyObject
+﻿// Copyright (c) Microsoft. All rights reserved. 
+// Licensed under the MIT license. See LICENSE file in the project root for full license information. 
+namespace Microsoft.Xaml.Behaviors
 {
-	protected new T AssociatedObject => (T)base.AssociatedObject;
+    using System;
+    using System.Windows;
+    using System.Windows.Markup;
+    using System.Windows.Media.Animation;
+    using System.Globalization;
 
-	protected sealed override Type AssociatedObjectTypeConstraint => base.AssociatedObjectTypeConstraint;
+    /// <summary>
+    /// Represents an object that can invoke actions conditionally.
+    /// </summary>
+    /// <typeparam name="T">The type to which this trigger can be attached.</typeparam>
+    /// <remarks>
+    ///		TriggerBase is the base class for controlling actions. Override OnAttached() and 
+    ///		OnDetaching() to hook and unhook handlers on the AssociatedObject. You may 
+    ///		constrain the types that a derived TriggerBase may be attached to by specifying 
+    ///		the generic parameter. Call InvokeActions() to fire all Actions associated with 
+    ///		this TriggerBase.
+    ///	</remarks>
+    public abstract class TriggerBase<T> : TriggerBase where T : DependencyObject
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriggerBase&lt;T&gt;"/> class.
+        /// </summary>
+        protected TriggerBase()
+            : base(typeof(T))
+        {
+        }
 
-	protected TriggerBase()
-		: base(typeof(T))
-	{
-	}
-}
-[ContentProperty("Actions")]
-public abstract class TriggerBase : Animatable, IAttachedObject
-{
-	private DependencyObject associatedObject;
+        /// <summary>
+        /// Gets the object to which the trigger is attached.
+        /// </summary>
+        /// <value>The associated object.</value>
+        protected new T AssociatedObject
+        {
+            get
+            {
+                return (T)base.AssociatedObject;
+            }
+        }
 
-	private Type associatedObjectTypeConstraint;
+        /// <summary>
+        /// Gets the type constraint of the associated object.
+        /// </summary>
+        /// <value>The associated object type constraint.</value>
+        protected sealed override Type AssociatedObjectTypeConstraint
+        {
+            get
+            {
+                return base.AssociatedObjectTypeConstraint;
+            }
+        }
+    }
 
-	private static readonly DependencyPropertyKey ActionsPropertyKey = DependencyProperty.RegisterReadOnly("Actions", typeof(TriggerActionCollection), typeof(TriggerBase), new FrameworkPropertyMetadata());
+    /// <summary>
+    /// Argument passed to PreviewInvoke event. Assigning Cancelling to True will cancel the invoking of the trigger.
+    /// </summary>
+    /// <remarks>This is an infrastructure class. Behavior attached to a trigger base object can add its behavior as a listener to TriggerBase.PreviewInvoke.</remarks>
+    public class PreviewInvokeEventArgs : EventArgs
+    {
+        public bool Cancelling { get; set; }
+    }
 
-	public static readonly DependencyProperty ActionsProperty = ActionsPropertyKey.DependencyProperty;
+    /// <summary>
+    /// Represents an object that can invoke Actions conditionally.
+    /// </summary>
+    /// <remarks>This is an infrastructure class. Trigger authors should derive from Trigger&lt;T&gt; instead of this class.</remarks>
+    [ContentProperty("Actions")]
+    public abstract class TriggerBase :
+        Animatable,
+        IAttachedObject
+    {
+        private DependencyObject associatedObject;
+        private Type associatedObjectTypeConstraint;
 
-	protected DependencyObject AssociatedObject
-	{
-		get
-		{
-			ReadPreamble();
-			return associatedObject;
-		}
-	}
+        private static readonly DependencyPropertyKey ActionsPropertyKey = DependencyProperty.RegisterReadOnly("Actions",
+                                                                                                            typeof(TriggerActionCollection),
+                                                                                                            typeof(TriggerBase),
+                                                                                                            new FrameworkPropertyMetadata());
 
-	protected virtual Type AssociatedObjectTypeConstraint
-	{
-		get
-		{
-			ReadPreamble();
-			return associatedObjectTypeConstraint;
-		}
-	}
+        public static readonly DependencyProperty ActionsProperty = ActionsPropertyKey.DependencyProperty;
 
-	public TriggerActionCollection Actions => (TriggerActionCollection)GetValue(ActionsProperty);
+        internal TriggerBase(Type associatedObjectTypeConstraint)
+        {
+            this.associatedObjectTypeConstraint = associatedObjectTypeConstraint;
+            TriggerActionCollection newCollection = new TriggerActionCollection();
+            this.SetValue(ActionsPropertyKey, newCollection);
+        }
 
-	DependencyObject IAttachedObject.AssociatedObject => AssociatedObject;
+        /// <summary>
+        /// Gets the object to which the trigger is attached.
+        /// </summary>
+        /// <value>The associated object.</value>
+        protected DependencyObject AssociatedObject
+        {
+            get
+            {
+                this.ReadPreamble();
+                return this.associatedObject;
+            }
+        }
 
-	public event EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
+        /// <summary>
+        /// Gets the type constraint of the associated object.
+        /// </summary>
+        /// <value>The associated object type constraint.</value>
+        protected virtual Type AssociatedObjectTypeConstraint
+        {
+            get
+            {
+                this.ReadPreamble();
+                return this.associatedObjectTypeConstraint;
+            }
+        }
 
-	internal TriggerBase(Type associatedObjectTypeConstraint)
-	{
-		this.associatedObjectTypeConstraint = associatedObjectTypeConstraint;
-		TriggerActionCollection value = new TriggerActionCollection();
-		SetValue(ActionsPropertyKey, value);
-	}
+        /// <summary>
+        /// Gets the actions associated with this trigger.
+        /// </summary>
+        /// <value>The actions associated with this trigger.</value>
+        public TriggerActionCollection Actions
+        {
+            get
+            {
+                return (TriggerActionCollection)this.GetValue(ActionsProperty);
+            }
+        }
 
-	protected void InvokeActions(object parameter)
-	{
-		if (this.PreviewInvoke != null)
-		{
-			PreviewInvokeEventArgs e = new PreviewInvokeEventArgs();
-			this.PreviewInvoke(this, e);
-			if (e.Cancelling)
-			{
-				return;
-			}
-		}
-		foreach (TriggerAction action in Actions)
-		{
-			action.CallInvoke(parameter);
-		}
-	}
+        /// <summary>
+        /// Event handler for registering to PreviewInvoke.
+        /// </summary>
+        public event EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
 
-	protected virtual void OnAttached()
-	{
-	}
+        /// <summary>
+        /// Invoke all actions associated with this trigger.
+        /// </summary>
+        /// <remarks>Derived classes should call this to fire the trigger.</remarks>
+        protected void InvokeActions(object parameter)
+        {
+            if (this.PreviewInvoke != null)
+            {
+                // Fire the previewInvoke event 
+                PreviewInvokeEventArgs previewInvokeEventArg = new PreviewInvokeEventArgs();
+                this.PreviewInvoke(this, previewInvokeEventArg);
+                // If a handler has cancelled the event, abort the invoke
+                if (previewInvokeEventArg.Cancelling == true)
+                {
+                    return;
+                }
+            }
 
-	protected virtual void OnDetaching()
-	{
-	}
+            foreach (TriggerAction action in this.Actions)
+            {
+                action.CallInvoke(parameter);
+            }
+        }
 
-	protected override Freezable CreateInstanceCore()
-	{
-		return (Freezable)Activator.CreateInstance(GetType());
-	}
+        /// <summary>
+        /// Called after the trigger is attached to an AssociatedObject.
+        /// </summary>
+        protected virtual void OnAttached()
+        {
+        }
 
-	public void Attach(DependencyObject dependencyObject)
-	{
-		if (dependencyObject != AssociatedObject)
-		{
-			if (AssociatedObject != null)
-			{
-				throw new InvalidOperationException(ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage);
-			}
-			if (dependencyObject != null && !AssociatedObjectTypeConstraint.IsAssignableFrom(dependencyObject.GetType()))
-			{
-				throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, ExceptionStringTable.TypeConstraintViolatedExceptionMessage, GetType().Name, dependencyObject.GetType().Name, AssociatedObjectTypeConstraint.Name));
-			}
-			WritePreamble();
-			associatedObject = dependencyObject;
-			WritePostscript();
-			Actions.Attach(dependencyObject);
-			OnAttached();
-		}
-	}
+        /// <summary>
+        /// Called when the trigger is being detached from its AssociatedObject, but before it has actually occurred.
+        /// </summary>
+        protected virtual void OnDetaching()
+        {
+        }
 
-	public void Detach()
-	{
-		OnDetaching();
-		WritePreamble();
-		associatedObject = null;
-		WritePostscript();
-		Actions.Detach();
-	}
+        /// <summary>
+        /// Creates a new instance of the TriggerBase derived class.
+        /// </summary>
+        /// <returns>The new instance.</returns>
+        protected override Freezable CreateInstanceCore()
+        {
+            Type classType = this.GetType();
+            return (Freezable)Activator.CreateInstance(classType);
+        }
+
+        #region IAttachedObject Members
+
+        /// <summary>
+        /// Gets the associated object.
+        /// </summary>
+        /// <value>The associated object.</value>
+        DependencyObject IAttachedObject.AssociatedObject
+        {
+            get
+            {
+                return this.AssociatedObject;
+            }
+        }
+
+        /// <summary>
+        /// Attaches to the specified object.
+        /// </summary>
+        /// <param name="dependencyObject">The object to attach to.</param>
+        /// <exception cref="InvalidOperationException">Cannot host the same trigger on more than one object at a time.</exception>
+        /// <exception cref="InvalidOperationException">dependencyObject does not satisfy the trigger type constraint.</exception>
+        public void Attach(DependencyObject dependencyObject)
+        {
+            if (dependencyObject != this.AssociatedObject)
+            {
+                if (this.AssociatedObject != null)
+                {
+                    throw new InvalidOperationException(ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage);
+                }
+
+                // Ensure the type constraint is met
+                if (dependencyObject != null && !this.AssociatedObjectTypeConstraint.IsAssignableFrom(dependencyObject.GetType()))
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
+                                                                        ExceptionStringTable.TypeConstraintViolatedExceptionMessage,
+                                                                        this.GetType().Name,
+                                                                        dependencyObject.GetType().Name,
+                                                                        this.AssociatedObjectTypeConstraint.Name));
+                }
+
+                this.WritePreamble();
+                this.associatedObject = dependencyObject;
+                this.WritePostscript();
+
+                this.Actions.Attach(dependencyObject);
+                this.OnAttached();
+            }
+        }
+
+        /// <summary>
+        /// Detaches this instance from its associated object.
+        /// </summary>
+        public void Detach()
+        {
+            this.OnDetaching();
+            this.WritePreamble();
+            this.associatedObject = null;
+            this.WritePostscript();
+            this.Actions.Detach();
+        }
+
+        #endregion
+    }
 }
