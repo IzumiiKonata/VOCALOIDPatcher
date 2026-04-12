@@ -19,7 +19,7 @@ public static class TranslationManager
     
     public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(), HardcodedPropertyMappingReversed = new();
 
-    public static event EventHandler<string> LanguageChanged; 
+    public static event EventHandler<string>? LanguageChanged; 
 
     public static void Initialize()
     {
@@ -138,7 +138,7 @@ public static class TranslationManager
             }
 
             CurrentLanguage = language;
-            LanguageChanged.Invoke(null, CurrentLanguage);
+            LanguageChanged?.Invoke(null, CurrentLanguage);
             return true;
         }
         catch (Exception _)
