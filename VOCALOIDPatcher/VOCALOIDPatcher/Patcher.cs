@@ -120,11 +120,6 @@ public static class Patcher
 
     public static void PostInject()
     {
-        ReflectionUtils.GetMainWindow().Closing += (_, _) =>
-        {
-            ConfigManager.Save();
-        };
-            
         AddPatcherMenuItem();
     }
 
