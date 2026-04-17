@@ -726,7 +726,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize16" xml:space="preserve"><value>格線 - 1/16</value></data>
   <data name="MainMenu_File_ImportPpsf_Header" xml:space="preserve"><value>PPSF 檔案...</value></data>
   <data name="ContextMenu_Paste_Header" xml:space="preserve"><value>貼上(_P)</value></data>
-  <data name="MainMenu_File_ImportMidi_Header" xml:space="preserve"><value>匯出 MIDI 檔案...</value></data>
+  <data name="MainMenu_File_ImportMidi_Header" xml:space="preserve"><value>匯入 MIDI 檔案...</value></data>
   <data name="ContextMenu_Media_DeleteClip" xml:space="preserve"><value>移除媒體素材(_D)</value></data>
   <data name="ContextMenu_PaintToolGroup_Header" xml:space="preserve"><value>鉛筆(_P)</value></data>
   <data name="SplitNote_SplitLength_Label" xml:space="preserve"><value>分割長度：</value></data>
