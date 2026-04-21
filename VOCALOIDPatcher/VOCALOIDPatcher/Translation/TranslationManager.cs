@@ -149,7 +149,7 @@ public static class TranslationManager
         }
     }
 
-    private static readonly List<string> MissingKeyList = [];
+    private static readonly List<string> MissingKeyList = new();
 
     public static string? Get(string key)
     {

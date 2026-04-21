@@ -15,7 +15,7 @@ public class MainViewModelPatch
         public override string PatchName => "ShowAudioEffectWindowPatch";
         public override Type TargetClass => typeof(MainViewModel);
         public override string TargetMethodName => nameof(MainViewModel.ShowAudioEffectWindow);
-        public override Type[]? ArgumentTypes => [ typeof(object) ];
+        public override Type[]? ArgumentTypes => new[] { typeof(object) };
 
         [HarmonyPostfix]
         static void Postfix(object? selector)

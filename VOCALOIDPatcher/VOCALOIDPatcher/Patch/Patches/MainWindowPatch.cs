@@ -18,7 +18,7 @@ public class MainWindowPatch
         public override string PatchName => "UpdateRightZonePatch";
         public override Type TargetClass => typeof(MainWindow);
         public override string TargetMethodName => "UpdateRightZoneViews";
-        public override Type[]? ArgumentTypes => [ typeof(RightZoneTypeEnum) ];
+        public override Type[]? ArgumentTypes => new[] { typeof(RightZoneTypeEnum) };
 
         [HarmonyPostfix]
         static void Postfix(RightZoneTypeEnum rightZoneType)
@@ -26,12 +26,13 @@ public class MainWindowPatch
             var xRightZone = ReflectionUtils.GetMainWindowField<RightZone>("xRightZone");
             WPFTranslationPatch.RefreshAll(xRightZone);
 
-            List<DependencyObject> refreshList = [
+            List<DependencyObject> refreshList = new()
+            {
                 ReflectionUtils.GetField<NoteInspector>(xRightZone, "xNoteInspector"),
                 ReflectionUtils.GetField<MidiPartInspector>(xRightZone, "xMidiPartInspector"),
                 ReflectionUtils.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
                 ReflectionUtils.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
-            ];
+            };
         
             refreshList.ForEach(WPFTranslationPatch.RefreshAll);
         }

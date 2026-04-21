@@ -11,7 +11,7 @@ public class ResourceManagerPatch : PatchBase
     public override string PatchName => "ResourceManagerPatch";
     public override Type TargetClass => typeof(ResourceManager);
     public override string TargetMethodName => nameof(ResourceManager.GetString);
-    public override Type[] ArgumentTypes => [ typeof(string), typeof(CultureInfo) ];
+    public override Type[] ArgumentTypes => new[] { typeof(string), typeof(CultureInfo) };
 
     public static bool Skip = false;
 

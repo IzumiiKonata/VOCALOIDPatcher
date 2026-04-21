@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +13,9 @@ using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.TrackEditor;
+#if NET8_0
 using Yamaha.VOCALOID.WaveEditor;
+#endif
 using RulerView = Yamaha.VOCALOID.TrackEditor.RulerView;
 
 namespace VOCALOIDPatcher;
@@ -23,7 +23,7 @@ namespace VOCALOIDPatcher;
 public static class Patcher
 {
     
-    public static string Version => "1.0.8";
+    public static string Version => "1.1.0";
 
     public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
@@ -79,7 +79,7 @@ public static class Patcher
             MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
         
-        if (!Path.Exists(ConfigDir))
+        if (!Directory.Exists(ConfigDir))
         {
             Directory.CreateDirectory(ConfigDir);
         }
@@ -103,7 +103,7 @@ public static class Patcher
 
         if (VstPluginMode)
         {
-            DataDir = Path.Combine([ Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" ]);
+            DataDir = Path.Combine(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" });
             MessageUtils.Dbg("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
             VstPluginPatch.ApplyPatches(Harmony);
         }
@@ -138,8 +138,7 @@ public static class Patcher
 
     private static void ApplyPatches()
     {
-        List<PatchBase> patches =
-        [
+        List<PatchBase> patches = new() {
             new AppLanguagePatch(),
             new WPFTranslationPatch(),
             new ResourceManagerPatch(),
@@ -154,11 +153,13 @@ public static class Patcher
             WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
             WPFTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
             WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
+#if NET8_0
             WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
             WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
+#endif
+            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
             WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
-        ];
+        };
 
         patches.ForEach(p =>
         {

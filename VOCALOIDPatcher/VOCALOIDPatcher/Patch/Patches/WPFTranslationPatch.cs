@@ -47,7 +47,7 @@ public class WPFTranslationPatch : PatchBase
         return OriginalMapping[obj];
     }
 
-    private static readonly List<string> MissingKeyList = [];
+    private static readonly List<string> MissingKeyList = new();
 
     private static string GetTranslatedText(string value)
     {
@@ -245,13 +245,23 @@ public class WPFTranslationPatch : PatchBase
     public static PatchBase CreateContextMenuPatchFor<T>(Type type, string methodName)
         => new XContextMenuPatch<T>(type, methodName);
 
-    private class XContextMenuPatch<T>(Type targetClass, string methodName) : PatchBase
+    private class XContextMenuPatch<T> : PatchBase
     {
+
+        private readonly Type targetClass;
+        private readonly string methodName;
+        
+        public XContextMenuPatch(Type targetClass, string methodName)
+        {
+            this.targetClass = targetClass;
+            this.methodName = methodName;
+        }
+        
         public override string  PatchName        => $"XContextMenuPatch{targetClass.Name}Patch";
         public override Type    TargetClass      => targetClass;
         public override string  TargetMethodName => methodName;
-        public override Type[]  ArgumentTypes    => [typeof(object), typeof(T)];
-
+        public override Type[]  ArgumentTypes    => new[] { typeof(object), typeof(T) };
+        
         [HarmonyPostfix]
         static void Postfix(object sender, T e)
         {
