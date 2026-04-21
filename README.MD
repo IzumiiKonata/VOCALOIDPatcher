@@ -9,6 +9,7 @@
 
 ## 使用方法
 前往 [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) 中下载最新发行版  
+如果您的编辑器版本较老, 请下载 `.net 6.0` 的版本  
 将压缩包中的所有文件 _(除了 README.txt)_ 复制并替换到 `C:\Program Files\VOCALOID6\Editor` 中 (如果编辑器没有安装在默认目录中可能会有问题)  
 打开编辑器并打开一个工程, 如果菜单栏中出现 `VOCALOID Patcher` 选项则安装成功。  
 ![img](./res/screenshot.png)
