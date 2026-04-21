@@ -5,7 +5,7 @@ namespace VOCALOIDPatcher.Utils;
 
 using System.Runtime.CompilerServices;
 
-public static class MessageUtils
+public static class Debug
 {
     #pragma warning disable SYSLIB1054
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -16,15 +16,16 @@ public static class MessageUtils
         MessageBox(IntPtr.Zero, msg, title, 0x00001000);
     }
     
-    public static void Dbg(
+    public static void Print(
         string message, 
-        string title = "Debug",
+        string? level = null,
         [CallerFilePath] string file = "",
         [CallerLineNumber] int line = 0
     )
     {
         string fileName = System.IO.Path.GetFileName(file);
-        Console.WriteLine($"[{fileName}:{line}] [{title}] {message}");
+        string lvl = level is null ? "" : $" [{level}]";
+        Console.WriteLine($@"[{fileName}:{line}]{lvl} {message}");
     }
 
     public static void ShowErrorMessage(string message, string title = "VOCALOID Patcher Error")
@@ -40,7 +41,7 @@ public static class MessageUtils
     )
     {
         string fileName = System.IO.Path.GetFileName(file);
-        Console.WriteLine($"[{fileName}:{line}] {message}");
+        Console.WriteLine($@"[{fileName}:{line}] {message}");
         
         ShowErrorMessage(message + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace);
     }

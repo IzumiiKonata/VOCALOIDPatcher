@@ -69,7 +69,7 @@ public class WPFTranslationPatch : PatchBase
                 
             if (!MissingKeyList.Contains(value))
             {
-                MessageUtils.Dbg($"Key not found: {value}");
+                Debug.Print($"Key not found: {value}");
                 MissingKeyList.Add(value);
             }
             

@@ -20,7 +20,7 @@ public abstract class PatchBase
 
         if (original == null)
         {
-            MessageUtils.ShowErrorMessage($"{PatchName}: 未在 {TargetClass.FullName} 中找到方法 {TargetMethodName}");
+            Debug.ShowErrorMessage($"{PatchName}: 未在 {TargetClass.FullName} 中找到方法 {TargetMethodName}");
             return;
         }
 
@@ -43,7 +43,7 @@ public abstract class PatchBase
         }
         catch (Exception e)
         {
-            MessageUtils.ShowErrorMessage($"{PatchName}: patch 失败, \n{e.Message}\n{e.StackTrace}");
+            Debug.ShowErrorMessage($"{PatchName}: patch 失败, \n{e.Message}\n{e.StackTrace}");
         }
     }
 

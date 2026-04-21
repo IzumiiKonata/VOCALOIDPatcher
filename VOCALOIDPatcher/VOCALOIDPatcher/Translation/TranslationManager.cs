@@ -27,7 +27,7 @@ public static class TranslationManager
     {
         if (!Directory.Exists(TranslationsDir))
         {
-            MessageUtils.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
+            Debug.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
         }
         
@@ -43,7 +43,7 @@ public static class TranslationManager
 
         if (AvailableLanguages.Count == 0)
         {
-            MessageUtils.ShowErrorMessage("未找到任何翻译! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
+            Debug.ShowErrorMessage("未找到任何翻译! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
         }
 
@@ -60,7 +60,7 @@ public static class TranslationManager
         
         if (!File.Exists(path))
         {
-            MessageUtils.ShowErrorMessage($"硬编码映射不存在: HardcodedPropertyMap.xml");
+            Debug.ShowErrorMessage($"硬编码映射不存在: HardcodedPropertyMap.xml");
             return;
         }
         
@@ -94,7 +94,7 @@ public static class TranslationManager
 
         if (!File.Exists(path))
         {
-            MessageUtils.ShowErrorMessage($"试图加载不存在的翻译: {language}.xml");
+            Debug.ShowErrorMessage($"试图加载不存在的翻译: {language}.xml");
             return false;
         }
 
@@ -157,7 +157,7 @@ public static class TranslationManager
 
         if (value == null && !MissingKeyList.Contains(key))
         {
-            MessageUtils.Dbg($"Missing key: {key}");
+            Debug.Print($"Missing key: {key}");
             MissingKeyList.Add(key);
         }
         

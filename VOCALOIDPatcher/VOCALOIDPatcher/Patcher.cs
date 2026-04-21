@@ -67,7 +67,7 @@ public static class Patcher
             PatcherInit();
         } catch (Exception e)
         {
-            MessageUtils.ShowErrorMessage("Patcher 初始化失败!", e);
+            Debug.ShowErrorMessage("Patcher 初始化失败!", e);
         }
     }
 
@@ -76,7 +76,7 @@ public static class Patcher
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception) args.ExceptionObject;
-            MessageUtils.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
+            Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
         
         if (!Directory.Exists(ConfigDir))
@@ -91,26 +91,26 @@ public static class Patcher
         
         ConsoleHelper.InitConsole();
             
-        MessageUtils.Dbg("已拉起 VOCALOID Patcher");
-        MessageUtils.Dbg($"版本: {Version}");
-        MessageUtils.Dbg("https://github.com/IzumiiKonata/VOCALOIDPatcher");
+        Debug.Print("已拉起 VOCALOID Patcher");
+        Debug.Print($"版本: {Version}");
+        Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
         
         var targetType = typeof(App);
         var asm = targetType.Assembly;
         var version = asm.GetName().Version;
 
-        MessageUtils.Dbg($"VOCALOID 编辑器版本: {version}");
+        Debug.Print($"VOCALOID 编辑器版本: {version}");
 
         if (VstPluginMode)
         {
             DataDir = Path.Combine(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" });
-            MessageUtils.Dbg("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
+            Debug.Print("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
             VstPluginPatch.ApplyPatches(Harmony);
         }
         
         ApplyPatches();
         TranslationManager.Initialize();
-        MessageUtils.Dbg("TranslationManager 已初始化");
+        Debug.Print("TranslationManager 已初始化");
         
         if (!VstPluginMode)
         {
@@ -163,7 +163,7 @@ public static class Patcher
 
         patches.ForEach(p =>
         {
-            MessageUtils.Dbg($"应用 {p.PatchName}...");
+            Debug.Print($"应用 {p.PatchName}...");
             p.Apply(Harmony);
         });
     }
@@ -203,7 +203,7 @@ public static class Patcher
                     {
                         if (!enabled)
                         {
-                            MessageUtils.ShowMessageBox($"{TranslationManager.Get("VOCALOIDPatcher_TranslateHardcodedStringsRestart")}");
+                            Debug.ShowMessageBox($"{TranslationManager.Get("VOCALOIDPatcher_TranslateHardcodedStringsRestart")}");
                         }
                     }
             ));
@@ -213,7 +213,7 @@ public static class Patcher
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
         } catch(Exception e)
         {
-            MessageUtils.ShowErrorMessage(e.Message + e.StackTrace);
+            Debug.ShowErrorMessage(e.Message + e.StackTrace);
         }
     }
 
@@ -277,7 +277,7 @@ public static class Patcher
             var toggled = !ConfigManager.Get(settingKey, defaultValue);
             ConfigManager.Set(settingKey, toggled);
             it.Header = (toggled ? "✓ " : "   ") + TranslationManager.Get(header);
-            MessageUtils.Dbg($"{settingKey} = {toggled}");
+            Debug.Print($"{settingKey} = {toggled}");
             WPFTranslationPatch.ReTranslate();
 
             callback?.Invoke(toggled);
