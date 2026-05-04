@@ -22,10 +22,12 @@
         <Nullable>enable</Nullable>
         <RootNamespace />
         <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
@@ -45,21 +47,29 @@
             <SpecificVersion>False</SpecificVersion>
         </Reference>
     </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="MicroBuild.Core" Version="0.3.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.VisualStudioEng.MicroBuild.Core" Version="0.4.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
 
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="cd $(OutputPath) &amp;&amp; ilrepack /keyfile:$(ProjectDir)\..\PubKey.snk /delaysign /ndebug /internalize:$(ProjectDir)repackexcludes.txt /out:out\Microsoft.Xaml.Behaviors.dll Microsoft.Xaml.Behaviors.dll 0Harmony.dll" />
+    <Target Name="ILRepacker"
+            AfterTargets="Build"
+            Condition="'$(Configuration)' == 'Release' AND '$(TargetFramework)' == 'net8.0-windows'">
+
+        <ItemGroup>
+            <InputAssemblies Include="$(TargetDir)Microsoft.Xaml.Behaviors.dll" />
+            <InputAssemblies Include="$(TargetDir)0Harmony.dll" />
+        </ItemGroup>
+
+        <ILRepack
+                AttributeFile="$(TargetDir)Microsoft.Xaml.Behaviors.dll"
+                DebugInfo="true"
+                DelaySign="true"
+                InputAssemblies="@(InputAssemblies)"
+                Internalize="false"
+                KeyFile="$(ProjectDir)..\PubKey.snk"
+                LibraryPath="$(TargetDir)"
+                OutputFile="$(TargetDir)out\Microsoft.Xaml.Behaviors.dll"
+                Parallel="true"
+                TargetKind="SameAsPrimaryAssembly"
+                Wildcards="false"
+        />
     </Target>
-
+    
 </Project>
