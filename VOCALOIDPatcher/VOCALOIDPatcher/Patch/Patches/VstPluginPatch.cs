@@ -6,6 +6,7 @@ namespace VOCALOIDPatcher.Patch.Patches;
 public static class VstPluginPatch
 {
 
+	[CLSCompliant(false)]
     public static void ApplyPatches(Harmony harmony)
     {
         new VstPluginControllerSetActivePatch().Apply(harmony);
@@ -24,13 +25,13 @@ public static class VstPluginPatch
         {
             if (Triggered)
                 return true;
-            
+
             Triggered = true;
-            
+
             Patcher.PostInject();
             return true;
         }
-        
+
     }
-    
+
 }

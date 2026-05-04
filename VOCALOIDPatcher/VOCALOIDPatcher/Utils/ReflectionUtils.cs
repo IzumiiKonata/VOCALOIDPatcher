@@ -9,6 +9,8 @@ namespace VOCALOIDPatcher.Utils;
 
 public static class ReflectionUtils
 {
+
+	[CLSCompliant(false)]
     public static MainWindow GetMainWindow()
     {
         if (Application.Current?.MainWindow is MainWindow mainWindow)
@@ -38,11 +40,11 @@ public static class ReflectionUtils
 
         if (fieldInfo == null)
             throw new MissingFieldException(mainWindow.GetType().FullName + "." + fieldName, fieldName);
-        
+
         return fieldInfo.GetValue(mainWindow) as T ?? throw new InvalidCastException(mainWindow.GetType().FullName + "." + fieldName);
     }
 
-    public static TFieldType GetField<TFieldType>(object holderInstance, string fieldName) 
+    public static TFieldType GetField<TFieldType>(object holderInstance, string fieldName)
         where TFieldType : class
     {
         var type = holderInstance.GetType();
@@ -50,22 +52,22 @@ public static class ReflectionUtils
 
         if (fieldInfo == null)
             throw new MissingFieldException(type.FullName + "." + fieldName, fieldName);
-        
+
         return fieldInfo.GetValue(holderInstance) as TFieldType ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
-    
-    public static object GetField(object holderInstance, string fieldName) 
+
+    public static object GetField(object holderInstance, string fieldName)
     {
         var type = holderInstance.GetType();
         FieldInfo? fieldInfo = AccessTools.Field(type, fieldName);
 
         if (fieldInfo == null)
             throw new MissingFieldException(type.FullName + "." + fieldName, fieldName);
-        
+
         return fieldInfo.GetValue(holderInstance) ?? throw new InvalidCastException(type.FullName + "." + fieldName);
     }
 
-    public static TFieldType GetFirstFieldWithType<TFieldType>(object holderInstance) 
+    public static TFieldType GetFirstFieldWithType<TFieldType>(object holderInstance)
         where TFieldType : class
     {
         var type = holderInstance.GetType();

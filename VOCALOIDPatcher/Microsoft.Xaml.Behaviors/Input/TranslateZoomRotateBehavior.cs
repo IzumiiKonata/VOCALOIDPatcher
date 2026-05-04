@@ -254,7 +254,7 @@ namespace Microsoft.Xaml.Behaviors.Input
             this.MatrixTransform.Matrix = matrix;
         }
 
-        private void ManipulationStarting(object sender, ManipulationStartingEventArgs e)
+        private void ManipulationStarting(object? sender, ManipulationStartingEventArgs e)
         {
             FrameworkElement manipulationContainer = this.ParentElement;
             // If the parent relationship goes through a popup(e.g. ComboBox/ComboBoxItem), then we need to use the element itself as the manipulation container, otherwise we'll crash(Expression 105258).
@@ -267,7 +267,7 @@ namespace Microsoft.Xaml.Behaviors.Input
             e.Handled = true;
         }
 
-        private void ManipulationInertiaStarting(object sender, ManipulationInertiaStartingEventArgs e)
+        private void ManipulationInertiaStarting(object? sender, ManipulationInertiaStartingEventArgs e)
         {
             // deceleration is pixels per ms^2
             // the translate factor is in the range of [0,1], with 0 being no deceleration, and 1 being instant deceleration.
@@ -294,7 +294,7 @@ namespace Microsoft.Xaml.Behaviors.Input
         }
 
         // This handles the manipulation data from the touch events.  Currently it assumes the zoom and rotation is applied through the center of the element.
-        private void ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
+        private void ManipulationDelta(object? sender, ManipulationDeltaEventArgs e)
         {
             this.EnsureTransform();
             ManipulationDelta currentDelta = e.DeltaManipulation;

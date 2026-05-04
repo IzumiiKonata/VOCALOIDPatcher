@@ -246,7 +246,7 @@ namespace Microsoft.Xaml.Behaviors
             this.TargetResolver.NameScopeReferenceElement = null;
         }
 
-        private void OnBehaviorHostChanged(object sender, EventArgs e)
+        private void OnBehaviorHostChanged(object? sender, EventArgs e)
         {
             this.TargetResolver.NameScopeReferenceElement = ((IAttachedObject)sender).AssociatedObject as FrameworkElement;
         }
@@ -281,7 +281,7 @@ namespace Microsoft.Xaml.Behaviors
             targetedTriggerAction.TargetResolver.Name = (string)args.NewValue;
         }
 
-        private void OnTargetChanged(object sender, NameResolvedEventArgs e)
+        private void OnTargetChanged(object? sender, NameResolvedEventArgs e)
         {
             if (this.AssociatedObject != null)
             {

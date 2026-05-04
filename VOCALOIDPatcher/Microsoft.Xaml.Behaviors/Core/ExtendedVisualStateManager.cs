@@ -414,7 +414,7 @@ namespace Microsoft.Xaml.Behaviors.Core
                 //
                 LayoutTransitionStoryboard = CreateLayoutTransitionStoryboard(transition, MovingElements, oldOpacities);
 
-                LayoutTransitionStoryboard.Completed += (EventHandler)delegate (object sender, EventArgs args)
+                LayoutTransitionStoryboard.Completed += (EventHandler)delegate (object? sender, EventArgs args)
                 {
                     stateGroupsRoot.LayoutUpdated -= new EventHandler(control_LayoutUpdated);
                     StopAnimations();
@@ -432,7 +432,7 @@ namespace Microsoft.Xaml.Behaviors.Core
         #endregion
 
         #region Private static helpers
-        private static void control_LayoutUpdated(object sender, EventArgs e)
+        private static void control_LayoutUpdated(object? sender, EventArgs e)
         {
             if (LayoutTransitionStoryboard != null)
             {
@@ -666,7 +666,7 @@ namespace Microsoft.Xaml.Behaviors.Core
                 }
             }
 
-            sb.Completed += delegate (object sender, EventArgs e)
+            sb.Completed += delegate (object? sender, EventArgs e)
             {
                 Storyboard currentTransitionEffectStoryboard = GetTransitionEffectStoryboard(stateGroupsRoot);
                 if (currentTransitionEffectStoryboard == sb)

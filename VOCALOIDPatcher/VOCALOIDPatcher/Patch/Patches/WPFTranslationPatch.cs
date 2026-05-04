@@ -34,13 +34,13 @@ public class WPFTranslationPatch : PatchBase
     private static string GetOriginal(object obj, string? translated)
     {
         if (Untranslatable.Contains(obj))
-            return translated;
-        
-        if (!OriginalMapping.ContainsKey(obj))
+            return translated ?? "";
+
+        if (translated is not null && !OriginalMapping.ContainsKey(obj))
         {
             OriginalMapping[obj] = translated;
         }
-        
+
         if (translated is not null && TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
             OriginalMapping[obj] = res;
 
@@ -61,21 +61,21 @@ public class WPFTranslationPatch : PatchBase
             {
                 return TranslationManager.Get(res) ?? value;
             }
-            
+
             if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var r))
             {
                 return TranslationManager.Get(r) ?? value;
             }
-                
+
             if (!MissingKeyList.Contains(value))
             {
                 Debug.Print($"Key not found: {value}");
                 MissingKeyList.Add(value);
             }
-            
+
             return value;
         }
-        
+
         return TranslationManager.Get(resourceKey) ?? value;
     }
 
@@ -85,18 +85,18 @@ public class WPFTranslationPatch : PatchBase
     private static string GetResourceKey(string value)
     {
         var type = typeof(Resources);
-        
+
         var properties = type.GetProperties(
-            BindingFlags.Public | 
-            BindingFlags.NonPublic | 
-            BindingFlags.Static | 
+            BindingFlags.Public |
+            BindingFlags.NonPublic |
+            BindingFlags.Static |
             BindingFlags.Instance);
 
         foreach (var prop in properties)
         {
             if (prop.PropertyType != typeof(string) || !prop.CanRead)
                 continue;
-            
+
             var name = prop.Name;
             ResourceManagerPatch.Skip = true;
             var v = prop.GetValue(null);
@@ -115,7 +115,7 @@ public class WPFTranslationPatch : PatchBase
     {
         if (Untranslatable.Contains(element))
             return;
-        
+
         switch (element)
         {
             case HeaderedItemsControl hic:
@@ -153,7 +153,7 @@ public class WPFTranslationPatch : PatchBase
         var visited = new HashSet<DependencyObject>();
         // visited.Clear();
         _RefreshAll(obj, visited);
-        
+
         if (obj is FrameworkElement fe && !fe.IsLoaded)
         {
             fe.Loaded += (_, _) =>
@@ -162,7 +162,7 @@ public class WPFTranslationPatch : PatchBase
             };
         }
     }
-    
+
     private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited)
     {
         if (root == null || !visited.Add(root)) return;
@@ -215,7 +215,7 @@ public class WPFTranslationPatch : PatchBase
     {
         var mainMenu = ReflectionUtils.GetMainMenu();
         RefreshAll(mainMenu);
-        
+
         foreach (Window window in Application.Current.Windows)
         {
             RefreshAll(window);
@@ -223,7 +223,7 @@ public class WPFTranslationPatch : PatchBase
 
         var mainWindow = ReflectionUtils.GetMainWindow();
         var audioEffectWindow = mainWindow.AudioEffectWindow;
-        
+
         if (audioEffectWindow != null)
         {
             TranslateTextBox = true;
@@ -233,7 +233,7 @@ public class WPFTranslationPatch : PatchBase
 
     }
 
-    /** 
+    /**
      * 修复 "文件 -> 最近打开..." 中文件路径分隔符全都是 ￥ 的问题
      */
     private static void FixFilepathSeparator()
@@ -250,18 +250,18 @@ public class WPFTranslationPatch : PatchBase
 
         private readonly Type targetClass;
         private readonly string methodName;
-        
+
         public XContextMenuPatch(Type targetClass, string methodName)
         {
             this.targetClass = targetClass;
             this.methodName = methodName;
         }
-        
+
         public override string  PatchName        => $"XContextMenuPatch{targetClass.Name}Patch";
         public override Type    TargetClass      => targetClass;
         public override string  TargetMethodName => methodName;
         public override Type[]  ArgumentTypes    => new[] { typeof(object), typeof(T) };
-        
+
         [HarmonyPostfix]
         static void Postfix(object sender, T e)
         {

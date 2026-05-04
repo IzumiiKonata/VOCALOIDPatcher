@@ -14,6 +14,7 @@ public abstract class PatchBase
     public virtual bool IsConstructor => false;
     public virtual Type[]? ArgumentTypes => null;
 
+    [CLSCompliant(false)]
     public void Apply(Harmony harmony)
     {
         var original = GetTargetMethod();
@@ -58,7 +59,7 @@ public abstract class PatchBase
 
         return AccessTools.Method(targetClass, TargetMethodName, ArgumentTypes ?? Type.EmptyTypes);
     }
-    
+
     private static HarmonyMethod? FindHarmonyMethod(MethodInfo[] methods, Type attrType)
     {
         var method = methods.FirstOrDefault(m => m.GetCustomAttributes(attrType, false).Any());

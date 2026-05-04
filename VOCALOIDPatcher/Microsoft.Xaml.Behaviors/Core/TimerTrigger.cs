@@ -95,7 +95,7 @@ namespace Microsoft.Xaml.Behaviors.Core
             }
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object? sender, EventArgs e)
         {
             if (this.TotalTicks > 0 && ++this.tickCount >= this.TotalTicks)
             {

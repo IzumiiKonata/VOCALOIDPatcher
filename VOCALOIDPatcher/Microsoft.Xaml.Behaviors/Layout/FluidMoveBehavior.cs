@@ -155,7 +155,7 @@ namespace Microsoft.Xaml.Behaviors.Layout
             this.AssociatedObject.LayoutUpdated -= this.AssociatedObject_LayoutUpdated;
         }
 
-        private void AssociatedObject_LayoutUpdated(object sender, EventArgs e)
+        private void AssociatedObject_LayoutUpdated(object? sender, EventArgs e)
         {
             if (!this.IsActive)
             {
@@ -720,7 +720,7 @@ namespace Microsoft.Xaml.Behaviors.Layout
                 // Put this storyboard in the running dictionary so we can detect reentrancy
                 transitionStoryboardDictionary.Add(tag, transitionStoryboard);
 
-                transitionStoryboard.Completed += delegate (object sender, EventArgs e)
+                transitionStoryboard.Completed += delegate (object? sender, EventArgs e)
                 {
                     Storyboard currentlyRunningStoryboard;
                     if (transitionStoryboardDictionary.TryGetValue(tag, out currentlyRunningStoryboard) && currentlyRunningStoryboard == transitionStoryboard)

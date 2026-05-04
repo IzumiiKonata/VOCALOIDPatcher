@@ -93,7 +93,7 @@ namespace Microsoft.Xaml.Behaviors
             }
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

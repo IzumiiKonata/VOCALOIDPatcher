@@ -84,7 +84,7 @@ namespace Microsoft.Xaml.Behaviors.Media
             }
         }
 
-        private void Storyboard_Completed(object sender, EventArgs e)
+        private void Storyboard_Completed(object? sender, EventArgs e)
         {
             this.InvokeActions(e);
         }

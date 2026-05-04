@@ -36,9 +36,9 @@ public static class Patcher
     public static string DataDir =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher");
         
-    public static ConfigManager ConfigManager;
+    public static ConfigManager ConfigManager = null!;
 
-    private static Harmony Harmony;
+    private static Harmony Harmony = null!;
 
     public static bool VstPluginMode = false;
 
@@ -52,7 +52,7 @@ public static class Patcher
             {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    if (assembly.GetName().Name.StartsWith("VOCALOID6"))
+                    if (assembly.GetName().Name?.StartsWith("VOCALOID6") == true)
                     {
                         return assembly;
                     }
@@ -130,7 +130,7 @@ public static class Patcher
             ReflectionUtils.GetMainWindow();
             return false;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return true;
         }

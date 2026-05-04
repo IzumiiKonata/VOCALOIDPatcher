@@ -82,12 +82,12 @@ namespace Microsoft.Xaml.Behaviors
 
         private static bool CanGoBack
         {
-            get { return (bool)InteractionContext.canGoBackPropertyInfo.GetValue(ActiveNavigationViewModelObject, null); }
+            get { return (bool)InteractionContext.canGoBackPropertyInfo.GetValue(ActiveNavigationViewModelObject, null)!; }
         }
 
         private static bool CanGoForward
         {
-            get { return (bool)InteractionContext.canGoForwardPropertyInfo.GetValue(ActiveNavigationViewModelObject, null); }
+            get { return (bool)InteractionContext.canGoForwardPropertyInfo.GetValue(ActiveNavigationViewModelObject, null)!; }
         }
 
         #endregion properties

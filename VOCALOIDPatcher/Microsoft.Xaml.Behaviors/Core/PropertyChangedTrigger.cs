@@ -49,7 +49,7 @@ namespace Microsoft.Xaml.Behaviors.Core
             this.OnDetaching();
         }
 
-        void OnPreviewInvoke(object sender, PreviewInvokeEventArgs e)
+        void OnPreviewInvoke(object? sender, PreviewInvokeEventArgs e)
         {
             DataBindingHelper.EnsureDataBindingOnActionsUpToDate(this);
         }

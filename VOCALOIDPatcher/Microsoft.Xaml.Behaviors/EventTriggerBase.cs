@@ -342,7 +342,7 @@ namespace Microsoft.Xaml.Behaviors
             }
         }
 
-        private void OnBehaviorHostChanged(object sender, EventArgs e)
+        private void OnBehaviorHostChanged(object? sender, EventArgs e)
         {
             this.SourceNameResolver.NameScopeReferenceElement = ((IAttachedObject)sender).AssociatedObject as FrameworkElement;
         }
@@ -389,7 +389,7 @@ namespace Microsoft.Xaml.Behaviors
             }
         }
 
-        private void OnSourceNameResolverElementChanged(object sender, NameResolvedEventArgs e)
+        private void OnSourceNameResolverElementChanged(object? sender, NameResolvedEventArgs e)
         {
             if (this.SourceObject == null)
             {

@@ -51,7 +51,7 @@ namespace Microsoft.Xaml.Behaviors.Core
         /// </summary>
         /// <param name="sender">The trigger base object.</param>
         /// <param name="e">An object of type PreviewInvokeEventArgs where e.Cancelling can be set to True.</param>
-        private void OnPreviewInvoke(object sender, PreviewInvokeEventArgs e)
+        private void OnPreviewInvoke(object? sender, PreviewInvokeEventArgs e)
         {
             if (this.Condition != null)
             {

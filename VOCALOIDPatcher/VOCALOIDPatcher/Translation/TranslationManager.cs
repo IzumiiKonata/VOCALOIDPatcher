@@ -18,10 +18,10 @@ public static class TranslationManager
 
     private static readonly string TranslationsDir =
         Path.Combine(Patcher.DataDir, "translations");
-    
+
     public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(), HardcodedPropertyMappingReversed = new();
 
-    public static event EventHandler<string>? LanguageChanged; 
+    public static event EventHandler<string>? LanguageChanged;
 
     public static void Initialize()
     {
@@ -30,7 +30,7 @@ public static class TranslationManager
             Debug.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
             return;
         }
-        
+
         LoadHardcodedMappings();
 
         AvailableLanguages.Clear();
@@ -57,13 +57,13 @@ public static class TranslationManager
     private static void LoadHardcodedMappings()
     {
         var path = Path.Combine(Patcher.DataDir, "HardcodedPropertyMap.xml");
-        
+
         if (!File.Exists(path))
         {
             Debug.ShowErrorMessage($"硬编码映射不存在: HardcodedPropertyMap.xml");
             return;
         }
-        
+
         try
         {
             var doc = XDocument.Load(path);
@@ -83,7 +83,7 @@ public static class TranslationManager
                 HardcodedPropertyMappingReversed.TryAdd(value, key);
             }
         }
-        catch (Exception _)
+        catch (Exception)
         {
         }
     }
@@ -115,7 +115,7 @@ public static class TranslationManager
 
                 var key = keyAttr.Value;
                 var value = valueElement.Value;
-                
+
                 if (Dict.TryAdd(key, value))
                 {
                     var reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
@@ -143,7 +143,7 @@ public static class TranslationManager
             LanguageChanged?.Invoke(null, CurrentLanguage);
             return true;
         }
-        catch (Exception _)
+        catch (Exception)
         {
             return false;
         }
@@ -160,7 +160,7 @@ public static class TranslationManager
             Debug.Print($"Missing key: {key}");
             MissingKeyList.Add(key);
         }
-        
+
         return value;
     }
 

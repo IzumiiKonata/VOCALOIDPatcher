@@ -35,13 +35,13 @@ namespace Microsoft.Xaml.Behaviors.Core
 
         #region ICommand Members
 #pragma warning disable 67
-        private event EventHandler CanExecuteChanged;
+        private event EventHandler? CanExecuteChanged;
 #pragma warning restore 67
 
         /// <summary>
         /// Occurs when changes occur that affect whether the command should execute. Will not be fired by ActionCommand.
         /// </summary>
-        event EventHandler ICommand.CanExecuteChanged
+        event EventHandler? ICommand.CanExecuteChanged
         {
             add { this.CanExecuteChanged += value; }
             remove { this.CanExecuteChanged -= value; }
@@ -54,7 +54,7 @@ namespace Microsoft.Xaml.Behaviors.Core
         /// <returns>
         /// Always returns true.
         /// </returns>
-        bool ICommand.CanExecute(object parameter)
+        bool ICommand.CanExecute(object? parameter)
         {
             return true;
         }
@@ -63,11 +63,11 @@ namespace Microsoft.Xaml.Behaviors.Core
         /// Defines the method to be called when the command is invoked.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, then this object can be set to null.</param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             if (this.objectAction != null)
             {
-                this.objectAction(parameter);
+                this.objectAction(parameter!);
             }
             else
             {

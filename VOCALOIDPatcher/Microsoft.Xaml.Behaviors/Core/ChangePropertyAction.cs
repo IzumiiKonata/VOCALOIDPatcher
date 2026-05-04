@@ -255,7 +255,7 @@ namespace Microsoft.Xaml.Behaviors.Core
 
             if (targetElement != null &&
                 (propertyInfo.Name == "Width" || propertyInfo.Name == "Height") &&
-                Double.IsNaN((double)fromValue))
+                Double.IsNaN((double)fromValue!))
             {
                 if (propertyInfo.Name == "Width")
                 {
