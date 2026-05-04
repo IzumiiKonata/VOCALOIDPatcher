@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<InputAssemblies Include="$(TargetDir)Microsoft.Xaml.Behaviors.dll" />
+			<InputAssemblies Include="$(TargetDir)0Harmony.dll" />
+		</ItemGroup>
+
+		<ILRepack
+			AttributeFile="$(TargetDir)Microsoft.Xaml.Behaviors.dll"
+			DebugInfo="false"
+			DelaySign="true"
+			InputAssemblies="@(InputAssemblies)"
+			Internalize="false"
+			KeyFile="$(ProjectDir)..\PubKey.snk"
+			LibraryPath="$(TargetDir)"
+			OutputFile="$(TargetDir)out\Microsoft.Xaml.Behaviors.dll"
+			Parallel="true"
+			TargetKind="SameAsPrimaryAssembly"
+			Wildcards="false"
+		/>
+	</Target>
+</Project>

@@ -48,28 +48,4 @@
         </Reference>
     </ItemGroup>
 
-    <Target Name="ILRepacker"
-            AfterTargets="Build"
-            Condition="'$(Configuration)' == 'Release' AND '$(TargetFramework)' == 'net8.0-windows'">
-
-        <ItemGroup>
-            <InputAssemblies Include="$(TargetDir)Microsoft.Xaml.Behaviors.dll" />
-            <InputAssemblies Include="$(TargetDir)0Harmony.dll" />
-        </ItemGroup>
-
-        <ILRepack
-                AttributeFile="$(TargetDir)Microsoft.Xaml.Behaviors.dll"
-                DebugInfo="true"
-                DelaySign="true"
-                InputAssemblies="@(InputAssemblies)"
-                Internalize="false"
-                KeyFile="$(ProjectDir)..\PubKey.snk"
-                LibraryPath="$(TargetDir)"
-                OutputFile="$(TargetDir)out\Microsoft.Xaml.Behaviors.dll"
-                Parallel="true"
-                TargetKind="SameAsPrimaryAssembly"
-                Wildcards="false"
-        />
-    </Target>
-    
 </Project>
