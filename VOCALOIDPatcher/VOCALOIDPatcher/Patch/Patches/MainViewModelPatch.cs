@@ -22,15 +22,15 @@ public class MainViewModelPatch
         {
             var mainWindow = ReflectionUtils.GetMainWindow();
             var audioEffectWindow = mainWindow.AudioEffectWindow;
-        
+
             if (audioEffectWindow != null)
             {
-                WPFTranslationPatch.TranslateTextBox = true;
-                WPFTranslationPatch.RefreshAll(audioEffectWindow);
-                WPFTranslationPatch.TranslateTextBox = false;
+                WpfTranslationPatch.TranslateTextBox = true;
+                WpfTranslationPatch.RefreshAll(audioEffectWindow);
+                WpfTranslationPatch.TranslateTextBox = false;
             }
         }
-        
+
     }
-    
+
 }

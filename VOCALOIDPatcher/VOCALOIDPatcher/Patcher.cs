@@ -22,25 +22,25 @@ namespace VOCALOIDPatcher;
 
 public static class Patcher
 {
-    
+
     public static string Version => "1.1.0";
 
     public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
-    public static string ConfigDir =>
+    public static readonly string ConfigDir =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "VOCALOIDPatcher");
 
-    public static string ConfigFile =>
+    public static readonly string ConfigFile =
         Path.Combine(ConfigDir, "config.json");
 
     public static string DataDir =
         Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VOCALOIDPatcher");
-        
+
     public static ConfigManager ConfigManager = null!;
 
-    private static Harmony Harmony = null!;
+    private static Harmony _harmony = null!;
 
-    public static bool VstPluginMode = false;
+    public static bool VstPluginMode;
 
     #pragma warning disable CA2255
     [ModuleInitializer]
@@ -61,7 +61,7 @@ public static class Patcher
 
             return null;
         };
-        
+
         try
         {
             PatcherInit();
@@ -71,30 +71,30 @@ public static class Patcher
         }
     }
 
-    static void PatcherInit()
+    private static void PatcherInit()
     {
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception) args.ExceptionObject;
             Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
-        
+
         if (!Directory.Exists(ConfigDir))
         {
             Directory.CreateDirectory(ConfigDir);
         }
 
-        VstPluginMode = IsVstPluginMode();
-        
+        VstPluginMode = DetectVstPluginMode();
+
         ConfigManager = new ConfigManager(ConfigFile);
-        Harmony = new Harmony("VOCALOIDPatcher");
-        
+        _harmony = new Harmony("VOCALOIDPatcher");
+
         ConsoleHelper.InitConsole();
-            
+
         Debug.Print("已拉起 VOCALOID Patcher");
         Debug.Print($"版本: {Version}");
         Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
-        
+
         var targetType = typeof(App);
         var asm = targetType.Assembly;
         var version = asm.GetName().Version;
@@ -105,13 +105,13 @@ public static class Patcher
         {
             DataDir = Path.Combine(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" });
             Debug.Print("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
-            VstPluginPatch.ApplyPatches(Harmony);
+            VstPluginPatch.ApplyPatches(_harmony);
         }
-        
+
         ApplyPatches();
         TranslationManager.Initialize();
         Debug.Print("TranslationManager 已初始化");
-        
+
         if (!VstPluginMode)
         {
             PostInject();
@@ -123,7 +123,7 @@ public static class Patcher
         AddPatcherMenuItem();
     }
 
-    private static bool IsVstPluginMode()
+    private static bool DetectVstPluginMode()
     {
         try
         {
@@ -140,31 +140,31 @@ public static class Patcher
     {
         List<PatchBase> patches = new() {
             new AppLanguagePatch(),
-            new WPFTranslationPatch(),
+            new WpfTranslationPatch(),
             new ResourceManagerPatch(),
             new DependencyObjectPatch(),
             new MainWindowPatch.UpdateRightZonePatch(),
             new MainViewModelPatch.ShowAudioEffectWindowPatch(),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
 #if NET8_0
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
 #endif
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
-            WPFTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
+            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
         };
 
         patches.ForEach(p =>
         {
             Debug.Print($"应用 {p.PatchName}...");
-            p.Apply(Harmony);
+            p.Apply(_harmony);
         });
     }
 
@@ -179,7 +179,7 @@ public static class Patcher
         Name = "VOCALOIDPatcherMenuItem_LanguageMenuItem"
     };
 
-    public static void AddPatcherMenuItem()
+    private static void AddPatcherMenuItem()
     {
         try
         {
@@ -187,17 +187,17 @@ public static class Patcher
 
             LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
             var items = BuildLanguageItems();
-        
+
             foreach (var item in items)
             {
                 LanguageMenuItem.Items.Add(item);
             }
-            
+
             PatcherMenuItem.Items.Add(LanguageMenuItem);
 
             PatcherMenuItem.Items.Add(BuildTogglableMenuItem(
-                    $"VOCALOIDPatcher_TranslateHardcodedStrings_Header", 
-                    Settings.TranslateHardcodedStringsKey, 
+                    $"VOCALOIDPatcher_TranslateHardcodedStrings_Header",
+                    Settings.TranslateHardcodedStringsKey,
                     true,
                     enabled =>
                     {
@@ -207,9 +207,18 @@ public static class Patcher
                         }
                     }
             ));
-            PatcherMenuItem.Items.Add(BuildMenuItem($"VOCALOID Patcher {Version}", _ => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")));
+
+            PatcherMenuItem.Items.Add(BuildMenuItem(
+	            $"VOCALOID Patcher {Version}"
+						+ (VstPluginMode ? " (VSTi)" : "")
+#if NET6_0
+	                    + " (.NET 6.0)"
+#endif
+	            ,
+	            _ => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")
+	        ));
             PatcherMenuItem.Items.Add(BuildMenuItem("Made with ❤ by IzumiiKonata", _ => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
-        
+
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
         } catch(Exception e)
         {
@@ -219,7 +228,7 @@ public static class Patcher
 
     private static MenuItem[] BuildLanguageItems()
     {
-        List<MenuItem> languageItems = new List<MenuItem>();
+        var languageItems = new List<MenuItem>();
 
         for (var i = 0; i < TranslationManager.AvailableLanguages.Count; i++)
         {
@@ -233,8 +242,8 @@ public static class Patcher
             {
                 ConfigManager.Set("Language", lang);
                 TranslationManager.LoadLanguage(lang);
-                WPFTranslationPatch.ReTranslate();
-                
+                WpfTranslationPatch.ReTranslate();
+
                 for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
                 {
                     var l = TranslationManager.AvailableLanguages[j];
@@ -243,7 +252,7 @@ public static class Patcher
                         it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
                     }
                 }
-                
+
             };
             languageItems.Add(item);
         }
@@ -251,22 +260,22 @@ public static class Patcher
         return languageItems.ToArray();
     }
 
-    private static int distinctCounter;
+    private static int _distinctCounter;
     private static MenuItem BuildMenuItem(string header, Action<MenuItem>? action = null)
     {
         var it = new MenuItem
         {
             Header = header,
-            Name = $"VOCALOIDPatcherLanguageItemLabel{distinctCounter++}"
+            Name = $"VOCALOIDPatcherLanguageItemLabel{_distinctCounter++}"
         };
 
         if (action != null)
         {
             it.Click += (_, _) => action(it);
         }
-        
-        WPFTranslationPatch.Untranslatable.Add(it);
-        
+
+        WpfTranslationPatch.Untranslatable.Add(it);
+
         return it;
     }
 
@@ -278,11 +287,11 @@ public static class Patcher
             ConfigManager.Set(settingKey, toggled);
             it.Header = (toggled ? "✓ " : "   ") + TranslationManager.Get(header);
             Debug.Print($"{settingKey} = {toggled}");
-            WPFTranslationPatch.ReTranslate();
+            WpfTranslationPatch.ReTranslate();
 
             callback?.Invoke(toggled);
         });
-        
+
         var toggled = ConfigManager.Get(settingKey, defaultValue);
         item.Header = (toggled ? "✓ " : "   ") + TranslationManager.Get(header);
 
@@ -290,8 +299,8 @@ public static class Patcher
         {
             item.Header = (ConfigManager.Get(settingKey, defaultValue) ? "✓ " : "   ") + TranslationManager.Get(header);
         };
-        
+
         return item;
     }
-    
+
 }

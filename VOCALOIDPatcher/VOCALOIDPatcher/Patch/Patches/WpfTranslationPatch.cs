@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,15 @@ using Yamaha.VOCALOID.Properties;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-public class WPFTranslationPatch : PatchBase
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
+public class WpfTranslationPatch : PatchBase
 {
     public override string PatchName        => "WPFTranslationPatch";
     public override Type   TargetClass      => typeof(MainWindow);
     public override string TargetMethodName => "InitializeCommandBindings";
 
     [HarmonyPrefix]
-    static void Prefix()
+    private static void Prefix()
     {
         ReTranslate();
         FixFilepathSeparator();
@@ -109,9 +111,9 @@ public class WPFTranslationPatch : PatchBase
         return "";
     }
 
-    public static bool TranslateTextBox = false;
+    public static bool TranslateTextBox;
 
-    public static void TranslateElement(object element)
+    private static void TranslateElement(object element)
     {
         if (Untranslatable.Contains(element))
             return;
@@ -141,10 +143,9 @@ public class WPFTranslationPatch : PatchBase
                 break;
         }
 
-        if (element is FrameworkElement fe)
+        if (element is FrameworkElement { ToolTip: string tip } fe)
         {
-            if (fe.ToolTip is string tip)
-                fe.ToolTip = GetTranslatedText(GetOriginal(fe, tip));
+            fe.ToolTip = GetTranslatedText(GetOriginal(fe, tip));
         }
     }
 
@@ -154,7 +155,7 @@ public class WPFTranslationPatch : PatchBase
         // visited.Clear();
         _RefreshAll(obj, visited);
 
-        if (obj is FrameworkElement fe && !fe.IsLoaded)
+        if (obj is FrameworkElement { IsLoaded: false } fe)
         {
             fe.Loaded += (_, _) =>
             {
@@ -171,7 +172,7 @@ public class WPFTranslationPatch : PatchBase
 
         TranslateElement(root);
 
-        if (root is Visual || root is Visual3D)
+        if (root is Visual or Visual3D)
         {
             int count = VisualTreeHelper.GetChildrenCount(root);
             for (int i = 0; i < count; i++)
@@ -192,8 +193,8 @@ public class WPFTranslationPatch : PatchBase
             foreach (var item in ic.Items)
             {
                 var container = ic.ItemContainerGenerator.ContainerFromItem(item);
-                if (container is DependencyObject dep)
-                    _RefreshAll(dep, visited);
+                if (container is not null)
+                    _RefreshAll(container, visited);
             }
         }
 
@@ -249,17 +250,16 @@ public class WPFTranslationPatch : PatchBase
     {
 
         private readonly Type targetClass;
-        private readonly string methodName;
 
         public XContextMenuPatch(Type targetClass, string methodName)
         {
             this.targetClass = targetClass;
-            this.methodName = methodName;
+            TargetMethodName = methodName;
         }
 
         public override string  PatchName        => $"XContextMenuPatch{targetClass.Name}Patch";
         public override Type    TargetClass      => targetClass;
-        public override string  TargetMethodName => methodName;
+        public override string  TargetMethodName { get; }
         public override Type[]  ArgumentTypes    => new[] { typeof(object), typeof(T) };
 
         [HarmonyPostfix]

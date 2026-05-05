@@ -24,7 +24,7 @@ public class MainWindowPatch
         static void Postfix(RightZoneTypeEnum rightZoneType)
         {
             var xRightZone = ReflectionUtils.GetMainWindowField<RightZone>("xRightZone");
-            WPFTranslationPatch.RefreshAll(xRightZone);
+            WpfTranslationPatch.RefreshAll(xRightZone);
 
             List<DependencyObject> refreshList = new()
             {
@@ -33,10 +33,10 @@ public class MainWindowPatch
                 ReflectionUtils.GetField<AudioPartInspector>(xRightZone, "xAudioPartInspector"),
                 ReflectionUtils.GetField<MediaBrowser>(xRightZone, "xMediaBrowser"),
             };
-        
-            refreshList.ForEach(WPFTranslationPatch.RefreshAll);
+
+            refreshList.ForEach(WpfTranslationPatch.RefreshAll);
         }
-        
+
     }
-    
+
 }

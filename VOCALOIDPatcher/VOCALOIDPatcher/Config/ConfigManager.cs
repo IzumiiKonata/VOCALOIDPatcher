@@ -21,7 +21,7 @@ public class ConfigManager
         Load();
     }
 
-    public void Load()
+    private void Load()
     {
         if (!File.Exists(filePath))
         {
@@ -35,7 +35,7 @@ public class ConfigManager
                 ?? new Dictionary<string, object>();
     }
 
-    public void Save()
+    private void Save()
     {
         var json = JsonSerializer.Serialize(data, options);
         File.WriteAllText(filePath, json);

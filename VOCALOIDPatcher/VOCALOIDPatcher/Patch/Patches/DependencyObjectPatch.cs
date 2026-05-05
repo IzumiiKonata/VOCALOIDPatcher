@@ -13,15 +13,15 @@ public class DependencyObjectPatch : PatchBase
     public override Type TargetClass => typeof(DependencyObject);
     public override string TargetMethodName => nameof(DependencyObject.SetValue);
     public override Type[] ArgumentTypes => new[] { typeof(DependencyProperty), typeof(object) };
-    
+
     [HarmonyPrefix]
     static void Prefix(object __instance, DependencyProperty dp, ref object value)
     {
         if ((__instance is PushButton || __instance is PushToggleButton) && value is Viewbox vb)
         {
-            WPFTranslationPatch.TranslateTextBox = true;
-            WPFTranslationPatch.RefreshAll(vb);
-            WPFTranslationPatch.TranslateTextBox = false;
+	        WpfTranslationPatch.TranslateTextBox = true;
+	        WpfTranslationPatch.RefreshAll(vb);
+	        WpfTranslationPatch.TranslateTextBox = false;
         }
     }
 }
