@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
@@ -11,12 +10,6 @@ using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
-using Yamaha.VOCALOID.MusicalEditor;
-using Yamaha.VOCALOID.TrackEditor;
-#if NET8_0
-using Yamaha.VOCALOID.WaveEditor;
-#endif
-using RulerView = Yamaha.VOCALOID.TrackEditor.RulerView;
 
 namespace VOCALOIDPatcher;
 
@@ -112,6 +105,8 @@ public static class Patcher
         TranslationManager.Initialize();
         Debug.Print("TranslationManager 已初始化");
 
+        WpfTranslationPatch.InstallGlobalHandlers();
+
         if (!VstPluginMode)
         {
             PostInject();
@@ -145,20 +140,6 @@ public static class Patcher
             new DependencyObjectPatch(),
             new MainWindowPatch.UpdateRightZonePatch(),
             new MainViewModelPatch.ShowAudioEffectWindowPatch(),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderControl), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterHeaderView), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackToolbarView), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ScrollViewerBase), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TempoHeaderView), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(HeaderViewBase), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<RoutedEventArgs>     (typeof(PianorollView), "OnContextMenuOpened"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackViewBase), "OnContextMenuOpening"),
-#if NET8_0
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(WaveRulerView), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(TrackView), "OnContextMenuOpening"),
-#endif
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(ParameterView), "OnContextMenuOpening"),
-            WpfTranslationPatch.CreateContextMenuPatchFor<ContextMenuEventArgs>(typeof(RulerView), "OnContextMenuOpening"),
         };
 
         patches.ForEach(p =>

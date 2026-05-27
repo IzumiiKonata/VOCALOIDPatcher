@@ -27,6 +27,30 @@ public class WpfTranslationPatch : PatchBase
         FixFilepathSeparator();
     }
 
+    private static bool _globalHandlersInstalled;
+
+    /**
+     * 注册类级事件处理器，让 WPF 自己在元素出现时通知我们翻译，
+     * 省得给每个右键菜单/弹窗单独打补丁。只需调用一次。
+     */
+    public static void InstallGlobalHandlers()
+    {
+        if (_globalHandlersInstalled)
+            return;
+        _globalHandlersInstalled = true;
+
+        // 元素一加载进可视树就翻译它自己，子元素各自的 Loaded 会接力覆盖
+        EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
+            new RoutedEventHandler((sender, _) => TranslateElement(sender)));
+
+        // 右键菜单和工具提示是独立的弹出树，打开时整棵刷一遍
+        EventManager.RegisterClassHandler(typeof(ContextMenu), ContextMenu.OpenedEvent,
+            new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
+
+        EventManager.RegisterClassHandler(typeof(ToolTip), ToolTip.OpenedEvent,
+            new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
+    }
+
     private static readonly Dictionary<object, string> OriginalMapping = new();
 
     public static readonly HashSet<object> Untranslatable = new();
@@ -197,32 +221,5 @@ public class WpfTranslationPatch : PatchBase
     {
         var xRecentFiles = ReflectionUtils.GetMainWindowField<MenuItem>("xRecentFiles");
         xRecentFiles.FontFamily = new FontFamily("Consolas");
-    }
-
-    public static PatchBase CreateContextMenuPatchFor<T>(Type type, string methodName)
-        => new XContextMenuPatch<T>(type, methodName);
-
-    private class XContextMenuPatch<T> : PatchBase
-    {
-
-        private readonly Type targetClass;
-
-        public XContextMenuPatch(Type targetClass, string methodName)
-        {
-            this.targetClass = targetClass;
-            TargetMethodName = methodName;
-        }
-
-        public override string  PatchName        => $"XContextMenuPatch{targetClass.Name}Patch";
-        public override Type    TargetClass      => targetClass;
-        public override string  TargetMethodName { get; }
-        public override Type[]  ArgumentTypes    => new[] { typeof(object), typeof(T) };
-
-        [HarmonyPostfix]
-        static void Postfix(object sender, T e)
-        {
-            var xContextMenu = (Control)sender;
-            RefreshAll(xContextMenu);
-        }
     }
 }
