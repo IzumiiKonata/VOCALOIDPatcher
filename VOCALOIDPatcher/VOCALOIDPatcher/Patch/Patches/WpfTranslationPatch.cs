@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +10,6 @@ using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
-using Yamaha.VOCALOID.Properties;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
@@ -49,66 +47,24 @@ public class WpfTranslationPatch : PatchBase
         return OriginalMapping[obj];
     }
 
-    private static readonly List<string> MissingKeyList = new();
+    private static readonly HashSet<string> MissingKeyList = new();
 
     private static string GetTranslatedText(string value)
     {
-        var resourceKey = GetResourceKey(value);
+        var resourceKey = TranslationManager.GetKeyByOriginal(value);
+        if (!string.IsNullOrEmpty(resourceKey))
+            return TranslationManager.Get(resourceKey) ?? value;
 
-        var isNullOrEmpty = string.IsNullOrEmpty(resourceKey);
+        if (Settings.TranslateHardcodedStrings && TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var hardcodedKey))
+            return TranslationManager.Get(hardcodedKey) ?? value;
 
-        if (isNullOrEmpty)
-        {
-            if (Settings.TranslateHardcodedStrings && TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var res))
-            {
-                return TranslationManager.Get(res) ?? value;
-            }
+        if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var translationKey))
+            return TranslationManager.Get(translationKey) ?? value;
 
-            if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var r))
-            {
-                return TranslationManager.Get(r) ?? value;
-            }
+        if (MissingKeyList.Add(value))
+            Debug.Print($"Key not found: {value}");
 
-            if (!MissingKeyList.Contains(value))
-            {
-                Debug.Print($"Key not found: {value}");
-                MissingKeyList.Add(value);
-            }
-
-            return value;
-        }
-
-        return TranslationManager.Get(resourceKey) ?? value;
-    }
-
-    /**
-     * 从已翻译的文本获取本地化键值，例如 "Open Recent..." -> "MainMenu_File_OpenRecent_Header"
-     */
-    private static string GetResourceKey(string value)
-    {
-        var type = typeof(Resources);
-
-        var properties = type.GetProperties(
-            BindingFlags.Public |
-            BindingFlags.NonPublic |
-            BindingFlags.Static |
-            BindingFlags.Instance);
-
-        foreach (var prop in properties)
-        {
-            if (prop.PropertyType != typeof(string) || !prop.CanRead)
-                continue;
-
-            var name = prop.Name;
-            ResourceManagerPatch.Skip = true;
-            var v = prop.GetValue(null);
-            ResourceManagerPatch.Skip = false;
-
-            if (v is string str && value == str)
-                return name;
-        }
-
-        return "";
+        return value;
     }
 
     public static bool TranslateTextBox;

@@ -73,6 +73,55 @@
     <data name="AUTO PAN" xml:space="preserve"><value>AudioEffectsView_AutoPan_Header</value></data>
     <data name="DELAY" xml:space="preserve"><value>AudioEffectsView_Delay_Header</value></data>
     <data name="REVERB" xml:space="preserve"><value>AudioEffectsView_Reverb_Header</value></data>
-    
-    
+
+    <!-- HomeWindow -->
+    <data name="RECENT OPEN" xml:space="preserve"><value>HomeWindow_RecentOpen_Header</value></data>
+    <data name="NEWS" xml:space="preserve"><value>HomeWindow_News_Header</value></data>
+
+    <data name="OUTPUT" xml:space="preserve"><value>MixerView_Output_Header</value></data>
+    <data name="RESET" xml:space="preserve"><value>Common_Reset_Header</value></data>
+
+    <!-- Track editor -->
+    <data name="GRID" xml:space="preserve"><value>TrackToolbarView_Grid_Header</value></data>
+    <data name="TEMPO" xml:space="preserve"><value>TrackEditor_Tempo_Header</value></data>
+    <data name="TIMESIG" xml:space="preserve"><value>TrackEditor_TimeSig_Header</value></data>
+    <data name="VOLUME" xml:space="preserve"><value>TrackEditor_Volume_Header</value></data>
+    <data name="PANPOT" xml:space="preserve"><value>TrackEditor_Panpot_Header</value></data>
+    <data name="CONFIDENTIAL" xml:space="preserve"><value>TrackToolbarView_Confidential_Header</value></data>
+
+    <!-- Musical editor -->
+    <data name="PARAMETER" xml:space="preserve"><value>MusicalEditor_Parameter_Header</value></data>
+
+    <!-- Style 面板 -->
+    <data name="AUDIOEFFECTS" xml:space="preserve"><value>StylePanel_AudioEffects_Header</value></data>
+    <data name="INFORMATION" xml:space="preserve"><value>StylePanel_Information_Header</value></data>
+    <data name="COLOR" xml:space="preserve"><value>StyleInfo_Color_Upper_Header</value></data>
+    <data name="TYPE" xml:space="preserve"><value>StyleInfo_Type_Upper_Header</value></data>
+    <data name="TAG" xml:space="preserve"><value>StylePanel_Tag_Header</value></data>
+    <data name="Tags" xml:space="preserve"><value>StylePresetEdit_Tags_Header</value></data>
+    <data name="see more &gt;&gt;" xml:space="preserve"><value>StyleCustomize_SeeMore_Header</value></data>
+
+    <!-- Media -->
+    <data name="Color" xml:space="preserve"><value>MediaEdit_Color_Header</value></data>
+    <data name="Key" xml:space="preserve"><value>MediaEdit_Key_Header</value></data>
+    <data name="Tempo" xml:space="preserve"><value>MediaEdit_Tempo_Header</value></data>
+    <data name="KEY" xml:space="preserve"><value>MediaPanel_Key_Header</value></data>
+    <data name="MEDIA NAME" xml:space="preserve"><value>MediaPanel_MediaName_Header</value></data>
+
+    <!-- VSG Kit -->
+    <data name="Date" xml:space="preserve"><value>VSGContents_Date_Header</value></data>
+    <data name="Kind" xml:space="preserve"><value>VSGContents_Kind_Header</value></data>
+    <data name="Size" xml:space="preserve"><value>VSGContents_Size_Header</value></data>
+    <data name="Status" xml:space="preserve"><value>VSGContents_Status_Header</value></data>
+    <data name="Install" xml:space="preserve"><value>VSGContents_Install_Header</value></data>
+
+    <!-- 导入设置 -->
+    <data name="Height" xml:space="preserve"><value>ImportSettings_Height_Header</value></data>
+
+    <!-- 自定义消息框 -->
+    <data name="_OK" xml:space="preserve"><value>MessageBox_OK_Header</value></data>
+    <data name="_Cancel" xml:space="preserve"><value>MessageBox_Cancel_Header</value></data>
+    <data name="_Yes" xml:space="preserve"><value>MessageBox_Yes_Header</value></data>
+    <data name="_No" xml:space="preserve"><value>MessageBox_No_Header</value></data>
+
 </root>

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Xml.Linq;
-using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID.Properties;
 
@@ -12,6 +13,9 @@ public static class TranslationManager
 {
     private static readonly Dictionary<string, string> Dict = new();
 
+    private static readonly Dictionary<string, string> KeyByOriginal = new();
+    private static readonly Dictionary<string, string> OriginalByKey = new();
+
     public static List<string> AvailableLanguages { get; } = new();
 
     public static string? CurrentLanguage { get; private set; }
@@ -20,6 +24,9 @@ public static class TranslationManager
         Path.Combine(Patcher.DataDir, "translations");
 
     public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(), HardcodedPropertyMappingReversed = new();
+
+    public static readonly Dictionary<string, string> TranslatedToOriginalMap = new();
+    public static readonly Dictionary<string, string> TranslatedToTranslationKeyMap = new();
 
     public static event EventHandler<string>? LanguageChanged;
 
@@ -31,6 +38,7 @@ public static class TranslationManager
             return;
         }
 
+        BuildResourceIndex();
         LoadHardcodedMappings();
 
         AvailableLanguages.Clear();
@@ -51,6 +59,38 @@ public static class TranslationManager
         {
             LoadLanguage(AvailableLanguages[0]);
             Patcher.ConfigManager.Set("Language", AvailableLanguages[0]);
+        }
+    }
+
+    private static void BuildResourceIndex()
+    {
+        KeyByOriginal.Clear();
+        OriginalByKey.Clear();
+
+        try
+        {
+            var set = Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, true);
+
+            if (set == null)
+            {
+                Debug.ShowErrorMessage("无法读取编辑器资源集");
+                return;
+            }
+
+            foreach (DictionaryEntry entry in set)
+            {
+                if (entry.Key is not string key || entry.Value is not string original)
+                    continue;
+
+                OriginalByKey[key] = original;
+                KeyByOriginal.TryAdd(original, key);
+            }
+
+            Debug.Print($"已加载 {OriginalByKey.Count} 条资源索引");
+        }
+        catch (Exception e)
+        {
+            Debug.ShowErrorMessage("构建资源索引失败", e);
         }
     }
 
@@ -99,7 +139,8 @@ public static class TranslationManager
         }
 
         Dict.Clear();
-        // ResourceManagerPatch.ReversedMap.Clear();
+        TranslatedToOriginalMap.Clear();
+        TranslatedToTranslationKeyMap.Clear();
 
         try
         {
@@ -107,35 +148,20 @@ public static class TranslationManager
 
             foreach (var data in doc.Descendants("data"))
             {
-                var keyAttr = data.Attribute("name");
-                var valueElement = data.Element("value");
+                var key = data.Attribute("name")?.Value;
+                var value = data.Element("value")?.Value;
 
-                if (keyAttr == null || valueElement == null)
+                if (key == null || value == null)
                     continue;
 
-                var key = keyAttr.Value;
-                var value = valueElement.Value;
+                if (!Dict.TryAdd(key, value))
+                    continue;
 
-                if (Dict.TryAdd(key, value))
+                if (OriginalByKey.TryGetValue(key, out var original)
+                    || HardcodedPropertyMappingReversed.TryGetValue(key, out original))
                 {
-                    var reversed = ResourceManagerPatch.GetString(Resources.ResourceManager, key, null);
-                    if (reversed != null)
-                    {
-                        TranslatedToOriginalMap[value] = reversed;
-                        TranslatedToTranslationKeyMap[value] = key;
-                        // MessageUtils.Dbg($"ReversedMap[{value}] = {reversed}");
-                        // MessageUtils.Dbg($"TranslatedToTranslationKeyMap[{value}] = {key}");
-                    }
-                    else
-                    {
-                        if (HardcodedPropertyMappingReversed.TryGetValue(key, out var reversedValue))
-                        {
-                            TranslatedToOriginalMap[value] = reversedValue;
-                            TranslatedToTranslationKeyMap[value] = key;
-                            // MessageUtils.Dbg($"TranslatedToOriginalMap[{value}] = {reversedValue}");
-                            // MessageUtils.Dbg($"TranslatedToTranslationKeyMap[{value}] = {key}");
-                        }
-                    }
+                    TranslatedToOriginalMap[value] = original;
+                    TranslatedToTranslationKeyMap[value] = key;
                 }
             }
 
@@ -149,21 +175,20 @@ public static class TranslationManager
         }
     }
 
-    private static readonly List<string> MissingKeyList = new();
+    private static readonly HashSet<string> MissingKeyList = new();
 
     public static string? Get(string key)
     {
         var value = Dict.GetValueOrDefault(key);
 
-        if (value == null && !MissingKeyList.Contains(key))
+        if (value == null && MissingKeyList.Add(key))
         {
             Debug.Print($"Missing key: {key}");
-            MissingKeyList.Add(key);
         }
 
         return value;
     }
 
-    public static readonly Dictionary<string, string> TranslatedToOriginalMap = new();
-    public static readonly Dictionary<string, string> TranslatedToTranslationKeyMap = new();
+    public static string? GetKeyByOriginal(string original)
+        => KeyByOriginal.GetValueOrDefault(original);
 }

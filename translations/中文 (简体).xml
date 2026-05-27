@@ -844,4 +844,38 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="NotePropertyDlg_VibratoMode" xml:space="preserve"><value>模式</value></data>
   <data name="MsgBox_TrackCouldNotBeAdded" xml:space="preserve"><value>无法添加音轨，因为已超过最大音轨数量。</value></data>
   <data name="MsgBox_Freeze_FailedFreeze" xml:space="preserve"><value>冻结失败。</value></data>
+
+  <data name="HomeWindow_RecentOpen_Header" xml:space="preserve"><value>最近打开</value></data>
+  <data name="HomeWindow_News_Header" xml:space="preserve"><value>新闻</value></data>
+  <data name="MixerView_Output_Header" xml:space="preserve"><value>输出</value></data>
+  <data name="Common_Reset_Header" xml:space="preserve"><value>重置</value></data>
+  <data name="TrackToolbarView_Grid_Header" xml:space="preserve"><value>网格</value></data>
+  <data name="TrackEditor_Tempo_Header" xml:space="preserve"><value>速度</value></data>
+  <data name="TrackEditor_TimeSig_Header" xml:space="preserve"><value>拍号</value></data>
+  <data name="TrackEditor_Volume_Header" xml:space="preserve"><value>音量</value></data>
+  <data name="TrackEditor_Panpot_Header" xml:space="preserve"><value>声相</value></data>
+  <data name="TrackToolbarView_Confidential_Header" xml:space="preserve"><value>机密</value></data>
+  <data name="MusicalEditor_Parameter_Header" xml:space="preserve"><value>参数</value></data>
+  <data name="StylePanel_AudioEffects_Header" xml:space="preserve"><value>音频效果</value></data>
+  <data name="StylePanel_Information_Header" xml:space="preserve"><value>信息</value></data>
+  <data name="StyleInfo_Color_Upper_Header" xml:space="preserve"><value>颜色</value></data>
+  <data name="StyleInfo_Type_Upper_Header" xml:space="preserve"><value>类型</value></data>
+  <data name="StylePanel_Tag_Header" xml:space="preserve"><value>标签</value></data>
+  <data name="StylePresetEdit_Tags_Header" xml:space="preserve"><value>标签</value></data>
+  <data name="StyleCustomize_SeeMore_Header" xml:space="preserve"><value>查看更多 &gt;&gt;</value></data>
+  <data name="MediaEdit_Color_Header" xml:space="preserve"><value>颜色</value></data>
+  <data name="MediaEdit_Key_Header" xml:space="preserve"><value>调号</value></data>
+  <data name="MediaEdit_Tempo_Header" xml:space="preserve"><value>速度</value></data>
+  <data name="MediaPanel_Key_Header" xml:space="preserve"><value>调号</value></data>
+  <data name="MediaPanel_MediaName_Header" xml:space="preserve"><value>媒体名称</value></data>
+  <data name="VSGContents_Date_Header" xml:space="preserve"><value>日期</value></data>
+  <data name="VSGContents_Kind_Header" xml:space="preserve"><value>种类</value></data>
+  <data name="VSGContents_Size_Header" xml:space="preserve"><value>大小</value></data>
+  <data name="VSGContents_Status_Header" xml:space="preserve"><value>状态</value></data>
+  <data name="VSGContents_Install_Header" xml:space="preserve"><value>安装</value></data>
+  <data name="ImportSettings_Height_Header" xml:space="preserve"><value>高度</value></data>
+  <data name="MessageBox_OK_Header" xml:space="preserve"><value>确定</value></data>
+  <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>取消</value></data>
+  <data name="MessageBox_Yes_Header" xml:space="preserve"><value>是</value></data>
+  <data name="MessageBox_No_Header" xml:space="preserve"><value>否</value></data>
 </root>
