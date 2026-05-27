@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using HarmonyLib;
-using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 
 namespace VOCALOIDPatcher.Patch.Patches;
@@ -17,11 +16,7 @@ public class DependencyObjectPatch : PatchBase
     [HarmonyPrefix]
     static void Prefix(object __instance, DependencyProperty dp, ref object value)
     {
-        if ((__instance is PushButton || __instance is PushToggleButton) && value is Viewbox vb)
-        {
-	        WpfTranslationPatch.TranslateTextBox = true;
-	        WpfTranslationPatch.RefreshAll(vb);
-	        WpfTranslationPatch.TranslateTextBox = false;
-        }
+        if (__instance is PushButton or PushToggleButton && value is Viewbox vb)
+            WpfTranslationPatch.RefreshAll(vb);
     }
 }

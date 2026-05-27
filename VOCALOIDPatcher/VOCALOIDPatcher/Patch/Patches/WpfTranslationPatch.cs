@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HarmonyLib;
@@ -30,8 +31,7 @@ public class WpfTranslationPatch : PatchBase
     private static bool _globalHandlersInstalled;
 
     /**
-     * 注册类级事件处理器，让 WPF 自己在元素出现时通知我们翻译，
-     * 省得给每个右键菜单/弹窗单独打补丁。只需调用一次。
+     * 注册类级事件处理器
      */
     public static void InstallGlobalHandlers()
     {
@@ -39,11 +39,9 @@ public class WpfTranslationPatch : PatchBase
             return;
         _globalHandlersInstalled = true;
 
-        // 元素一加载进可视树就翻译它自己，子元素各自的 Loaded 会接力覆盖
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => TranslateElement(sender)));
 
-        // 右键菜单和工具提示是独立的弹出树，打开时整棵刷一遍
         EventManager.RegisterClassHandler(typeof(ContextMenu), ContextMenu.OpenedEvent,
             new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
 
@@ -54,6 +52,13 @@ public class WpfTranslationPatch : PatchBase
     private static readonly Dictionary<object, string> OriginalMapping = new();
 
     public static readonly HashSet<object> Untranslatable = new();
+
+    public static readonly DependencyProperty UntranslatableProperty =
+        DependencyProperty.RegisterAttached(
+            "Untranslatable", typeof(bool), typeof(WpfTranslationPatch),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
+
+    public static void MarkUntranslatable(DependencyObject obj) => obj.SetValue(UntranslatableProperty, true);
 
     private static string GetOriginal(object obj, string? translated)
     {
@@ -91,10 +96,14 @@ public class WpfTranslationPatch : PatchBase
         return value;
     }
 
-    public static bool TranslateTextBox;
+    private static bool IsDataBound(DependencyObject obj, DependencyProperty dp)
+        => BindingOperations.GetBindingExpressionBase(obj, dp) != null;
 
     private static void TranslateElement(object element)
     {
+        if (element is DependencyObject dep && (bool)dep.GetValue(UntranslatableProperty))
+            return;
+
         if (Untranslatable.Contains(element))
             return;
 
@@ -118,8 +127,8 @@ public class WpfTranslationPatch : PatchBase
                 break;
 
             case TextBlock tb:
-                if (TranslateTextBox)
-                    tb.Text = GetTranslatedText(tb.Text);
+                if (!IsDataBound(tb, TextBlock.TextProperty))
+                    tb.Text = GetTranslatedText(GetOriginal(tb, tb.Text));
                 break;
         }
 
@@ -206,11 +215,7 @@ public class WpfTranslationPatch : PatchBase
         var audioEffectWindow = mainWindow.AudioEffectWindow;
 
         if (audioEffectWindow != null)
-        {
-            TranslateTextBox = true;
             RefreshAll(audioEffectWindow);
-            TranslateTextBox = false;
-        }
 
     }
 

@@ -138,8 +138,6 @@ public static class Patcher
             new WpfTranslationPatch(),
             new ResourceManagerPatch(),
             new DependencyObjectPatch(),
-            new MainWindowPatch.UpdateRightZonePatch(),
-            new MainViewModelPatch.ShowAudioEffectWindowPatch(),
         };
 
         patches.ForEach(p =>
@@ -166,7 +164,11 @@ public static class Patcher
         {
             var menu = ReflectionUtils.GetMainMenu();
 
+            WpfTranslationPatch.MarkUntranslatable(PatcherMenuItem);
+
             LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
+            TranslationManager.LanguageChanged += (_, _) =>
+                LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
             var items = BuildLanguageItems();
 
             foreach (var item in items)
@@ -219,6 +221,7 @@ public static class Patcher
                 Header = (TranslationManager.CurrentLanguage == lang ? "✓ " : "   ") + lang,
                 Name = $"VOCALOIDPatcherLanguageItem{i}"
             };
+            WpfTranslationPatch.Untranslatable.Add(item);
             item.Click += (_, _) =>
             {
                 ConfigManager.Set("Language", lang);
