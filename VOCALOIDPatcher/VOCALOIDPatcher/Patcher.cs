@@ -8,6 +8,7 @@ using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Patch;
 using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.UI;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 
@@ -130,7 +131,8 @@ public static class Patcher
             new AppLanguagePatch(),
             new WpfTranslationPatch(),
             new ResourceManagerPatch(),
-            new DependencyObjectPatch()
+            new DependencyObjectPatch(),
+            new ShowOtherTracksNotesPatch()
         };
 
         patches.ForEach(p =>
@@ -146,11 +148,6 @@ public static class Patcher
         Name = "VOCALOIDPatcherMenuItem"
     };
 
-    private static readonly MenuItem LanguageMenuItem = new()
-    {
-        Name = "VOCALOIDPatcherMenuItem_LanguageMenuItem"
-    };
-
     private static void AddPatcherMenuItem()
     {
         try
@@ -158,39 +155,7 @@ public static class Patcher
             var menu = ReflectionUtils.GetMainMenu();
 
             WpfTranslationPatch.MarkUntranslatable(PatcherMenuItem);
-
-            LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
-            TranslationManager.LanguageChanged += (_, _) =>
-                LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
-            var items = BuildLanguageItems();
-
-            foreach (var item in items) LanguageMenuItem.Items.Add(item);
-
-            PatcherMenuItem.Items.Add(LanguageMenuItem);
-
-            PatcherMenuItem.Items.Add(BuildTogglableMenuItem(
-                "VOCALOIDPatcher_TranslateHardcodedStrings_Header",
-                Settings.TranslateHardcodedStringsKey,
-                true,
-                enabled =>
-                {
-                    if (!enabled)
-                        Debug.ShowMessageBox(
-                            $"{TranslationManager.Get("VOCALOIDPatcher_TranslateHardcodedStringsRestart")}");
-                }
-            ));
-
-            PatcherMenuItem.Items.Add(BuildMenuItem(
-                $"VOCALOID Patcher {Version}"
-                + (VstPluginMode ? " (VSTi)" : "")
-#if NET6_0
-                + " (.NET 6.0)"
-#endif
-                ,
-                _ => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")
-            ));
-            PatcherMenuItem.Items.Add(BuildMenuItem("Made with ❤ by IzumiiKonata",
-                _ => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
+            PatcherMenuItem.Click += (_, _) => SettingsWindow.ShowSingleton();
 
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
         }
@@ -198,80 +163,5 @@ public static class Patcher
         {
             Debug.ShowErrorMessage(e.Message + e.StackTrace);
         }
-    }
-
-    private static MenuItem[] BuildLanguageItems()
-    {
-        var languageItems = new List<MenuItem>();
-
-        for (var i = 0; i < TranslationManager.AvailableLanguages.Count; i++)
-        {
-            var lang = TranslationManager.AvailableLanguages[i];
-            var item = new MenuItem
-            {
-                Header = (TranslationManager.CurrentLanguage == lang ? "✓ " : "   ") + lang,
-                Name = $"VOCALOIDPatcherLanguageItem{i}"
-            };
-            WpfTranslationPatch.Untranslatable.Add(item);
-            item.Click += (_, _) =>
-            {
-                ConfigManager.Set("Language", lang);
-                TranslationManager.LoadLanguage(lang);
-                WpfTranslationPatch.ReTranslate();
-
-                for (var j = 0; j < TranslationManager.AvailableLanguages.Count; j++)
-                {
-                    var l = TranslationManager.AvailableLanguages[j];
-                    if (LanguageMenuItem.Items[j] is MenuItem it)
-                        it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
-                }
-            };
-            languageItems.Add(item);
-        }
-
-        return languageItems.ToArray();
-    }
-
-    private static int _distinctCounter;
-
-    private static MenuItem BuildMenuItem(string header, Action<MenuItem>? action = null)
-    {
-        var it = new MenuItem
-        {
-            Header = header,
-            Name = $"VOCALOIDPatcherLanguageItemLabel{_distinctCounter++}"
-        };
-
-        if (action != null) it.Click += (_, _) => action(it);
-
-        WpfTranslationPatch.Untranslatable.Add(it);
-
-        return it;
-    }
-
-    private static MenuItem BuildTogglableMenuItem(string header, string settingKey, bool defaultValue = false,
-        Action<bool>? callback = null)
-    {
-        var item = BuildMenuItem(TranslationManager.Get(header) ?? header, it =>
-        {
-            var toggled = !ConfigManager.Get(settingKey, defaultValue);
-            ConfigManager.Set(settingKey, toggled);
-            it.Header = (toggled ? "✓ " : "   ") + TranslationManager.Get(header);
-            Debug.Print($"{settingKey} = {toggled}");
-            WpfTranslationPatch.ReTranslate();
-
-            callback?.Invoke(toggled);
-        });
-
-        var toggled = ConfigManager.Get(settingKey, defaultValue);
-        item.Header = (toggled ? "✓ " : "   ") + TranslationManager.Get(header);
-
-        TranslationManager.LanguageChanged += (_, _) =>
-        {
-            item.Header = (ConfigManager.Get(settingKey, defaultValue) ? "✓ " : "   ") +
-                          TranslationManager.Get(header);
-        };
-
-        return item;
     }
 }
