@@ -13,7 +13,9 @@
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>顯示其他軌道的音符</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>跳過靜音軌道</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>
-  <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫角色立繪</value></data>
+  <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫封面</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>封面大小</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>

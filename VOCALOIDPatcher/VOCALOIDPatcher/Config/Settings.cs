@@ -34,6 +34,22 @@ public static class Settings
         set => Patcher.ConfigManager.Set(ShowCharacterArtKey, value);
     }
 
+    public static string CharacterArtSizeKey => "CharacterArtSize";
+
+    public static int CharacterArtSize
+    {
+        get => Patcher.ConfigManager.Get(CharacterArtSizeKey, 220);
+        set => Patcher.ConfigManager.Set(CharacterArtSizeKey, value);
+    }
+
+    public static string CharacterArtOpacityKey => "CharacterArtOpacity";
+
+    public static double CharacterArtOpacity
+    {
+        get => Patcher.ConfigManager.Get(CharacterArtOpacityKey, 0.9);
+        set => Patcher.ConfigManager.Set(CharacterArtOpacityKey, value);
+    }
+
     public static string ShowNotePitchKey => "ShowNotePitch";
 
     public static bool ShowNotePitch

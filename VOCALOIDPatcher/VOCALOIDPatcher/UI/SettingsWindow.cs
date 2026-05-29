@@ -87,7 +87,7 @@ public class SettingsWindow : Window
     private void BuildUi()
     {
         var root = new Grid { RenderTransform = _rootTransform };
-        root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
+        root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
         root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
         var categories = new (string Key, string Fallback, UIElement Panel)[]
@@ -225,10 +225,26 @@ public class SettingsWindow : Window
                 ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
-        var showCharacterArt = Toggle("VOCALOIDPatcher_ShowCharacterArt_Header", "显示声库角色立绘",
+        var artOptions = new StackPanel
+        {
+            Margin = new Thickness(28, 12, 0, 0),
+            IsEnabled = Settings.ShowCharacterArt,
+            Opacity = Settings.ShowCharacterArt ? 1.0 : 0.4
+        };
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtSize_Header", "封面大小",
+            80, 480, Settings.CharacterArtSize,
+            v => { Settings.CharacterArtSize = (int)v; CharacterArtPatch.RefreshArt(); }));
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtOpacity_Header", "不透明度",
+            0.1, 1.0, Settings.CharacterArtOpacity,
+            v => { Settings.CharacterArtOpacity = v; CharacterArtPatch.RefreshArt(); }));
+
+        var showCharacterArt = Toggle("VOCALOIDPatcher_ShowCharacterArt_Header", "显示声库封面",
             Settings.ShowCharacterArt, new Thickness(0, 18, 0, 0), checkbox =>
             {
-                Settings.ShowCharacterArt = checkbox.IsChecked == true;
+                var enabled = checkbox.IsChecked == true;
+                Settings.ShowCharacterArt = enabled;
+                artOptions.IsEnabled = enabled;
+                artOptions.Opacity = enabled ? 1.0 : 0.4;
                 ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
@@ -236,8 +252,38 @@ public class SettingsWindow : Window
         panel.Children.Add(skipMuted);
         panel.Children.Add(showNotePitch);
         panel.Children.Add(showCharacterArt);
+        panel.Children.Add(artOptions);
 
         return panel;
+    }
+
+    private FrameworkElement SliderRow(string key, string fallback, double min, double max, double value,
+        Action<double> onChanged)
+    {
+        var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
+
+        var label = new TextBlock
+        {
+            Width = 72,
+            Foreground = MutedBrush,
+            FontSize = 12,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Localize(() => label.Text = T(key, fallback));
+
+        var slider = new Slider
+        {
+            Width = 180,
+            VerticalAlignment = VerticalAlignment.Center,
+            Minimum = min,
+            Maximum = max,
+            Value = value
+        };
+        slider.ValueChanged += (_, _) => onChanged(slider.Value);
+
+        row.Children.Add(label);
+        row.Children.Add(slider);
+        return row;
     }
 
     private StackPanel BuildOtherPanel()
@@ -447,6 +493,7 @@ public class SettingsWindow : Window
         AddImplicitStyle(typeof(CheckBox), ToggleSwitchStyle);
         AddImplicitStyle(typeof(ComboBox), ComboBoxStyle);
         AddImplicitStyle(typeof(ComboBoxItem), ComboBoxItemStyle);
+        AddImplicitStyle(typeof(Slider), SliderStyle);
     }
 
     private void AddImplicitStyle(Type targetType, string xaml)
@@ -475,11 +522,11 @@ public class SettingsWindow : Window
   <Setter Property='Template'>
     <Setter.Value>
       <ControlTemplate TargetType='ListBoxItem'>
-        <Border CornerRadius='8' Margin='8,1' Padding='16,12'>
+        <Border Margin='6,1'>
           <Grid>
             <Border x:Name='selBg' CornerRadius='8' Background='#3277A0' Opacity='0'/>
             <Border x:Name='hoverBg' CornerRadius='8' Background='#35353A' Opacity='0'/>
-            <ContentPresenter VerticalAlignment='Center'/>
+            <ContentPresenter VerticalAlignment='Center' Margin='14,9'/>
           </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -648,6 +695,52 @@ public class SettingsWindow : Window
             </Trigger.ExitActions>
           </Trigger>
         </ControlTemplate.Triggers>
+      </ControlTemplate>
+    </Setter.Value>
+  </Setter>
+</Style>";
+
+    private static readonly string SliderStyle = $@"
+<Style {Ns} TargetType='Slider'>
+  <Setter Property='Height' Value='24'/>
+  <Setter Property='Cursor' Value='Hand'/>
+  <Setter Property='Template'>
+    <Setter.Value>
+      <ControlTemplate TargetType='Slider'>
+        <Grid VerticalAlignment='Center'>
+          <Border Height='4' CornerRadius='2' Background='#3F3F46' VerticalAlignment='Center'/>
+          <Track x:Name='PART_Track'>
+            <Track.DecreaseRepeatButton>
+              <RepeatButton Focusable='False' Command='{{x:Static Slider.DecreaseLarge}}'>
+                <RepeatButton.Template>
+                  <ControlTemplate TargetType='RepeatButton'>
+                    <Border Height='4' CornerRadius='2' Background='#29ABE2' VerticalAlignment='Center'/>
+                  </ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.DecreaseRepeatButton>
+            <Track.IncreaseRepeatButton>
+              <RepeatButton Focusable='False' Command='{{x:Static Slider.IncreaseLarge}}'>
+                <RepeatButton.Template>
+                  <ControlTemplate TargetType='RepeatButton'>
+                    <Border Background='#00000000'/>
+                  </ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.IncreaseRepeatButton>
+            <Track.Thumb>
+              <Thumb Focusable='False'>
+                <Thumb.Template>
+                  <ControlTemplate TargetType='Thumb'>
+                    <Ellipse Width='14' Height='14' Fill='#FFFFFF'>
+                      <Ellipse.Effect><DropShadowEffect BlurRadius='4' ShadowDepth='0' Opacity='0.4' Color='#000000'/></Ellipse.Effect>
+                    </Ellipse>
+                  </ControlTemplate>
+                </Thumb.Template>
+              </Thumb>
+            </Track.Thumb>
+          </Track>
+        </Grid>
       </ControlTemplate>
     </Setter.Value>
   </Setter>

@@ -49,7 +49,6 @@ public class ShowOtherTracksNotesPatch : PatchBase
         }
         catch (Exception e)
         {
-            // getter 在渲染期被调用，绝不能向编辑器抛异常；出错时保留原结果。
             Debug.Print($"收集其他轨道音符失败: {e.Message}");
         }
     }
@@ -83,7 +82,7 @@ public class ShowOtherTracksNotesPatch : PatchBase
         }
     }
 
-    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject? root) where T : DependencyObject
+    internal static IEnumerable<T> FindVisualChildren<T>(DependencyObject? root) where T : DependencyObject
     {
         if (root is not (Visual or Visual3D))
             yield break;
