@@ -1,19 +1,20 @@
-﻿namespace VOCALOIDPatcher.Config;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
+namespace VOCALOIDPatcher.Config;
+
 public class ConfigManager
 {
     private readonly string filePath;
-    private Dictionary<string, object> data = new();
 
     private readonly JsonSerializerOptions options = new()
     {
         WriteIndented = true
     };
+
+    private Dictionary<string, object> data = new();
 
     public ConfigManager(string filePath)
     {
@@ -32,7 +33,7 @@ public class ConfigManager
 
         var json = File.ReadAllText(filePath);
         data = JsonSerializer.Deserialize<Dictionary<string, object>>(json, options)
-                ?? new Dictionary<string, object>();
+               ?? new Dictionary<string, object>();
     }
 
     private void Save()
@@ -54,10 +55,7 @@ public class ConfigManager
 
         try
         {
-            if (value is JsonElement element)
-            {
-                return JsonSerializer.Deserialize<T>(element.GetRawText(), options)!;
-            }
+            if (value is JsonElement element) return JsonSerializer.Deserialize<T>(element.GetRawText(), options)!;
 
             return (T)Convert.ChangeType(value, typeof(T));
         }

@@ -1,54 +1,47 @@
 ﻿// Copyright (c) Microsoft. All rights reserved. 
 // Licensed under the MIT license. See LICENSE file in the project root for full license information. 
-namespace Microsoft.Xaml.Behaviors
+
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+
+namespace Microsoft.Xaml.Behaviors;
+
+internal static class TypeConverterHelper
 {
-    using System.ComponentModel;
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-
-    internal static class TypeConverterHelper
+    internal static object DoConversionFrom(TypeConverter converter, object value)
     {
-        internal static object DoConversionFrom(TypeConverter converter, object value)
+        var returnValue = value;
+
+        try
         {
-            object returnValue = value;
-
-            try
-            {
-                if (converter != null && value != null && converter.CanConvertFrom(value.GetType()))
-                {
-                    // This utility class is used to convert value that come from XAML, so we should use the invariant culture.
-                    returnValue = converter.ConvertFrom(context: null, culture: CultureInfo.InvariantCulture, value: value);
-                }
-            }
-            catch (Exception e)
-            {
-                if (!TypeConverterHelper.ShouldEatException(e))
-                {
-                    throw;
-                }
-            }
-
-            return returnValue;
+            if (converter != null && value != null && converter.CanConvertFrom(value.GetType()))
+                // This utility class is used to convert value that come from XAML, so we should use the invariant culture.
+                returnValue = converter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+        }
+        catch (Exception e)
+        {
+            if (!ShouldEatException(e)) throw;
         }
 
-        private static bool ShouldEatException(Exception e)
-        {
-            bool shouldEat = false;
+        return returnValue;
+    }
 
-            if (e.InnerException != null)
-            {
-                shouldEat |= ShouldEatException(e.InnerException);
-            }
+    private static bool ShouldEatException(Exception e)
+    {
+        var shouldEat = false;
 
-            shouldEat |= e is FormatException;
-            return shouldEat;
-        }
+        if (e.InnerException != null) shouldEat |= ShouldEatException(e.InnerException);
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Activator.CreateInstance could be calling user code which we don't want to bring us down.")]
-        internal static TypeConverter GetTypeConverter(Type type)
-        {
-            return TypeDescriptor.GetConverter(type);
-        }
+        shouldEat |= e is FormatException;
+        return shouldEat;
+    }
+
+    [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+        Justification = "Activator.CreateInstance could be calling user code which we don't want to bring us down.")]
+    internal static TypeConverter GetTypeConverter(Type type)
+    {
+        return TypeDescriptor.GetConverter(type);
     }
 }

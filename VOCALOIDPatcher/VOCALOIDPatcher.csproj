@@ -20,14 +20,14 @@
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <FileVersion>1.1.0.0</FileVersion>
         <Nullable>enable</Nullable>
-        <RootNamespace />
+        <RootNamespace/>
         <AssemblyName>Microsoft.Xaml.Behaviors</AssemblyName>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Lib.Harmony" Version="2.4.2" />
-        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2" PrivateAssets="all" />
+        <PackageReference Include="Lib.Harmony" Version="2.4.2"/>
+        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">

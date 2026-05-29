@@ -5,23 +5,21 @@ namespace VOCALOIDPatcher.Patch.Patches;
 
 public static class VstPluginPatch
 {
-
-	[CLSCompliant(false)]
+    [CLSCompliant(false)]
     public static void ApplyPatches(Harmony harmony)
     {
         new VstPluginControllerSetActivePatch().Apply(harmony);
     }
 
-    class VstPluginControllerSetActivePatch : PatchBase
+    private class VstPluginControllerSetActivePatch : PatchBase
     {
+        private static bool Triggered;
         public override string PatchName => "VSTPluginControllerSetActivePatch";
         public override Type TargetClass => AccessTools.TypeByName("Yamaha.VOCALOID.VST.VSTPluginController");
         public override string TargetMethodName => "ShowMainWindow";
 
-        private static bool Triggered = false;
-
         [HarmonyPrefix]
-        static bool Prefix(object __instance)
+        private static bool Prefix(object __instance)
         {
             if (Triggered)
                 return true;
@@ -31,7 +29,5 @@ public static class VstPluginPatch
             Patcher.PostInject();
             return true;
         }
-
     }
-
 }

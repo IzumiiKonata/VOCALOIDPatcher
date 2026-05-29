@@ -15,9 +15,6 @@ namespace VOCALOIDPatcher;
 
 public static class Patcher
 {
-
-    public static string Version => "1.1.0";
-
     public static readonly bool DebugMode = KeyState.IsKeyDown(0xA0);
 
     public static readonly string ConfigDir =
@@ -35,22 +32,18 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    #pragma warning disable CA2255
+    public static string Version => "1.1.0";
+
+#pragma warning disable CA2255
     [ModuleInitializer]
     public static void Initialize()
     {
         AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
         {
             if (args.Name.StartsWith("VOCALOID6"))
-            {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
                     if (assembly.GetName().Name?.StartsWith("VOCALOID6") == true)
-                    {
                         return assembly;
-                    }
-                }
-            }
 
             return null;
         };
@@ -58,7 +51,8 @@ public static class Patcher
         try
         {
             PatcherInit();
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Debug.ShowErrorMessage("Patcher 初始化失败!", e);
         }
@@ -68,14 +62,11 @@ public static class Patcher
     {
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
-            var ex = (Exception) args.ExceptionObject;
+            var ex = (Exception)args.ExceptionObject;
             Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
         };
 
-        if (!Directory.Exists(ConfigDir))
-        {
-            Directory.CreateDirectory(ConfigDir);
-        }
+        if (!Directory.Exists(ConfigDir)) Directory.CreateDirectory(ConfigDir);
 
         VstPluginMode = DetectVstPluginMode();
 
@@ -96,7 +87,11 @@ public static class Patcher
 
         if (VstPluginMode)
         {
-            DataDir = Path.Combine(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor", "VOCALOIDPatcher" });
+            DataDir = Path.Combine(new[]
+            {
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor",
+                "VOCALOIDPatcher"
+            });
             Debug.Print("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
             VstPluginPatch.ApplyPatches(_harmony);
         }
@@ -107,10 +102,7 @@ public static class Patcher
 
         WpfTranslationPatch.InstallGlobalHandlers();
 
-        if (!VstPluginMode)
-        {
-            PostInject();
-        }
+        if (!VstPluginMode) PostInject();
     }
 
     public static void PostInject()
@@ -133,11 +125,12 @@ public static class Patcher
 
     private static void ApplyPatches()
     {
-        List<PatchBase> patches = new() {
+        List<PatchBase> patches = new()
+        {
             new AppLanguagePatch(),
             new WpfTranslationPatch(),
             new ResourceManagerPatch(),
-            new DependencyObjectPatch(),
+            new DependencyObjectPatch()
         };
 
         patches.ForEach(p =>
@@ -171,39 +164,37 @@ public static class Patcher
                 LanguageMenuItem.Header = TranslationManager.Get("VOCALOIDPatcher_Language_Header");
             var items = BuildLanguageItems();
 
-            foreach (var item in items)
-            {
-                LanguageMenuItem.Items.Add(item);
-            }
+            foreach (var item in items) LanguageMenuItem.Items.Add(item);
 
             PatcherMenuItem.Items.Add(LanguageMenuItem);
 
             PatcherMenuItem.Items.Add(BuildTogglableMenuItem(
-                    $"VOCALOIDPatcher_TranslateHardcodedStrings_Header",
-                    Settings.TranslateHardcodedStringsKey,
-                    true,
-                    enabled =>
-                    {
-                        if (!enabled)
-                        {
-                            Debug.ShowMessageBox($"{TranslationManager.Get("VOCALOIDPatcher_TranslateHardcodedStringsRestart")}");
-                        }
-                    }
+                "VOCALOIDPatcher_TranslateHardcodedStrings_Header",
+                Settings.TranslateHardcodedStringsKey,
+                true,
+                enabled =>
+                {
+                    if (!enabled)
+                        Debug.ShowMessageBox(
+                            $"{TranslationManager.Get("VOCALOIDPatcher_TranslateHardcodedStringsRestart")}");
+                }
             ));
 
             PatcherMenuItem.Items.Add(BuildMenuItem(
-	            $"VOCALOID Patcher {Version}"
-						+ (VstPluginMode ? " (VSTi)" : "")
+                $"VOCALOID Patcher {Version}"
+                + (VstPluginMode ? " (VSTi)" : "")
 #if NET6_0
-	                    + " (.NET 6.0)"
+                + " (.NET 6.0)"
 #endif
-	            ,
-	            _ => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")
-	        ));
-            PatcherMenuItem.Items.Add(BuildMenuItem("Made with ❤ by IzumiiKonata", _ => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
+                ,
+                _ => BrowseUtils.Browse("https://github.com/IzumiiKonata/VOCALOIDPatcher")
+            ));
+            PatcherMenuItem.Items.Add(BuildMenuItem("Made with ❤ by IzumiiKonata",
+                _ => BrowseUtils.Browse("https://space.bilibili.com/357605683")));
 
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
-        } catch(Exception e)
+        }
+        catch (Exception e)
         {
             Debug.ShowErrorMessage(e.Message + e.StackTrace);
         }
@@ -232,11 +223,8 @@ public static class Patcher
                 {
                     var l = TranslationManager.AvailableLanguages[j];
                     if (LanguageMenuItem.Items[j] is MenuItem it)
-                    {
                         it.Header = (TranslationManager.CurrentLanguage == l ? "✓ " : "   ") + l;
-                    }
                 }
-
             };
             languageItems.Add(item);
         }
@@ -245,6 +233,7 @@ public static class Patcher
     }
 
     private static int _distinctCounter;
+
     private static MenuItem BuildMenuItem(string header, Action<MenuItem>? action = null)
     {
         var it = new MenuItem
@@ -253,17 +242,15 @@ public static class Patcher
             Name = $"VOCALOIDPatcherLanguageItemLabel{_distinctCounter++}"
         };
 
-        if (action != null)
-        {
-            it.Click += (_, _) => action(it);
-        }
+        if (action != null) it.Click += (_, _) => action(it);
 
         WpfTranslationPatch.Untranslatable.Add(it);
 
         return it;
     }
 
-    private static MenuItem BuildTogglableMenuItem(string header, string settingKey, bool defaultValue = false, Action<bool>? callback = null)
+    private static MenuItem BuildTogglableMenuItem(string header, string settingKey, bool defaultValue = false,
+        Action<bool>? callback = null)
     {
         var item = BuildMenuItem(TranslationManager.Get(header) ?? header, it =>
         {
@@ -281,10 +268,10 @@ public static class Patcher
 
         TranslationManager.LanguageChanged += (_, _) =>
         {
-            item.Header = (ConfigManager.Get(settingKey, defaultValue) ? "✓ " : "   ") + TranslationManager.Get(header);
+            item.Header = (ConfigManager.Get(settingKey, defaultValue) ? "✓ " : "   ") +
+                          TranslationManager.Get(header);
         };
 
         return item;
     }
-
 }

@@ -16,17 +16,20 @@ public static class TranslationManager
     private static readonly Dictionary<string, string> KeyByOriginal = new();
     private static readonly Dictionary<string, string> OriginalByKey = new();
 
-    public static List<string> AvailableLanguages { get; } = new();
-
-    public static string? CurrentLanguage { get; private set; }
-
     private static readonly string TranslationsDir =
         Path.Combine(Patcher.DataDir, "translations");
 
-    public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(), HardcodedPropertyMappingReversed = new();
+    public static readonly Dictionary<string, string> HardcodedPropertyMapping = new(),
+        HardcodedPropertyMappingReversed = new();
 
     public static readonly Dictionary<string, string> TranslatedToOriginalMap = new();
     public static readonly Dictionary<string, string> TranslatedToTranslationKeyMap = new();
+
+    private static readonly HashSet<string> MissingKeyList = new();
+
+    public static List<string> AvailableLanguages { get; } = new();
+
+    public static string? CurrentLanguage { get; private set; }
 
     public static event EventHandler<string>? LanguageChanged;
 
@@ -100,7 +103,7 @@ public static class TranslationManager
 
         if (!File.Exists(path))
         {
-            Debug.ShowErrorMessage($"硬编码映射不存在: HardcodedPropertyMap.xml");
+            Debug.ShowErrorMessage("硬编码映射不存在: HardcodedPropertyMap.xml");
             return;
         }
 
@@ -175,20 +178,17 @@ public static class TranslationManager
         }
     }
 
-    private static readonly HashSet<string> MissingKeyList = new();
-
     public static string? Get(string key)
     {
         var value = Dict.GetValueOrDefault(key);
 
-        if (value == null && MissingKeyList.Add(key))
-        {
-            Debug.Print($"Missing key: {key}");
-        }
+        if (value == null && MissingKeyList.Add(key)) Debug.Print($"Missing key: {key}");
 
         return value;
     }
 
     public static string? GetKeyByOriginal(string original)
-        => KeyByOriginal.GetValueOrDefault(original);
+    {
+        return KeyByOriginal.GetValueOrDefault(original);
+    }
 }

@@ -27,20 +27,17 @@ public abstract class PatchBase
 
         var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 
-        var prefix      = FindHarmonyMethod(methods, typeof(HarmonyPrefix));
-        var postfix     = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
-        var transpiler  = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
-        var finalizer   = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
-        var reversePatch= FindHarmonyMethod(methods, typeof(HarmonyReversePatch));
+        var prefix = FindHarmonyMethod(methods, typeof(HarmonyPrefix));
+        var postfix = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
+        var transpiler = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
+        var finalizer = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
+        var reversePatch = FindHarmonyMethod(methods, typeof(HarmonyReversePatch));
 
         try
         {
             harmony.Patch(original, prefix, postfix, transpiler, finalizer);
 
-            if (reversePatch != null)
-            {
-                harmony.CreateReversePatcher(original, reversePatch).Patch();
-            }
+            if (reversePatch != null) harmony.CreateReversePatcher(original, reversePatch).Patch();
         }
         catch (Exception e)
         {
@@ -52,10 +49,7 @@ public abstract class PatchBase
     {
         var targetClass = TargetClass;
 
-        if (IsConstructor)
-        {
-            return AccessTools.Constructor(targetClass, ArgumentTypes ?? Type.EmptyTypes);
-        }
+        if (IsConstructor) return AccessTools.Constructor(targetClass, ArgumentTypes ?? Type.EmptyTypes);
 
         return AccessTools.Method(targetClass, TargetMethodName, ArgumentTypes ?? Type.EmptyTypes);
     }
@@ -65,5 +59,4 @@ public abstract class PatchBase
         var method = methods.FirstOrDefault(m => m.GetCustomAttributes(attrType, false).Any());
         return method != null ? new HarmonyMethod(method) : null;
     }
-
 }

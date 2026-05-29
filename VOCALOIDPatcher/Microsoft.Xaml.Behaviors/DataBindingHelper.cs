@@ -1,98 +1,79 @@
 // Copyright (c) Microsoft. All rights reserved. 
 // Licensed under the MIT license. See LICENSE file in the project root for full license information. 
-namespace Microsoft.Xaml.Behaviors
-{
 
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Windows;
-    using System.Windows.Data;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Data;
+
+namespace Microsoft.Xaml.Behaviors;
+
+/// <summary>
+///     Helper class for managing binding expressions on dependency objects.
+/// </summary>
+internal static class DataBindingHelper
+{
+    private static readonly Dictionary<Type, IList<DependencyProperty>> DependenciesPropertyCache = new();
 
     /// <summary>
-    /// Helper class for managing binding expressions on dependency objects.
+    ///     Ensure that all DP on an action with binding expressions are
+    ///     up to date. DataTrigger fires during data binding phase. Since
+    ///     actions are children of the trigger, any bindings on the action
+    ///     may not be up-to-date. This routine is called before the action
+    ///     is invoked in order to guarantee that all bindings are up-to-date
+    ///     with the most current data.
     /// </summary>
-    internal static class DataBindingHelper
+    public static void EnsureDataBindingUpToDateOnMembers(DependencyObject dpObject)
     {
-        private static Dictionary<Type, IList<DependencyProperty>> DependenciesPropertyCache = new Dictionary<Type, IList<DependencyProperty>>();
-        /// <summary>
-        /// Ensure that all DP on an action with binding expressions are
-        /// up to date. DataTrigger fires during data binding phase. Since
-        /// actions are children of the trigger, any bindings on the action
-        /// may not be up-to-date. This routine is called before the action
-        /// is invoked in order to guarantee that all bindings are up-to-date
-        /// with the most current data. 
-        /// </summary>
-        public static void EnsureDataBindingUpToDateOnMembers(DependencyObject dpObject)
+        IList<DependencyProperty> dpList = null;
+
+        if (!DependenciesPropertyCache.TryGetValue(dpObject.GetType(), out dpList))
         {
-            IList<DependencyProperty> dpList = null;
+            dpList = new List<DependencyProperty>();
+            var type = dpObject.GetType();
 
-            if (!DependenciesPropertyCache.TryGetValue(dpObject.GetType(), out dpList))
+            while (type != null)
             {
-                dpList = new List<DependencyProperty>();
-                Type type = dpObject.GetType();
+                var fieldInfos = type.GetFields();
 
-                while (type != null)
-                {
-                    FieldInfo[] fieldInfos = type.GetFields();
-
-                    foreach (FieldInfo fieldInfo in fieldInfos)
+                foreach (var fieldInfo in fieldInfos)
+                    if (fieldInfo.IsPublic &&
+                        fieldInfo.FieldType == typeof(DependencyProperty))
                     {
-                        if (fieldInfo.IsPublic &&
-                            fieldInfo.FieldType == typeof(DependencyProperty))
-                        {
-                            DependencyProperty property = fieldInfo.GetValue(null) as DependencyProperty;
-                            if (property != null)
-                            {
-                                dpList.Add(property);
-                            }
-                        }
+                        var property = fieldInfo.GetValue(null) as DependencyProperty;
+                        if (property != null) dpList.Add(property);
                     }
 
-                    type = type.BaseType;
-                }
-                // Cache the list of DP for performance gain
-                DependenciesPropertyCache[dpObject.GetType()] = dpList;
+                type = type.BaseType;
             }
 
-            if (dpList == null)
-            {
-                return;
-            }
-
-            foreach (DependencyProperty property in dpList)
-            {
-                EnsureBindingUpToDate(dpObject, property);
-            }
-
+            // Cache the list of DP for performance gain
+            DependenciesPropertyCache[dpObject.GetType()] = dpList;
         }
 
-        /// <summary>
-        /// Ensures that all binding expression on actions are up to date
-        /// </summary>
-        public static void EnsureDataBindingOnActionsUpToDate(TriggerBase<DependencyObject> trigger)
-        {
-            // Update the bindings on the actions. 
-            foreach (TriggerAction action in trigger.Actions)
-            {
-                DataBindingHelper.EnsureDataBindingUpToDateOnMembers(action);
-            }
-        }
+        if (dpList == null) return;
 
-        /// <summary>
-        ///  This helper function ensures that, if a dependency property on a dependency object
-        ///  has a binding expression, the binding expression is up-to-date. 
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="dp"></param>
-        public static void EnsureBindingUpToDate(DependencyObject target, DependencyProperty dp)
-        {
-            BindingExpression binding = BindingOperations.GetBindingExpression(target, dp);
-            if (binding != null)
-            {
-                binding.UpdateTarget();
-            }
-        }
+        foreach (var property in dpList) EnsureBindingUpToDate(dpObject, property);
+    }
 
+    /// <summary>
+    ///     Ensures that all binding expression on actions are up to date
+    /// </summary>
+    public static void EnsureDataBindingOnActionsUpToDate(TriggerBase<DependencyObject> trigger)
+    {
+        // Update the bindings on the actions. 
+        foreach (var action in trigger.Actions) EnsureDataBindingUpToDateOnMembers(action);
+    }
+
+    /// <summary>
+    ///     This helper function ensures that, if a dependency property on a dependency object
+    ///     has a binding expression, the binding expression is up-to-date.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="dp"></param>
+    public static void EnsureBindingUpToDate(DependencyObject target, DependencyProperty dp)
+    {
+        var binding = BindingOperations.GetBindingExpression(target, dp);
+        if (binding != null) binding.UpdateTarget();
     }
 }

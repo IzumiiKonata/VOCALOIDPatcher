@@ -3,6 +3,7 @@
 public static class Settings
 {
     public static string TranslateHardcodedStringsKey => "TranslateHardcodedStrings";
+
     public static bool TranslateHardcodedStrings
     {
         get => Patcher.ConfigManager.Get(TranslateHardcodedStringsKey, true);

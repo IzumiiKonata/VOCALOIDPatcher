@@ -14,7 +14,7 @@ public class DependencyObjectPatch : PatchBase
     public override Type[] ArgumentTypes => new[] { typeof(DependencyProperty), typeof(object) };
 
     [HarmonyPrefix]
-    static void Prefix(object __instance, DependencyProperty dp, ref object value)
+    private static void Prefix(object __instance, DependencyProperty dp, ref object value)
     {
         if (__instance is PushButton or PushToggleButton && value is Viewbox vb)
             WpfTranslationPatch.RefreshAll(vb);

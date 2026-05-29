@@ -17,8 +17,20 @@ namespace VOCALOIDPatcher.Patch.Patches;
 [SuppressMessage("ReSharper", "UnusedMember.Local")]
 public class WpfTranslationPatch : PatchBase
 {
-    public override string PatchName        => "WPFTranslationPatch";
-    public override Type   TargetClass      => typeof(MainWindow);
+    private static bool _globalHandlersInstalled;
+
+    private static readonly Dictionary<object, string> OriginalMapping = new();
+
+    public static readonly HashSet<object> Untranslatable = new();
+
+    public static readonly DependencyProperty UntranslatableProperty =
+        DependencyProperty.RegisterAttached(
+            "Untranslatable", typeof(bool), typeof(WpfTranslationPatch),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
+
+    private static readonly HashSet<string> MissingKeyList = new();
+    public override string PatchName => "WPFTranslationPatch";
+    public override Type TargetClass => typeof(MainWindow);
     public override string TargetMethodName => "InitializeCommandBindings";
 
     [HarmonyPrefix]
@@ -27,8 +39,6 @@ public class WpfTranslationPatch : PatchBase
         ReTranslate();
         FixFilepathSeparator();
     }
-
-    private static bool _globalHandlersInstalled;
 
     /**
      * 注册类级事件处理器
@@ -49,34 +59,26 @@ public class WpfTranslationPatch : PatchBase
             new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
     }
 
-    private static readonly Dictionary<object, string> OriginalMapping = new();
-
-    public static readonly HashSet<object> Untranslatable = new();
-
-    public static readonly DependencyProperty UntranslatableProperty =
-        DependencyProperty.RegisterAttached(
-            "Untranslatable", typeof(bool), typeof(WpfTranslationPatch),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
-
-    public static void MarkUntranslatable(DependencyObject obj) => obj.SetValue(UntranslatableProperty, true);
+    public static void MarkUntranslatable(DependencyObject obj)
+    {
+        obj.SetValue(UntranslatableProperty, true);
+    }
 
     private static string GetOriginal(object obj, string? translated)
     {
         if (Untranslatable.Contains(obj))
             return translated ?? "";
 
-        if (translated is not null && !OriginalMapping.ContainsKey(obj))
+        if (translated is not null)
         {
-            OriginalMapping[obj] = translated;
+            if (TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
+                OriginalMapping[obj] = res;
+            else if (!OriginalMapping.ContainsKey(obj))
+                OriginalMapping[obj] = translated;
         }
-
-        if (translated is not null && TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
-            OriginalMapping[obj] = res;
 
         return OriginalMapping[obj];
     }
-
-    private static readonly HashSet<string> MissingKeyList = new();
 
     private static string GetTranslatedText(string value)
     {
@@ -84,7 +86,8 @@ public class WpfTranslationPatch : PatchBase
         if (!string.IsNullOrEmpty(resourceKey))
             return TranslationManager.Get(resourceKey) ?? value;
 
-        if (Settings.TranslateHardcodedStrings && TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var hardcodedKey))
+        if (Settings.TranslateHardcodedStrings &&
+            TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var hardcodedKey))
             return TranslationManager.Get(hardcodedKey) ?? value;
 
         if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var translationKey))
@@ -97,7 +100,9 @@ public class WpfTranslationPatch : PatchBase
     }
 
     private static bool IsDataBound(DependencyObject obj, DependencyProperty dp)
-        => BindingOperations.GetBindingExpressionBase(obj, dp) != null;
+    {
+        return BindingOperations.GetBindingExpressionBase(obj, dp) != null;
+    }
 
     private static void TranslateElement(object element)
     {
@@ -121,9 +126,7 @@ public class WpfTranslationPatch : PatchBase
 
             case ContentControl cc:
                 if (cc.Content is string text)
-                {
                     cc.Content = GetTranslatedText(GetOriginal(cc, text));
-                }
                 break;
 
             case TextBlock tb:
@@ -133,38 +136,26 @@ public class WpfTranslationPatch : PatchBase
         }
 
         if (element is FrameworkElement { ToolTip: string tip } fe)
-        {
             fe.ToolTip = GetTranslatedText(GetOriginal(fe, tip));
-        }
     }
 
     public static void RefreshAll(DependencyObject obj)
     {
-        var visited = new HashSet<DependencyObject>();
-        // visited.Clear();
-        _RefreshAll(obj, visited);
+        _RefreshAll(obj, new HashSet<DependencyObject>());
 
-        if (obj is FrameworkElement { IsLoaded: false } fe)
-        {
-            fe.Loaded += (_, _) =>
-            {
-                RefreshAll(fe);
-            };
-        }
+        if (obj is FrameworkElement { IsLoaded: false } fe) fe.Loaded += (_, _) => RefreshAll(fe);
     }
 
     private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited)
     {
         if (root == null || !visited.Add(root)) return;
 
-        visited.Add(root);
-
         TranslateElement(root);
 
         if (root is Visual or Visual3D)
         {
-            int count = VisualTreeHelper.GetChildrenCount(root);
-            for (int i = 0; i < count; i++)
+            var count = VisualTreeHelper.GetChildrenCount(root);
+            for (var i = 0; i < count; i++)
             {
                 var child = VisualTreeHelper.GetChild(root, i);
                 _RefreshAll(child, visited);
@@ -172,20 +163,16 @@ public class WpfTranslationPatch : PatchBase
         }
 
         foreach (var child in LogicalTreeHelper.GetChildren(root))
-        {
             if (child is DependencyObject dep)
                 _RefreshAll(dep, visited);
-        }
 
         if (root is ItemsControl ic)
-        {
             foreach (var item in ic.Items)
             {
                 var container = ic.ItemContainerGenerator.ContainerFromItem(item);
                 if (container is not null)
                     _RefreshAll(container, visited);
             }
-        }
 
         if (root is FrameworkElement fe)
         {
@@ -206,17 +193,13 @@ public class WpfTranslationPatch : PatchBase
         var mainMenu = ReflectionUtils.GetMainMenu();
         RefreshAll(mainMenu);
 
-        foreach (Window window in Application.Current.Windows)
-        {
-            RefreshAll(window);
-        }
+        foreach (Window window in Application.Current.Windows) RefreshAll(window);
 
         var mainWindow = ReflectionUtils.GetMainWindow();
         var audioEffectWindow = mainWindow.AudioEffectWindow;
 
         if (audioEffectWindow != null)
             RefreshAll(audioEffectWindow);
-
     }
 
     /**

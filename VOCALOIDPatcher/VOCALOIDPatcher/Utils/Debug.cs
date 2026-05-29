@@ -1,13 +1,13 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace VOCALOIDPatcher.Utils;
 
-using System.Runtime.CompilerServices;
-
 public static class Debug
 {
-    #pragma warning disable SYSLIB1054
+#pragma warning disable SYSLIB1054
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern IntPtr MessageBox(IntPtr hWnd, string text, string caption, uint type);
 
@@ -15,16 +15,16 @@ public static class Debug
     {
         MessageBox(IntPtr.Zero, msg, title, 0x00001000);
     }
-    
+
     public static void Print(
-        string message, 
+        string message,
         string? level = null,
         [CallerFilePath] string file = "",
         [CallerLineNumber] int line = 0
     )
     {
-        string fileName = System.IO.Path.GetFileName(file);
-        string lvl = level is null ? "" : $" [{level}]";
+        var fileName = Path.GetFileName(file);
+        var lvl = level is null ? "" : $" [{level}]";
         Console.WriteLine($@"[{fileName}:{line}]{lvl} {message}");
     }
 
@@ -40,9 +40,9 @@ public static class Debug
         [CallerLineNumber] int line = 0
     )
     {
-        string fileName = System.IO.Path.GetFileName(file);
+        var fileName = Path.GetFileName(file);
         Console.WriteLine($@"[{fileName}:{line}] {message}");
-        
+
         ShowErrorMessage(message + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace);
     }
 }

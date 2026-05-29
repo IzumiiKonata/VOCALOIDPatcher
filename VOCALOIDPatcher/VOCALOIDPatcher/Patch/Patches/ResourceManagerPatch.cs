@@ -14,7 +14,7 @@ public class ResourceManagerPatch : PatchBase
     public override Type[] ArgumentTypes => new[] { typeof(string), typeof(CultureInfo) };
 
     [HarmonyPrefix]
-    static bool Prefix(object __instance, string name, CultureInfo? culture, ref string __result)
+    private static bool Prefix(object __instance, string name, CultureInfo? culture, ref string __result)
     {
         if (string.IsNullOrEmpty(name))
             return true;
