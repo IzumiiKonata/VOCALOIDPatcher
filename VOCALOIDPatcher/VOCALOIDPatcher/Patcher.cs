@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Jobs;
 using VOCALOIDPatcher.Patch;
 using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
@@ -109,6 +110,7 @@ public static class Patcher
     public static void PostInject()
     {
         AddPatcherMenuItem();
+        JobMenu.Install();
         AutoSaveService.UpdateFromSettings();
     }
 
@@ -135,7 +137,8 @@ public static class Patcher
             new DependencyObjectPatch(),
             new ShowOtherTracksNotesPatch(),
             new ShowNotePitchPatch(),
-            new CharacterArtPatch()
+            new CharacterArtPatch(),
+            new SwingMenuPatch()
         };
 
         patches.ForEach(p =>

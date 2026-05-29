@@ -19,6 +19,21 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>搖擺</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分搖擺</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_16" xml:space="preserve"><value>16 分搖擺</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_16_Shuffle" xml:space="preserve"><value>16 分 Shuffle</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Header" xml:space="preserve"><value>人性化</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Timing" xml:space="preserve"><value>起始 (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Duration" xml:space="preserve"><value>時值 (%)</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Velocity" xml:space="preserve"><value>力度</value></data>
+  <data name="VOCALOIDPatcher_Job_Lyric_Header" xml:space="preserve"><value>歌詞替換</value></data>
+  <data name="VOCALOIDPatcher_Job_Lyric_Syllable" xml:space="preserve"><value>音節</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>量化時值</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Grid" xml:space="preserve"><value>網格</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Strength" xml:space="preserve"><value>強度 (%)</value></data>
+  <data name="VOCALOIDPatcher_Job_Apply" xml:space="preserve"><value>套用</value></data>
 
   <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主軌道</value></data>
   <data name="MixerView_Effect_Header" xml:space="preserve"><value>效果器</value></data>

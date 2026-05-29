@@ -19,6 +19,21 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>Auto Save</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>Interval</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>Swing</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8th Swing</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8th Shuffle</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_16" xml:space="preserve"><value>16th Swing</value></data>
+  <data name="VOCALOIDPatcher_Job_Swing_16_Shuffle" xml:space="preserve"><value>16th Shuffle</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Header" xml:space="preserve"><value>Humanize</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Timing" xml:space="preserve"><value>Timing (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Duration" xml:space="preserve"><value>Duration (%)</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Velocity" xml:space="preserve"><value>Velocity</value></data>
+  <data name="VOCALOIDPatcher_Job_Lyric_Header" xml:space="preserve"><value>Replace Lyrics</value></data>
+  <data name="VOCALOIDPatcher_Job_Lyric_Syllable" xml:space="preserve"><value>Syllable</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>Quantize Length</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Grid" xml:space="preserve"><value>Grid</value></data>
+  <data name="VOCALOIDPatcher_Job_QuantizeLength_Strength" xml:space="preserve"><value>Strength (%)</value></data>
+  <data name="VOCALOIDPatcher_Job_Apply" xml:space="preserve"><value>Apply</value></data>
 
   <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>Main</value></data>
   <data name="MixerView_Effect_Header" xml:space="preserve"><value>EFFECT</value></data>
