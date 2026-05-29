@@ -109,6 +109,7 @@ public static class Patcher
     public static void PostInject()
     {
         AddPatcherMenuItem();
+        AutoSaveService.UpdateFromSettings();
     }
 
     private static bool DetectVstPluginMode()
@@ -132,7 +133,9 @@ public static class Patcher
             new WpfTranslationPatch(),
             new ResourceManagerPatch(),
             new DependencyObjectPatch(),
-            new ShowOtherTracksNotesPatch()
+            new ShowOtherTracksNotesPatch(),
+            new ShowNotePitchPatch(),
+            new CharacterArtPatch()
         };
 
         patches.ForEach(p =>

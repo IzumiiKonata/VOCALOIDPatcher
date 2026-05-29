@@ -8,9 +8,15 @@
   <data name="VOCALOIDPatcher_TranslateHardcodedStringsRestart" xml:space="preserve"><value>重新啟動編輯器以套用變更。</value></data>
   <data name="VOCALOIDPatcher_Settings_Title" xml:space="preserve"><value>VOCALOID Patcher 設定</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>常規</value></data>
-  <data name="VOCALOIDPatcher_Settings_Category_QoL" xml:space="preserve"><value>QoL Improvements</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>鋼琴窗</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其它</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>顯示其他軌道的音符</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>跳過靜音軌道</value></data>
+  <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>
+  <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫角色立繪</value></data>
+  <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
+  <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
+  <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
 
   <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主軌道</value></data>
   <data name="MixerView_Effect_Header" xml:space="preserve"><value>效果器</value></data>

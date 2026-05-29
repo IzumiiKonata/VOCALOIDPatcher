@@ -62,17 +62,18 @@ public class ShowOtherTracksNotesPatch : PatchBase
             if (updateView == null)
                 return;
 
+            var flags = new[]
+            {
+                Yamaha.VOCALOID.MusicalEditor.UpdateViewTypeFlag.NoteChanged,
+                Yamaha.VOCALOID.MusicalEditor.UpdateViewTypeFlag.PartSelectionChanged
+            };
+
             foreach (Window window in Application.Current.Windows)
             {
                 foreach (var view in FindVisualChildren<PianorollView>(window))
                 {
-                    updateView.Invoke(view,
-                        new object?[]
-                        {
-                            view,
-                            Yamaha.VOCALOID.MusicalEditor.UpdateViewTypeFlag.PartSelectionChanged,
-                            null, null
-                        });
+                    foreach (var flag in flags)
+                        updateView.Invoke(view, new object?[] { view, flag, null, null });
                 }
             }
         }
