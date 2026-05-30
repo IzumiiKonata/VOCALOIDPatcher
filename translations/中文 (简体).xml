@@ -44,11 +44,10 @@
   <data name="VOCALOIDPatcher_Job_DynEg_ReleaseLevel" xml:space="preserve"><value>最小音量</value></data>
   <data name="VOCALOIDPatcher_Job_DynEg_ReleaseTime" xml:space="preserve"><value>释音 (tick)</value></data>
   <data name="VOCALOIDPatcher_Job_AutoPitch_Header" xml:space="preserve"><value>自动音高</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Portamento" xml:space="preserve"><value>滑音宽度 (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Scoop" xml:space="preserve"><value>起音上滑 (音分)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Vibrato" xml:space="preserve"><value>颤音深度 (音分)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_VibratoRate" xml:space="preserve"><value>颤音速率 (×0.1Hz)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Drift" xml:space="preserve"><value>抖动 (音分)</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Attack" xml:space="preserve"><value>起音过渡</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Release" xml:space="preserve"><value>释音过渡</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Drift" xml:space="preserve"><value>音高漂移</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Vibrato" xml:space="preserve"><value>颤音</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Header" xml:space="preserve"><value>生成和声</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>调式根音</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Track" xml:space="preserve"><value>目标轨道</value></data>

@@ -26,6 +26,9 @@ public static class JobTools
     private static readonly MethodInfo? NoteSetDurationMethod =
         typeof(WIVSMNote).GetMethod("SetDuration");
 
+    private static readonly MethodInfo? NoteSetVibratoDurationMethod =
+        typeof(WIVSMNote).GetMethod("SetVibratoDuration");
+
     private static readonly PropertyInfo? AbsTickValueProp =
         typeof(VSMAbsTick).GetProperty("Value") ?? typeof(VSMAbsTick).GetProperty("Tick");
 
@@ -456,89 +459,35 @@ public static class JobTools
             part.RemoveController(controller);
     }
 
-    public static void ApplyAutoPitch(int portamentoTicks, int scoopCents, int vibratoCents, int vibratoRate, int driftCents)
+    public static void ApplyAutoPitch(int attack, int release, int drift, int vibrato)
     {
-        if (!TryGetContext(out var vsm, out var part, out var notes))
+        if (!TryGetContext(out var vsm, out _, out var notes))
             return;
 
-        var ordered = notes.OrderBy(RelStart).ToList();
-        long partAbs = PartAbs(part);
-        int step = Math.Max(1, Resolution / 96);
-        int restGap = Resolution / 8;
-        int vibratoDelay = Resolution / 2;
-        double vibratoHz = vibratoRate / 10.0;
-
-        var ticks = new List<long>();
-        var pitches = new List<double>();
-        var nominal = new List<double>();
-
-        for (int i = 0; i < ordered.Count; i++)
-        {
-            var note = ordered[i];
-            long start = RelStart(note);
-            long end = start + DurationOf(note);
-            long dur = end - start;
-            double pitch0 = note.NoteNumber;
-
-            bool legatoPrev = false;
-            double prevPitch = pitch0;
-            if (i > 0)
-            {
-                var prev = ordered[i - 1];
-                if (start - (RelStart(prev) + DurationOf(prev)) <= restGap)
-                {
-                    legatoPrev = true;
-                    prevPitch = prev.NoteNumber;
-                }
-            }
-
-            bool phraseStart = !legatoPrev;
-            double driftPhase = Rng.NextDouble() * Math.PI * 2.0;
-            double driftHz = 0.6 + Rng.NextDouble() * 1.2;
-            long scoopWindow = Math.Min(dur / 2, Resolution / 3);
-
-            for (long t = start; t < end; t += step)
-            {
-                double p = pitch0;
-
-                if (portamentoTicks > 0 && legatoPrev && Math.Abs(prevPitch - pitch0) > 0.01 && t < start + portamentoTicks)
-                {
-                    double f = Smoothstep((double)(t - start) / portamentoTicks);
-                    p = prevPitch + (pitch0 - prevPitch) * f;
-                }
-                else if (scoopCents > 0 && phraseStart && scoopWindow > 0 && t < start + scoopWindow)
-                {
-                    double f = Smoothstep((double)(t - start) / scoopWindow);
-                    p -= scoopCents / 100.0 * (1.0 - f);
-                }
-
-                if ((vibratoCents > 0 && vibratoHz > 0 && t - start > vibratoDelay) || driftCents > 0)
-                {
-                    double seconds = vsm.GetTimeFromTick(new VSMAbsTick((int)(partAbs + t)));
-
-                    if (vibratoCents > 0 && vibratoHz > 0 && t - start > vibratoDelay)
-                    {
-                        double fade = Smoothstep(Math.Min(1.0, (t - start - vibratoDelay) / (Resolution / 2.0)));
-                        p += vibratoCents / 100.0 * fade * Math.Sin(2 * Math.PI * vibratoHz * seconds);
-                    }
-
-                    if (driftCents > 0)
-                        p += driftCents / 100.0 * Math.Sin(2 * Math.PI * driftHz * seconds + driftPhase);
-                }
-
-                ticks.Add(t);
-                pitches.Add(p);
-                nominal.Add(pitch0);
-            }
-        }
-
-        if (ticks.Count == 0)
-            return;
+        float fAttack = Math.Clamp(attack / 100f, 0f, 1f);
+        float fRelease = Math.Clamp(release / 100f, 0f, 1f);
+        float fDrift = Math.Clamp(drift / 100f, 0f, 1f);
+        var vibType = vibrato <= 0 ? VSMVibratoType.None
+            : vibrato <= 33 ? VSMVibratoType.Slight_2
+            : vibrato <= 66 ? VSMVibratoType.Normal_2
+            : VSMVibratoType.Extreme_2;
 
         try
         {
             using var transaction = new Transaction(vsm);
-            transaction.Result = WriteAutoPitch(part, ticks, pitches, nominal);
+            transaction.Result = true;
+
+            foreach (var note in notes)
+            {
+                var expr = note.GetAiNoteExpression();
+                expr.PitchTransitionStart = fAttack;
+                expr.PitchTransitionEnd = fRelease;
+                expr.PitchDriftStart = fDrift;
+                expr.PitchDriftEnd = fDrift;
+                note.SetAiNoteExpression(expr);
+
+                ApplyVibrato(note, vibrato, vibType);
+            }
         }
         catch (Exception e)
         {
@@ -548,51 +497,34 @@ public static class JobTools
         ShowOtherTracksNotesPatch.RefreshPianoroll();
     }
 
-    private static bool WriteAutoPitch(WIVSMMidiPart part, List<long> ticks, List<double> pitches, List<double> nominal)
+    private static void ApplyVibrato(WIVSMNote note, int vibrato, VSMVibratoType type)
     {
-        long lo = ticks[0];
-        long hi = ticks[^1];
-
+        if (vibrato <= 0 || DurationOf(note) < Resolution)
+        {
+            note.VibratoType = VSMVibratoType.None;
 #if NET8_0_OR_GREATER
-        part.ClearDirectPitches(new VSMRelTick((int)lo), new VSMRelTick((int)hi));
-        bool scored = part.BeginScoreEdit();
-        if (!part.BeginDirectPitchEdit())
-        {
-            Debug.Print("[Job] 自动音高: BeginDirectPitchEdit 失败 (该 part 可能尚未渲染)");
-            return false;
+            note.SetAiVibratoEnabled(false);
+#endif
+            return;
         }
 
-        for (int i = 0; i < ticks.Count; i++)
-            part.UpdateDirectPitchEdit(new VSMRelTick((int)ticks[i]), (float)(pitches[i] * 100.0 - 6900.0));
-
-        part.EndDirectPitchEdit();
-        if (scored)
-            part.EndScoreEdit();
-        return true;
-#else
-        int pbs = 2;
-        for (int i = 0; i < ticks.Count; i++)
-            pbs = Math.Max(pbs, (int)Math.Ceiling(Math.Abs(pitches[i] - nominal[i])));
-        pbs = Math.Clamp(pbs, 1, 24);
-
-        RemoveControllersInRange(part, VSMControllerType.PitchBendSens, lo, hi);
-        part.InsertController(new VSMRelTick((int)lo), VSMControllerType.PitchBendSens, pbs);
-        RemoveControllersInRange(part, VSMControllerType.PitchBend, lo, hi);
-
-        for (int i = 0; i < ticks.Count; i++)
-        {
-            int pit = (int)Math.Round((pitches[i] - nominal[i]) / pbs * 8192.0);
-            part.InsertController(new VSMRelTick((int)ticks[i]), VSMControllerType.PitchBend, Math.Clamp(pit, -8191, 8191));
-        }
-
-        return true;
+        note.VibratoType = type;
+        SetVibratoDuration(note, (int)(DurationOf(note) / 2));
+#if NET8_0_OR_GREATER
+        note.SetAiVibratoEnabled(true);
+        int depth = (int)Math.Round(vibrato / 100.0 * 127);
+        note.SetVibratoLeadingDepth(depth);
+        note.SetVibratoFollowingDepth(depth);
 #endif
     }
 
-    private static double Smoothstep(double x)
+    private static void SetVibratoDuration(WIVSMNote note, int ticks)
     {
-        x = Math.Clamp(x, 0.0, 1.0);
-        return x * x * (3.0 - 2.0 * x);
+        if (NoteSetVibratoDurationMethod == null)
+            return;
+        var paramType = NoteSetVibratoDurationMethod.GetParameters()[0].ParameterType;
+        object arg = paramType == typeof(int) ? ticks : new VSMRelTick(ticks);
+        NoteSetVibratoDurationMethod.Invoke(note, new[] { arg });
     }
 
     private static int RandSigned(int amount) => Rng.Next(-amount, amount + 1);

@@ -148,15 +148,13 @@ public static class JobMenu
     private static void ShowAutoPitchDialog()
     {
         var dialog = new JobDialog("VOCALOIDPatcher_Job_AutoPitch_Header", "自动音高");
-        var portamento = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Portamento", "滑音宽度 (tick)", 0, 120, 40);
-        var scoop = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Scoop", "起音上滑 (音分)", 0, 300, 100);
-        var vibrato = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Vibrato", "颤音深度 (音分)", 0, 100, 35);
-        var vibratoRate = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_VibratoRate", "颤音速率 (×0.1Hz)", 0, 100, 55);
-        var drift = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Drift", "抖动 (音分)", 0, 50, 12);
+        var attack = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Attack", "起音过渡", 0, 100, 50);
+        var release = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Release", "释音过渡", 0, 100, 50);
+        var drift = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Drift", "音高漂移", 0, 100, 20);
+        var vibrato = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Vibrato", "颤音", 0, 100, 50);
 
         if (dialog.ShowForApply())
-            JobTools.ApplyAutoPitch((int)portamento.Value, (int)scoop.Value, (int)vibrato.Value,
-                (int)vibratoRate.Value, (int)drift.Value);
+            JobTools.ApplyAutoPitch((int)attack.Value, (int)release.Value, (int)drift.Value, (int)vibrato.Value);
     }
 
     private static readonly (JobTools.HarmonyInterval Interval, string Key, string Fallback, bool Default)[] HarmonyOptions =

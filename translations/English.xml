@@ -44,11 +44,10 @@
   <data name="VOCALOIDPatcher_Job_DynEg_ReleaseLevel" xml:space="preserve"><value>Release Level</value></data>
   <data name="VOCALOIDPatcher_Job_DynEg_ReleaseTime" xml:space="preserve"><value>Release (tick)</value></data>
   <data name="VOCALOIDPatcher_Job_AutoPitch_Header" xml:space="preserve"><value>Auto Pitch</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Portamento" xml:space="preserve"><value>Portamento (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Scoop" xml:space="preserve"><value>Scoop (cents)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Vibrato" xml:space="preserve"><value>Vibrato Depth (cents)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_VibratoRate" xml:space="preserve"><value>Vibrato Rate (×0.1Hz)</value></data>
-  <data name="VOCALOIDPatcher_Job_AutoPitch_Drift" xml:space="preserve"><value>Drift (cents)</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Attack" xml:space="preserve"><value>Attack Transition</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Release" xml:space="preserve"><value>Release Transition</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Drift" xml:space="preserve"><value>Pitch Drift</value></data>
+  <data name="VOCALOIDPatcher_Job_AutoPitch_Vibrato" xml:space="preserve"><value>Vibrato</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Header" xml:space="preserve"><value>Generate Harmony</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>Scale Root</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Track" xml:space="preserve"><value>Target Track</value></data>
