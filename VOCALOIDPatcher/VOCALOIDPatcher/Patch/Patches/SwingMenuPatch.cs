@@ -11,10 +11,6 @@ using UpdateViewTypeFlag = Yamaha.VOCALOID.MusicalEditor.UpdateViewTypeFlag;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-/**
- * 往钢琴窗右键菜单的“任务(Job)”子菜单里注入“摇摆 (Swing)”预设。
- * postfix PianorollView.UpdateView 时幂等地确保菜单存在，并每次重设本地化标题（随语言自动更新）。
- */
 public class SwingMenuPatch : PatchBase
 {
     private const string MarkerTag = "VOCALOIDPatcher_SwingMenu";

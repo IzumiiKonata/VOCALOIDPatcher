@@ -119,6 +119,20 @@ internal sealed class JobDialog : Window
         return combo;
     }
 
+    internal CheckBox AddCheckBox(string key, string fallback, bool isChecked)
+    {
+        var box = new CheckBox
+        {
+            Content = T(key, fallback),
+            IsChecked = isChecked,
+            Foreground = DarkTheme.Foreground,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 8)
+        };
+        _fields.Children.Add(box);
+        return box;
+    }
+
     private static StackPanel NewRow()
         => new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
 

@@ -11,10 +11,6 @@ using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Jobs;
 
-/**
- * 把带参数的音符工具(人性化 / 歌词替换 / 量化时值)注入编辑器菜单栏自带的 "Job(任务)" 菜单，
- * 和 VOCALOID4 的 Job Plugin 出现位置一致。点击菜单项弹参数对话框，确认后应用。
- */
 public static class JobMenu
 {
     private const string MarkerTag = "VOCALOIDPatcher_Job";
@@ -41,6 +37,8 @@ public static class JobMenu
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Humanize_Header", "人性化", ShowHumanizeDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Lyric_Header", "歌词替换", ShowLyricDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_QuantizeLength_Header", "量化时值", ShowQuantizeDialog));
+            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_DynEg_Header", "动态包络", ShowDynEgDialog));
+            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Harmony_Header", "生成和声", ShowHarmonyDialog));
 
             HookLanguage();
             RefreshHeaders();
@@ -124,6 +122,60 @@ public static class JobMenu
             int denom = denoms[Math.Clamp(grid.SelectedIndex, 0, denoms.Length - 1)];
             int gridTicks = Yamaha.VOCALOID.Design.Sequence.resolution * 4 / denom;
             JobTools.ApplyQuantizeLength(gridTicks, strength.Value / 100.0);
+        }
+    }
+
+    private static void ShowDynEgDialog()
+    {
+        var dialog = new JobDialog("VOCALOIDPatcher_Job_DynEg_Header", "动态包络");
+        var initial = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_Initial", "起始音量", 0, 127, 64);
+        var attackLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_AttackLevel", "最大音量", 0, 127, 96);
+        var attackTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_AttackTime", "起音 (tick)", 0, 240, 30);
+        var holdTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_HoldTime", "保持 (tick)", 0, 240, 0);
+        var decayTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_DecayTime", "衰减 (tick)", 0, 240, 30);
+        var sustainLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_SustainLevel", "持续音量", 0, 127, 64);
+        var fadeLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_FadeLevel", "渐弱音量", 0, 127, 56);
+        var releaseLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_ReleaseLevel", "最小音量", 0, 127, 32);
+        var releaseTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_ReleaseTime", "释音 (tick)", 0, 240, 30);
+
+        if (dialog.ShowForApply())
+            JobTools.ApplyDynEnvelope((int)initial.Value, (int)attackLevel.Value, (int)attackTime.Value,
+                (int)holdTime.Value, (int)decayTime.Value, (int)sustainLevel.Value, (int)fadeLevel.Value,
+                (int)releaseLevel.Value, (int)releaseTime.Value);
+    }
+
+    private static readonly (JobTools.HarmonyInterval Interval, string Key, string Fallback, bool Default)[] HarmonyOptions =
+    {
+        (JobTools.HarmonyInterval.ThirdUp, "VOCALOIDPatcher_Job_Harmony_ThirdUp", "上三度", true),
+        (JobTools.HarmonyInterval.FifthUp, "VOCALOIDPatcher_Job_Harmony_FifthUp", "上五度", false),
+        (JobTools.HarmonyInterval.SixthUp, "VOCALOIDPatcher_Job_Harmony_SixthUp", "上六度", false),
+        (JobTools.HarmonyInterval.FourthUp, "VOCALOIDPatcher_Job_Harmony_FourthUp", "上四度", false),
+        (JobTools.HarmonyInterval.ThirdDown, "VOCALOIDPatcher_Job_Harmony_ThirdDown", "下三度", false),
+        (JobTools.HarmonyInterval.OctaveUp, "VOCALOIDPatcher_Job_Harmony_OctaveUp", "上八度", false),
+        (JobTools.HarmonyInterval.OctaveDown, "VOCALOIDPatcher_Job_Harmony_OctaveDown", "下八度", false)
+    };
+
+    private static void ShowHarmonyDialog()
+    {
+        var dialog = new JobDialog("VOCALOIDPatcher_Job_Harmony_Header", "生成和声");
+        var roots = new[] { "C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B" };
+        var root = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Root", "调式根音", roots, 0);
+
+        var trackLabels = new[]
+        {
+            TranslationManager.Get("VOCALOIDPatcher_Job_Harmony_TrackExisting") ?? "使用现有轨道",
+            TranslationManager.Get("VOCALOIDPatcher_Job_Harmony_TrackNew") ?? "新建轨道"
+        };
+        var trackMode = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Track", "目标轨道", trackLabels, 0);
+
+        var boxes = HarmonyOptions
+            .Select(o => (o.Interval, Box: dialog.AddCheckBox(o.Key, o.Fallback, o.Default)))
+            .ToList();
+
+        if (dialog.ShowForApply())
+        {
+            var selected = boxes.Where(b => b.Box.IsChecked == true).Select(b => b.Interval).ToList();
+            JobTools.ApplyHarmony(Math.Clamp(root.SelectedIndex, 0, 11), selected, trackMode.SelectedIndex == 1);
         }
     }
 }

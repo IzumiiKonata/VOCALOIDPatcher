@@ -33,6 +33,29 @@
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>量化时值</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Grid" xml:space="preserve"><value>网格</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Strength" xml:space="preserve"><value>强度 (%)</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_Header" xml:space="preserve"><value>动态包络</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_Initial" xml:space="preserve"><value>起始音量</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_AttackLevel" xml:space="preserve"><value>最大音量</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_AttackTime" xml:space="preserve"><value>起音 (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_HoldTime" xml:space="preserve"><value>保持 (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_DecayTime" xml:space="preserve"><value>衰减 (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_SustainLevel" xml:space="preserve"><value>持续音量</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_FadeLevel" xml:space="preserve"><value>渐弱音量</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_ReleaseLevel" xml:space="preserve"><value>最小音量</value></data>
+  <data name="VOCALOIDPatcher_Job_DynEg_ReleaseTime" xml:space="preserve"><value>释音 (tick)</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_Header" xml:space="preserve"><value>生成和声</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>调式根音</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_Track" xml:space="preserve"><value>目标轨道</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_TrackExisting" xml:space="preserve"><value>使用现有轨道</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_TrackNew" xml:space="preserve"><value>新建轨道</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_TrackName" xml:space="preserve"><value>和声</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上三度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上五度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>上六度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_FourthUp" xml:space="preserve"><value>上四度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_ThirdDown" xml:space="preserve"><value>下三度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_OctaveUp" xml:space="preserve"><value>上八度</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_OctaveDown" xml:space="preserve"><value>下八度</value></data>
   <data name="VOCALOIDPatcher_Job_Apply" xml:space="preserve"><value>应用</value></data>
 
   <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主轨道</value></data>

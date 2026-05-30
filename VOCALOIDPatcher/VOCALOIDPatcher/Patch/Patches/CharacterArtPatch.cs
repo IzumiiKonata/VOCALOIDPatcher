@@ -81,7 +81,6 @@ public class CharacterArtPatch : PatchBase
             adorner.SetImage(LoadActiveArt(view));
     }
 
-    /** 仅重绘立绘 adorner（大小/不透明度滑条变更时调用，避免整轨音符重绘）。 */
     public static void RefreshArt()
     {
         try

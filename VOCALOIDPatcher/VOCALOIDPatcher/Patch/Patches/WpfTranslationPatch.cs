@@ -40,9 +40,6 @@ public class WpfTranslationPatch : PatchBase
         FixFilepathSeparator();
     }
 
-    /**
-     * 注册类级事件处理器
-     */
     public static void InstallGlobalHandlers()
     {
         if (_globalHandlersInstalled)
