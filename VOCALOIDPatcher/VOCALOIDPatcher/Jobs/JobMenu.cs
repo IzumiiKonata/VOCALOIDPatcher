@@ -38,7 +38,6 @@ public static class JobMenu
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Lyric_Header", "歌词替换", ShowLyricDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_QuantizeLength_Header", "量化时值", ShowQuantizeDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_DynEg_Header", "动态包络", ShowDynEgDialog));
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_AutoPitch_Header", "自动音高", ShowAutoPitchDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Harmony_Header", "生成和声", ShowHarmonyDialog));
 
             HookLanguage();
@@ -143,18 +142,6 @@ public static class JobMenu
             JobTools.ApplyDynEnvelope((int)initial.Value, (int)attackLevel.Value, (int)attackTime.Value,
                 (int)holdTime.Value, (int)decayTime.Value, (int)sustainLevel.Value, (int)fadeLevel.Value,
                 (int)releaseLevel.Value, (int)releaseTime.Value);
-    }
-
-    private static void ShowAutoPitchDialog()
-    {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_AutoPitch_Header", "自动音高");
-        var attack = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Attack", "起音过渡", 0, 100, 50);
-        var release = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Release", "释音过渡", 0, 100, 50);
-        var drift = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Drift", "音高漂移", 0, 100, 20);
-        var vibrato = dialog.AddSlider("VOCALOIDPatcher_Job_AutoPitch_Vibrato", "颤音", 0, 100, 50);
-
-        if (dialog.ShowForApply())
-            JobTools.ApplyAutoPitch((int)attack.Value, (int)release.Value, (int)drift.Value, (int)vibrato.Value);
     }
 
     private static readonly (JobTools.HarmonyInterval Interval, string Key, string Fallback, bool Default)[] HarmonyOptions =

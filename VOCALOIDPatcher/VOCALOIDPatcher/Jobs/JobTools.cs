@@ -26,9 +26,6 @@ public static class JobTools
     private static readonly MethodInfo? NoteSetDurationMethod =
         typeof(WIVSMNote).GetMethod("SetDuration");
 
-    private static readonly MethodInfo? NoteSetVibratoDurationMethod =
-        typeof(WIVSMNote).GetMethod("SetVibratoDuration");
-
     private static readonly PropertyInfo? AbsTickValueProp =
         typeof(VSMAbsTick).GetProperty("Value") ?? typeof(VSMAbsTick).GetProperty("Tick");
 
@@ -457,74 +454,6 @@ public static class JobTools
 
         foreach (var controller in toRemove)
             part.RemoveController(controller);
-    }
-
-    public static void ApplyAutoPitch(int attack, int release, int drift, int vibrato)
-    {
-        if (!TryGetContext(out var vsm, out _, out var notes))
-            return;
-
-        float fAttack = Math.Clamp(attack / 100f, 0f, 1f);
-        float fRelease = Math.Clamp(release / 100f, 0f, 1f);
-        float fDrift = Math.Clamp(drift / 100f, 0f, 1f);
-        var vibType = vibrato <= 0 ? VSMVibratoType.None
-            : vibrato <= 33 ? VSMVibratoType.Slight_2
-            : vibrato <= 66 ? VSMVibratoType.Normal_2
-            : VSMVibratoType.Extreme_2;
-
-        try
-        {
-            using var transaction = new Transaction(vsm);
-            transaction.Result = true;
-
-            foreach (var note in notes)
-            {
-                var expr = note.GetAiNoteExpression();
-                expr.PitchTransitionStart = fAttack;
-                expr.PitchTransitionEnd = fRelease;
-                expr.PitchDriftStart = fDrift;
-                expr.PitchDriftEnd = fDrift;
-                note.SetAiNoteExpression(expr);
-
-                ApplyVibrato(note, vibrato, vibType);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Print($"[Job] 自动音高失败: {e.Message}");
-        }
-
-        ShowOtherTracksNotesPatch.RefreshPianoroll();
-    }
-
-    private static void ApplyVibrato(WIVSMNote note, int vibrato, VSMVibratoType type)
-    {
-        if (vibrato <= 0 || DurationOf(note) < Resolution)
-        {
-            note.VibratoType = VSMVibratoType.None;
-#if NET8_0_OR_GREATER
-            note.SetAiVibratoEnabled(false);
-#endif
-            return;
-        }
-
-        note.VibratoType = type;
-        SetVibratoDuration(note, (int)(DurationOf(note) / 2));
-#if NET8_0_OR_GREATER
-        note.SetAiVibratoEnabled(true);
-        int depth = (int)Math.Round(vibrato / 100.0 * 127);
-        note.SetVibratoLeadingDepth(depth);
-        note.SetVibratoFollowingDepth(depth);
-#endif
-    }
-
-    private static void SetVibratoDuration(WIVSMNote note, int ticks)
-    {
-        if (NoteSetVibratoDurationMethod == null)
-            return;
-        var paramType = NoteSetVibratoDurationMethod.GetParameters()[0].ParameterType;
-        object arg = paramType == typeof(int) ? ticks : new VSMRelTick(ticks);
-        NoteSetVibratoDurationMethod.Invoke(note, new[] { arg });
     }
 
     private static int RandSigned(int amount) => Rng.Next(-amount, amount + 1);
