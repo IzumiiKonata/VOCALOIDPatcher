@@ -195,6 +195,7 @@ public static class JobTools
             return;
 
         var ordered = notes.OrderBy(RelStart).ToList();
+        var origSeg = ordered.Select(n => (Start: RelStart(n), End: RelStart(n) + DurationOf(n))).ToList();
         var p = Profile(singerIndex, skillLevel);
 
         int absolutePitch = RandRange(-80.0 * (100 - p.Absolute), 80.0 * (100 - p.Absolute)) / 10;
@@ -250,7 +251,6 @@ public static class JobTools
 
             var seg = ordered
                 .Select(n => (Start: RelStart(n), Dur: DurationOf(n), Num: n.NoteNumber))
-                .OrderBy(s => s.Start)
                 .ToList();
             if (seg.Count == 0)
             {
@@ -301,6 +301,10 @@ public static class JobTools
 
             part.InsertController(new VSMRelTick((int)(spanEnd + 1)), VSMControllerType.PitchBend,
                 (int)Math.Clamp(ValueAt(pitBase, spanEnd + 1, defPit), -8192, 8191));
+
+            var anchors = BuildTimeAnchors(origSeg, seg);
+            foreach (var type in RemapControllers)
+                RemapController(part, type, anchors, spanStart, spanEnd, step);
         }
         catch (Exception e)
         {
@@ -794,6 +798,75 @@ public static class JobTools
         catch
         {
             return fallback;
+        }
+    }
+
+    private static readonly VSMControllerType[] RemapControllers =
+    {
+        VSMControllerType.Dynamics,
+        VSMControllerType.Breathiness,
+        VSMControllerType.Brightness,
+        VSMControllerType.Clearness,
+        VSMControllerType.Character,
+        VSMControllerType.PitchBendSens,
+        VSMControllerType.Portamento
+    };
+
+    private static List<(long New, long Orig)> BuildTimeAnchors(
+        List<(long Start, long End)> orig, List<(long Start, long Dur, int Num)> seg)
+    {
+        var anchors = new List<(long New, long Orig)>(seg.Count * 2);
+        for (int i = 0; i < seg.Count && i < orig.Count; i++)
+        {
+            anchors.Add((seg[i].Start, orig[i].Start));
+            anchors.Add((seg[i].Start + seg[i].Dur, orig[i].End));
+        }
+
+        return anchors;
+    }
+
+    private static long MapToSource(List<(long New, long Orig)> anchors, long t)
+    {
+        if (anchors.Count == 0)
+            return t;
+        if (t <= anchors[0].New)
+            return t + (anchors[0].Orig - anchors[0].New);
+        if (t >= anchors[^1].New)
+            return t + (anchors[^1].Orig - anchors[^1].New);
+
+        int lo = 0, hi = anchors.Count - 1;
+        while (hi - lo > 1)
+        {
+            int mid = (lo + hi) / 2;
+            if (anchors[mid].New <= t)
+                lo = mid;
+            else
+                hi = mid;
+        }
+
+        var a = anchors[lo];
+        var b = anchors[hi];
+        if (b.New == a.New)
+            return a.Orig;
+        double frac = (double)(t - a.New) / (b.New - a.New);
+        return (long)Math.Round(a.Orig + frac * (b.Orig - a.Orig));
+    }
+
+    private static void RemapController(WIVSMMidiPart part, VSMControllerType type,
+        List<(long New, long Orig)> anchors, long spanStart, long spanEnd, int step)
+    {
+        var list = ReadControllerList(part, type);
+        if (list.Count <= 1)
+            return;
+
+        int def = SafeDefault(part, type, list[0].Value);
+        RemoveControllersInRange(part, type, spanStart, spanEnd);
+
+        for (long t = spanStart; t <= spanEnd; t += step)
+        {
+            long src = MapToSource(anchors, t);
+            int value = (int)Math.Round(ValueAt(list, src, def));
+            part.InsertController(new VSMRelTick((int)t), type, value);
         }
     }
 
