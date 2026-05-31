@@ -24,36 +24,11 @@
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_16" xml:space="preserve"><value>16 分摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_16_Shuffle" xml:space="preserve"><value>16 分 Shuffle</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Header" xml:space="preserve"><value>人性化</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer" xml:space="preserve"><value>歌唱类型</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_VocalGroup" xml:space="preserve"><value>流行和声</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Choir" xml:space="preserve"><value>合唱</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Gospel" xml:space="preserve"><value>福音</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Chanting" xml:space="preserve"><value>诵经</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Children" xml:space="preserve"><value>儿童</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Overdub" xml:space="preserve"><value>叠录</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Humanize" xml:space="preserve"><value>纯人性化</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Skill" xml:space="preserve"><value>技能等级</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Novice" xml:space="preserve"><value>初级</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Regular" xml:space="preserve"><value>标准</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Advanced" xml:space="preserve"><value>上级</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Skillful" xml:space="preserve"><value>熟练</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_NoVibrato" xml:space="preserve"><value>关闭颤音</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Header" xml:space="preserve"><value>歌词替换</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Syllable" xml:space="preserve"><value>音节</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>量化时值</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Grid" xml:space="preserve"><value>网格</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Strength" xml:space="preserve"><value>强度 (%)</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_Header" xml:space="preserve"><value>动态包络</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_Initial" xml:space="preserve"><value>起始音量</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_AttackLevel" xml:space="preserve"><value>最大音量</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_AttackTime" xml:space="preserve"><value>起音 (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_HoldTime" xml:space="preserve"><value>保持 (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_DecayTime" xml:space="preserve"><value>衰减 (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_SustainLevel" xml:space="preserve"><value>持续音量</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_FadeLevel" xml:space="preserve"><value>渐弱音量</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_ReleaseLevel" xml:space="preserve"><value>最小音量</value></data>
-  <data name="VOCALOIDPatcher_Job_DynEg_ReleaseTime" xml:space="preserve"><value>释音 (tick)</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Header" xml:space="preserve"><value>生成和声</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>调式根音</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Track" xml:space="preserve"><value>目标轨道</value></data>

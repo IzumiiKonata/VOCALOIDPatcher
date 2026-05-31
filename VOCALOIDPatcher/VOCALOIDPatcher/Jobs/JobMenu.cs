@@ -34,10 +34,8 @@ public static class JobMenu
                 return;
 
             jobMenu.Items.Add(new Separator());
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Humanize_Header", "人性化", ShowHumanizeDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Lyric_Header", "歌词替换", ShowLyricDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_QuantizeLength_Header", "量化时值", ShowQuantizeDialog));
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_DynEg_Header", "动态包络", ShowDynEgDialog));
             jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Harmony_Header", "生成和声", ShowHarmonyDialog));
 
             HookLanguage();
@@ -89,38 +87,6 @@ public static class JobMenu
             item.Header = (TranslationManager.Get(key) ?? fallback) + "...";
     }
 
-    private static void ShowHumanizeDialog()
-    {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_Humanize_Header", "人性化");
-
-        var singerLabels = new[]
-        {
-            T("VOCALOIDPatcher_Job_Humanize_Singer_VocalGroup", "流行和声"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Choir", "合唱"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Gospel", "福音"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Chanting", "诵经"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Children", "儿童"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Overdub", "叠录"),
-            T("VOCALOIDPatcher_Job_Humanize_Singer_Humanize", "纯人性化")
-        };
-        var singer = dialog.AddCombo("VOCALOIDPatcher_Job_Humanize_Singer", "歌唱类型", singerLabels, 0);
-
-        var skillLabels = new[]
-        {
-            T("VOCALOIDPatcher_Job_Humanize_Skill_Novice", "初级"),
-            T("VOCALOIDPatcher_Job_Humanize_Skill_Regular", "标准"),
-            T("VOCALOIDPatcher_Job_Humanize_Skill_Advanced", "上级"),
-            T("VOCALOIDPatcher_Job_Humanize_Skill_Skillful", "熟练")
-        };
-        var skill = dialog.AddCombo("VOCALOIDPatcher_Job_Humanize_Skill", "技能等级", skillLabels, 1);
-
-        var noVibrato = dialog.AddCheckBox("VOCALOIDPatcher_Job_Humanize_NoVibrato", "关闭颤音", false);
-
-        if (dialog.ShowForApply())
-            JobTools.ApplyHumanize(singer.SelectedIndex, skill.SelectedIndex + 1, noVibrato.IsChecked == true);
-    }
-
-    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 
     private static void ShowLyricDialog()
     {
@@ -145,25 +111,6 @@ public static class JobMenu
             int gridTicks = Yamaha.VOCALOID.Design.Sequence.resolution * 4 / denom;
             JobTools.ApplyQuantizeLength(gridTicks, strength.Value / 100.0);
         }
-    }
-
-    private static void ShowDynEgDialog()
-    {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_DynEg_Header", "动态包络");
-        var initial = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_Initial", "起始音量", 0, 127, 64);
-        var attackLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_AttackLevel", "最大音量", 0, 127, 96);
-        var attackTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_AttackTime", "起音 (tick)", 0, 240, 30);
-        var holdTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_HoldTime", "保持 (tick)", 0, 240, 0);
-        var decayTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_DecayTime", "衰减 (tick)", 0, 240, 30);
-        var sustainLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_SustainLevel", "持续音量", 0, 127, 64);
-        var fadeLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_FadeLevel", "渐弱音量", 0, 127, 56);
-        var releaseLevel = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_ReleaseLevel", "最小音量", 0, 127, 32);
-        var releaseTime = dialog.AddSlider("VOCALOIDPatcher_Job_DynEg_ReleaseTime", "释音 (tick)", 0, 240, 30);
-
-        if (dialog.ShowForApply())
-            JobTools.ApplyDynEnvelope((int)initial.Value, (int)attackLevel.Value, (int)attackTime.Value,
-                (int)holdTime.Value, (int)decayTime.Value, (int)sustainLevel.Value, (int)fadeLevel.Value,
-                (int)releaseLevel.Value, (int)releaseTime.Value);
     }
 
     private static readonly (JobTools.HarmonyInterval Interval, string Key, string Fallback, bool Default)[] HarmonyOptions =
