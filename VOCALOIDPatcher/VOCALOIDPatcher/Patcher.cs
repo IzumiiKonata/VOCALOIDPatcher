@@ -111,6 +111,8 @@ public static class Patcher
     {
         AddPatcherMenuItem();
         JobMenu.Install();
+        Formats.Io.FormatHandlers.Initialize();
+        Formats.FormatMenu.Install();
         AutoSaveService.UpdateFromSettings();
     }
 
