@@ -25,9 +25,20 @@
   <data name="VOCALOIDPatcher_Job_Swing_16" xml:space="preserve"><value>16 分摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_16_Shuffle" xml:space="preserve"><value>16 分 Shuffle</value></data>
   <data name="VOCALOIDPatcher_Job_Humanize_Header" xml:space="preserve"><value>人性化</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Timing" xml:space="preserve"><value>起始 (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Duration" xml:space="preserve"><value>时值 (%)</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Velocity" xml:space="preserve"><value>力度</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer" xml:space="preserve"><value>歌唱类型</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_VocalGroup" xml:space="preserve"><value>流行和声</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Choir" xml:space="preserve"><value>合唱</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Gospel" xml:space="preserve"><value>福音</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Chanting" xml:space="preserve"><value>诵经</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Children" xml:space="preserve"><value>儿童</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Overdub" xml:space="preserve"><value>叠录</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Humanize" xml:space="preserve"><value>纯人性化</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill" xml:space="preserve"><value>技能等级</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Novice" xml:space="preserve"><value>初级</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Regular" xml:space="preserve"><value>标准</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Advanced" xml:space="preserve"><value>上级</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Skillful" xml:space="preserve"><value>熟练</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_NoVibrato" xml:space="preserve"><value>关闭颤音</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Header" xml:space="preserve"><value>歌词替换</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Syllable" xml:space="preserve"><value>音节</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>量化时值</value></data>

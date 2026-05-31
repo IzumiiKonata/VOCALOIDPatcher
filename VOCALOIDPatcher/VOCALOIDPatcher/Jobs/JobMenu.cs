@@ -92,13 +92,35 @@ public static class JobMenu
     private static void ShowHumanizeDialog()
     {
         var dialog = new JobDialog("VOCALOIDPatcher_Job_Humanize_Header", "人性化");
-        var timing = dialog.AddSlider("VOCALOIDPatcher_Job_Humanize_Timing", "起始 (tick)", 0, 60, 15);
-        var duration = dialog.AddSlider("VOCALOIDPatcher_Job_Humanize_Duration", "时值 (%)", 0, 30, 8);
-        var velocity = dialog.AddSlider("VOCALOIDPatcher_Job_Humanize_Velocity", "力度", 0, 30, 8);
+
+        var singerLabels = new[]
+        {
+            T("VOCALOIDPatcher_Job_Humanize_Singer_VocalGroup", "流行和声"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Choir", "合唱"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Gospel", "福音"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Chanting", "诵经"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Children", "儿童"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Overdub", "叠录"),
+            T("VOCALOIDPatcher_Job_Humanize_Singer_Humanize", "纯人性化")
+        };
+        var singer = dialog.AddCombo("VOCALOIDPatcher_Job_Humanize_Singer", "歌唱类型", singerLabels, 0);
+
+        var skillLabels = new[]
+        {
+            T("VOCALOIDPatcher_Job_Humanize_Skill_Novice", "初级"),
+            T("VOCALOIDPatcher_Job_Humanize_Skill_Regular", "标准"),
+            T("VOCALOIDPatcher_Job_Humanize_Skill_Advanced", "上级"),
+            T("VOCALOIDPatcher_Job_Humanize_Skill_Skillful", "熟练")
+        };
+        var skill = dialog.AddCombo("VOCALOIDPatcher_Job_Humanize_Skill", "技能等级", skillLabels, 1);
+
+        var noVibrato = dialog.AddCheckBox("VOCALOIDPatcher_Job_Humanize_NoVibrato", "关闭颤音", false);
 
         if (dialog.ShowForApply())
-            JobTools.ApplyHumanize((int)timing.Value, duration.Value, (int)velocity.Value);
+            JobTools.ApplyHumanize(singer.SelectedIndex, skill.SelectedIndex + 1, noVibrato.IsChecked == true);
     }
+
+    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 
     private static void ShowLyricDialog()
     {

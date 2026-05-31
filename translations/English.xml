@@ -25,9 +25,20 @@
   <data name="VOCALOIDPatcher_Job_Swing_16" xml:space="preserve"><value>16th Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_16_Shuffle" xml:space="preserve"><value>16th Shuffle</value></data>
   <data name="VOCALOIDPatcher_Job_Humanize_Header" xml:space="preserve"><value>Humanize</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Timing" xml:space="preserve"><value>Timing (tick)</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Duration" xml:space="preserve"><value>Duration (%)</value></data>
-  <data name="VOCALOIDPatcher_Job_Humanize_Velocity" xml:space="preserve"><value>Velocity</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer" xml:space="preserve"><value>Singing Type</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_VocalGroup" xml:space="preserve"><value>Vocal Group</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Choir" xml:space="preserve"><value>Choir</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Gospel" xml:space="preserve"><value>Gospel</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Chanting" xml:space="preserve"><value>Chanting</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Children" xml:space="preserve"><value>Children</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Overdub" xml:space="preserve"><value>Overdubbing</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Singer_Humanize" xml:space="preserve"><value>Humanizing</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill" xml:space="preserve"><value>Skill Level</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Novice" xml:space="preserve"><value>Novice</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Regular" xml:space="preserve"><value>Regular</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Advanced" xml:space="preserve"><value>Advanced</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_Skill_Skillful" xml:space="preserve"><value>Skillful</value></data>
+  <data name="VOCALOIDPatcher_Job_Humanize_NoVibrato" xml:space="preserve"><value>Disable Vibrato</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Header" xml:space="preserve"><value>Replace Lyrics</value></data>
   <data name="VOCALOIDPatcher_Job_Lyric_Syllable" xml:space="preserve"><value>Syllable</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Header" xml:space="preserve"><value>Quantize Length</value></data>
