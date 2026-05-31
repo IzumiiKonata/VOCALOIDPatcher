@@ -149,6 +149,9 @@ public class WpfTranslationPatch : PatchBase
 
         TranslateElement(root);
 
+        if (root is AccessText)
+            return;
+
         if (root is Visual or Visual3D)
         {
             var count = VisualTreeHelper.GetChildrenCount(root);
