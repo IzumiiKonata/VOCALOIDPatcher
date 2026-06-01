@@ -40,7 +40,8 @@ public class ShowOtherTracksNotesPatch : PatchBase
                 if (active != null && track.Equals(active))
                     continue;
 
-                if (skipMuted && track.IsMute)
+                // 用 AudioPlayer.IsMute (考虑独奏的有效静音): 显式静音, 或有其它轨道独奏时本轨被压低, 都视为静音跳过
+                if (skipMuted && AudioPlayer.IsMute(track))
                     continue;
 
                 parts.AddRange(track.MidiParts);
