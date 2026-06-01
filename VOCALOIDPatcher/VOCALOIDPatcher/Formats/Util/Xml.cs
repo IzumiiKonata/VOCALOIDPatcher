@@ -68,6 +68,12 @@ public static class Xml
 
     public static XmlElement CloneElement(this XmlElement element) => (XmlElement)element.CloneNode(true);
 
+    public static void Clear(this XmlElement element)
+    {
+        while (element.FirstChild != null)
+            element.RemoveChild(element.FirstChild);
+    }
+
     public static XmlElement AppendNewChildTo(this XmlDocument document, XmlNode node, string localName, Action<XmlElement> handler)
     {
         var element = document.CreateElement(localName);

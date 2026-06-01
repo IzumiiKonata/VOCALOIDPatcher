@@ -48,5 +48,13 @@ public static class FormatHandlers
         vocaloidMid.Parser = VocaloidMid.Parse;
         vocaloidMid.Generator = VocaloidMid.Generate;
         vocaloidMid.CustomMatcher = VsqLike.MatchFile;
+
+        var vsqx = FormatRegistry.Get(Format.Vsqx);
+        vsqx.Parser = Vsqx.Parse;
+        vsqx.Generator = Vsqx.Generate;
+
+        var vpr = FormatRegistry.Get(Format.Vpr);
+        vpr.Parser = Vpr.Parse;
+        vpr.Generator = Vpr.Generate;
     }
 }
