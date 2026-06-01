@@ -33,7 +33,7 @@ public sealed class FormatInfo
     public JapaneseLyricsType? SuggestedLyricType { get; init; }
     public IReadOnlyList<Feature> AvailableFeaturesForGeneration { get; init; } = new List<Feature>();
     public string? Alias { get; init; }
-    public Func<ImportFile, bool>? CustomMatcher { get; init; }
+    public Func<ImportFile, bool>? CustomMatcher { get; set; }
 
     public Func<IReadOnlyList<ImportFile>, ImportParams, Project>? Parser { get; set; }
     public Func<Project, IReadOnlyList<FeatureConfig>, ExportResult>? Generator { get; set; }

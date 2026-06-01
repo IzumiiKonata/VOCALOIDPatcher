@@ -35,5 +35,18 @@ public static class FormatHandlers
         var ustx = FormatRegistry.Get(Format.Ustx);
         ustx.Parser = Ustx.Parse;
         ustx.Generator = Ustx.Generate;
+
+        var standardMid = FormatRegistry.Get(Format.StandardMid);
+        standardMid.Parser = StandardMid.Parse;
+        standardMid.Generator = StandardMid.Generate;
+
+        var vsq = FormatRegistry.Get(Format.Vsq);
+        vsq.Parser = Vsq.Parse;
+        vsq.Generator = Vsq.Generate;
+
+        var vocaloidMid = FormatRegistry.Get(Format.VocaloidMid);
+        vocaloidMid.Parser = VocaloidMid.Parse;
+        vocaloidMid.Generator = VocaloidMid.Generate;
+        vocaloidMid.CustomMatcher = VsqLike.MatchFile;
     }
 }
