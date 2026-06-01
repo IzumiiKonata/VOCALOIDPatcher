@@ -21,6 +21,12 @@ public static class Resources
         return reader.ReadToEnd();
     }
 
+    public static byte[] TsslnTemplateBytes()
+    {
+        var text = Load("template.tssln.json").Trim().Trim('[', ']');
+        return text.Split(',').Select(s => (byte)int.Parse(s.Trim())).ToArray();
+    }
+
     public static string CcsTemplate => Load("template.ccs");
     public static string MusicXmlTemplate => Load("template.musicxml");
     public static string S5pTemplate => Load("template.s5p");

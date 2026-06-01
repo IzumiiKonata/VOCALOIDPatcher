@@ -56,5 +56,12 @@ public static class FormatHandlers
         var vpr = FormatRegistry.Get(Format.Vpr);
         vpr.Parser = Vpr.Parse;
         vpr.Generator = Vpr.Generate;
+
+        var ppsf = FormatRegistry.Get(Format.Ppsf);
+        ppsf.Parser = Ppsf.Parse;
+
+        var tssln = FormatRegistry.Get(Format.Tssln);
+        tssln.Parser = Tssln.Parse;
+        tssln.Generator = Tssln.Generate;
     }
 }
