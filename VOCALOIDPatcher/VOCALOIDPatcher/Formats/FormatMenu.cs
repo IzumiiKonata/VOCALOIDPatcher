@@ -6,14 +6,14 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 using VOCALOIDPatcher.Formats.Model;
 using VOCALOIDPatcher.Patch.Patches;
-using VOCALOIDPatcher.UI;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats;
 
 public static class FormatMenu
 {
-    private const string MarkerTag = "VOCALOIDPatcher_Format";
+    private const string ImportItemTag = "VOCALOIDPatcher_FormatImport";
+    private const string ExportMenuTag = "VOCALOIDPatcher_FormatExport";
 
     public static void Install()
     {
@@ -27,12 +27,18 @@ public static class FormatMenu
                 return;
             }
 
-            if (fileMenu.Items.OfType<MenuItem>().Any(m => m.Tag as string == MarkerTag))
+            var importMenu = fileMenu.Items.OfType<MenuItem>().FirstOrDefault(m => m.Tag as string == "File_Import");
+            if (importMenu == null)
+            {
+                Debug.Print("[FormatMenu] 未找到导入子菜单");
+                return;
+            }
+
+            if (importMenu.Items.OfType<MenuItem>().Any(m => m.Tag as string == ImportItemTag))
                 return;
 
-            fileMenu.Items.Add(new Separator());
-            fileMenu.Items.Add(BuildItem("导入工程 (多格式)…", OnImport));
-            fileMenu.Items.Add(BuildItem("导出工程 (多格式)…", OnExport));
+            AddImportItems(importMenu);
+            AddExportMenu(fileMenu, importMenu);
         }
         catch (Exception e)
         {
@@ -40,9 +46,35 @@ public static class FormatMenu
         }
     }
 
-    private static MenuItem BuildItem(string header, Action onClick)
+    private static void AddImportItems(MenuItem importMenu)
     {
-        var item = new MenuItem { Header = header, Tag = MarkerTag };
+        var importable = FormatRegistry.Importable.Select(FormatRegistry.Get).Where(i => i.Parser != null).ToList();
+        if (importable.Count == 0)
+            return;
+
+        importMenu.Items.Add(new Separator());
+        foreach (var info in importable)
+            importMenu.Items.Add(BuildItem($"{info.DisplayName}…", ImportItemTag, () => OnImport(info)));
+    }
+
+    private static void AddExportMenu(MenuItem fileMenu, MenuItem importMenu)
+    {
+        var exportable = FormatRegistry.Exportable.Select(FormatRegistry.Get).Where(i => i.Generator != null).ToList();
+        if (exportable.Count == 0)
+            return;
+
+        var exportMenu = new MenuItem { Header = "导出 (多格式)", Tag = ExportMenuTag };
+        WpfTranslationPatch.MarkUntranslatable(exportMenu);
+        foreach (var info in exportable)
+            exportMenu.Items.Add(BuildItem($"{info.DisplayName}…", ExportMenuTag, () => OnExport(info)));
+
+        int importIndex = fileMenu.Items.IndexOf(importMenu);
+        fileMenu.Items.Insert(importIndex + 1, exportMenu);
+    }
+
+    private static MenuItem BuildItem(string header, string tag, Action onClick)
+    {
+        var item = new MenuItem { Header = header, Tag = tag };
         item.Click += (_, _) =>
         {
             try
@@ -58,16 +90,15 @@ public static class FormatMenu
         return item;
     }
 
-    private static void OnImport()
+    private static void OnImport(FormatInfo info)
     {
-        var importable = FormatRegistry.Importable.Select(FormatRegistry.Get).ToList();
-        var extensions = importable.SelectMany(i => i.AllExtensions).Distinct().ToList();
+        var extensions = info.AllExtensions.Distinct().ToList();
         var pattern = string.Join(";", extensions.Select(e => "*." + e));
 
         var dialog = new OpenFileDialog
         {
-            Filter = $"支持的工程文件|{pattern}|所有文件|*.*",
-            Multiselect = true,
+            Filter = $"{info.DisplayName}|{pattern}|所有文件|*.*",
+            Multiselect = info.MultipleFile,
         };
         if (dialog.ShowDialog() != true)
             return;
@@ -75,13 +106,6 @@ public static class FormatMenu
         var files = dialog.FileNames
             .Select(path => new ImportFile(Path.GetFileName(path), File.ReadAllBytes(path)))
             .ToList();
-
-        var info = importable.FirstOrDefault(i => i.Match(files));
-        if (info == null)
-        {
-            Debug.ShowErrorMessage("无法识别所选文件的格式。");
-            return;
-        }
 
         if (info.Parser == null)
         {
@@ -93,22 +117,8 @@ public static class FormatMenu
         V6Bridge.Import(project);
     }
 
-    private static void OnExport()
+    private static void OnExport(FormatInfo info)
     {
-        var exportable = FormatRegistry.Exportable.Select(FormatRegistry.Get).Where(i => i.Generator != null).ToList();
-        if (exportable.Count == 0)
-        {
-            Debug.ShowErrorMessage("暂无可用的导出格式。");
-            return;
-        }
-
-        var picker = new JobDialog("VOCALOIDPatcher_Format_Export", "导出工程");
-        var combo = picker.AddCombo("VOCALOIDPatcher_Format_ExportFormat", "格式",
-            exportable.Select(i => i.DisplayName).ToList(), 0);
-        if (!picker.ShowForApply())
-            return;
-
-        var info = exportable[Math.Clamp(combo.SelectedIndex, 0, exportable.Count - 1)];
         var project = V6Bridge.Export();
         var features = BuildFeatures(info, project);
         var result = info.Generator!(project, features);
