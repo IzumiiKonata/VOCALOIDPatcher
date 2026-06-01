@@ -31,5 +31,9 @@ public static class FormatHandlers
         var ccs = FormatRegistry.Get(Format.Ccs);
         ccs.Parser = Ccs.Parse;
         ccs.Generator = Ccs.Generate;
+
+        var ustx = FormatRegistry.Get(Format.Ustx);
+        ustx.Parser = Ustx.Parse;
+        ustx.Generator = Ustx.Generate;
     }
 }
