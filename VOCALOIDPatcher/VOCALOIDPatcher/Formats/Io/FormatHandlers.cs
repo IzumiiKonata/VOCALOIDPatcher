@@ -19,5 +19,9 @@ public static class FormatHandlers
         var ust = FormatRegistry.Get(Format.Ust);
         ust.Parser = Ust.Parse;
         ust.Generator = Ust.Generate;
+
+        var s5p = FormatRegistry.Get(Format.S5p);
+        s5p.Parser = S5p.Parse;
+        s5p.Generator = S5p.Generate;
     }
 }
