@@ -17,15 +17,13 @@ public static class FormatMenu
     private const string ImportItemTag = "VOCALOIDPatcher_FormatImport";
     private const string ExportMenuTag = "VOCALOIDPatcher_FormatExport";
     private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
-    private const string ExportHeaderFallback = "导出 (多格式)";
+    private const string ExportHeaderFallback = "VOCALOIDPatcher_Format_Export";
 
-    // V6 编辑器原生支持, 不重复提供导入
     private static readonly HashSet<Format> NativeImportFormats = new()
     {
         Format.VPR, Format.VSQX, Format.VocaloidMid, Format.StandardMid,
     };
 
-    // 导出保留 VSQX (V6 自带导出存在缺陷), 其余原生格式不重复提供
     private static readonly HashSet<Format> NativeExportFormats = new()
     {
         Format.VPR, Format.VocaloidMid, Format.StandardMid,
@@ -162,6 +160,15 @@ public static class FormatMenu
     private static void OnExport(FormatInfo info)
     {
         var project = V6Bridge.Export();
+
+        if (project.Tracks.All(t => t.Notes.Count == 0))
+        {
+            Debug.ShowMessageBox(
+                TranslationManager.Get("VOCALOIDPatcher_Export_EmptyProject")
+                ?? "当前工程为空, 没有可导出的音符。");
+            return;
+        }
+
         var features = BuildFeatures(info, project);
         var result = info.Generator!(project, features);
 
