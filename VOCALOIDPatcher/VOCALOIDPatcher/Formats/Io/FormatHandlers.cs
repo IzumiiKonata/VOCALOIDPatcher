@@ -27,5 +27,9 @@ public static class FormatHandlers
         var svp = FormatRegistry.Get(Format.Svp);
         svp.Parser = Svp.Parse;
         svp.Generator = Svp.Generate;
+
+        var ccs = FormatRegistry.Get(Format.Ccs);
+        ccs.Parser = Ccs.Parse;
+        ccs.Generator = Ccs.Generate;
     }
 }
