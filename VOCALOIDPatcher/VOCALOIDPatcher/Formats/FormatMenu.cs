@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using VOCALOIDPatcher.Formats.Model;
 using VOCALOIDPatcher.Patch.Patches;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats;
@@ -14,6 +16,17 @@ public static class FormatMenu
 {
     private const string ImportItemTag = "VOCALOIDPatcher_FormatImport";
     private const string ExportMenuTag = "VOCALOIDPatcher_FormatExport";
+    private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
+    private const string ExportHeaderFallback = "导出 (多格式)";
+
+    // 这些格式 V6 编辑器原生支持, 不重复提供
+    private static readonly HashSet<Format> NativeFormats = new()
+    {
+        Format.Vpr, Format.Vsqx, Format.VocaloidMid, Format.StandardMid,
+    };
+
+    private static MenuItem? _exportMenu;
+    private static bool _languageHooked;
 
     public static void Install()
     {
@@ -48,7 +61,8 @@ public static class FormatMenu
 
     private static void AddImportItems(MenuItem importMenu)
     {
-        var importable = FormatRegistry.Importable.Select(FormatRegistry.Get).Where(i => i.Parser != null).ToList();
+        var importable = FormatRegistry.Importable.Select(FormatRegistry.Get)
+            .Where(i => i.Parser != null && !NativeFormats.Contains(i.Format)).ToList();
         if (importable.Count == 0)
             return;
 
@@ -59,17 +73,39 @@ public static class FormatMenu
 
     private static void AddExportMenu(MenuItem fileMenu, MenuItem importMenu)
     {
-        var exportable = FormatRegistry.Exportable.Select(FormatRegistry.Get).Where(i => i.Generator != null).ToList();
+        var exportable = FormatRegistry.Exportable.Select(FormatRegistry.Get)
+            .Where(i => i.Generator != null && !NativeFormats.Contains(i.Format)).ToList();
         if (exportable.Count == 0)
             return;
 
-        var exportMenu = new MenuItem { Header = "导出 (多格式)", Tag = ExportMenuTag };
+        var exportMenu = new MenuItem
+        {
+            Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderFallback,
+            Tag = ExportMenuTag,
+        };
         WpfTranslationPatch.MarkUntranslatable(exportMenu);
         foreach (var info in exportable)
             exportMenu.Items.Add(BuildItem($"{info.DisplayName}…", ExportMenuTag, () => OnExport(info)));
 
         int importIndex = fileMenu.Items.IndexOf(importMenu);
         fileMenu.Items.Insert(importIndex + 1, exportMenu);
+
+        _exportMenu = exportMenu;
+        HookLanguage();
+    }
+
+    private static void HookLanguage()
+    {
+        if (_languageHooked)
+            return;
+        _languageHooked = true;
+        TranslationManager.LanguageChanged += (_, _) => Application.Current?.Dispatcher.Invoke(RefreshHeaders);
+    }
+
+    private static void RefreshHeaders()
+    {
+        if (_exportMenu != null)
+            _exportMenu.Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderFallback;
     }
 
     private static MenuItem BuildItem(string header, string tag, Action onClick)
