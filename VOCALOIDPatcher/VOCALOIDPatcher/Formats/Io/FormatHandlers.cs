@@ -67,5 +67,9 @@ public static class FormatHandlers
         var musicXml = FormatRegistry.Get(Format.MusicXml);
         musicXml.Parser = MusicXml.Parse;
         musicXml.Generator = MusicXml.Generate;
+
+        var dv = FormatRegistry.Get(Format.Dv);
+        dv.Parser = Dv.Parse;
+        dv.Generator = Dv.Generate;
     }
 }

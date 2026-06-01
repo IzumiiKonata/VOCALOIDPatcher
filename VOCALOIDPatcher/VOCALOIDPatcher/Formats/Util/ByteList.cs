@@ -77,6 +77,28 @@ public static class ByteList
         list.AddRange(block);
     }
 
+    public static void AddList(this List<byte> list, IReadOnlyList<IReadOnlyList<byte>> items, bool littleEndian = true, bool lengthInVariableLength = false)
+    {
+        if (lengthInVariableLength)
+            list.AddIntVariableLengthBigEndian(items.Count);
+        else
+            list.AddInt(items.Count, littleEndian);
+        foreach (var item in items)
+            list.AddRange(item);
+    }
+
+    public static void AddListBlock(this List<byte> list, IReadOnlyList<IReadOnlyList<byte>> items, bool littleEndian = true, bool lengthInVariableLength = false)
+    {
+        var block = new List<byte>();
+        if (lengthInVariableLength)
+            block.AddIntVariableLengthBigEndian(items.Count);
+        else
+            block.AddInt(items.Count, littleEndian);
+        foreach (var item in items)
+            block.AddRange(item);
+        list.AddBlock(block, littleEndian, lengthInVariableLength);
+    }
+
     public static void AddString(this List<byte> list, string value, bool littleEndian = true, bool lengthInVariableLength = false, Encoding? encoding = null)
     {
         var bytes = (encoding ?? Encoding.UTF8).GetBytes(value);
