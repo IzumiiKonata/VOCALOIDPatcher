@@ -58,11 +58,50 @@ public static class TranslationManager
             return;
         }
 
-        if (!LoadLanguage(Patcher.ConfigManager.Get("Language", AvailableLanguages[0])))
+        var configured = Patcher.ConfigManager.Contains("Language")
+            ? Patcher.ConfigManager.Get("Language", AvailableLanguages[0])
+            : ResolveSystemLanguage();
+
+        if (!LoadLanguage(configured))
         {
-            LoadLanguage(AvailableLanguages[0]);
-            Patcher.ConfigManager.Set("Language", AvailableLanguages[0]);
+            configured = AvailableLanguages[0];
+            LoadLanguage(configured);
         }
+
+        Patcher.ConfigManager.Set("Language", configured);
+    }
+
+    private static string ResolveSystemLanguage()
+    {
+        try
+        {
+            var culture = CultureInfo.CurrentUICulture;
+            if (culture.TwoLetterISOLanguageName == "zh")
+            {
+                var name = culture.Name;
+                var traditional = name.Contains("Hant", StringComparison.OrdinalIgnoreCase)
+                                  || name.EndsWith("-TW", StringComparison.OrdinalIgnoreCase)
+                                  || name.EndsWith("-HK", StringComparison.OrdinalIgnoreCase)
+                                  || name.EndsWith("-MO", StringComparison.OrdinalIgnoreCase);
+
+                var preferred = traditional
+                    ? new[] { "中文 (繁體)", "中文 (简体)" }
+                    : new[] { "中文 (简体)", "中文 (繁體)" };
+
+                foreach (var lang in preferred)
+                    if (AvailableLanguages.Contains(lang))
+                    {
+                        Debug.Print($"首次运行, 使用系统语言 {name} -> {lang}");
+                        return lang;
+                    }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"匹配系统语言失败: {e.Message}");
+        }
+
+        return AvailableLanguages.Contains("English") ? "English" : AvailableLanguages[0];
     }
 
     private static void BuildResourceIndex()
