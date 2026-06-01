@@ -187,7 +187,7 @@
   <data name="DataUseDlg_Allowance_Caption" xml:space="preserve"><value>允許</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_Korean" xml:space="preserve"><value>韓語</value></data>
   <data name="MsgBox_Move_Tempo_Error" xml:space="preserve"><value>移動曲速控制點失敗。</value></data>
-  <data name="EditHandle_AmplitudeStart_DisplayName" xml:space="preserve"><value>前置情緒</value></data>
+  <data name="EditHandle_AmplitudeStart_DisplayName" xml:space="preserve"><value>前部情緒</value></data>
   <data name="ContextMenu_AddMidiTrack_Header" xml:space="preserve"><value>新增 VOCALOID 音軌(_V)</value></data>
   <data name="ProjectSettingDlg_MainTuning" xml:space="preserve"><value>音高</value></data>
   <data name="MsgBox_LuaManagerInitialization_Error" xml:space="preserve"><value>初始化 Lua 管理員失敗。</value></data>
@@ -248,7 +248,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="TrackType_VOCALOID" xml:space="preserve"><value>VOCALOID</value></data>
   <data name="ToolBar_Stop_ToolTip" xml:space="preserve"><value>停止</value></data>
   <data name="PreferencesDlg_Advanced_LanguagePriority_Chinese" xml:space="preserve"><value>中文</value></data>
-  <data name="EditHandle_PitchScalingOrigin_DisplayName" xml:space="preserve"><value>整體調整</value></data>
+  <data name="EditHandle_PitchScalingOrigin_DisplayName" xml:space="preserve"><value>整體偏移</value></data>
   <data name="AudioEffectWindow_TrackTitlePrefix" xml:space="preserve"><value>音軌</value></data>
   <data name="CustomizeShortcutDlg_CommandToggleBreathBypass" xml:space="preserve"><value>呼吸</value></data>
   <data name="MainMenu_Transport_Play_Header" xml:space="preserve"><value>播放</value></data>
@@ -550,7 +550,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="MsgBox_UserConfiguration_FailedToInit_Error" xml:space="preserve"><value>初始化使用者設定檔失敗。VOCALOID 編輯器將關閉。</value></data>
   <data name="InsertLyricsDlg_NumNote_Unit" xml:space="preserve"><value>音符</value></data>
   <data name="SplitNote_ShortNoteAlert_Label" xml:space="preserve"><value>部分短音符無法被分割。</value></data>
-  <data name="EditHandle_VibratoFollowingDepth_DisplayName" xml:space="preserve"><value>跟隨深度</value></data>
+  <data name="EditHandle_VibratoFollowingDepth_DisplayName" xml:space="preserve"><value>後部深度</value></data>
   <data name="AudioMixdownDlg_OverwriteInfo" xml:space="preserve"><value>同名檔案已存在，是否覆蓋？</value></data>
   <data name="CustomizeShortcutDlg_MessagePathSystemShortcutKeysNotFoundError" xml:space="preserve"><value>系統快速鍵的路徑不存在</value></data>
   <data name="ContextMenu_NormalizeNote_Header" xml:space="preserve"><value>解決重疊(_N)</value></data>
@@ -563,7 +563,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="MainMenu_View_Zoom_Header" xml:space="preserve"><value>縮放</value></data>
   <data name="ExtractLyrics_Label" xml:space="preserve"><value>歌詞：</value></data>
   <data name="MsgBox_Add_MidiPart_Error" xml:space="preserve"><value>新增 VOCALOID 樂段失敗。</value></data>
-  <data name="EditHandle_PitchDriftStart_DisplayName" xml:space="preserve"><value>前導偏移</value></data>
+  <data name="EditHandle_PitchDriftStart_DisplayName" xml:space="preserve"><value>前部偏移</value></data>
   <data name="ContextMenu_EndMarker_Move_Header" xml:space="preserve"><value>將結束標記設定至游標位置(_E)</value></data>
   <data name="TextBox_ContextMenu_Copy_Header" xml:space="preserve"><value>複製</value></data>
   <data name="ExtractLyrics_Title" xml:space="preserve"><value>擷取歌詞</value></data>
@@ -583,7 +583,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="VerifyLicense_VoiceNotAuthorizedOrExpiredLeaseFile" xml:space="preserve"><value>以下聲庫未經授權，或租賃期限已到期。</value></data>
   <data name="Window_Title" xml:space="preserve"><value>VOCALOID6 編輯器</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Audio_Caption" xml:space="preserve"><value>音訊</value></data>
-  <data name="EditHandle_VibratoLeadingDepth_DisplayName" xml:space="preserve"><value>領唱深度</value></data>
+  <data name="EditHandle_VibratoLeadingDepth_DisplayName" xml:space="preserve"><value>前部深度</value></data>
   <data name="ContextMenu_Cut_Header" xml:space="preserve"><value>剪下(_T)</value></data>
   <data name="MsgBox_Move_MasterVolume_Error" xml:space="preserve"><value>移動主音量控制點失敗。</value></data>
   <data name="AudioEffectWindow_EffectList" xml:space="preserve"><value>效果列表</value></data>
@@ -681,7 +681,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="ToolBar_Quantize_ToolTip" xml:space="preserve"><value>格線</value></data>
   <data name="ExportSMFDlg_Title" xml:space="preserve"><value>匯出 SMF</value></data>
   <data name="ContextMenu_LyricMoveLeft_Header" xml:space="preserve"><value>歌詞整體左移一格(_L)</value></data>
-  <data name="EditHandle_PitchTransitionStart_DisplayName" xml:space="preserve"><value>前部表達</value></data>
+  <data name="EditHandle_PitchTransitionStart_DisplayName" xml:space="preserve"><value>前部過渡</value></data>
   <data name="MsgBox_SequenceOptimization_Error" xml:space="preserve"><value>無法為目前版本的 VOCALOID 編輯器最佳化專案資料。</value></data>
   <data name="AudioMixdownDlg_Channel" xml:space="preserve"><value>聲道</value></data>
   <data name="CustomizeShortcutDlg_MessageDiscardPreset" xml:space="preserve"><value>要捨棄預設編輯嗎？</value></data>

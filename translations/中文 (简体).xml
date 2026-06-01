@@ -187,7 +187,7 @@
   <data name="DataUseDlg_Allowance_Caption" xml:space="preserve"><value>允许</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_Korean" xml:space="preserve"><value>韩语</value></data>
   <data name="MsgBox_Move_Tempo_Error" xml:space="preserve"><value>移动曲速控点失败。</value></data>
-  <data name="EditHandle_AmplitudeStart_DisplayName" xml:space="preserve"><value>前领情绪</value></data>
+  <data name="EditHandle_AmplitudeStart_DisplayName" xml:space="preserve"><value>前部情绪</value></data>
   <data name="ContextMenu_AddMidiTrack_Header" xml:space="preserve"><value>新增 VOCALOID 音轨(_V)</value></data>
   <data name="ProjectSettingDlg_MainTuning" xml:space="preserve"><value>音高</value></data>
   <data name="MsgBox_LuaManagerInitialization_Error" xml:space="preserve"><value>初始化 Lua 管理器失败。</value></data>
@@ -248,7 +248,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="TrackType_VOCALOID" xml:space="preserve"><value>VOCALOID</value></data>
   <data name="ToolBar_Stop_ToolTip" xml:space="preserve"><value>停止</value></data>
   <data name="PreferencesDlg_Advanced_LanguagePriority_Chinese" xml:space="preserve"><value>中文</value></data>
-  <data name="EditHandle_PitchScalingOrigin_DisplayName" xml:space="preserve"><value>整体调整</value></data>
+  <data name="EditHandle_PitchScalingOrigin_DisplayName" xml:space="preserve"><value>整体偏移</value></data>
   <data name="AudioEffectWindow_TrackTitlePrefix" xml:space="preserve"><value>音轨</value></data>
   <data name="CustomizeShortcutDlg_CommandToggleBreathBypass" xml:space="preserve"><value>呼吸</value></data>
   <data name="MainMenu_Transport_Play_Header" xml:space="preserve"><value>播放</value></data>
@@ -492,7 +492,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="AudioMixdownPartDlg_Title" xml:space="preserve"><value>导出至音频文件</value></data>
   <data name="ContextMenu_TransposeNote_Header" xml:space="preserve"><value>移调(_T)</value></data>
   <data name="VocaloChangerProgressDlg_Title" xml:space="preserve"><value>正在处理</value></data>
-  <data name="MainMenu_Edit_Duplicate_Header" xml:space="preserve"><value>为选中元素创立副本</value></data>
+  <data name="MainMenu_Edit_Duplicate_Header" xml:space="preserve"><value>为选中元素创建副本</value></data>
   <data name="DivideNote_Title" xml:space="preserve"><value>均等分配音符</value></data>
   <data name="MainMenu_View_Editor_Header" xml:space="preserve"><value>编辑器</value></data>
   <data name="DivideNote_Label" xml:space="preserve"><value>分割数量:</value></data>
@@ -501,7 +501,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MsgBox_ImportTempoAndBeat" xml:space="preserve"><value>要导入曲速和拍号信息吗？</value></data>
   <data name="PreferencesDlg_Advanced_LanguagePriority_Korean" xml:space="preserve"><value>韩语</value></data>
   <data name="CustomizeShortcutDlg_CommandHalfTempo" xml:space="preserve"><value>曲速减半</value></data>
-  <data name="CustomizeShortcutDlg_CommandRewindByBar" xml:space="preserve"><value>按条倒带</value></data>
+  <data name="CustomizeShortcutDlg_CommandRewindByBar" xml:space="preserve"><value>按小节倒带</value></data>
   <data name="MsgBox_Duplicate_TimeSig_Error" xml:space="preserve"><value>克隆拍号控点失败。</value></data>
   <data name="PartPropertyDlg_VoiceChanger" xml:space="preserve"><value>人声转换器</value></data>
   <data name="CustomizeShortcutDlg_CommandHalfQuantizeNotes" xml:space="preserve"><value>量化 50%</value></data>
@@ -550,7 +550,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MsgBox_UserConfiguration_FailedToInit_Error" xml:space="preserve"><value>初始化用户配置文件失败。VOCALOID 编辑器将关闭。</value></data>
   <data name="InsertLyricsDlg_NumNote_Unit" xml:space="preserve"><value>音符</value></data>
   <data name="SplitNote_ShortNoteAlert_Label" xml:space="preserve"><value>有一些短音符不能被拆分。</value></data>
-  <data name="EditHandle_VibratoFollowingDepth_DisplayName" xml:space="preserve"><value>跟随深度</value></data>
+  <data name="EditHandle_VibratoFollowingDepth_DisplayName" xml:space="preserve"><value>后部深度</value></data>
   <data name="AudioMixdownDlg_OverwriteInfo" xml:space="preserve"><value>现有的文件已经存在，覆盖它吗？</value></data>
   <data name="CustomizeShortcutDlg_MessagePathSystemShortcutKeysNotFoundError" xml:space="preserve"><value>系统快捷方式的路径不存在</value></data>
   <data name="ContextMenu_NormalizeNote_Header" xml:space="preserve"><value>解决重叠(_N)</value></data>
@@ -563,7 +563,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MainMenu_View_Zoom_Header" xml:space="preserve"><value>缩放</value></data>
   <data name="ExtractLyrics_Label" xml:space="preserve"><value>歌词:</value></data>
   <data name="MsgBox_Add_MidiPart_Error" xml:space="preserve"><value>添加 VOCALOID 乐段失败。</value></data>
-  <data name="EditHandle_PitchDriftStart_DisplayName" xml:space="preserve"><value>前导偏移</value></data>
+  <data name="EditHandle_PitchDriftStart_DisplayName" xml:space="preserve"><value>前部偏移</value></data>
   <data name="ContextMenu_EndMarker_Move_Header" xml:space="preserve"><value>将结束标记设定至光标位置(_E)</value></data>
   <data name="TextBox_ContextMenu_Copy_Header" xml:space="preserve"><value>复制</value></data>
   <data name="ExtractLyrics_Title" xml:space="preserve"><value>提取歌词</value></data>
@@ -583,7 +583,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="VerifyLicense_VoiceNotAuthorizedOrExpiredLeaseFile" xml:space="preserve"><value>以下声库未经授权，或租约已到期。</value></data>
   <data name="Window_Title" xml:space="preserve"><value>VOCALOID6 编辑器</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Audio_Caption" xml:space="preserve"><value>音频</value></data>
-  <data name="EditHandle_VibratoLeadingDepth_DisplayName" xml:space="preserve"><value>领唱深度</value></data>
+  <data name="EditHandle_VibratoLeadingDepth_DisplayName" xml:space="preserve"><value>前部深度</value></data>
   <data name="ContextMenu_Cut_Header" xml:space="preserve"><value>剪切(_T)</value></data>
   <data name="MsgBox_Move_MasterVolume_Error" xml:space="preserve"><value>移动主音量控点失败。</value></data>
   <data name="AudioEffectWindow_EffectList" xml:space="preserve"><value>效果列表</value></data>
@@ -681,9 +681,9 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="ToolBar_Quantize_ToolTip" xml:space="preserve"><value>网格</value></data>
   <data name="ExportSMFDlg_Title" xml:space="preserve"><value>导出SMF</value></data>
   <data name="ContextMenu_LyricMoveLeft_Header" xml:space="preserve"><value>歌词整体左移一格(_L)</value></data>
-  <data name="EditHandle_PitchTransitionStart_DisplayName" xml:space="preserve"><value>前部表达</value></data>
+  <data name="EditHandle_PitchTransitionStart_DisplayName" xml:space="preserve"><value>前部过渡</value></data>
   <data name="MsgBox_SequenceOptimization_Error" xml:space="preserve"><value>无法优化当前版本的VOCALOID编辑器的工程数据。</value></data>
-  <data name="AudioMixdownDlg_Channel" xml:space="preserve"><value>频道</value></data>
+  <data name="AudioMixdownDlg_Channel" xml:space="preserve"><value>声道</value></data>
   <data name="CustomizeShortcutDlg_MessageDiscardPreset" xml:space="preserve"><value>要放弃预设编辑吗？</value></data>
   <data name="MsgBox_TooLongName_Warning" xml:space="preserve"><value>名称太长而无法加载。</value></data>
   <data name="VerifyLicense_VoiceNotAuthorized" xml:space="preserve"><value>下列声库还未激活。</value></data>
@@ -706,7 +706,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="ContextMenu_MidiTrack_AddMidiPart_Header" xml:space="preserve"><value>在光标位置创建乐段(_P)</value></data>
   <data name="MsgBox_DoubleTempo_Error" xml:space="preserve"><value>无法加倍曲速。</value></data>
   <data name="CustomizeShortcutDlg_CommandForwardByBar" xml:space="preserve"><value>按小节向前移动</value></data>
-  <data name="MainMenu_Job_NormalizeWave_Header" xml:space="preserve"><value>归一化音频波</value></data>
+  <data name="MainMenu_Job_NormalizeWave_Header" xml:space="preserve"><value>标准化音频波形</value></data>
   <data name="AddTrackDlg_VoiceBank_Caption" xml:space="preserve"><value>声库</value></data>
   <data name="PartPropertyDlg_VoiceColor" xml:space="preserve"><value>音色</value></data>
   <data name="MainMenu_View_ShowMasterTrack_Header" xml:space="preserve"><value>主音轨</value></data>
@@ -848,7 +848,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MsgBox_ResetVoiceForVoiceChanger" xml:space="preserve"><value>工程中的乐段中存在无法用于人声转换器的声库。这些乐段的目标将被重置。</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizeOff" xml:space="preserve"><value>网格 - 关闭</value></data>
   <data name="ContextMenu_RenamePart_Header" xml:space="preserve"><value>编辑乐段名称</value></data>
-  <data name="CustomizeShortcutDlg_CommandShiftLyricsRight" xml:space="preserve"><value>右移歌词</value></data>
+  <data name="CustomizeShortcutDlg_CommandShiftLyricsRight" xml:space="preserve"><value>歌词整体右移一格</value></data>
   <data name="ContextMenu_HalfQuantizeNotes_Header" xml:space="preserve"><value>量化 50%</value></data>
   <data name="CustomizeShortcutDlg_CommandChangeInputtingMode" xml:space="preserve"><value>更改歌词输入模式</value></data>
   <data name="AddPartToMediaDlg_AddNewTagDlg_Title" xml:space="preserve"><value>添加</value></data>
