@@ -138,6 +138,7 @@ public static class Patcher
             new ResourceManagerPatch(),
             new DependencyObjectPatch(),
             new ShowOtherTracksNotesPatch(),
+            new TrackMuteRefreshPatch(),
             new ShowNotePitchPatch(),
             new CharacterArtPatch(),
             new SwingMenuPatch()

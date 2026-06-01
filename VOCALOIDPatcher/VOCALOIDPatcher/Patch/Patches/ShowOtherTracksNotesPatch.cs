@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Utils;
@@ -51,6 +52,29 @@ public class ShowOtherTracksNotesPatch : PatchBase
         {
             Debug.Print($"收集其他轨道音符失败: {e.Message}");
         }
+    }
+
+    private static bool _refreshPending;
+
+    // 合并短时间内的多次刷新请求 (例如全局静音会逐轨道调用 SetMute), 在下一次 UI 空闲时只刷新一次
+    public static void RequestRefreshPianoroll()
+    {
+        var app = Application.Current;
+        if (app == null)
+        {
+            RefreshPianoroll();
+            return;
+        }
+
+        if (_refreshPending)
+            return;
+
+        _refreshPending = true;
+        app.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            _refreshPending = false;
+            RefreshPianoroll();
+        }), DispatcherPriority.Background);
     }
 
     public static void RefreshPianoroll()
