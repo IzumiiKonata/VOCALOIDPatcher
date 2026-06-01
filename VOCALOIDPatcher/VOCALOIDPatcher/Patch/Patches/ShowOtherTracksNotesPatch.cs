@@ -40,7 +40,6 @@ public class ShowOtherTracksNotesPatch : PatchBase
                 if (active != null && track.Equals(active))
                     continue;
 
-                // 用 AudioPlayer.IsMute (考虑独奏的有效静音): 显式静音, 或有其它轨道独奏时本轨被压低, 都视为静音跳过
                 if (skipMuted && AudioPlayer.IsMute(track))
                     continue;
 
@@ -57,7 +56,6 @@ public class ShowOtherTracksNotesPatch : PatchBase
 
     private static bool _refreshPending;
 
-    // 合并短时间内的多次刷新请求 (例如全局静音会逐轨道调用 SetMute), 在下一次 UI 空闲时只刷新一次
     public static void RequestRefreshPianoroll()
     {
         var app = Application.Current;

@@ -19,7 +19,6 @@ public static class FormatMenu
     private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
     private const string ExportHeaderFallback = "VOCALOIDPatcher_Format_Export";
 
-    // 原生窗口拖放/导入已直接支持的格式 (走 MainWindow.OnDrop 加载为文档), 我们的菜单与拖放都跳过这些
     internal static readonly HashSet<Format> NativeImportFormats = new()
     {
         Format.VPR, Format.VSQX, Format.VocaloidMid, Format.StandardMid,
@@ -151,7 +150,6 @@ public static class FormatMenu
         RunImport(info, files);
     }
 
-    // 解析并导入到当前工程, 菜单与拖放共用
     internal static void RunImport(FormatInfo info, IReadOnlyList<ImportFile> files)
     {
         if (info.Parser == null)

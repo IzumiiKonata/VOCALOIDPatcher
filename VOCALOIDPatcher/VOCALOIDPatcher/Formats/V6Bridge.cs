@@ -5,6 +5,7 @@ using System.Reflection;
 using VOCALOIDPatcher.Formats.Model;
 using VOCALOIDPatcher.Patch.Patches;
 using Yamaha.VOCALOID;
+using Yamaha.VOCALOID.VDM;
 using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Formats;
@@ -31,6 +32,10 @@ public static class V6Bridge
 
     private static readonly PropertyInfo? TrackName = typeof(WIVSMMidiTrack).GetProperty("Name");
 
+    private static readonly MethodInfo? ResetPartPhonemesMethod =
+        typeof(WIVSMNote).Assembly.GetType("Yamaha.VOCALOID.G2PAMultiLingualManager")
+            ?.GetMethod("ResetPhonemes", new[] { typeof(WIVSMMidiPart) });
+
     private static long Unwrap(object? tickStruct) =>
         tickStruct == null || RelTickValue == null ? 0L : Convert.ToInt64(RelTickValue.GetValue(tickStruct));
 
@@ -44,6 +49,40 @@ public static class V6Bridge
     private static long PartAbs(WIVSMMidiPart part) => UnwrapAbs(PartAbsPos?.GetValue(part));
 
     private static long TempoTick(WIVSMTempo tempo) => Unwrap(TempoRelPos?.GetValue(tempo));
+
+    private static int VoiceBankLangId(WIVSMMidiPart part, bool isAi)
+    {
+        string member = isAi ? "NativeLangIDFromAiVoiceBank" : "NativeLangIDFromVoiceBank";
+        try
+        {
+            var prop = part.GetType().GetProperty(member);
+            if (prop != null)
+                return Convert.ToInt32(prop.GetValue(part));
+
+            var ext = typeof(WIVSMMidiPart).Assembly
+                .GetType("Yamaha.VOCALOID.WIVSMMidiPartExtension")?.GetMethod(member);
+            if (ext != null)
+                return Convert.ToInt32(ext.Invoke(null, new object[] { part }));
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return -1;
+    }
+
+    private static void ResetPartPhonemes(WIVSMMidiPart part)
+    {
+        try
+        {
+            ResetPartPhonemesMethod?.Invoke(null, new object[] { part });
+        }
+        catch
+        {
+            // ignore
+        }
+    }
 
     private static bool TryGetSequence(out WIVSMSequence vsm)
     {
@@ -61,7 +100,15 @@ public static class V6Bridge
             return;
 
         var validated = project.RequireValid();
-        var trackType = vsm.MidiTracks.FirstOrDefault()?.Type ?? VSMTrackType.MidiAi;
+
+        var trackType = VSMTrackType.Midi;
+        bool isAi = false;
+
+        var db = App.DatabaseManager;
+        VoiceBank? voiceBank = db != null && db.NumVoiceBanks > 0 ? db.GetVoiceBankByIndex(0) : null;
+        voiceBank ??= db?.DefaultVoiceBank;
+        string sourceVoiceBankId = voiceBank?.CompID ?? string.Empty;
+        string sourceAiVoiceBankId = db?.DefaultAiVoiceBank?.CompID ?? string.Empty;
 
         using var transaction = new Transaction(vsm);
         transaction.Result = true;
@@ -75,9 +122,20 @@ public static class V6Bridge
 
         foreach (var tempo in validated.Tempos)
         {
+            int value = Math.Clamp((int)Math.Round(tempo.Bpm * 100), WIVSMTempo.MinValue, WIVSMTempo.MaxValue);
+
             if (tempo.TickPosition == 0)
+            {
+                var firstTempo = vsm.Tempos.FirstOrDefault(t => TempoTick(t) == 0) ?? vsm.Tempos.FirstOrDefault();
+                if (firstTempo != null)
+                    firstTempo.Value = value;
+                else
+                    vsm.InsertTempo(new VSMRelTick(0), value);
+                vsm.GlobalTempo = value;
                 continue;
-            vsm.InsertTempo(new VSMRelTick((int)tempo.TickPosition), (int)Math.Round(tempo.Bpm * 100));
+            }
+
+            vsm.InsertTempo(new VSMRelTick((int)tempo.TickPosition), value);
         }
 
         foreach (var track in validated.Tracks)
@@ -92,16 +150,41 @@ public static class V6Bridge
             if (v6Track.InsertPart(new VSMAbsTick(0), new VSMRelTick((int)span), track.Name) is not { } part)
                 continue;
 
+            if (!string.IsNullOrEmpty(sourceAiVoiceBankId))
+                part.SetAiVoiceBankID(sourceAiVoiceBankId);
+            if (!string.IsNullOrEmpty(sourceVoiceBankId))
+                part.SetVoiceBankID(sourceVoiceBankId);
+
             var noteExpression = part.GetDefaultNoteExpression();
             var aiNoteExpression = part.GetDefaultAiNoteExpression();
-            int langId = part.LangID;
 
+            int langId = VoiceBankLangId(part, isAi);
+            if (langId < 0)
+                langId = part.LangID;
+
+            string defaultLyric = string.Empty;
+            string defaultPhoneme = string.Empty;
+            bool hasDefault = langId >= 0
+                && DefaultLyricManager.GetUserSettingDefaultLyric((VSMLanguageID)langId, out defaultLyric, out defaultPhoneme)
+                && !string.IsNullOrEmpty(defaultPhoneme);
+
+            int insertedInPart = 0;
             foreach (var note in track.Notes)
             {
                 string lyric = string.IsNullOrEmpty(note.Lyric) ? Constants.DefaultLyric : note.Lyric;
                 var noteEvent = new VSMNoteEvent((int)note.Length, Math.Clamp(note.Key, 0, 127), 64);
-                part.InsertNote(new VSMRelTick((int)note.TickOn), noteEvent, noteExpression, aiNoteExpression, lyric, "", false, langId);
+                var relPos = new VSMRelTick((int)note.TickOn);
+
+                WIVSMNote? inserted = hasDefault
+                    ? part.InsertNote(relPos, noteEvent, noteExpression, aiNoteExpression, lyric, defaultPhoneme, true, langId)
+                    : part.InsertNote(relPos, noteEvent, noteExpression, aiNoteExpression, lyric, "", false, langId);
+
+                if (inserted != null)
+                    insertedInPart++;
             }
+
+            if (hasDefault && insertedInPart > 0)
+                ResetPartPhonemes(part);
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
