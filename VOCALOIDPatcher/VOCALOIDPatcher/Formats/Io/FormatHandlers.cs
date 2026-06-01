@@ -63,5 +63,9 @@ public static class FormatHandlers
         var tssln = FormatRegistry.Get(Format.Tssln);
         tssln.Parser = Tssln.Parse;
         tssln.Generator = Tssln.Generate;
+
+        var musicXml = FormatRegistry.Get(Format.MusicXml);
+        musicXml.Parser = MusicXml.Parse;
+        musicXml.Generator = MusicXml.Generate;
     }
 }
