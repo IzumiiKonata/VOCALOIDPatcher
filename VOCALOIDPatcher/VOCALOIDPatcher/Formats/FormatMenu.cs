@@ -19,10 +19,16 @@ public static class FormatMenu
     private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
     private const string ExportHeaderFallback = "导出 (多格式)";
 
-    // 这些格式 V6 编辑器原生支持, 不重复提供
-    private static readonly HashSet<Format> NativeFormats = new()
+    // V6 编辑器原生支持, 不重复提供导入
+    private static readonly HashSet<Format> NativeImportFormats = new()
     {
-        Format.Vpr, Format.Vsqx, Format.VocaloidMid, Format.StandardMid,
+        Format.VPR, Format.VSQX, Format.VocaloidMid, Format.StandardMid,
+    };
+
+    // 导出保留 VSQX (V6 自带导出存在缺陷), 其余原生格式不重复提供
+    private static readonly HashSet<Format> NativeExportFormats = new()
+    {
+        Format.VPR, Format.VocaloidMid, Format.StandardMid,
     };
 
     private static MenuItem? _exportMenu;
@@ -62,7 +68,7 @@ public static class FormatMenu
     private static void AddImportItems(MenuItem importMenu)
     {
         var importable = FormatRegistry.Importable.Select(FormatRegistry.Get)
-            .Where(i => i.Parser != null && !NativeFormats.Contains(i.Format)).ToList();
+            .Where(i => i.Parser != null && !NativeImportFormats.Contains(i.Format)).ToList();
         if (importable.Count == 0)
             return;
 
@@ -74,7 +80,7 @@ public static class FormatMenu
     private static void AddExportMenu(MenuItem fileMenu, MenuItem importMenu)
     {
         var exportable = FormatRegistry.Exportable.Select(FormatRegistry.Get)
-            .Where(i => i.Generator != null && !NativeFormats.Contains(i.Format)).ToList();
+            .Where(i => i.Generator != null && !NativeExportFormats.Contains(i.Format)).ToList();
         if (exportable.Count == 0)
             return;
 

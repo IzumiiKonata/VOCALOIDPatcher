@@ -46,7 +46,7 @@ public static class Ppsf
 
         var tracks = project.DvlTrack.Select((track, i) => ParseTrack(i, track, parms.DefaultLyric)).ToList();
 
-        return new Model.Project(Format.Ppsf, files, name, tracks, timeSignatures, tempos, 0, warnings);
+        return new Model.Project(Format.PPSF, files, name, tracks, timeSignatures, tempos, 0, warnings);
     }
 
     private static List<TimeSignature> ParseTimeSignatures(PpsfMeter meter)

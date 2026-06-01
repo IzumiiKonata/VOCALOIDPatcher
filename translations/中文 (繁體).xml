@@ -35,7 +35,7 @@
   <data name="VOCALOIDPatcher_Job_Harmony_TrackExisting" xml:space="preserve"><value>使用現有軌道</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackNew" xml:space="preserve"><value>新建軌道</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackName" xml:space="preserve"><value>和聲</value></data>
-  <data name="VOCALOIDPatcher_Format_Export" xml:space="preserve"><value>匯出 (多格式)</value></data>
+  <data name="VOCALOIDPatcher_Format_Export" xml:space="preserve"><value>匯出</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上三度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上五度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>上六度</value></data>

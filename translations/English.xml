@@ -35,7 +35,7 @@
   <data name="VOCALOIDPatcher_Job_Harmony_TrackExisting" xml:space="preserve"><value>Use Existing Track</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackNew" xml:space="preserve"><value>Create New Track</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackName" xml:space="preserve"><value>Harmony</value></data>
-  <data name="VOCALOIDPatcher_Format_Export" xml:space="preserve"><value>Export (Multi-format)</value></data>
+  <data name="VOCALOIDPatcher_Format_Export" xml:space="preserve"><value>Export</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>Upper 3rd</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>Upper 5th</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>Upper 6th</value></data>

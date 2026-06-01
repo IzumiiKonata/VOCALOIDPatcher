@@ -49,7 +49,7 @@ public static class Ccs
         var tempos = MergeTempos(results, warnings);
         var timeSignatures = MergeTimeSignatures(results, warnings);
 
-        return new Model.Project(Format.Ccs, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, FixedMeasurePrefix, warnings);
+        return new Model.Project(Format.CCS, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, FixedMeasurePrefix, warnings);
     }
 
     private static List<Tempo> MergeTempos(List<TrackParseResult> results, List<ImportWarning> warnings)
@@ -193,7 +193,7 @@ public static class Ccs
         if (features.Contains(Feature.ConvertPitch))
             notifications.Add(ExportNotification.PitchDataExported);
 
-        return new ExportResult(Encoding.UTF8.GetBytes(builder.ToString()), FormatRegistry.Get(Format.Ccs).GetFileName(project.Name), notifications);
+        return new ExportResult(Encoding.UTF8.GetBytes(builder.ToString()), FormatRegistry.Get(Format.CCS).GetFileName(project.Name), notifications);
     }
 
     private static XmlDocument GenerateContent(Model.Project project, IReadOnlyList<FeatureConfig> features)

@@ -64,7 +64,7 @@ public static class Dv
 
         tracks = tracks.Select((track, index) => track with { Id = index }).ToList();
 
-        return new Model.Project(Format.Dv, files, file.NameWithoutExtension, tracks, cleanedTimeSignatures, cleanedTempos, FixedMeasurePrefix, warnings);
+        return new Model.Project(Format.DV, files, file.NameWithoutExtension, tracks, cleanedTimeSignatures, cleanedTempos, FixedMeasurePrefix, warnings);
     }
 
     private static Track? ParseTrack(long tickPrefix, IReadOnlyList<Tempo> tempos, ImportParams parms, ArrayBufferReader reader)
@@ -213,7 +213,7 @@ public static class Dv
     public static ExportResult Generate(Model.Project project, IReadOnlyList<FeatureConfig> features)
     {
         var content = GenerateContent(project, features);
-        return new ExportResult(content, FormatRegistry.Get(Format.Dv).GetFileName(project.Name), new List<ExportNotification>());
+        return new ExportResult(content, FormatRegistry.Get(Format.DV).GetFileName(project.Name), new List<ExportNotification>());
     }
 
     private static byte[] GenerateContent(Model.Project project, IReadOnlyList<FeatureConfig> features)

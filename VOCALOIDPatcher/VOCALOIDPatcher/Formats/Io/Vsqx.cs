@@ -46,7 +46,7 @@ public static class Vsqx
             .Select((element, index) => ParseTrack(element, index, tagNames, tickPrefix, parms))
             .ToList();
 
-        return new Model.Project(Format.Vsqx, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, measurePrefix, warnings);
+        return new Model.Project(Format.VSQX, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, measurePrefix, warnings);
     }
 
     private static (long, List<TimeSignature>) ParseTimeSignatures(XmlElement masterTrack, TagNames tagNames, int measurePrefix, List<ImportWarning> warnings)
@@ -191,7 +191,7 @@ public static class Vsqx
         if (features.Contains(Feature.ConvertPitch))
             notifications.Add(ExportNotification.PitchDataExported);
 
-        return new ExportResult(Encoding.UTF8.GetBytes(content), FormatRegistry.Get(Format.Vsqx).GetFileName(project.Name), notifications);
+        return new ExportResult(Encoding.UTF8.GetBytes(content), FormatRegistry.Get(Format.VSQX).GetFileName(project.Name), notifications);
     }
 
     private static XmlDocument GenerateContent(Model.Project project, IReadOnlyList<FeatureConfig> features)

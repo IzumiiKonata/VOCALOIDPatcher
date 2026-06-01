@@ -41,7 +41,7 @@ public abstract class FeatureConfig
         public override Feature Type => Feature.SplitProject;
 
         public static SplitProject GetDefault(Format format) =>
-            format == Format.Svp ? new SplitProject(3) : new SplitProject(1);
+            format == Format.SVP ? new SplitProject(3) : new SplitProject(1);
     }
 }
 

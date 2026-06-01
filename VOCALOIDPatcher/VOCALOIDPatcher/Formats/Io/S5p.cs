@@ -60,7 +60,7 @@ public static class S5p
                 .ValidateNotes())
             .ToList();
 
-        return new Model.Project(Format.S5p, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, 0, warnings);
+        return new Model.Project(Format.S5P, files, file.NameWithoutExtension, tracks, timeSignatures, tempos, 0, warnings);
     }
 
     private static List<Note> ParseNotes(S5pTrack track, string defaultLyric) =>
@@ -107,7 +107,7 @@ public static class S5p
         if (features.Contains(Feature.ConvertPitch))
             notifications.Add(ExportNotification.PitchDataExported);
 
-        return new ExportResult(Encoding.UTF8.GetBytes(text), FormatRegistry.Get(Format.S5p).GetFileName(project.Name), notifications);
+        return new ExportResult(Encoding.UTF8.GetBytes(text), FormatRegistry.Get(Format.S5P).GetFileName(project.Name), notifications);
     }
 
     private static S5pTrack GenerateTrack(Track track, S5pTrack emptyTrack, IReadOnlyList<FeatureConfig> features)

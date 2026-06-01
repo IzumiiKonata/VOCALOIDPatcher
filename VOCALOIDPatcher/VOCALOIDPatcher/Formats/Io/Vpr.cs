@@ -51,7 +51,7 @@ public static class Vpr
             warnings.Add(new ImportWarning.TempoNotFound());
         }
 
-        return new Model.Project(Format.Vpr, files, content.Title ?? file.NameWithoutExtension, tracks, timeSignatures, tempos, 0, warnings);
+        return new Model.Project(Format.VPR, files, content.Title ?? file.NameWithoutExtension, tracks, timeSignatures, tempos, 0, warnings);
     }
 
     private static Track ParseTrack(VprTrack track, int trackIndex, ImportParams parms)
@@ -109,7 +109,7 @@ public static class Vpr
         if (features.Contains(Feature.ConvertPitch))
             notifications.Add(ExportNotification.PitchDataExported);
 
-        return new ExportResult(stream.ToArray(), FormatRegistry.Get(Format.Vpr).GetFileName(project.Name), notifications);
+        return new ExportResult(stream.ToArray(), FormatRegistry.Get(Format.VPR).GetFileName(project.Name), notifications);
     }
 
     private static string GenerateContent(Model.Project project, IReadOnlyList<FeatureConfig> features)

@@ -33,7 +33,7 @@ public static class Ustx
         var tempos = ParseTempos(project);
         var timeSignatures = ParseTimeSignatures(project);
         return new Model.Project(
-            Format.Ustx,
+            Format.USTX,
             files,
             project.Name ?? file.NameWithoutExtension,
             ParseTracks(project, parms, tempos),
@@ -159,7 +159,7 @@ public static class Ustx
         var notifications = new List<ExportNotification>();
         if (features.Contains(Feature.ConvertPitch))
             notifications.Add(ExportNotification.PitchDataExported);
-        return new ExportResult(Encoding.UTF8.GetBytes(content), FormatRegistry.Get(Format.Ustx).GetFileName(project.Name), notifications);
+        return new ExportResult(Encoding.UTF8.GetBytes(content), FormatRegistry.Get(Format.USTX).GetFileName(project.Name), notifications);
     }
 
     private static string GenerateContent(Model.Project project, IReadOnlyList<FeatureConfig> features)

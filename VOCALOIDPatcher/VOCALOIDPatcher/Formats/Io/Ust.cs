@@ -54,7 +54,7 @@ public static class Ust
             foreach (var ignored in result.Tempos.Where(t => !tempos.Contains(t)))
                 warnings.Add(new ImportWarning.TempoIgnoredInFile(result.File, ignored));
 
-        return new Project(Format.Ust, files, projectName, tracks,
+        return new Project(Format.UST, files, projectName, tracks,
             new List<TimeSignature> { TimeSignature.Default }, tempos, 0, warnings);
     }
 

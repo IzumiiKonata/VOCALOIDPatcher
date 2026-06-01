@@ -6,19 +6,19 @@ namespace VOCALOIDPatcher.Formats.Model;
 
 public enum Format
 {
-    Vsqx,
-    Vpr,
-    Ust,
-    Ustx,
-    Ccs,
-    Svp,
-    S5p,
+    VSQX,
+    VPR,
+    UST,
+    USTX,
+    CCS,
+    SVP,
+    S5P,
     MusicXml,
-    Dv,
-    Vsq,
+    DV,
+    VSQ,
     VocaloidMid,
     StandardMid,
-    Ppsf,
+    PPSF,
     Tssln,
     UfData,
 }
@@ -64,21 +64,21 @@ public static class FormatRegistry
 
     public static readonly IReadOnlyList<Format> Importable = new[]
     {
-        Format.Vsqx, Format.Vpr, Format.Vsq, Format.VocaloidMid, Format.Ust, Format.Ustx,
-        Format.Ccs, Format.MusicXml, Format.Svp, Format.S5p, Format.Dv, Format.Ppsf,
+        Format.VSQX, Format.VPR, Format.VSQ, Format.VocaloidMid, Format.UST, Format.USTX,
+        Format.CCS, Format.MusicXml, Format.SVP, Format.S5P, Format.DV, Format.PPSF,
         Format.StandardMid, Format.Tssln, Format.UfData,
     };
 
     public static readonly IReadOnlyList<Format> Exportable = new[]
     {
-        Format.Vsqx, Format.Vpr, Format.Vsq, Format.VocaloidMid, Format.Ust, Format.Ustx,
-        Format.Ccs, Format.MusicXml, Format.Svp, Format.S5p, Format.Dv, Format.StandardMid,
+        Format.VSQX, Format.VPR, Format.VSQ, Format.VocaloidMid, Format.UST, Format.USTX,
+        Format.CCS, Format.MusicXml, Format.SVP, Format.S5P, Format.DV, Format.StandardMid,
         Format.Tssln, Format.UfData,
     };
 
     public static readonly IReadOnlyList<Format> VocaloidFormats = new[]
     {
-        Format.Vsq, Format.Vsqx, Format.VocaloidMid, Format.Vpr,
+        Format.VSQ, Format.VSQX, Format.VocaloidMid, Format.VPR,
     };
 
     private static Dictionary<Format, FormatInfo> Build()
@@ -90,19 +90,19 @@ public static class FormatRegistry
 
         var list = new List<FormatInfo>
         {
-            new() { Format = Format.Vsqx, Extension = "vsqx", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
-            new() { Format = Format.Vpr, Extension = "vpr", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
-            new() { Format = Format.Ust, Extension = "ust", MultipleFile = true, PossibleLyricsTypes = new[] { cv, romajiVcv, kanaCv, kanaVcv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
-            new() { Format = Format.Ustx, Extension = "ustx", PossibleLyricsTypes = new[] { cv, romajiVcv, kanaCv, kanaVcv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
-            new() { Format = Format.Ccs, Extension = "ccs", PossibleLyricsTypes = new[] { kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
-            new() { Format = Format.Svp, Extension = "svp", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.SplitProject, Feature.ConvertPhonemes } },
-            new() { Format = Format.S5p, Extension = "s5p", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
+            new() { Format = Format.VSQX, Extension = "vsqx", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
+            new() { Format = Format.VPR, Extension = "vpr", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
+            new() { Format = Format.UST, Extension = "ust", MultipleFile = true, PossibleLyricsTypes = new[] { cv, romajiVcv, kanaCv, kanaVcv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
+            new() { Format = Format.USTX, Extension = "ustx", PossibleLyricsTypes = new[] { cv, romajiVcv, kanaCv, kanaVcv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
+            new() { Format = Format.CCS, Extension = "ccs", PossibleLyricsTypes = new[] { kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
+            new() { Format = Format.SVP, Extension = "svp", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.SplitProject, Feature.ConvertPhonemes } },
+            new() { Format = Format.S5P, Extension = "s5p", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
             new() { Format = Format.MusicXml, Extension = "musicxml", OtherExtensions = new[] { "xml" }, PossibleLyricsTypes = new[] { cv, kanaCv }, SuggestedLyricType = kanaCv },
-            new() { Format = Format.Dv, Extension = "dv", PossibleLyricsTypes = new[] { cv, kanaCv }, SuggestedLyricType = cv, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
-            new() { Format = Format.Vsq, Extension = "vsq", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
+            new() { Format = Format.DV, Extension = "dv", PossibleLyricsTypes = new[] { cv, kanaCv }, SuggestedLyricType = cv, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch } },
+            new() { Format = Format.VSQ, Extension = "vsq", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
             new() { Format = Format.VocaloidMid, Extension = "mid", PossibleLyricsTypes = new[] { cv, kanaCv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch }, Alias = "Mid (VOCALOID)" },
             new() { Format = Format.StandardMid, Extension = "mid", PossibleLyricsTypes = new[] { cv, kanaCv }, Alias = "Mid (Standard)" },
-            new() { Format = Format.Ppsf, Extension = "ppsf", PossibleLyricsTypes = new[] { cv, kanaCv } },
+            new() { Format = Format.PPSF, Extension = "ppsf", PossibleLyricsTypes = new[] { cv, kanaCv } },
             new() { Format = Format.Tssln, Extension = "tssln", PossibleLyricsTypes = new[] { kanaCv, cv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPhonemes } },
             new() { Format = Format.UfData, Extension = "ufdata", PossibleLyricsTypes = new[] { cv, romajiVcv, kanaCv, kanaVcv }, AvailableFeaturesForGeneration = new[] { Feature.ConvertPitch, Feature.ConvertPhonemes } },
         };

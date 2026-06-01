@@ -16,23 +16,23 @@ public static class FormatHandlers
         ufData.Parser = UfData.Parse;
         ufData.Generator = UfData.Generate;
 
-        var ust = FormatRegistry.Get(Format.Ust);
+        var ust = FormatRegistry.Get(Format.UST);
         ust.Parser = Ust.Parse;
         ust.Generator = Ust.Generate;
 
-        var s5p = FormatRegistry.Get(Format.S5p);
+        var s5p = FormatRegistry.Get(Format.S5P);
         s5p.Parser = S5p.Parse;
         s5p.Generator = S5p.Generate;
 
-        var svp = FormatRegistry.Get(Format.Svp);
+        var svp = FormatRegistry.Get(Format.SVP);
         svp.Parser = Svp.Parse;
         svp.Generator = Svp.Generate;
 
-        var ccs = FormatRegistry.Get(Format.Ccs);
+        var ccs = FormatRegistry.Get(Format.CCS);
         ccs.Parser = Ccs.Parse;
         ccs.Generator = Ccs.Generate;
 
-        var ustx = FormatRegistry.Get(Format.Ustx);
+        var ustx = FormatRegistry.Get(Format.USTX);
         ustx.Parser = Ustx.Parse;
         ustx.Generator = Ustx.Generate;
 
@@ -40,7 +40,7 @@ public static class FormatHandlers
         standardMid.Parser = StandardMid.Parse;
         standardMid.Generator = StandardMid.Generate;
 
-        var vsq = FormatRegistry.Get(Format.Vsq);
+        var vsq = FormatRegistry.Get(Format.VSQ);
         vsq.Parser = Vsq.Parse;
         vsq.Generator = Vsq.Generate;
 
@@ -49,15 +49,15 @@ public static class FormatHandlers
         vocaloidMid.Generator = VocaloidMid.Generate;
         vocaloidMid.CustomMatcher = VsqLike.MatchFile;
 
-        var vsqx = FormatRegistry.Get(Format.Vsqx);
+        var vsqx = FormatRegistry.Get(Format.VSQX);
         vsqx.Parser = Vsqx.Parse;
         vsqx.Generator = Vsqx.Generate;
 
-        var vpr = FormatRegistry.Get(Format.Vpr);
+        var vpr = FormatRegistry.Get(Format.VPR);
         vpr.Parser = Vpr.Parse;
         vpr.Generator = Vpr.Generate;
 
-        var ppsf = FormatRegistry.Get(Format.Ppsf);
+        var ppsf = FormatRegistry.Get(Format.PPSF);
         ppsf.Parser = Ppsf.Parse;
 
         var tssln = FormatRegistry.Get(Format.Tssln);
@@ -68,7 +68,7 @@ public static class FormatHandlers
         musicXml.Parser = MusicXml.Parse;
         musicXml.Generator = MusicXml.Generate;
 
-        var dv = FormatRegistry.Get(Format.Dv);
+        var dv = FormatRegistry.Get(Format.DV);
         dv.Parser = Dv.Parse;
         dv.Generator = Dv.Generate;
     }
