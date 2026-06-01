@@ -23,5 +23,9 @@ public static class FormatHandlers
         var s5p = FormatRegistry.Get(Format.S5p);
         s5p.Parser = S5p.Parse;
         s5p.Generator = S5p.Generate;
+
+        var svp = FormatRegistry.Get(Format.Svp);
+        svp.Parser = Svp.Parse;
+        svp.Generator = Svp.Generate;
     }
 }
