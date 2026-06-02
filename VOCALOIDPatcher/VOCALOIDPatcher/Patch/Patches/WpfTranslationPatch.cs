@@ -37,7 +37,6 @@ public class WpfTranslationPatch : PatchBase
     private static void Prefix()
     {
         ReTranslate();
-        FixFilepathSeparator();
     }
 
     public static void InstallGlobalHandlers()
@@ -202,12 +201,4 @@ public class WpfTranslationPatch : PatchBase
             RefreshAll(audioEffectWindow);
     }
 
-    /**
-     * 修复 "文件 -> 最近打开..." 中文件路径分隔符全都是 ￥ 的问题
-     */
-    private static void FixFilepathSeparator()
-    {
-        var xRecentFiles = ReflectionUtils.GetMainWindowField<MenuItem>("xRecentFiles");
-        xRecentFiles.FontFamily = new FontFamily("Consolas");
-    }
 }
