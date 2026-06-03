@@ -116,7 +116,7 @@
   <data name="AudioEffectsView_AutoPan_Header" xml:space="preserve"><value>自動聲像</value></data>
   <data name="AudioEffectsView_Delay_Header" xml:space="preserve"><value>延遲</value></data>
   <data name="AudioEffectsView_Reverb_Header" xml:space="preserve"><value>混響</value></data>
-  
+
   <!-- Editor Properties -->
   <data name="MsgBox_Wave_OldEditor_Error" xml:space="preserve"><value>該聲庫的版本不被支援。請更新編輯器。</value></data>
   <data name="PreferencesDlg_General_ReturntoStartARA_Caption" xml:space="preserve"><value>停止時返回起始位置</value></data>
@@ -813,7 +813,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="MsgBox_Add_Panpot_Error" xml:space="preserve"><value>無法新增聲像。</value></data>
   <data name="NormalizeNote_NumberOfOverlappingNotes_Label" xml:space="preserve"><value>重疊音符的數量：</value></data>
   <data name="ToolBar_Vibrato_ToolTip" xml:space="preserve"><value>顫音</value></data>
-  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/bb/VOCALOID_Reference_Manual_JPN.pdf</value></data>
+  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/bb/VOCALOID_Reference_Manual_ENG.pdf</value></data>
   <data name="VerifyLicene_FreeTrial" xml:space="preserve"><value>免費試用</value></data>
   <data name="MsgBox_Wave_Reverse_Error" xml:space="preserve"><value>無法反轉音訊波形。錯誤 </value></data>
   <data name="MsgBox_Resize_MidiPart_Error" xml:space="preserve"><value>無法調整 VOCALOID 樂段大小。</value></data>

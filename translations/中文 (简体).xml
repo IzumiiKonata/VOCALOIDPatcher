@@ -813,7 +813,7 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MsgBox_Add_Panpot_Error" xml:space="preserve"><value>无法添加声像。</value></data>
   <data name="NormalizeNote_NumberOfOverlappingNotes_Label" xml:space="preserve"><value>重叠音符的数量:</value></data>
   <data name="ToolBar_Vibrato_ToolTip" xml:space="preserve"><value>颤音</value></data>
-  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/bb/VOCALOID_Reference_Manual_JPN.pdf</value></data>
+  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/bb/VOCALOID_Reference_Manual_ENG.pdf</value></data>
   <data name="VerifyLicene_FreeTrial" xml:space="preserve"><value>免费试用</value></data>
   <data name="MsgBox_Wave_Reverse_Error" xml:space="preserve"><value>无法反转音频波形。错误 </value></data>
   <data name="MsgBox_Resize_MidiPart_Error" xml:space="preserve"><value>无法调整 VOCALOID 片段。</value></data>
