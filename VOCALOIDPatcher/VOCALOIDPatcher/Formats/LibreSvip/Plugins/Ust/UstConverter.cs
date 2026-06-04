@@ -14,6 +14,8 @@ public sealed class UstConverter : FormatConverter
 {
     private const string LineSeparator = "\r\n";
 
+    public bool ImportPitch { get; set; } = true;
+
     public override bool CanLoad => true;
     public override bool CanDump => true;
 
@@ -24,8 +26,12 @@ public sealed class UstConverter : FormatConverter
 
         var tempos = new List<SongTempo>();
         var notes = new List<Note>();
+        var mode2Data = new List<UtauMode2NotePitchData?>();
+        var mode1Data = new List<List<int>?>();
         int time = 0;
         double? headerTempo = null;
+        bool? mode2Flag = null;
+        bool sawPbs = false;
 
         string? sectionName = null;
         var section = new Dictionary<string, string>();
@@ -41,6 +47,8 @@ public sealed class UstConverter : FormatConverter
             {
                 if (section.TryGetValue("Tempo", out var t) && TryParseDouble(t, out var bpm))
                     headerTempo = bpm;
+                if (section.TryGetValue("Mode2", out var m2))
+                    mode2Flag = m2.Trim() is "True" or "1";
                 return;
             }
             if (!section.TryGetValue("Length", out var lengthStr) || !TryParseDouble(lengthStr, out var lengthValue))
@@ -51,7 +59,11 @@ public sealed class UstConverter : FormatConverter
             string lyric = section.TryGetValue("Lyric", out var ly) ? ly : "";
             int noteNum = section.TryGetValue("NoteNum", out var nn) && int.TryParse(nn, out var key) ? key : 60;
             if (!string.IsNullOrEmpty(lyric) && lyric.ToUpperInvariant() != "R")
+            {
                 notes.Add(new Note { StartPos = time, Length = length, KeyNumber = noteNum, Lyric = lyric });
+                mode2Data.Add(ParseMode2(section, ref sawPbs));
+                mode1Data.Add(ParseMode1(section));
+            }
             time += length;
         }
 
@@ -78,14 +90,72 @@ public sealed class UstConverter : FormatConverter
         if (tempos.Count == 0)
             tempos.Add(new SongTempo(0, Constants.DefaultBpm));
 
+        var timeSignatures = new List<TimeSignature> { new() };
         var track = new SingingTrack { NoteList = notes };
+        if (ImportPitch && notes.Count > 0)
+        {
+            var synchronizer = new TimeSynchronizer(tempos);
+            bool useMode2 = mode2Flag ?? sawPbs;
+            track.EditedParams.Pitch = useMode2
+                ? UstPitch.PitchFromMode2(mode2Data, synchronizer, notes, timeSignatures)
+                : UstPitch.PitchFromMode1(mode1Data, synchronizer, notes, timeSignatures);
+        }
+
         return new Project
         {
             SongTempoList = tempos,
-            TimeSignatureList = new List<TimeSignature> { new() },
+            TimeSignatureList = timeSignatures,
             TrackList = new List<Track> { track },
         };
     }
+
+    private static UtauMode2NotePitchData? ParseMode2(Dictionary<string, string> section, ref bool sawPbs)
+    {
+        if (!section.TryGetValue("PBS", out var pbsStr))
+            return null;
+        sawPbs = true;
+        var pbs = pbsStr.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => TryParseDouble(s, out var v) ? v : 0.0).ToList();
+        return new UtauMode2NotePitchData
+        {
+            Start = pbs.Count > 0 ? pbs[0] : 0,
+            StartShift = pbs.Count > 1 ? pbs[1] : null,
+            Widths = ParseFloatList(section, "PBW"),
+            Shifts = ParseFloatList(section, "PBY"),
+            CurveTypes = section.TryGetValue("PBM", out var pbm)
+                ? pbm.Split(',').Select(s => s.Trim()).ToList()
+                : new List<string>(),
+            VibratoParams = ParseVibrato(section),
+        };
+    }
+
+    private static List<int>? ParseMode1(Dictionary<string, string> section)
+    {
+        foreach (var key in new[] { "Pitches", "Piches", "PitchBend" })
+            if (section.TryGetValue(key, out var v))
+                return v.Split(',').Select(s => int.TryParse(s.Trim(), out var n) ? n : 0).ToList();
+        return null;
+    }
+
+    private static UtauNoteVibrato? ParseVibrato(Dictionary<string, string> section)
+    {
+        if (!section.TryGetValue("VBR", out var vbr))
+            return null;
+        var v = vbr.Split(',').Select(s => TryParseDouble(s, out var d) ? d : 0.0).ToList();
+        if (v.Count == 0)
+            return null;
+        double At(int i) => i < v.Count ? v[i] : 0;
+        return new UtauNoteVibrato
+        {
+            Length = At(0), Period = At(1), Depth = At(2),
+            FadeIn = At(3), FadeOut = At(4), PhaseShift = At(5), Shift = At(6),
+        };
+    }
+
+    private static List<double> ParseFloatList(Dictionary<string, string> section, string key) =>
+        section.TryGetValue(key, out var s)
+            ? s.Split(',').Select(x => TryParseDouble(x, out var v) ? v : 0.0).ToList()
+            : new List<double>();
 
     public override byte[] Dump(Project project)
     {
@@ -96,6 +166,10 @@ public sealed class UstConverter : FormatConverter
                     ?? project.TrackList.OfType<SingingTrack>().FirstOrDefault();
         if (track == null)
             throw new InvalidOperationException("No singing track found");
+
+        List<UtauMode2NotePitchData?> pitchData = track.EditedParams.Pitch.Points.Count > 0
+            ? UstPitch.PitchToMode2(track.EditedParams.Pitch, track.NoteList, tempoList)
+            : new List<UtauMode2NotePitchData?>();
 
         var builder = new StringBuilder();
         void Append(string line) => builder.Append(line).Append(LineSeparator);
@@ -112,8 +186,9 @@ public sealed class UstConverter : FormatConverter
         double prevBpm = firstBpm;
         int prevEnd = 0;
         int noteIndex = 0;
-        foreach (var note in track.NoteList)
+        for (int i = 0; i < track.NoteList.Count; i++)
         {
+            var note = track.NoteList[i];
             int restLength = note.StartPos - prevEnd;
             if (restLength > 0)
             {
@@ -135,6 +210,18 @@ public sealed class UstConverter : FormatConverter
                 prevBpm = curBpm;
             }
             Append("PreUtterance=");
+            var pitch = i < pitchData.Count ? pitchData[i] : null;
+            if (pitch != null && pitch.Start != null)
+            {
+                string pbs = ToFixed(pitch.Start.Value);
+                if (pitch.StartShift != null)
+                    pbs += ";" + ToFixed(pitch.StartShift.Value);
+                Append("PBS=" + pbs);
+                if (pitch.Widths.Count > 0)
+                    Append("PBW=" + string.Join(",", pitch.Widths.Select(w => ToFixed(w))));
+                if (pitch.Shifts.Count > 0)
+                    Append("PBY=" + string.Join(",", pitch.Shifts.Select(s => ToFixed(s))));
+            }
             prevEnd = note.EndPos;
             noteIndex++;
         }
