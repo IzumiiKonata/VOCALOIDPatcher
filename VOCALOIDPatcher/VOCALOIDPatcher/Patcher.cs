@@ -111,10 +111,8 @@ public static class Patcher
     {
         AddPatcherMenuItem();
         JobMenu.Install();
-        Formats.Io.FormatHandlers.Initialize();
-        Formats.FormatMenu.Install();
-        Formats.FormatDragDrop.Install();
         Formats.LibreSvip.SvipFormatMenu.Install();
+        Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
     }
 

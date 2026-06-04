@@ -1,20 +1,26 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Model;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 using VOCALOIDPatcher.Patch.Patches;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip;
 
 public static class SvipFormatMenu
 {
-    private const string ImportItemTag = "VOCALOIDPatcher_SvipImport";
-    private const string ExportMenuTag = "VOCALOIDPatcher_SvipExport";
+    private const string ImportItemTag = "VOCALOIDPatcher_FormatImport";
+    private const string ExportMenuTag = "VOCALOIDPatcher_FormatExport";
+    private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
+
+    private static MenuItem? _exportMenu;
+    private static bool _languageHooked;
 
     public static void Install()
     {
@@ -57,7 +63,7 @@ public static class SvipFormatMenu
 
         importMenu.Items.Add(new Separator());
         foreach (var info in importable)
-            importMenu.Items.Add(BuildItem($"{info.DisplayName} (SVIP)…", ImportItemTag, () => OnImport(info)));
+            importMenu.Items.Add(BuildItem($"{info.DisplayName}…", ImportItemTag, () => OnImport(info)));
     }
 
     private static void AddExportMenu(MenuItem fileMenu, MenuItem importMenu)
@@ -66,13 +72,34 @@ public static class SvipFormatMenu
         if (exportable.Count == 0)
             return;
 
-        var exportMenu = new MenuItem { Header = "导出 (LibreSVIP)", Tag = ExportMenuTag };
+        var exportMenu = new MenuItem
+        {
+            Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderKey,
+            Tag = ExportMenuTag,
+        };
         WpfTranslationPatch.MarkUntranslatable(exportMenu);
         foreach (var info in exportable)
             exportMenu.Items.Add(BuildItem($"{info.DisplayName}…", ExportMenuTag, () => OnExport(info)));
 
         int importIndex = fileMenu.Items.IndexOf(importMenu);
         fileMenu.Items.Insert(importIndex + 1, exportMenu);
+
+        _exportMenu = exportMenu;
+        HookLanguage();
+    }
+
+    private static void HookLanguage()
+    {
+        if (_languageHooked)
+            return;
+        _languageHooked = true;
+        TranslationManager.LanguageChanged += (_, _) => Application.Current?.Dispatcher.Invoke(RefreshHeaders);
+    }
+
+    private static void RefreshHeaders()
+    {
+        if (_exportMenu != null)
+            _exportMenu.Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderKey;
     }
 
     private static MenuItem BuildItem(string header, string tag, Action onClick)
@@ -117,7 +144,9 @@ public static class SvipFormatMenu
 
         if (project.TrackList.OfType<SingingTrack>().All(t => t.NoteList.Count == 0))
         {
-            Debug.ShowMessageBox("当前工程为空, 没有可导出的音符。");
+            Debug.ShowMessageBox(
+                TranslationManager.Get("VOCALOIDPatcher_Export_EmptyProject")
+                ?? "当前工程为空, 没有可导出的音符。");
             return;
         }
 
