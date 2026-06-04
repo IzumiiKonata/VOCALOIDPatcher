@@ -19,6 +19,7 @@ public sealed class VsqxConverter : FormatConverter
     private static readonly XNamespace Ns = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/";
 
     public bool ImportInstrumental { get; set; } = true;
+    public bool ImportPitch { get; set; } = true;
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -37,12 +38,14 @@ public sealed class VsqxConverter : FormatConverter
         if (rawTimeSignatures.Count == 0)
             rawTimeSignatures.Add(new TimeSignature());
         var (tickPrefix, timeSignatures) = ParseTimeSignatures(rawTimeSignatures, preMeasure);
+        int firstBarLength = (int)Math.Round(rawTimeSignatures[0].BarLength());
 
         var rawTempos = master.Children("tempo").Select(t => new SongTempo(
             ParseInt(t.ChildText("t")), ParseInt(t.ChildText("v")) / BpmRate)).ToList();
         if (rawTempos.Count == 0)
             rawTempos.Add(new SongTempo(0, Constants.DefaultBpm));
         var tempos = TickCounter.SkipTempoList(rawTempos, tickPrefix);
+        var synchronizer = new TimeSynchronizer(tempos);
 
         var muteSolo = new Dictionary<int, (bool Mute, bool Solo)>();
         var mixer = root.Child("mixer");
@@ -64,13 +67,14 @@ public sealed class VsqxConverter : FormatConverter
             {
                 int partPos = ParseInt(part.ChildText("t"));
                 int offset = partPos - tickPrefix;
+                var partNotes = new List<Note>();
                 foreach (var note in part.Children("note"))
                 {
                     var phnms = note.Child("p")?.Value;
                     if (phnms is "Asp" or "Sil" or "?")
                         continue;
                     string lyric = (note.ChildText("y") ?? Constants.DefaultEnglishLyric).ToLowerInvariant();
-                    singing.NoteList.Add(new Note
+                    partNotes.Add(new Note
                     {
                         StartPos = ParseInt(note.ChildText("t")) + offset,
                         Length = ParseInt(note.ChildText("dur")),
@@ -78,6 +82,18 @@ public sealed class VsqxConverter : FormatConverter
                         Lyric = lyric,
                     });
                 }
+                singing.NoteList.AddRange(partNotes);
+                if (ImportPitch && partNotes.Count > 0)
+                {
+                    var pitch = ParsePartPitch(part, offset, partNotes, timeSignatures, synchronizer, firstBarLength);
+                    if (pitch != null)
+                        singing.EditedParams.Pitch.Points.AddRange(pitch.Points);
+                }
+            }
+            if (singing.EditedParams.Pitch.Points.Count > 0)
+            {
+                singing.EditedParams.Pitch.Points.Insert(0, Point.StartPoint());
+                singing.EditedParams.Pitch.Points.Add(Point.EndPoint());
             }
             trackList.Add(singing);
         }
@@ -88,6 +104,32 @@ public sealed class VsqxConverter : FormatConverter
             TimeSignatureList = timeSignatures,
             TrackList = trackList,
         };
+    }
+
+    private static ParamCurve? ParsePartPitch(XElement part, int offset, List<Note> partNotes,
+        List<TimeSignature> timeSignatures, TimeSynchronizer synchronizer, int firstBarLength)
+    {
+        var pitEvents = new List<ControllerEvent>();
+        var pbsEvents = new List<ControllerEvent>();
+        foreach (var cc in part.Children("cc"))
+        {
+            var v = cc.Child("v");
+            if (v == null)
+                continue;
+            int pos = ParseInt(cc.ChildText("t"));
+            int value = ParseInt(v.Value);
+            string id = v.Attribute("id")?.Value ?? "";
+            if (id == "P")
+                pitEvents.Add(new ControllerEvent(pos, value));
+            else if (id == "S")
+                pbsEvents.Add(new ControllerEvent(pos, value));
+        }
+        if (pitEvents.Count == 0)
+            return null;
+        var pit = new ControllerCurve("pitch_bend", pitEvents, 0, -8192, 8191);
+        var pbs = new ControllerCurve("pitch_bend_sens", pbsEvents, 2, 1, 24);
+        var handler = new VocaloidPitchHandler(synchronizer, partNotes, timeSignatures, firstBarLength);
+        return handler.ToAbsolutePitch(new List<PitchBendData> { new(pit, pbs) }, new List<int> { offset });
     }
 
     private static (int, List<TimeSignature>) ParseTimeSignatures(List<TimeSignature> tsList, int measurePrefix)
@@ -108,6 +150,8 @@ public sealed class VsqxConverter : FormatConverter
     {
         int firstBarLength = (int)Math.Round(project.TimeSignatureList[0].BarLength());
         int tickPrefix = firstBarLength;
+        var synchronizer = new TimeSynchronizer(project.SongTempoList.Count > 0
+            ? project.SongTempoList : new List<SongTempo> { new() });
 
         var master = new XElement(Ns + "masterTrack",
             CData("seqName", "Untitled0"),
@@ -159,6 +203,18 @@ public sealed class VsqxConverter : FormatConverter
                     CData("name", "New Part"),
                     CData("comment", "New Musical Part"),
                     new XElement(Ns + "singer", new XElement(Ns + "t", 0), new XElement(Ns + "bs", 0), new XElement(Ns + "pc", 0)));
+                if (track.EditedParams.Pitch.Points.Count > 0)
+                {
+                    var handler = new VocaloidPitchHandler(synchronizer, track.NoteList, project.TimeSignatureList, firstBarLength);
+                    var pb = handler.FromAbsolutePitch(track.EditedParams.Pitch);
+                    var ccEvents = pb.Pit.Events.Select(e => (e.Pos, "P", e.Value))
+                        .Concat(pb.Pbs.Events.Select(e => (e.Pos, "S", e.Value)))
+                        .OrderBy(e => e.Item1).ToList();
+                    foreach (var (pos, id, value) in ccEvents)
+                        part.Add(new XElement(Ns + "cc",
+                            new XElement(Ns + "t", pos),
+                            new XElement(Ns + "v", new XAttribute("id", id), value)));
+                }
                 foreach (var note in track.NoteList)
                 {
                     var noteNode = new XElement(Ns + "note",
