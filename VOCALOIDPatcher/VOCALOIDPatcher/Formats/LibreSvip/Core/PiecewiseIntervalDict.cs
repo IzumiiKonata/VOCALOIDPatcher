@@ -47,6 +47,12 @@ public sealed class PiecewiseIntervalDict
         _segments.AddRange(next);
     }
 
+    public double Get(double x, double fallback)
+    {
+        double? v = Get(x);
+        return v ?? fallback;
+    }
+
     public double? Get(double x)
     {
         int lo = 0, hi = _segments.Count;

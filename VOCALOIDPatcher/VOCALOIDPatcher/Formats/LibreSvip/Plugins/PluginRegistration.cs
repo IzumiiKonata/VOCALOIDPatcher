@@ -1,4 +1,5 @@
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins;
@@ -19,6 +20,14 @@ public static class PluginRegistration
             DisplayName = "UtaFormatix Data",
             Extension = "ufdata",
             Converter = new UfdataConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "json",
+            DisplayName = "OpenSVIP",
+            Extension = "json",
+            Converter = new JsonSvipConverter(),
         });
     }
 }
