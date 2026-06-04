@@ -1,4 +1,5 @@
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Aisp;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ds;
@@ -128,6 +129,14 @@ public static class PluginRegistration
             DisplayName = "DiffSinger",
             Extension = "ds",
             Converter = new DsConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "aisp",
+            DisplayName = "AISingers",
+            Extension = "aisp",
+            Converter = new AispConverter(),
         });
     }
 }
