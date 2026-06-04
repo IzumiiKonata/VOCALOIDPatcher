@@ -114,6 +114,7 @@ public static class Patcher
         Formats.Io.FormatHandlers.Initialize();
         Formats.FormatMenu.Install();
         Formats.FormatDragDrop.Install();
+        Formats.LibreSvip.SvipFormatMenu.Install();
         AutoSaveService.UpdateFromSettings();
     }
 
