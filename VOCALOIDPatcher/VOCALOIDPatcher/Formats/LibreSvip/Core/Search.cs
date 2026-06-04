@@ -48,4 +48,32 @@ public static class Search
         }
         return lo;
     }
+
+    public static int BisectLeft(IReadOnlyList<int> sorted, int value)
+    {
+        int lo = 0, hi = sorted.Count;
+        while (lo < hi)
+        {
+            int mid = (lo + hi) / 2;
+            if (sorted[mid] < value)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
+    }
+
+    public static int BisectLeft(IReadOnlyList<double> sorted, double value)
+    {
+        int lo = 0, hi = sorted.Count;
+        while (lo < hi)
+        {
+            int mid = (lo + hi) / 2;
+            if (sorted[mid] < value)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
+    }
 }
