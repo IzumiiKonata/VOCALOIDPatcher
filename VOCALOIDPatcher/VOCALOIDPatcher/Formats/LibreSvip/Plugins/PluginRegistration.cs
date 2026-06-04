@@ -8,6 +8,8 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.VvProj;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Y77;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 
@@ -101,6 +103,22 @@ public static class PluginRegistration
             Extension = "musicxml",
             OtherExtensions = new[] { "xml", "mxl" },
             Converter = new MusicXmlConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "vvproj",
+            DisplayName = "VOICEVOX",
+            Extension = "vvproj",
+            Converter = new VvProjConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "y77",
+            DisplayName = "元七七",
+            Extension = "y77",
+            Converter = new Y77Converter(),
         });
     }
 }
