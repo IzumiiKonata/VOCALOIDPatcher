@@ -2,6 +2,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
@@ -91,6 +92,15 @@ public static class PluginRegistration
             DisplayName = "OpenUTAU",
             Extension = "ustx",
             Converter = new UstxConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "musicxml",
+            DisplayName = "MusicXML",
+            Extension = "musicxml",
+            OtherExtensions = new[] { "xml", "mxl" },
+            Converter = new MusicXmlConverter(),
         });
     }
 }
