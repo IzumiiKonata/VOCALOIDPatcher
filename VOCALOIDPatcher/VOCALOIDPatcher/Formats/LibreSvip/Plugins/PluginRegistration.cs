@@ -2,6 +2,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
@@ -73,6 +74,14 @@ public static class PluginRegistration
             DisplayName = "ASS 字幕",
             Extension = "ass",
             Converter = new AssConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "s5p",
+            DisplayName = "Synthesizer V Editor",
+            Extension = "s5p",
+            Converter = new S5pConverter(),
         });
     }
 }
