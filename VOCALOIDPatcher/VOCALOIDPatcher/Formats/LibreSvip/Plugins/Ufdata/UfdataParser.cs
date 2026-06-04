@@ -10,6 +10,7 @@ public sealed class UfdataParser
     private readonly UfdataInputOptions _options;
     private int _firstBarLength;
     private List<TimeSignature> _timeSignatures = new();
+    private TimeSynchronizer _synchronizer = new(new List<SongTempo> { new() });
 
     public UfdataParser(UfdataInputOptions options) => _options = options;
 
@@ -22,6 +23,7 @@ public sealed class UfdataParser
         _firstBarLength = (int)System.Math.Round(_timeSignatures[0].BarLength());
         int tickPrefix = (int)(_timeSignatures[0].BarLength() * ufProject.MeasurePrefix);
         var songTempoList = TickCounter.ShiftTempoList(ParseTempos(ufProject.Tempos), tickPrefix);
+        _synchronizer = new TimeSynchronizer(songTempoList);
         return new Project
         {
             SongTempoList = songTempoList,
@@ -58,7 +60,19 @@ public sealed class UfdataParser
     private ParamCurve ParsePitch(UFPitch pitch, List<Note> noteList, int tickPrefix)
     {
         if (!pitch.IsAbsolute)
-            return new ParamCurve();
+        {
+            var relPitchPoints = new List<Point>();
+            int n = System.Math.Min(pitch.Ticks.Count, pitch.Values.Count);
+            for (int idx = 0; idx < n; idx++)
+            {
+                double? value = pitch.Values[idx];
+                if (value != null)
+                    relPitchPoints.Add(new Point(pitch.Ticks[idx] + tickPrefix, (int)System.Math.Round(value.Value * 100)));
+            }
+            var pitchSimulator = new PitchSimulator(
+                _synchronizer, PortamentoPitch.NoPortamento(), noteList, _timeSignatures);
+            return new RelativePitchCurve(_firstBarLength).ToAbsolute(relPitchPoints, pitchSimulator);
+        }
 
         var pitchPoints = new List<Point> { Point.StartPoint() };
         var prevPoint = pitchPoints[^1];
