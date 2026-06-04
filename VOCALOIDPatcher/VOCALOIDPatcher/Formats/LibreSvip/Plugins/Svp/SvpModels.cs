@@ -22,6 +22,33 @@ public sealed class SVTime
     [JsonPropertyName("tempo")] public List<SVTempo> Tempo { get; set; } = new();
 }
 
+public sealed class SVNoteAttributes
+{
+    [JsonPropertyName("tF0Offset")] public double? TF0Offset { get; set; }
+    [JsonPropertyName("tF0Left")] public double? TF0Left { get; set; }
+    [JsonPropertyName("tF0Right")] public double? TF0Right { get; set; }
+    [JsonPropertyName("dF0Left")] public double? DF0Left { get; set; }
+    [JsonPropertyName("dF0Right")] public double? DF0Right { get; set; }
+    [JsonPropertyName("tF0VbrStart")] public double? TF0VbrStart { get; set; }
+    [JsonPropertyName("tF0VbrLeft")] public double? TF0VbrLeft { get; set; }
+    [JsonPropertyName("tF0VbrRight")] public double? TF0VbrRight { get; set; }
+    [JsonPropertyName("dF0Vbr")] public double? DF0Vbr { get; set; }
+    [JsonPropertyName("fF0Vbr")] public double? FF0Vbr { get; set; }
+    [JsonPropertyName("pF0Vbr")] public double? PF0Vbr { get; set; }
+
+    [JsonIgnore] public double TransitionOffset => TF0Offset ?? 0.0;
+    [JsonIgnore] public double PortamentoLeft => TF0Left ?? 0.07;
+    [JsonIgnore] public double PortamentoRight => TF0Right ?? 0.07;
+    [JsonIgnore] public double DepthLeft => DF0Left ?? 0.15;
+    [JsonIgnore] public double DepthRight => DF0Right ?? 0.15;
+    [JsonIgnore] public double VibratoStart => TF0VbrStart ?? 0.25;
+    [JsonIgnore] public double VibratoLeft => TF0VbrLeft ?? 0.2;
+    [JsonIgnore] public double VibratoRight => TF0VbrRight ?? 0.2;
+    [JsonIgnore] public double VibratoDepth => DF0Vbr ?? 1.0;
+    [JsonIgnore] public double VibratoFrequency => FF0Vbr ?? 5.5;
+    [JsonIgnore] public double VibratoPhase => PF0Vbr ?? 0.0;
+}
+
 public sealed class SVNote
 {
     [JsonPropertyName("onset")] public long Onset { get; set; }
@@ -29,6 +56,21 @@ public sealed class SVNote
     [JsonPropertyName("lyrics")] public string Lyrics { get; set; } = "";
     [JsonPropertyName("phonemes")] public string Phonemes { get; set; } = "";
     [JsonPropertyName("pitch")] public int Pitch { get; set; }
+    [JsonPropertyName("attributes")] public SVNoteAttributes Attributes { get; set; } = new();
+}
+
+public readonly record struct SvParamPoint(long Offset, double Value);
+
+public sealed class SVParamCurve
+{
+    [JsonPropertyName("mode")] public string Mode { get; set; } = "linear";
+    [JsonPropertyName("points")][JsonConverter(typeof(SvpPointsConverter))] public List<SvParamPoint> Points { get; set; } = new();
+}
+
+public sealed class SVParameters
+{
+    [JsonPropertyName("pitchDelta")] public SVParamCurve PitchDelta { get; set; } = new();
+    [JsonPropertyName("vibratoEnv")] public SVParamCurve VibratoEnv { get; set; } = new();
 }
 
 public sealed class SVGroup
@@ -36,6 +78,7 @@ public sealed class SVGroup
     [JsonPropertyName("name")] public string Name { get; set; } = "main";
     [JsonPropertyName("uuid")] public string Uuid { get; set; } = "";
     [JsonPropertyName("notes")] public List<SVNote> Notes { get; set; } = new();
+    [JsonPropertyName("parameters")] public SVParameters Parameters { get; set; } = new();
 }
 
 public sealed class SVDatabase

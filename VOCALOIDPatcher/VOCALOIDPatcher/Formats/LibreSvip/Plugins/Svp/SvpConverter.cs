@@ -16,6 +16,7 @@ public sealed class SvpConverter : FormatConverter
         "()[]{}（）<>《》―—*×!！?？:：·•。,，;；^`\"‘’“”=、_$%~@#…&￥");
 
     public bool ImportInstrumental { get; set; } = true;
+    public bool ImportPitch { get; set; } = true;
 
     private int _firstBarTick;
 
@@ -39,6 +40,7 @@ public sealed class SvpConverter : FormatConverter
             svp.Time.Tempo.Select(t => new SongTempo(PositionToTicks(t.Position), t.Bpm)).ToList(), _firstBarTick);
         if (tempos.Count == 0)
             tempos.Add(new SongTempo());
+        var synchronizer = new TimeSynchronizer(tempos);
 
         var library = new Dictionary<string, SVGroup>();
         foreach (var group in svp.Library)
@@ -65,7 +67,7 @@ public sealed class SvpConverter : FormatConverter
                 continue;
             }
 
-            trackList.Add(new SingingTrack
+            var mainSinging = new SingingTrack
             {
                 Title = svTrack.Name,
                 AiSingerName = svTrack.MainRef.Database.Name,
@@ -74,7 +76,14 @@ public sealed class SvpConverter : FormatConverter
                 Pan = svTrack.Mixer.Pan,
                 Volume = ParseVolume(svTrack.Mixer.GainDecibel),
                 NoteList = ParseNotes(svTrack.MainGroup.Notes, 0, 0),
-            });
+            };
+            if (ImportPitch && svTrack.MainGroup.Notes.Count > 0)
+            {
+                var pitch = ParsePitch(svTrack.MainGroup.Parameters, svTrack.MainGroup.Notes, timeSignatures, synchronizer);
+                if (pitch != null)
+                    mainSinging.EditedParams.Pitch = pitch;
+            }
+            trackList.Add(mainSinging);
 
             foreach (var svRef in svTrack.Groups)
             {
@@ -120,6 +129,53 @@ public sealed class SvpConverter : FormatConverter
         }
         return result;
     }
+
+    private ParamCurve? ParsePitch(SVParameters parameters, List<SVNote> svNotes,
+        List<TimeSignature> timeSignatures, TimeSynchronizer synchronizer)
+    {
+        if (svNotes.Count == 0)
+            return null;
+        var pitchDiff = new CurveGenerator(
+            parameters.PitchDelta.Points.Select(p => new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value))),
+            Interp(parameters.PitchDelta.Mode), 0);
+        var vibratoEnv = new CurveGenerator(
+            parameters.VibratoEnv.Points.Select(p => new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value * 1000))),
+            Interp(parameters.VibratoEnv.Mode), 1000);
+        var noteStructs = svNotes.Select(n => ToNoteStruct(n, synchronizer)).ToList();
+        var generator = new PitchGenerator(synchronizer, noteStructs, pitchDiff, vibratoEnv, null);
+        var interval = new RangeInterval(
+            svNotes.Select(n => (PositionToTicks(n.Onset), PositionToTicks(n.Onset + n.Duration)))).Expand(120);
+
+        var points = new List<Point> { Point.StartPoint() };
+        foreach (var (start, end) in interval.Shift(_firstBarTick).SubRanges())
+        {
+            points.Add(new Point(start, -100));
+            for (int i = start; i < end; i += 5)
+                points.Add(new Point(i, (int)Math.Round(generator.ValueAtTicks(i - _firstBarTick))));
+            points.Add(new Point(end, (int)Math.Round(generator.ValueAtTicks(end - _firstBarTick))));
+            points.Add(new Point(end, -100));
+        }
+        points.Add(Point.EndPoint());
+        return new ParamCurve { Points = points };
+    }
+
+    private static NoteStruct ToNoteStruct(SVNote note, TimeSynchronizer synchronizer)
+    {
+        var a = note.Attributes;
+        return new NoteStruct(
+            note.Pitch,
+            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset)),
+            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset + note.Duration)),
+            a.TransitionOffset, a.PortamentoLeft, a.PortamentoRight, a.DepthLeft, a.DepthRight,
+            a.VibratoStart, a.VibratoLeft, a.VibratoRight, a.VibratoDepth, a.VibratoFrequency, a.VibratoPhase);
+    }
+
+    private static InterpolationFunc Interp(string mode) => mode switch
+    {
+        "cosine" => MusicMath.CosineEasingInOutInterpolation,
+        "cubic" => MusicMath.CubicInterpolation,
+        _ => MusicMath.LinearInterpolation,
+    };
 
     private static string NormalizeLyric(string lyric)
     {
