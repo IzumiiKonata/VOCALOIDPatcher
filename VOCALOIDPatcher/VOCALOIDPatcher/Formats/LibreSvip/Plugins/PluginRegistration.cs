@@ -1,6 +1,8 @@
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
 
@@ -47,6 +49,30 @@ public static class PluginRegistration
             DisplayName = "Vogen",
             Extension = "vog",
             Converter = new VogConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "lrc",
+            DisplayName = "LRC 歌词",
+            Extension = "lrc",
+            Converter = new LrcConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "srt",
+            DisplayName = "SRT 字幕",
+            Extension = "srt",
+            Converter = new SrtConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "ass",
+            DisplayName = "ASS 字幕",
+            Extension = "ass",
+            Converter = new AssConverter(),
         });
     }
 }
