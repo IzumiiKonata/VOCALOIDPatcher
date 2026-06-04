@@ -5,7 +5,6 @@ using VOCALOIDPatcher.Formats.LibreSvip.Model;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Core;
 
-// 移植自 libresvip/core/tick_counter.py
 public static class TickCounter
 {
     public static List<SongTempo> SkipTempoList(List<SongTempo> tempoList, int skipTicks)

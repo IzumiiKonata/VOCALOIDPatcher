@@ -2,7 +2,6 @@ using System;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Core;
 
-// 移植自 libresvip/core/exceptions.py
 public class InvalidFileTypeException : Exception
 {
     public InvalidFileTypeException() { }

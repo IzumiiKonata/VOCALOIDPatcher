@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Core;
 
-// 移植自 libresvip/utils/search.py 中本移植用到的部分
 public static class Search
 {
     public static int FindIndex<T>(IReadOnlyList<T> list, Func<T, bool> pred)
@@ -22,7 +21,6 @@ public static class Search
         return -1;
     }
 
-    // 等价于 Python bisect.bisect_right
     public static int BisectRight(IReadOnlyList<int> sorted, int value)
     {
         int lo = 0, hi = sorted.Count;

@@ -6,10 +6,6 @@ using VOCALOIDPatcher.Formats.LibreSvip.Core;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Model;
 
-// 移植自 libresvip/model/base.py。
-// 这是所有格式插件共用的中间模型；字段上的 [JsonPropertyName] 对应 pydantic 的 alias,
-// 主要供 OpenSVIP json 格式直接序列化本模型时使用。模型为可变类(插件会原地修改)。
-
 public sealed class SongTempo
 {
     [JsonPropertyName("Position")] public int Position { get; set; } = 0;
@@ -43,12 +39,10 @@ public sealed class TimeSignature
 
 public sealed class ParamCurve
 {
-    // 对应 Python 的 points.root; Python 中通过 curve.points.root 访问, 这里直接用 Points。
     [JsonPropertyName("PointList")] public List<Point> Points { get; set; } = new();
 
     [JsonPropertyName("TotalPointsCount")] public int TotalPointsCount => Points.Count;
 
-    // 移植自 ParamCurve.reduce_sample_rate
     public ParamCurve ReduceSampleRate(int interval, int interruptValue = 0)
     {
         if (interval <= 0)
@@ -105,7 +99,6 @@ public sealed class ParamCurve
         return new ParamCurve { Points = result };
     }
 
-    // 移植自 ParamCurve.split_into_segments
     public List<List<Point>> SplitIntoSegments(int interruptValue = 0)
     {
         int endPointX = Point.EndX;
@@ -241,7 +234,6 @@ public sealed class Project
     [JsonPropertyName("TimeSignatureList")] public List<TimeSignature> TimeSignatureList { get; set; } = new();
     [JsonPropertyName("TrackList")] public List<Track> TrackList { get; set; } = new();
 
-    // 移植自 Project.merge_projects
     public static Project MergeProjects(IReadOnlyList<Project> projects)
     {
         if (projects.Count <= 1)
@@ -257,7 +249,6 @@ public sealed class Project
         };
     }
 
-    // 移植自 Project.split_tracks
     public List<Project> SplitTracks(int maxTrackCount)
     {
         if (!TrackList.Any(t => t is SingingTrack))

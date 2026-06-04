@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using VOCALOIDPatcher.Formats.LibreSvip.Model;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Core;
 
-// 移植自 libresvip/core/time_sync.py 的 TimeSynchronizer
 public sealed class TimeSynchronizer
 {
     private readonly bool _isAbsoluteTimeCode;
@@ -104,7 +102,6 @@ public sealed class TimeSynchronizer
         return results;
     }
 
-    // 接受 double 的 bisect_right (Python 中 _positions 是 int 但传入可能是 float ticks)
     private static int BisectRight(List<int> sorted, double value)
     {
         int lo = 0, hi = sorted.Count;
