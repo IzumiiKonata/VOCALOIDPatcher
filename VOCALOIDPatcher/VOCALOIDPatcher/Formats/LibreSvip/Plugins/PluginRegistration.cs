@@ -1,6 +1,7 @@
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ds;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
@@ -119,6 +120,14 @@ public static class PluginRegistration
             DisplayName = "元七七",
             Extension = "y77",
             Converter = new Y77Converter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "ds",
+            DisplayName = "DiffSinger",
+            Extension = "ds",
+            Converter = new DsConverter(),
         });
     }
 }

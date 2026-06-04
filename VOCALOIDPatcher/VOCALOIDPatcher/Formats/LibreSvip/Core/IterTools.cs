@@ -27,6 +27,24 @@ public static class IterTools
         return result;
     }
 
+    public static List<List<T>> SplitBefore<T>(IReadOnlyList<T> items, Func<T, bool> pred)
+    {
+        var result = new List<List<T>>();
+        var current = new List<T>();
+        foreach (var item in items)
+        {
+            if (pred(item) && current.Count > 0)
+            {
+                result.Add(current);
+                current = new List<T>();
+            }
+            current.Add(item);
+        }
+        if (current.Count > 0)
+            result.Add(current);
+        return result;
+    }
+
     public static IEnumerable<T> UniqueJustSeen<T, TKey>(IEnumerable<T> items, Func<T, TKey> keySelector)
         where TKey : IEquatable<TKey>
     {
