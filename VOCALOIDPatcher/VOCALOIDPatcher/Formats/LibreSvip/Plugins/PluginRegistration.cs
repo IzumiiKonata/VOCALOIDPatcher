@@ -7,6 +7,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Svp;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Tlp;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
@@ -146,6 +147,14 @@ public static class PluginRegistration
             DisplayName = "TuneLab (Legacy)",
             Extension = "tlp",
             Converter = new TlpConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "svp",
+            DisplayName = "Synthesizer V Studio",
+            Extension = "svp",
+            Converter = new SvpConverter(),
         });
     }
 }
