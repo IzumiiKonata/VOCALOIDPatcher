@@ -7,6 +7,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Tlp;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
@@ -137,6 +138,14 @@ public static class PluginRegistration
             DisplayName = "AISingers",
             Extension = "aisp",
             Converter = new AispConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "tlp",
+            DisplayName = "TuneLab (Legacy)",
+            Extension = "tlp",
+            Converter = new TlpConverter(),
         });
     }
 }
