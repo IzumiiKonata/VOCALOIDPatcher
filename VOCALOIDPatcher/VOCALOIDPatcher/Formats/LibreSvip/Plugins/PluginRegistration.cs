@@ -12,6 +12,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Tlp;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vsqx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.VvProj;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Y77;
 
@@ -155,6 +156,14 @@ public static class PluginRegistration
             DisplayName = "Synthesizer V Studio",
             Extension = "svp",
             Converter = new SvpConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "vsqx",
+            DisplayName = "VOCALOID4 (vsqx)",
+            Extension = "vsqx",
+            Converter = new VsqxConverter(),
         });
     }
 }
