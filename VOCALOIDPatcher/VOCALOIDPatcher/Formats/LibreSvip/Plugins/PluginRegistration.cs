@@ -5,6 +5,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.S5p;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Subtitle;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins;
@@ -82,6 +83,14 @@ public static class PluginRegistration
             DisplayName = "Synthesizer V Editor",
             Extension = "s5p",
             Converter = new S5pConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "ustx",
+            DisplayName = "OpenUTAU",
+            Extension = "ustx",
+            Converter = new UstxConverter(),
         });
     }
 }
