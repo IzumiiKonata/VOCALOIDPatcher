@@ -2,6 +2,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ufdata;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ust;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 
@@ -38,6 +39,14 @@ public static class PluginRegistration
             Extension = "ust",
             MultipleFile = true,
             Converter = new UstConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "vog",
+            DisplayName = "Vogen",
+            Extension = "vog",
+            Converter = new VogConverter(),
         });
     }
 }
