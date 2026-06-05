@@ -12,6 +12,7 @@ namespace VOCALOIDPatcher.Patch.Patches;
 public class RoundedNotePatch : PatchBase
 {
     private const double FillBrightness = 0.7;
+    private const double SelectedLighten = 0.2;
 
     public override string PatchName        => "RoundedNotePatch";
     public override Type   TargetClass      => typeof(UINote);
@@ -73,7 +74,7 @@ public class RoundedNotePatch : PatchBase
         if (invalid && !model.IsSelected)
             dc.DrawRoundedRectangle(null, note.BrokenPen, rect, radius, radius);
         else
-            dc.DrawRoundedRectangle(OpaqueFill(note.Background), null, rect, radius, radius);
+            dc.DrawRoundedRectangle(SolidFill(note, model.IsSelected), null, rect, radius, radius);
 #else
         if (invalid)
         {
@@ -82,7 +83,7 @@ public class RoundedNotePatch : PatchBase
         }
         else
         {
-            dc.DrawRoundedRectangle(OpaqueFill(note.Background), null, rect, radius, radius);
+            dc.DrawRoundedRectangle(SolidFill(note, model.IsSelected), null, rect, radius, radius);
         }
 #endif
 
@@ -107,19 +108,49 @@ public class RoundedNotePatch : PatchBase
         return true;
     }
 
-    private static Brush? OpaqueFill(Brush? background)
+    private static Brush? SolidFill(UINote note, bool selected)
     {
-        if (background is SolidColorBrush solid)
+        if (!TryGetTrackColor(note, out var color))
+            return note.Background;
+
+        byte r, g, b;
+        if (selected)
         {
-            var color = solid.Color;
-            var opaque = new SolidColorBrush(Color.FromArgb(190,
-                (byte)(color.R * FillBrightness),
-                (byte)(color.G * FillBrightness),
-                (byte)(color.B * FillBrightness)));
-            opaque.Freeze();
-            return opaque;
+            r = Lighten(color.R);
+            g = Lighten(color.G);
+            b = Lighten(color.B);
         }
-        return background;
+        else
+        {
+            r = (byte)(color.R * FillBrightness);
+            g = (byte)(color.G * FillBrightness);
+            b = (byte)(color.B * FillBrightness);
+        }
+
+        var fill = new SolidColorBrush(Color.FromArgb((int) (.775f * 255), r, g, b));
+        fill.Freeze();
+        return fill;
+    }
+
+    private static bool TryGetTrackColor(UINote note, out Color color)
+    {
+        if (note.Foreground is SolidColorBrush stroke && stroke.Color.A != 0)
+        {
+            color = stroke.Color;
+            return true;
+        }
+        if (note.Background is SolidColorBrush fill && fill.Color.A != 0)
+        {
+            color = fill.Color;
+            return true;
+        }
+        color = default;
+        return false;
+    }
+
+    private static byte Lighten(byte channel)
+    {
+        return (byte)(channel + (255 - channel) * SelectedLighten);
     }
 
     public static void RefreshNotes()

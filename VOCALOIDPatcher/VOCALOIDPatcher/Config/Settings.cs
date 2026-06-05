@@ -66,6 +66,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(RoundedNotesKey, value);
     }
 
+    public static string CenteredLyricsKey => "CenteredLyrics";
+
+    public static bool CenteredLyrics
+    {
+        get => Patcher.ConfigManager.Get(CenteredLyricsKey, false);
+        set => Patcher.ConfigManager.Set(CenteredLyricsKey, value);
+    }
+
     public static string AutoSaveEnabledKey => "AutoSaveEnabled";
 
     public static bool AutoSaveEnabled

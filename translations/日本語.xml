@@ -14,6 +14,7 @@
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>ミュートされたトラックをスキップ</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>ノートの音高を表示</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>角丸ノート</value></data>
+  <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>歌詞を中央に表示</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>ボイスバンクのカバーを表示</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>カバーのサイズ</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>

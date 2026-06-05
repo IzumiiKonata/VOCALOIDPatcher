@@ -232,6 +232,13 @@ public class SettingsWindow : Window
                 RoundedNotePatch.RefreshNotes();
             });
 
+        var centeredLyrics = Toggle("VOCALOIDPatcher_CenteredLyrics_Header", "居中显示歌词",
+            Settings.CenteredLyrics, new Thickness(0, 18, 0, 0), checkbox =>
+            {
+                Settings.CenteredLyrics = checkbox.IsChecked == true;
+                CenteredLyricPatch.RefreshLyrics();
+            });
+
         var artOptions = new StackPanel
         {
             Margin = new Thickness(28, 12, 0, 0),
@@ -259,6 +266,7 @@ public class SettingsWindow : Window
         panel.Children.Add(skipMuted);
         panel.Children.Add(showNotePitch);
         panel.Children.Add(roundedNotes);
+        panel.Children.Add(centeredLyrics);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
 
