@@ -23,15 +23,15 @@ Launch the editor and open a project; if a `VOCALOID Patcher` entry appears in t
 - Translates both the editor's resource entries and its hardcoded strings. Translation files are external XML, so you can edit them yourself.
 
 ### Piano Roll Enhancements
-- **Show Notes from Other Tracks**: Overlays the notes of other tracks onto the current track's piano roll, with an option to skip muted tracks.
+- **Show Notes from Other Tracks**: Overlays the notes of other tracks onto the current track's piano roll, with an option to skip muted tracks.  
 ![Show Other Notes](./res/show_other_notes.png)
-- **Show Note Pitch**: Overlays the pitch name (e.g. `C4`, `F#3`) on each note.
+- **Show Note Pitch**: Overlays the pitch name (e.g. `C4`, `F#3`) on each note.  
 ![Show Note Pitch](./res/show_note_pitch.png)
-- **Rounded Notes**: Changes the note style to rounded rectangles.
+- **Rounded Notes**: Changes the note style to rounded rectangles.  
 ![Rounded Notes](./res/rounded_notes.png)
-- **Center Lyrics**: Vertically centers the lyrics.
+- **Center Lyrics**: Vertically centers the lyrics.  
 ![Centered Notes](./res/centered_notes_b.png)
-- **Always Show Waveform**
+- **Always Show Waveform**  
 ![Always Show Wave](./res/always_show_wave.png)
 - **Show Voicebank Cover**: Displays the cover art of the voicebank used by the current part in the bottom-right of the piano roll, with adjustable size and opacity.
 
