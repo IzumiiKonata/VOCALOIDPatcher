@@ -144,6 +144,14 @@ public static class Patcher
             new RoundedNotePatch(),
             new CenteredLyricPatch(),
             new CenteredLyricPlainPatch(),
+            new AlwaysShowWaveformPatch(),
+            new WaveformRenderPatch(),
+            new NoteRowRemapPatch(),
+            new ScoreFrameCaptureListPatch(),
+            new ScoreFrameCaptureFilePatch(),
+#if !NET6_0
+            new ScoreFrameCaptureCombinedPatch(),
+#endif
             new CharacterArtPatch(),
             new SwingMenuPatch()
         };

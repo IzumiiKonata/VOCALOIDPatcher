@@ -15,6 +15,9 @@
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>Show Note Pitch</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>Rounded Notes</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>Center Lyrics</value></data>
+  <data name="VOCALOIDPatcher_AlwaysShowWaveform_Header" xml:space="preserve"><value>Always Show Note Waveform</value></data>
+  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SynthV Editor Style</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>Opacity</value></data>

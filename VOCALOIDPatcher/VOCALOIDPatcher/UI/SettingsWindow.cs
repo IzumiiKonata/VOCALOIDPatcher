@@ -239,6 +239,32 @@ public class SettingsWindow : Window
                 CenteredLyricPatch.RefreshLyrics();
             });
 
+        var waveformOptions = new StackPanel
+        {
+            Margin = new Thickness(28, 6, 0, 0),
+            IsEnabled = Settings.AlwaysShowWaveform,
+            Opacity = Settings.AlwaysShowWaveform ? 1.0 : 0.4
+        };
+        waveformOptions.Children.Add(Toggle("VOCALOIDPatcher_SvEditorStyle_Header", "SV编辑器样式",
+            Settings.SvEditorStyle, new Thickness(0, 0, 0, 8), checkbox =>
+            {
+                Settings.SvEditorStyle = checkbox.IsChecked == true;
+                AlwaysShowWaveformPatch.RefreshWaveform();
+            }));
+        waveformOptions.Children.Add(SliderRow("VOCALOIDPatcher_WaveformOpacity_Header", "不透明度",
+            0.1, 1.0, Settings.WaveformOpacity,
+            v => { Settings.WaveformOpacity = v; AlwaysShowWaveformPatch.RefreshWaveform(); }));
+
+        var alwaysShowWaveform = Toggle("VOCALOIDPatcher_AlwaysShowWaveform_Header", "始终显示音符波形",
+            Settings.AlwaysShowWaveform, new Thickness(0, 18, 0, 0), checkbox =>
+            {
+                var enabled = checkbox.IsChecked == true;
+                Settings.AlwaysShowWaveform = enabled;
+                waveformOptions.IsEnabled = enabled;
+                waveformOptions.Opacity = enabled ? 1.0 : 0.4;
+                AlwaysShowWaveformPatch.RefreshWaveform();
+            });
+
         var artOptions = new StackPanel
         {
             Margin = new Thickness(28, 12, 0, 0),
@@ -267,6 +293,8 @@ public class SettingsWindow : Window
         panel.Children.Add(showNotePitch);
         panel.Children.Add(roundedNotes);
         panel.Children.Add(centeredLyrics);
+        panel.Children.Add(alwaysShowWaveform);
+        panel.Children.Add(waveformOptions);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
 

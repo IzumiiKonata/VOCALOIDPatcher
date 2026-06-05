@@ -15,6 +15,9 @@
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>使用圓角音符</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>置中顯示歌詞</value></data>
+  <data name="VOCALOIDPatcher_AlwaysShowWaveform_Header" xml:space="preserve"><value>始終顯示音符波形</value></data>
+  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SV編輯器樣式</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫封面</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>封面大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
