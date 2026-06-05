@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="138" height="30" role="img" aria-label="阅读中文版">
+  <rect width="138" height="30" rx="6" fill="#29ABE2"/>
+  <g fill="none" stroke="#ffffff" stroke-width="1.4" transform="translate(17,15)">
+    <circle r="8"/>
+    <ellipse rx="3.4" ry="8"/>
+    <line x1="-8" y1="0" x2="8" y2="0"/>
+    <line x1="-6.6" y1="-4" x2="6.6" y2="-4"/>
+    <line x1="-6.6" y1="4" x2="6.6" y2="4"/>
+  </g>
+  <text x="82" y="20" font-family="'Microsoft YaHei', 'PingFang SC', 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">简体中文</text>
+</svg>
