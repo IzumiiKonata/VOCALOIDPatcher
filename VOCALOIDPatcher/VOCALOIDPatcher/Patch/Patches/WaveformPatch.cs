@@ -170,7 +170,7 @@ public class WaveformRenderPatch : PatchBase
         double left = Canvas.GetLeft(wave);
         double right = Canvas.GetRight(wave);
         double oneKeyHeight = vm.OneKeyHeight;
-        double waveHeight = Musical.RenderedWaveHeight;
+        double waveHeight = Musical.RenderedWaveHeight * (oneKeyHeight / General.KeyBaseHeight) * .5;
 
         var centers = new Dictionary<int, double>();
         var cols = new List<Column>();
@@ -433,7 +433,7 @@ public class ScoreFrameCaptureCombinedPatch : PatchBase
 internal static class WaveformSvState
 {
     private const int GroupSemitones = 7;
-    private const double DownwardRows = 2.0;
+    private const double DownwardRows = 3.0;
     private const long MaxFrames = 4_000_000;
 
     public static bool Active { get; private set; }
