@@ -165,35 +165,15 @@ public static class SvipFormatMenu
 
     private static void OnExport(SvipFormatInfo info)
     {
-        Project project;
-        try
-        {
-            project = V6BridgeSvip.Export();
-        }
-        catch (NotesOverlapExportException ex)
-        {
-            string bars = string.Join(", ", ex.Bars);
-            string template = TranslationManager.Get(OverlapMessageKey)
-                ?? "Overlapping notes were found near bar(s): {0}. How would you like to proceed?";
-            bool autoFix = ConfirmChoiceDialog.Show(
-                TranslationManager.Get(OverlapTitleKey) ?? "Notes Overlap",
-                string.Format(template, bars),
-                TranslationManager.Get(OverlapAutoFixKey) ?? "Auto Fix",
-                TranslationManager.Get(OverlapStopKey) ?? "Stop Export");
-            if (!autoFix)
-                return;
-            project = V6BridgeSvip.Export(resolveOverlaps: true);
-        }
+        var raw = V6BridgeSvip.ReadRaw();
 
-        if (project.TrackList.OfType<SingingTrack>().All(t => t.NoteList.Count == 0))
+        if (!raw.HasNotes)
         {
             Debug.ShowMessageBox(
                 TranslationManager.Get(EmptyProjectKey)
                 ?? "The current project is empty; there are no notes to export.");
             return;
         }
-
-        var bytes = info.Converter.Dump(project);
 
         var save = new SaveFileDialog
         {
@@ -203,6 +183,39 @@ public static class SvipFormatMenu
         if (save.ShowDialog() != true)
             return;
 
-        File.WriteAllBytes(save.FileName, bytes);
+        string path = save.FileName;
+        string formatName = LocalizedName(info);
+        bool resolveOverlaps = false;
+
+        while (true)
+        {
+            try
+            {
+                ExportProgressDialog.Run(progress =>
+                {
+                    var project = V6BridgeSvip.BuildProject(raw, resolveOverlaps, progress);
+                    progress.Report(new ExportProgress { Phase = ExportPhase.Generating, Arg = formatName });
+                    var bytes = info.Converter.Dump(project);
+                    progress.Report(new ExportProgress { Phase = ExportPhase.Writing });
+                    File.WriteAllBytes(path, bytes);
+                    return true;
+                });
+                return;
+            }
+            catch (NotesOverlapExportException ex)
+            {
+                string bars = string.Join(", ", ex.Bars);
+                string template = TranslationManager.Get(OverlapMessageKey)
+                    ?? "Overlapping notes were found near bar(s): {0}. How would you like to proceed?";
+                bool autoFix = ConfirmChoiceDialog.Show(
+                    TranslationManager.Get(OverlapTitleKey) ?? "Notes Overlap",
+                    string.Format(template, bars),
+                    TranslationManager.Get(OverlapAutoFixKey) ?? "Auto Fix",
+                    TranslationManager.Get(OverlapStopKey) ?? "Stop Export");
+                if (!autoFix)
+                    return;
+                resolveOverlaps = true;
+            }
+        }
     }
 }

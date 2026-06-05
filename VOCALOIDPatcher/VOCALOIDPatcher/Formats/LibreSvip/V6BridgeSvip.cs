@@ -259,7 +259,10 @@ public static class V6BridgeSvip
         ShowOtherTracksNotesPatch.RefreshPianoroll();
     }
 
-    public static Project Export(bool resolveOverlaps = false)
+    public static Project Export(bool resolveOverlaps = false) =>
+        BuildProject(ReadRaw(), resolveOverlaps, null);
+
+    public static RawExport ReadRaw()
     {
         if (!TryGetSequence(out var vsm))
             throw new InvalidOperationException("No active sequence.");
@@ -272,12 +275,7 @@ public static class V6BridgeSvip
         if (timeSignatures.Count == 0)
             timeSignatures.Add(new TimeSignature());
 
-        var synchronizer = new Core.TimeSynchronizer(tempos);
-        int firstBarLength = (int)Math.Round(timeSignatures[0].BarLength());
-
-        var tracks = new List<Track>();
-        var pendingPitch = new List<(SingingTrack Track, List<PitchBendData> Data, List<int> Offsets)>();
-        var overlapBars = new SortedSet<int>();
+        var rawTracks = new List<RawSingingTrack>();
         int trackIndex = 0;
         foreach (var v6Track in vsm.MidiTracks)
         {
@@ -309,23 +307,47 @@ public static class V6BridgeSvip
             }
 
             string name = TrackNameProp?.GetValue(v6Track) as string ?? $"Track {trackIndex + 1}";
-            var singingTrack = new SingingTrack { Title = name, NoteList = notes };
-            tracks.Add(singingTrack);
-            trackIndex++;
-
-            if (pitchDataList.Count > 0 && notes.Count > 0)
+            rawTracks.Add(new RawSingingTrack
             {
-                NormalizeNotesForPitch(notes, timeSignatures, resolveOverlaps, overlapBars);
-                pendingPitch.Add((singingTrack, pitchDataList, partOffsets));
+                Title = name,
+                Notes = notes,
+                PitchData = pitchDataList,
+                PartOffsets = partOffsets,
+            });
+            trackIndex++;
+        }
+
+        return new RawExport { Tempos = tempos, TimeSignatures = timeSignatures, Tracks = rawTracks };
+    }
+
+    public static Project BuildProject(RawExport raw, bool resolveOverlaps, IProgress<ExportProgress>? progress)
+    {
+        var synchronizer = new Core.TimeSynchronizer(raw.Tempos);
+        int firstBarLength = (int)Math.Round(raw.TimeSignatures[0].BarLength());
+
+        var tracks = new List<Track>();
+        var pendingPitch = new List<(SingingTrack Track, List<PitchBendData> Data, List<int> Offsets)>();
+        var overlapBars = new SortedSet<int>();
+        foreach (var rawTrack in raw.Tracks)
+        {
+            var singingTrack = new SingingTrack { Title = rawTrack.Title, NoteList = rawTrack.Notes };
+            tracks.Add(singingTrack);
+
+            if (rawTrack.PitchData.Count > 0 && rawTrack.Notes.Count > 0)
+            {
+                NormalizeNotesForPitch(rawTrack.Notes, raw.TimeSignatures, resolveOverlaps, overlapBars);
+                pendingPitch.Add((singingTrack, rawTrack.PitchData, rawTrack.PartOffsets));
             }
         }
 
         if (overlapBars.Count > 0 && !resolveOverlaps)
             throw new NotesOverlapExportException(overlapBars.ToList());
 
-        foreach (var (track, data, offsets) in pendingPitch)
+        for (int i = 0; i < pendingPitch.Count; i++)
         {
-            var handler = new VocaloidPitchHandler(synchronizer, track.NoteList, timeSignatures, firstBarLength);
+            progress?.Report(new ExportProgress { Phase = ExportPhase.Pitch, Current = i + 1, Total = pendingPitch.Count });
+            var (track, data, offsets) = pendingPitch[i];
+            var handler = new VocaloidPitchHandler(synchronizer, track.NoteList, raw.TimeSignatures, firstBarLength);
             var absResult = handler.ToAbsolutePitch(data, offsets);
             if (absResult != null)
                 track.EditedParams.Pitch = absResult;
@@ -333,8 +355,8 @@ public static class V6BridgeSvip
 
         return new Project
         {
-            SongTempoList = tempos,
-            TimeSignatureList = timeSignatures,
+            SongTempoList = raw.Tempos,
+            TimeSignatureList = raw.TimeSignatures,
             TrackList = tracks,
         };
     }

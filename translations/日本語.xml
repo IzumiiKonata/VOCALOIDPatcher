@@ -70,6 +70,11 @@
   <data name="VOCALOIDPatcher_Export_OverlapMessage" xml:space="preserve"><value>次の小節付近でノートの重なりが見つかりました: {0}。どのように処理しますか？</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapAutoFix" xml:space="preserve"><value>自動修正</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapStop" xml:space="preserve"><value>エクスポートを停止</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressTitle" xml:space="preserve"><value>エクスポート中</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressReading" xml:space="preserve"><value>プロジェクトを読み込み中…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressPitch" xml:space="preserve"><value>ピッチを処理中 ({0}/{1})…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressGenerating" xml:space="preserve"><value>{0} を生成中…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressWriting" xml:space="preserve"><value>ファイルを書き込み中…</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上3度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上5度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>上6度</value></data>

@@ -70,6 +70,11 @@
   <data name="VOCALOIDPatcher_Export_OverlapMessage" xml:space="preserve"><value>在以下小节附近发现音符重叠: {0}。请选择如何处理。</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapAutoFix" xml:space="preserve"><value>自动处理</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapStop" xml:space="preserve"><value>停止导出</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressTitle" xml:space="preserve"><value>正在导出</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressReading" xml:space="preserve"><value>正在读取工程…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressPitch" xml:space="preserve"><value>正在处理音高 ({0}/{1})…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressGenerating" xml:space="preserve"><value>正在生成 {0}…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressWriting" xml:space="preserve"><value>正在写入文件…</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上三度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上五度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>上六度</value></data>
