@@ -18,6 +18,7 @@ namespace VOCALOIDPatcher.UI;
 public class SettingsWindow : Window
 {
     private const string GitHubUrl = "https://github.com/IzumiiKonata/VOCALOIDPatcher";
+    private const string ReleasesUrl = GitHubUrl + "/releases";
     private const string AuthorUrl = "https://space.bilibili.com/357605683";
 
     private static readonly int[] AutoSaveIntervals = { 1, 3, 5, 10, 15, 30 };
@@ -33,6 +34,7 @@ public class SettingsWindow : Window
     private readonly ContentControl _content = new();
     private readonly TranslateTransform _rootTransform = new(0, 14);
     private ScrollViewer? _scroller;
+    private TextBlock? _about;
 
     public static void ShowSingleton()
     {
@@ -77,7 +79,12 @@ public class SettingsWindow : Window
 
         WpfTranslationPatch.MarkUntranslatable(this);
         TranslationManager.LanguageChanged += OnLanguageChanged;
-        Closed += (_, _) => TranslationManager.LanguageChanged -= OnLanguageChanged;
+        UpdateChecker.UpdateAvailable += OnUpdateAvailable;
+        Closed += (_, _) =>
+        {
+            TranslationManager.LanguageChanged -= OnLanguageChanged;
+            UpdateChecker.UpdateAvailable -= OnUpdateAvailable;
+        };
 
         SourceInitialized += (_, _) => EnableDarkTitleBar();
         Loaded += (_, _) => PlayEntrance();
@@ -428,11 +435,6 @@ public class SettingsWindow : Window
 
     private TextBlock BuildAbout()
     {
-        var versionText = $"VOCALOID Patcher {Patcher.Version}" + (Patcher.VstPluginMode ? " (VSTi)" : "");
-#if NET6_0
-        versionText += " (.NET 6.0)";
-#endif
-
         var about = new TextBlock
         {
             HorizontalAlignment = HorizontalAlignment.Right,
@@ -446,13 +448,36 @@ public class SettingsWindow : Window
         };
         Panel.SetZIndex(about, 10);
 
-        about.Inlines.Add(new Run(versionText));
-        about.Inlines.Add(new LineBreak());
-        about.Inlines.Add(Link("GitHub", GitHubUrl));
-        about.Inlines.Add(new Run("  ·  Made with ❤ by "));
-        about.Inlines.Add(Link("IzumiiKonata", AuthorUrl));
+        _about = about;
+        Localize(RefreshVersionText);
+        RefreshVersionText();
 
         return about;
+    }
+
+    private void RefreshVersionText()
+    {
+        if (_about == null)
+            return;
+
+        var text = $"VOCALOID Patcher {Patcher.Version}" + (Patcher.VstPluginMode ? " (VSTi)" : "");
+#if NET6_0
+        text += " (.NET 6.0)";
+#endif
+
+        _about.Inlines.Clear();
+        _about.Inlines.Add(new Run(text));
+
+        if (UpdateChecker.HasUpdate && UpdateChecker.LatestVersion != null)
+        {
+            var suffix = T("VOCALOIDPatcher_Update_VersionSuffix", " (有新版本: {0})");
+            _about.Inlines.Add(Link(string.Format(suffix, UpdateChecker.LatestVersion), ReleasesUrl));
+        }
+
+        _about.Inlines.Add(new LineBreak());
+        _about.Inlines.Add(Link("GitHub", GitHubUrl));
+        _about.Inlines.Add(new Run("  ·  Made with ❤ by "));
+        _about.Inlines.Add(Link("IzumiiKonata", AuthorUrl));
     }
 
     private Hyperlink Link(string text, string url)
@@ -468,6 +493,8 @@ public class SettingsWindow : Window
     }
 
     private void OnLanguageChanged(object? sender, string e) => Dispatcher.Invoke(ApplyLocalization);
+
+    private void OnUpdateAvailable() => Dispatcher.Invoke(RefreshVersionText);
 
     private void Localize(Action setter) => _localizers.Add(setter);
 

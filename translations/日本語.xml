@@ -7,6 +7,8 @@
   <data name="VOCALOIDPatcher_TranslateHardcodedStrings_Header" xml:space="preserve"><value>ハードコードされた文字列を翻訳</value></data>
   <data name="VOCALOIDPatcher_TranslateHardcodedStringsRestart" xml:space="preserve"><value>変更を適用するにはエディターを再起動してください。</value></data>
   <data name="VOCALOIDPatcher_Settings_Title" xml:space="preserve"><value>VOCALOID Patcher 設定</value></data>
+  <data name="VOCALOIDPatcher_Update_MenuSuffix" xml:space="preserve"><value> (新しいバージョンがあります)</value></data>
+  <data name="VOCALOIDPatcher_Update_VersionSuffix" xml:space="preserve"><value> (新しいバージョン: {0})</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>一般</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>ピアノロール</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>その他</value></data>

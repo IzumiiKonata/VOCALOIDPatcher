@@ -105,6 +105,8 @@ public static class Patcher
         WpfTranslationPatch.InstallGlobalHandlers();
 
         if (!VstPluginMode) PostInject();
+
+        UpdateChecker.CheckAsync();
     }
 
     public static void PostInject()
@@ -179,10 +181,31 @@ public static class Patcher
             PatcherMenuItem.Click += (_, _) => SettingsWindow.ShowSingleton();
 
             menu.Items.Insert(menu.Items.Count - 1, PatcherMenuItem);
+
+            TranslationManager.LanguageChanged += (_, _) => RefreshPatcherMenuHeader();
+            UpdateChecker.UpdateAvailable += RefreshPatcherMenuHeader;
+            RefreshPatcherMenuHeader();
         }
         catch (Exception e)
         {
             Debug.ShowErrorMessage(e.Message + e.StackTrace);
         }
+    }
+
+    private static void RefreshPatcherMenuHeader()
+    {
+        void Apply()
+        {
+            var header = "VOCALOID Patcher";
+            if (UpdateChecker.HasUpdate)
+                header += TranslationManager.Get("VOCALOIDPatcher_Update_MenuSuffix") ?? " (新版本可用)";
+
+            PatcherMenuItem.Header = header;
+        }
+
+        if (PatcherMenuItem.Dispatcher.CheckAccess())
+            Apply();
+        else
+            PatcherMenuItem.Dispatcher.Invoke(Apply);
     }
 }
