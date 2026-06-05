@@ -71,6 +71,10 @@ public sealed class SVParameters
 {
     [JsonPropertyName("pitchDelta")] public SVParamCurve PitchDelta { get; set; } = new();
     [JsonPropertyName("vibratoEnv")] public SVParamCurve VibratoEnv { get; set; } = new();
+    [JsonPropertyName("loudness")] public SVParamCurve Loudness { get; set; } = new();
+    [JsonPropertyName("tension")] public SVParamCurve Tension { get; set; } = new();
+    [JsonPropertyName("breathiness")] public SVParamCurve Breathiness { get; set; } = new();
+    [JsonPropertyName("gender")] public SVParamCurve Gender { get; set; } = new();
 }
 
 public sealed class SVGroup

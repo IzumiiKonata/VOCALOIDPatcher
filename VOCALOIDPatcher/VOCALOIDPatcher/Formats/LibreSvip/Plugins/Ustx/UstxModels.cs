@@ -1,8 +1,59 @@
+using System;
 using System.Collections.Generic;
 using VOCALOIDPatcher.Formats.LibreSvip.Core;
 using YamlDotNet.Serialization;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
+
+public sealed class UCurve
+{
+    public List<int> Xs { get; set; } = new();
+    public List<int> Ys { get; set; } = new();
+    public string? Abbr { get; set; }
+
+    [YamlIgnore]
+    public bool IsEmpty
+    {
+        get
+        {
+            if (Xs.Count == 0)
+                return true;
+            foreach (int y in Ys)
+                if (y != 0)
+                    return false;
+            return true;
+        }
+    }
+
+    public int Sample(int x)
+    {
+        int idx = BisectLeft(Xs, x);
+        if (idx < Xs.Count && Xs[idx] == x)
+            return Ys[idx];
+        if (idx > 0 && idx < Xs.Count)
+        {
+            double value = MusicMath.LinearInterpolation(
+                x, (Xs[idx - 1], Ys[idx - 1]), (Xs[idx], Ys[idx]));
+            return (int)Math.Round(value, MidpointRounding.ToEven);
+        }
+        return 0;
+    }
+
+    private static int BisectLeft(List<int> values, int x)
+    {
+        int lo = 0;
+        int hi = values.Count;
+        while (lo < hi)
+        {
+            int mid = (lo + hi) / 2;
+            if (values[mid] < x)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
+    }
+}
 
 public sealed class UTempo
 {
@@ -63,6 +114,27 @@ public sealed class UVibrato
     public double Shift { get; set; }
     public double Drift { get; set; }
     public double VolLink { get; set; }
+
+    [YamlIgnore]
+    public double NormalizedStart => 1.0 - Length / 100.0;
+
+    public (double Time, double Tone) Evaluate(double nPos, double nPeriod, UNote note)
+    {
+        double nStart = NormalizedStart;
+        double nIn = Length / 100.0 * InValue / 100.0;
+        double nInPos = nStart + nIn;
+        double nOut = Length / 100.0 * Out / 100.0;
+        double nOutPos = 1.0 - nOut;
+        double t = (nPos - nStart) / nPeriod + Shift / 100.0;
+        double y = Math.Sin(2.0 * Math.PI * t) * Depth;
+        if (nPos < nStart)
+            y = 0.0;
+        else if (nPos < nInPos)
+            y *= (nPos - nStart) / nIn;
+        else if (nPos > nOutPos)
+            y *= (1.0 - nPos) / nOut;
+        return (note.Position + note.Duration * nPos, note.Tone + y / 100.0);
+    }
 }
 
 public sealed class UNote
@@ -73,6 +145,9 @@ public sealed class UNote
     public string Lyric { get; set; } = "";
     public UPitch? Pitch { get; set; }
     public UVibrato? Vibrato { get; set; }
+
+    [YamlIgnore]
+    public int End => Position + Duration;
 }
 
 public sealed class UVoicePart
@@ -83,6 +158,7 @@ public sealed class UVoicePart
     public string? Comment { get; set; } = "";
     public int Duration { get; set; }
     public List<UNote> Notes { get; set; } = new();
+    public List<UCurve> Curves { get; set; } = new();
 }
 
 public sealed class UWavePart

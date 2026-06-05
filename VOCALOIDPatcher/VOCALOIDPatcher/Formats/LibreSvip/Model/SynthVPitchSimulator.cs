@@ -330,7 +330,7 @@ internal sealed class GaussianLayerGenerator
                 _nodes.Add(new GaussianNode(next.Start + 1.5 * sigmaR, sigmaR, -next.DepthLeft * 100));
                 continue;
             }
-            double center = (current.End + next.Start) / 2 + next.PortamentoOffset;
+            double center = (current.End + next.Start) / 2 + current.PortamentoOffset;
             double depthLeft = current.DepthRight * 100;
             double depthRight = next.DepthLeft * 100;
             if (next.Key <= current.Key)

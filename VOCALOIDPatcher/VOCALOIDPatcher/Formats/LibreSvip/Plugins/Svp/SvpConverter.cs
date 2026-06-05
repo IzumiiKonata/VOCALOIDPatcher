@@ -204,6 +204,8 @@ public sealed class SvpConverter : FormatConverter
         if (svp.Time.Tempo.Count == 0)
             svp.Time.Tempo.Add(new SVTempo { Position = 0, Bpm = Constants.DefaultBpm });
 
+        var synchronizer = new TimeSynchronizer(project.SongTempoList);
+
         foreach (var track in project.TrackList)
         {
             if (track is SingingTrack singing)
@@ -224,6 +226,7 @@ public sealed class SvpConverter : FormatConverter
                             Phonemes = n.Pronunciation ?? "",
                             Pitch = n.KeyNumber,
                         }).ToList(),
+                        Parameters = GenerateParams(singing.EditedParams, singing.NoteList, synchronizer),
                     },
                 });
             }
@@ -250,4 +253,157 @@ public sealed class SvpConverter : FormatConverter
 
     private static double GenerateVolume(double volume) =>
         Math.Max(MusicMath.RatioToDb(Math.Max(volume, 0.06)), -24.0);
+
+    private const int DownSample = 20;
+
+    private SVParameters GenerateParams(Params parameters, List<Note> noteList, TimeSynchronizer synchronizer)
+    {
+        var result = new SVParameters
+        {
+            Loudness = GenerateParamCurve(parameters.Volume.ReduceSampleRate(DownSample), 0, 0.0, val =>
+                val >= 0
+                    ? val / 1000.0 * 12.0
+                    : Math.Max(MusicMath.RatioToDb(val > -997 ? val / 1000.0 + 1.0 : 0.0039), -48.0)),
+            Tension = GenerateParamCurve(parameters.Strength.ReduceSampleRate(DownSample), 0, 0.0, val => 1000.0 / val),
+            Breathiness = GenerateParamCurve(parameters.Breath.ReduceSampleRate(DownSample), 0, 0.0, val => 1000.0 / val),
+            Gender = GenerateParamCurve(parameters.Gender.ReduceSampleRate(DownSample), 0, 0.0, val => -1000.0 / val),
+        };
+        result.PitchDelta = GeneratePitchCurve(parameters.Pitch.ReduceSampleRate(DownSample, -100), noteList, synchronizer);
+        return result;
+    }
+
+    private SVParamCurve GeneratePitchCurve(ParamCurve curve, List<Note> noteList, TimeSynchronizer synchronizer)
+    {
+        var svCurve = new SVParamCurve();
+        if (noteList.Count == 0)
+            return svCurve;
+        var noteStructs = noteList.Select(n => ToNoteStruct(n, synchronizer)).ToList();
+        var simulator = new SynthVPitchSimulator(synchronizer, noteStructs);
+        var pointList = svCurve.Points;
+        var buffer = new List<Point>();
+        const int minInterval = 1;
+        Point? lastPoint = null;
+        foreach (var point in curve.Points)
+        {
+            if (point.X < _firstBarTick)
+                continue;
+            var shifted = point.WithX(point.X - _firstBarTick);
+            if (shifted.Y == -100)
+            {
+                if (buffer.Count == 0)
+                    continue;
+                if (lastPoint is not { } lp || lp.X + minInterval < buffer[0].X)
+                {
+                    if (lastPoint is { } lp2 && lp2.X + 2 * minInterval < buffer[0].X)
+                        pointList.Add(new SvParamPoint(TicksToPosition(lp2.X + minInterval), 0));
+                    pointList.Add(new SvParamPoint(TicksToPosition(buffer[0].X - minInterval), 0));
+                }
+                foreach (var tmp in buffer)
+                    pointList.Add(new SvParamPoint(
+                        TicksToPosition(tmp.X),
+                        GeneratePitchDiff(simulator, synchronizer, tmp.X, tmp.Y)));
+                lastPoint = buffer[^1];
+                buffer.Clear();
+            }
+            else
+                buffer.Add(shifted);
+        }
+        if (lastPoint is { } last)
+            pointList.Add(new SvParamPoint(TicksToPosition(last.X + minInterval), 0));
+        return svCurve;
+    }
+
+    private static double GeneratePitchDiff(SynthVPitchSimulator simulator,
+        TimeSynchronizer synchronizer, int pos, int pitch)
+    {
+        double simulatedPitch = simulator.PitchAtSecs(synchronizer.GetActualSecsFromTicks(pos));
+        return pitch - simulatedPitch;
+    }
+
+    private SVParamCurve GenerateParamCurve(ParamCurve curve, int termination, double defaultValue,
+        Func<int, double> mappingFunc)
+    {
+        var svCurve = new SVParamCurve();
+        if (curve.Points.Count == 0)
+            return svCurve;
+        if (DownSample > 15)
+            svCurve.Mode = "cubic";
+        int skipped = 0;
+        var pointList = svCurve.Points;
+        var points = curve.Points;
+        if (points[0].X == Point.StartX)
+        {
+            if (points.Count == 2 && points[1].X == Point.EndX)
+            {
+                if (points[0].Y != termination)
+                    pointList.Add(new SvParamPoint(0, mappingFunc(points[0].Y)));
+                return svCurve;
+            }
+            skipped = 1;
+            int validIndex = Search.FindIndex(points, p => p.X >= _firstBarTick);
+            if (validIndex != -1 && points.Count > validIndex + 1
+                && (points[validIndex].Y != termination
+                    || points[validIndex + 1].Y != termination
+                    || points[validIndex + 1].X == Point.EndX))
+            {
+                skipped = validIndex + 1;
+                pointList.Add(new SvParamPoint(
+                    TicksToPosition(points[validIndex].X - _firstBarTick),
+                    mappingFunc(points[validIndex].Y)));
+            }
+        }
+        var buffer = new List<Point>();
+        const int minInterval = 1;
+        Point? lastPoint = null;
+        for (int idx = skipped; idx < points.Count; idx++)
+        {
+            var point = points[idx];
+            if (point.X < _firstBarTick || point.X == Point.EndX)
+                continue;
+            var shifted = point.WithX(point.X - _firstBarTick);
+            if (shifted.Y == termination)
+            {
+                if (buffer.Count == 0)
+                    continue;
+                if (lastPoint is not { } lp || lp.X + minInterval < buffer[0].X)
+                {
+                    if (lastPoint is { } lp2 && lp2.X + 2 * minInterval < buffer[0].X)
+                        pointList.Add(new SvParamPoint(TicksToPosition(lp2.X + minInterval), defaultValue));
+                    pointList.Add(new SvParamPoint(TicksToPosition(buffer[0].X - minInterval), defaultValue));
+                }
+                foreach (var tmp in buffer)
+                    pointList.Add(new SvParamPoint(TicksToPosition(tmp.X), mappingFunc(tmp.Y)));
+                lastPoint = buffer[^1];
+                buffer.Clear();
+            }
+            else
+                buffer.Add(shifted);
+        }
+        if (buffer.Count == 0)
+        {
+            if (lastPoint is { } lpEnd)
+                pointList.Add(new SvParamPoint(TicksToPosition(lpEnd.X + minInterval), defaultValue));
+            return svCurve;
+        }
+        if (lastPoint is not { } lpr || lpr.X + minInterval < buffer[0].X)
+        {
+            if (lastPoint is { } lpr2 && lpr2.X + 2 * minInterval < buffer[0].X)
+                pointList.Add(new SvParamPoint(TicksToPosition(lpr2.X + minInterval), defaultValue));
+            pointList.Add(new SvParamPoint(TicksToPosition(buffer[0].X - minInterval), defaultValue));
+        }
+        foreach (var tmp in buffer)
+            pointList.Add(new SvParamPoint(TicksToPosition(tmp.X), mappingFunc(tmp.Y)));
+        var tail = buffer[^1];
+        buffer.Clear();
+        if (tail.Y == termination)
+            pointList.Add(new SvParamPoint(TicksToPosition(tail.X + minInterval), defaultValue));
+        return svCurve;
+    }
+
+    private static NoteStruct ToNoteStruct(Note note, TimeSynchronizer synchronizer) =>
+        new(
+            note.KeyNumber,
+            synchronizer.GetActualSecsFromTicks(note.StartPos),
+            synchronizer.GetActualSecsFromTicks(note.EndPos),
+            0.0, 0.07, 0.07, 0.15, 0.15, 0.25, 0.2, 0.2, 1.0, 5.5, 0.0);
 }

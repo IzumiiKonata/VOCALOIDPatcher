@@ -14,16 +14,28 @@ public sealed class UstxParser
         { "chinese", "japanese", "korean", "cantonese", "vietnamese" };
 
     private readonly bool _importInstrumental;
+    private readonly bool _importPitch;
     private string[] _breathLyrics = { "Asp", "AP" };
     private string[] _silenceLyrics = { "R", "SP" };
+    private BasePitchGenerator _basePitchGenerator = null!;
 
-    public UstxParser(bool importInstrumental) => _importInstrumental = importInstrumental;
+    public UstxParser(bool importInstrumental, bool importPitch = true)
+    {
+        _importInstrumental = importInstrumental;
+        _importPitch = importPitch;
+    }
 
     public Project ParseProject(USTXProject project)
     {
+        _basePitchGenerator = new BasePitchGenerator(project);
         var tempos = ParseTempos(project.Tempos);
         var timeSignatures = ParseTimeSignatures(project.TimeSignatures);
         var tracks = ParseTracks(project.Tracks, project.VoiceParts);
+        foreach (var track in tracks)
+        {
+            if (track is SingingTrack singing)
+                singing.EditedParams.Pitch.Points.Add(Point.EndPoint());
+        }
         tracks.AddRange(ParseWaveParts(project.Tracks, project.WaveParts));
         return new Project
         {
@@ -72,6 +84,10 @@ public sealed class UstxParser
             Title = t.TrackName ?? $"Track {i + 1}",
         }).ToList();
 
+        if (_importPitch)
+            foreach (var track in trackList)
+                track.EditedParams.Pitch.Points.Add(Point.StartPoint());
+
         foreach (var part in voiceParts)
         {
             if (part.TrackNo < 0 || part.TrackNo >= trackList.Count)
@@ -81,9 +97,46 @@ public sealed class UstxParser
                 singing.Title = part.Name;
             bool monosyllabic = IsMonosyllabic(tracks[part.TrackNo].Phonemizer);
             singing.NoteList.AddRange(ParseNotes(part.Notes, part.Position, monosyllabic));
+            if (_importPitch)
+                singing.EditedParams.Pitch.Points.AddRange(ParsePitch(part));
         }
 
         return trackList.Where(t => t.NoteList.Count > 0).Cast<Track>().ToList();
+    }
+
+    private List<Point> ParsePitch(UVoicePart part)
+    {
+        const int pitchStart = BasePitchGenerator.PitchStart;
+        const int pitchInterval = BasePitchGenerator.PitchInterval;
+        const int firstBarLength = 1920;
+
+        var pitches = _basePitchGenerator.BasePitch(part);
+
+        UCurve? curve = null;
+        foreach (var c in part.Curves)
+        {
+            if (c.Abbr == "pitd")
+            {
+                curve = c;
+                break;
+            }
+        }
+        if (curve != null && !curve.IsEmpty)
+            for (int i = 0; i < pitches.Count; i++)
+                pitches[i] += curve.Sample(pitchStart + i * pitchInterval);
+
+        var pointList = new List<Point>
+        {
+            new(firstBarLength + part.Position, -100),
+        };
+        for (int i = 0; i < pitches.Count; i++)
+            pointList.Add(new Point(
+                firstBarLength + part.Position + i * pitchInterval,
+                (int)pitches[i]));
+        pointList.Add(new Point(
+            firstBarLength + part.Position + pitches.Count * pitchInterval,
+            -100));
+        return pointList;
     }
 
     private List<Note> ParseNotes(List<UNote> notes, int tickPrefix, bool monosyllabic)

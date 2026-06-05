@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip;
@@ -65,7 +66,7 @@ public static class SvipFormatDragDrop
         }
         catch (Exception ex)
         {
-            Debug.ShowErrorMessage("导入失败", ex);
+            Debug.ShowErrorMessage(TranslationManager.Get("VOCALOIDPatcher_Format_ImportFailed") ?? "Import Failed", ex);
         }
     }
 

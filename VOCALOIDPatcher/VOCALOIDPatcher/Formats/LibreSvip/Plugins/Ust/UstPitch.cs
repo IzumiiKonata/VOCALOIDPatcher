@@ -237,6 +237,73 @@ public static class UstPitch
             .ToList();
     }
 
+    public static List<List<int>?> PitchToMode1(ParamCurve pitch, List<Note> notes)
+    {
+        var result = new List<List<int>?>();
+        foreach (var note in notes)
+        {
+            var data = pitch.Points
+                .Where(p => note.StartPos <= p.X - 1920 && p.X - 1920 < note.EndPos && p.Y != -100)
+                .Select(p => new Point(p.X, p.Y))
+                .ToList();
+            if (data.Count == 0)
+            {
+                result.Add(new List<int>());
+                continue;
+            }
+            var resampled = UstResampling.DotResampled(data, Mode1Interval);
+            result.Add(resampled.Select(p => p.Y - note.KeyNumber * 100).ToList());
+        }
+        return result;
+    }
+
+    public static UtauNoteVibrato? VibratoToUtau(
+        VibratoParam? vibrato, Note note, TimeSynchronizer sync)
+    {
+        if (vibrato == null)
+            return null;
+        double startPercent = vibrato.StartPercent;
+        double endPercent = vibrato.EndPercent;
+        if (endPercent <= startPercent)
+            return null;
+        double lengthPercent = (endPercent - startPercent) * 100;
+        if (lengthPercent <= 0)
+            return null;
+        double noteLengthMs = sync.GetDurationSecsFromTicks(note.StartPos, note.EndPos) * 1000;
+        if (noteLengthMs <= 0)
+            return null;
+        int midTick = note.StartPos + (int)Math.Round((startPercent + endPercent) / 2 * note.Length);
+        double frequencyHz = SampleCurve(vibrato.Frequency, midTick, 5.5);
+        double amplitudeSemitone = SampleCurve(vibrato.Amplitude, midTick, 1.0);
+        if (frequencyHz <= 0 || amplitudeSemitone <= 0)
+            return null;
+        double periodMs = 1000.0 / frequencyHz;
+        double depthCent = amplitudeSemitone * 100;
+        return new UtauNoteVibrato
+        {
+            Length = lengthPercent,
+            Period = periodMs,
+            Depth = depthCent,
+            FadeIn = 0,
+            FadeOut = 0,
+            PhaseShift = vibrato.IsAntiPhase ? 50 : 0,
+            Shift = 0,
+        };
+    }
+
+    private static double SampleCurve(ParamCurve curve, int tick, double fallback)
+    {
+        if (curve.Points.Count == 0)
+            return fallback;
+        Point? best = null;
+        foreach (var p in curve.Points)
+        {
+            if (p.X <= tick && (best == null || p.X >= best.Value.X))
+                best = p;
+        }
+        return (best ?? curve.Points[0]).Y;
+    }
+
     public static List<UtauMode2NotePitchData?> PitchToMode2(ParamCurve pitch, List<Note> notes, List<SongTempo> tempos)
     {
         var absolutePitch = pitch.Points.Where(p => p.Y != -100).Select(p => new Point(p.X - 1920, p.Y)).ToList();

@@ -36,6 +36,35 @@
   <data name="VOCALOIDPatcher_Job_Harmony_TrackNew" xml:space="preserve"><value>新規トラックを作成</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackName" xml:space="preserve"><value>ハーモニー</value></data>
   <data name="VOCALOIDPatcher_Format_Export" xml:space="preserve"><value>エクスポート</value></data>
+  <data name="VOCALOIDPatcher_Format_AllFiles" xml:space="preserve"><value>すべてのファイル</value></data>
+  <data name="VOCALOIDPatcher_Format_OperationFailed" xml:space="preserve"><value>操作に失敗しました</value></data>
+  <data name="VOCALOIDPatcher_Format_ImportFailed" xml:space="preserve"><value>インポートに失敗しました</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ufdata" xml:space="preserve"><value>UtaFormatix Data</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_json" xml:space="preserve"><value>OpenSVIP</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ust" xml:space="preserve"><value>UTAU シーケンステキスト</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_vog" xml:space="preserve"><value>Vogen</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_lrc" xml:space="preserve"><value>LRC 歌詞</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_srt" xml:space="preserve"><value>SRT 字幕</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ass" xml:space="preserve"><value>ASS 字幕</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_s5p" xml:space="preserve"><value>Synthesizer V Editor</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ustx" xml:space="preserve"><value>OpenUTAU</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_musicxml" xml:space="preserve"><value>MusicXML</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_vvproj" xml:space="preserve"><value>VOICEVOX</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_y77" xml:space="preserve"><value>元七七</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ds" xml:space="preserve"><value>DiffSinger</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_aisp" xml:space="preserve"><value>AISingers</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_tlp" xml:space="preserve"><value>TuneLab (レガシー)</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_svp" xml:space="preserve"><value>Synthesizer V Studio</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_vsqx" xml:space="preserve"><value>VOCALOID4 (vsqx)</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_vpr" xml:space="preserve"><value>VOCALOID5 (vpr)</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_vsq" xml:space="preserve"><value>VOCALOID2 (vsq)</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ccs" xml:space="preserve"><value>CeVIO Creative Studio</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_tlpx" xml:space="preserve"><value>TuneLab</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_ppsf" xml:space="preserve"><value>Piapro Studio NT</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_acep" xml:space="preserve"><value>ACE Studio</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_dv" xml:space="preserve"><value>DeepVocal</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_tssln" xml:space="preserve"><value>VoiSona</value></data>
+  <data name="VOCALOIDPatcher_Format_Name_svip" xml:space="preserve"><value>X Studio (svip)</value></data>
   <data name="VOCALOIDPatcher_Export_EmptyProject" xml:space="preserve"><value>現在のプロジェクトは空です。エクスポートできるノートがありません。</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上3度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上5度</value></data>

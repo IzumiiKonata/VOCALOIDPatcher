@@ -9,6 +9,7 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 public sealed class UstxConverter : FormatConverter
 {
     public bool ImportInstrumental { get; set; } = true;
+    public bool ImportPitch { get; set; } = true;
 
     private static readonly IDeserializer Deserializer = new DeserializerBuilder()
         .WithNamingConvention(UnderscoredNamingConvention.Instance)
@@ -26,7 +27,7 @@ public sealed class UstxConverter : FormatConverter
     public override Project Load(byte[] content)
     {
         var ustx = Deserializer.Deserialize<USTXProject>(TextHelper.DetectAndDecode(content));
-        return new UstxParser(ImportInstrumental).ParseProject(ustx);
+        return new UstxParser(ImportInstrumental, ImportPitch).ParseProject(ustx);
     }
 
     public override byte[] Dump(Project project)

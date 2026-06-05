@@ -15,6 +15,15 @@ using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vsqx;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.VvProj;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Y77;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vpr;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vsq;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ccs;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Tlpx;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ppsf;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Acep;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Dv;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Tssln;
+using VOCALOIDPatcher.Formats.LibreSvip.Plugins.Svip;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 
@@ -32,6 +41,7 @@ public static class PluginRegistration
         {
             Id = "ufdata",
             DisplayName = "UtaFormatix Data",
+            NameKey = "VOCALOIDPatcher_Format_Name_ufdata",
             Extension = "ufdata",
             Converter = new UfdataConverter(),
         });
@@ -40,6 +50,7 @@ public static class PluginRegistration
         {
             Id = "json",
             DisplayName = "OpenSVIP",
+            NameKey = "VOCALOIDPatcher_Format_Name_json",
             Extension = "json",
             Converter = new JsonSvipConverter(),
         });
@@ -48,6 +59,7 @@ public static class PluginRegistration
         {
             Id = "ust",
             DisplayName = "UTAU Sequence Text",
+            NameKey = "VOCALOIDPatcher_Format_Name_ust",
             Extension = "ust",
             MultipleFile = true,
             Converter = new UstConverter(),
@@ -57,6 +69,7 @@ public static class PluginRegistration
         {
             Id = "vog",
             DisplayName = "Vogen",
+            NameKey = "VOCALOIDPatcher_Format_Name_vog",
             Extension = "vog",
             Converter = new VogConverter(),
         });
@@ -64,7 +77,8 @@ public static class PluginRegistration
         SvipFormatRegistry.Register(new SvipFormatInfo
         {
             Id = "lrc",
-            DisplayName = "LRC 歌词",
+            DisplayName = "LRC Lyrics",
+            NameKey = "VOCALOIDPatcher_Format_Name_lrc",
             Extension = "lrc",
             Converter = new LrcConverter(),
         });
@@ -72,7 +86,8 @@ public static class PluginRegistration
         SvipFormatRegistry.Register(new SvipFormatInfo
         {
             Id = "srt",
-            DisplayName = "SRT 字幕",
+            DisplayName = "SRT Subtitle",
+            NameKey = "VOCALOIDPatcher_Format_Name_srt",
             Extension = "srt",
             Converter = new SrtConverter(),
         });
@@ -80,7 +95,8 @@ public static class PluginRegistration
         SvipFormatRegistry.Register(new SvipFormatInfo
         {
             Id = "ass",
-            DisplayName = "ASS 字幕",
+            DisplayName = "ASS Subtitle",
+            NameKey = "VOCALOIDPatcher_Format_Name_ass",
             Extension = "ass",
             Converter = new AssConverter(),
         });
@@ -89,6 +105,7 @@ public static class PluginRegistration
         {
             Id = "s5p",
             DisplayName = "Synthesizer V Editor",
+            NameKey = "VOCALOIDPatcher_Format_Name_s5p",
             Extension = "s5p",
             Converter = new S5pConverter(),
         });
@@ -97,6 +114,7 @@ public static class PluginRegistration
         {
             Id = "ustx",
             DisplayName = "OpenUTAU",
+            NameKey = "VOCALOIDPatcher_Format_Name_ustx",
             Extension = "ustx",
             Converter = new UstxConverter(),
         });
@@ -105,6 +123,7 @@ public static class PluginRegistration
         {
             Id = "musicxml",
             DisplayName = "MusicXML",
+            NameKey = "VOCALOIDPatcher_Format_Name_musicxml",
             Extension = "musicxml",
             OtherExtensions = new[] { "xml", "mxl" },
             Converter = new MusicXmlConverter(),
@@ -114,6 +133,7 @@ public static class PluginRegistration
         {
             Id = "vvproj",
             DisplayName = "VOICEVOX",
+            NameKey = "VOCALOIDPatcher_Format_Name_vvproj",
             Extension = "vvproj",
             Converter = new VvProjConverter(),
         });
@@ -121,7 +141,8 @@ public static class PluginRegistration
         SvipFormatRegistry.Register(new SvipFormatInfo
         {
             Id = "y77",
-            DisplayName = "元七七",
+            DisplayName = "Yuan77",
+            NameKey = "VOCALOIDPatcher_Format_Name_y77",
             Extension = "y77",
             Converter = new Y77Converter(),
         });
@@ -130,6 +151,7 @@ public static class PluginRegistration
         {
             Id = "ds",
             DisplayName = "DiffSinger",
+            NameKey = "VOCALOIDPatcher_Format_Name_ds",
             Extension = "ds",
             Converter = new DsConverter(),
         });
@@ -138,6 +160,7 @@ public static class PluginRegistration
         {
             Id = "aisp",
             DisplayName = "AISingers",
+            NameKey = "VOCALOIDPatcher_Format_Name_aisp",
             Extension = "aisp",
             Converter = new AispConverter(),
         });
@@ -146,6 +169,7 @@ public static class PluginRegistration
         {
             Id = "tlp",
             DisplayName = "TuneLab (Legacy)",
+            NameKey = "VOCALOIDPatcher_Format_Name_tlp",
             Extension = "tlp",
             Converter = new TlpConverter(),
         });
@@ -154,6 +178,7 @@ public static class PluginRegistration
         {
             Id = "svp",
             DisplayName = "Synthesizer V Studio",
+            NameKey = "VOCALOIDPatcher_Format_Name_svp",
             Extension = "svp",
             Converter = new SvpConverter(),
         });
@@ -162,8 +187,92 @@ public static class PluginRegistration
         {
             Id = "vsqx",
             DisplayName = "VOCALOID4 (vsqx)",
+            NameKey = "VOCALOIDPatcher_Format_Name_vsqx",
             Extension = "vsqx",
             Converter = new VsqxConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "vpr",
+            DisplayName = "VOCALOID5 (vpr)",
+            NameKey = "VOCALOIDPatcher_Format_Name_vpr",
+            Extension = "vpr",
+            Converter = new VprConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "vsq",
+            DisplayName = "VOCALOID2 (vsq)",
+            NameKey = "VOCALOIDPatcher_Format_Name_vsq",
+            Extension = "vsq",
+            Converter = new VsqConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "ccs",
+            DisplayName = "CeVIO Creative Studio",
+            NameKey = "VOCALOIDPatcher_Format_Name_ccs",
+            Extension = "ccs",
+            Converter = new CcsConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "tlpx",
+            DisplayName = "TuneLab",
+            NameKey = "VOCALOIDPatcher_Format_Name_tlpx",
+            Extension = "tlpx",
+            Converter = new TlpxConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "ppsf",
+            DisplayName = "Piapro Studio NT",
+            NameKey = "VOCALOIDPatcher_Format_Name_ppsf",
+            Extension = "ppsf",
+            Converter = new PpsfConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "acep",
+            DisplayName = "ACE Studio",
+            NameKey = "VOCALOIDPatcher_Format_Name_acep",
+            Extension = "acep",
+            OtherExtensions = new[] { "acet" },
+            Converter = new AcepConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "dv",
+            DisplayName = "DeepVocal",
+            NameKey = "VOCALOIDPatcher_Format_Name_dv",
+            Extension = "dv",
+            OtherExtensions = new[] { "sk" },
+            Converter = new DvConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "tssln",
+            DisplayName = "VoiSona",
+            NameKey = "VOCALOIDPatcher_Format_Name_tssln",
+            Extension = "tssln",
+            Converter = new TsslnConverter(),
+        });
+
+        SvipFormatRegistry.Register(new SvipFormatInfo
+        {
+            Id = "svip",
+            DisplayName = "X Studio (svip)",
+            NameKey = "VOCALOIDPatcher_Format_Name_svip",
+            Extension = "svip",
+            Converter = new SvipConverter(),
         });
     }
 }

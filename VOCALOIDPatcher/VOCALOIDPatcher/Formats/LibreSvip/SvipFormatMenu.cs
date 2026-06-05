@@ -18,9 +18,17 @@ public static class SvipFormatMenu
     private const string ImportItemTag = "VOCALOIDPatcher_FormatImport";
     private const string ExportMenuTag = "VOCALOIDPatcher_FormatExport";
     private const string ExportHeaderKey = "VOCALOIDPatcher_Format_Export";
+    private const string AllFilesKey = "VOCALOIDPatcher_Format_AllFiles";
+    private const string OperationFailedKey = "VOCALOIDPatcher_Format_OperationFailed";
+    private const string EmptyProjectKey = "VOCALOIDPatcher_Export_EmptyProject";
 
     private static MenuItem? _exportMenu;
     private static bool _languageHooked;
+
+    private static readonly System.Collections.Generic.List<(MenuItem Item, SvipFormatInfo Info)> _formatItems = new();
+
+    private static string LocalizedName(SvipFormatInfo info) =>
+        (info.NameKey != null ? TranslationManager.Get(info.NameKey) : null) ?? info.DisplayName;
 
     public static void Install()
     {
@@ -63,7 +71,11 @@ public static class SvipFormatMenu
 
         importMenu.Items.Add(new Separator());
         foreach (var info in importable)
-            importMenu.Items.Add(BuildItem($"{info.DisplayName}…", ImportItemTag, () => OnImport(info)));
+        {
+            var item = BuildItem($"{LocalizedName(info)}…", ImportItemTag, () => OnImport(info));
+            _formatItems.Add((item, info));
+            importMenu.Items.Add(item);
+        }
     }
 
     private static void AddExportMenu(MenuItem fileMenu, MenuItem importMenu)
@@ -79,7 +91,11 @@ public static class SvipFormatMenu
         };
         WpfTranslationPatch.MarkUntranslatable(exportMenu);
         foreach (var info in exportable)
-            exportMenu.Items.Add(BuildItem($"{info.DisplayName}…", ExportMenuTag, () => OnExport(info)));
+        {
+            var item = BuildItem($"{LocalizedName(info)}…", ExportMenuTag, () => OnExport(info));
+            _formatItems.Add((item, info));
+            exportMenu.Items.Add(item);
+        }
 
         int importIndex = fileMenu.Items.IndexOf(importMenu);
         fileMenu.Items.Insert(importIndex + 1, exportMenu);
@@ -100,6 +116,9 @@ public static class SvipFormatMenu
     {
         if (_exportMenu != null)
             _exportMenu.Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderKey;
+
+        foreach (var (item, info) in _formatItems)
+            item.Header = $"{LocalizedName(info)}…";
     }
 
     private static MenuItem BuildItem(string header, string tag, Action onClick)
@@ -113,7 +132,7 @@ public static class SvipFormatMenu
             }
             catch (Exception e)
             {
-                Debug.ShowErrorMessage("操作失败", e);
+                Debug.ShowErrorMessage(TranslationManager.Get(OperationFailedKey) ?? "Operation Failed", e);
             }
         };
         WpfTranslationPatch.MarkUntranslatable(item);
@@ -124,10 +143,11 @@ public static class SvipFormatMenu
     {
         var extensions = info.AllExtensions.Distinct().ToList();
         var pattern = string.Join(";", extensions.Select(e => "*." + e));
+        var allFiles = TranslationManager.Get(AllFilesKey) ?? "All Files";
 
         var dialog = new OpenFileDialog
         {
-            Filter = $"{info.DisplayName}|{pattern}|所有文件|*.*",
+            Filter = $"{LocalizedName(info)}|{pattern}|{allFiles}|*.*",
             Multiselect = false,
         };
         if (dialog.ShowDialog() != true)
@@ -145,8 +165,8 @@ public static class SvipFormatMenu
         if (project.TrackList.OfType<SingingTrack>().All(t => t.NoteList.Count == 0))
         {
             Debug.ShowMessageBox(
-                TranslationManager.Get("VOCALOIDPatcher_Export_EmptyProject")
-                ?? "当前工程为空, 没有可导出的音符。");
+                TranslationManager.Get(EmptyProjectKey)
+                ?? "The current project is empty; there are no notes to export.");
             return;
         }
 
@@ -155,7 +175,7 @@ public static class SvipFormatMenu
         var save = new SaveFileDialog
         {
             FileName = $"export.{info.Extension}",
-            Filter = $"{info.DisplayName}|*.{info.Extension}|所有文件|*.*",
+            Filter = $"{LocalizedName(info)}|*.{info.Extension}|{TranslationManager.Get(AllFilesKey) ?? "All Files"}|*.*",
         };
         if (save.ShowDialog() != true)
             return;

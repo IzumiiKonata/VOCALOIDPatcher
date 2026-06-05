@@ -8,6 +8,7 @@ public sealed class SvipFormatInfo
 {
     public string Id { get; init; } = "";
     public string DisplayName { get; init; } = "";
+    public string? NameKey { get; init; }
     public string Extension { get; init; } = "";
     public IReadOnlyList<string> OtherExtensions { get; init; } = Array.Empty<string>();
     public bool MultipleFile { get; init; }

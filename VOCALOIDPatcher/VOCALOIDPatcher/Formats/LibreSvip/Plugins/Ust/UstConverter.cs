@@ -167,9 +167,14 @@ public sealed class UstConverter : FormatConverter
         if (track == null)
             throw new InvalidOperationException("No singing track found");
 
-        List<UtauMode2NotePitchData?> pitchData = track.EditedParams.Pitch.Points.Count > 0
+        bool hasPitch = track.EditedParams.Pitch.Points.Count > 0;
+        List<UtauMode2NotePitchData?> pitchData = hasPitch
             ? UstPitch.PitchToMode2(track.EditedParams.Pitch, track.NoteList, tempoList)
             : new List<UtauMode2NotePitchData?>();
+        List<List<int>?> mode1Data = hasPitch
+            ? UstPitch.PitchToMode1(track.EditedParams.Pitch, track.NoteList)
+            : new List<List<int>?>();
+        var synchronizer = new TimeSynchronizer(tempoList);
 
         var builder = new StringBuilder();
         void Append(string line) => builder.Append(line).Append(LineSeparator);
@@ -210,18 +215,29 @@ public sealed class UstConverter : FormatConverter
                 prevBpm = curBpm;
             }
             Append("PreUtterance=");
+            Append("PBType=5");
+            var mode1 = i < mode1Data.Count ? mode1Data[i] : null;
+            if (mode1 != null && mode1.Count > 0)
+                Append("PitchBend=" + string.Join(",", mode1));
             var pitch = i < pitchData.Count ? pitchData[i] : null;
             if (pitch != null && pitch.Start != null)
             {
-                string pbs = ToFixed(pitch.Start.Value);
+                Append("PBS=" + ToFixed(pitch.Start.Value));
+                var pbw = new List<double> { 1 };
+                pbw.AddRange(pitch.Widths);
+                Append("PBW=" + string.Join(",", pbw.Select(w => ToFixed(w))));
+                var pby = new List<double>();
                 if (pitch.StartShift != null)
-                    pbs += ";" + ToFixed(pitch.StartShift.Value);
-                Append("PBS=" + pbs);
-                if (pitch.Widths.Count > 0)
-                    Append("PBW=" + string.Join(",", pitch.Widths.Select(w => ToFixed(w))));
-                if (pitch.Shifts.Count > 0)
-                    Append("PBY=" + string.Join(",", pitch.Shifts.Select(s => ToFixed(s))));
+                    pby.Add(pitch.StartShift.Value);
+                pby.AddRange(pitch.Shifts);
+                if (pby.Count > 0)
+                    Append("PBY=" + string.Join(",", pby.Select(s => ToFixed(s))));
+                if (pitch.CurveTypes.Any(c => !string.IsNullOrEmpty(c)))
+                    Append("PBM=" + string.Join(",", pitch.CurveTypes));
             }
+            var vbr = UstPitch.VibratoToUtau(note.Vibrato, note, synchronizer);
+            if (vbr != null)
+                Append("VBR=" + FormatVibrato(vbr));
             prevEnd = note.EndPos;
             noteIndex++;
         }
@@ -247,6 +263,16 @@ public sealed class UstConverter : FormatConverter
         double.TryParse(value.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out result);
 
     private static string ToFixed(double value) => value.ToString("F2", CultureInfo.InvariantCulture);
+
+    private static string FormatVibrato(UtauNoteVibrato vbr)
+    {
+        var parts = new[]
+        {
+            vbr.Length, vbr.Period, vbr.Depth, vbr.FadeIn,
+            vbr.FadeOut, vbr.PhaseShift, vbr.Shift,
+        };
+        return string.Join(",", parts.Select(p => ToFixed(p)));
+    }
 
     private static string Pad(int value) => value.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
 }
