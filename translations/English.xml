@@ -13,6 +13,7 @@
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>Show Notes from Other Tracks</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>Skip Muted Tracks</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>Show Note Pitch</value></data>
+  <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>Rounded Notes</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>Opacity</value></data>

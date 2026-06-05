@@ -141,6 +141,7 @@ public static class Patcher
             new TrackMuteRefreshPatch(),
             new TrackSoloRefreshPatch(),
             new ShowNotePitchPatch(),
+            new RoundedNotePatch(),
             new CharacterArtPatch(),
             new SwingMenuPatch()
         };

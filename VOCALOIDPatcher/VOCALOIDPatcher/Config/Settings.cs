@@ -58,6 +58,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(ShowNotePitchKey, value);
     }
 
+    public static string RoundedNotesKey => "RoundedNotes";
+
+    public static bool RoundedNotes
+    {
+        get => Patcher.ConfigManager.Get(RoundedNotesKey, false);
+        set => Patcher.ConfigManager.Set(RoundedNotesKey, value);
+    }
+
     public static string AutoSaveEnabledKey => "AutoSaveEnabled";
 
     public static bool AutoSaveEnabled

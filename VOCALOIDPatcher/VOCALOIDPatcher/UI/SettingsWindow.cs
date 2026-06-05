@@ -225,6 +225,13 @@ public class SettingsWindow : Window
                 ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
+        var roundedNotes = Toggle("VOCALOIDPatcher_RoundedNotes_Header", "使用圆角音符",
+            Settings.RoundedNotes, new Thickness(0, 18, 0, 0), checkbox =>
+            {
+                Settings.RoundedNotes = checkbox.IsChecked == true;
+                RoundedNotePatch.RefreshNotes();
+            });
+
         var artOptions = new StackPanel
         {
             Margin = new Thickness(28, 12, 0, 0),
@@ -251,6 +258,7 @@ public class SettingsWindow : Window
         panel.Children.Add(showOtherTracks);
         panel.Children.Add(skipMuted);
         panel.Children.Add(showNotePitch);
+        panel.Children.Add(roundedNotes);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
 
