@@ -11,7 +11,7 @@ namespace VOCALOIDPatcher.Patch.Patches;
 
 public class RoundedNotePatch : PatchBase
 {
-    private const double FillBrightness = 0.7;
+    private const double FillBrightness = 0.6;
     private const double SelectedLighten = 0.2;
 
     public override string PatchName        => "RoundedNotePatch";
