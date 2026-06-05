@@ -55,5 +55,5 @@
 
 ### 注意事项
 你需要在默认目录中 `(C:\Program Files\VOCALOID6\Editor)` 安装一份最新的 VOCALOID6 编辑器  
-编译完成后, 会在 `VOCALOIDPatcher\bin\Release\netX.0-windows\out` 中构建一个包含依赖的 `Microsoft.Xaml.Behaviors.dll`。
-
+编译完成后, 会在 `VOCALOIDPatcher\bin\Release\net8.0-windows\out` 中构建一个包含依赖的 `Microsoft.Xaml.Behaviors.dll`。
+你可以使用 mklink 命令将构建后的 dll 文件链接到编辑器目录中, 可以避免每次构建后还需要手动覆盖的问题。
