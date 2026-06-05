@@ -32,6 +32,7 @@ public class SettingsWindow : Window
     private readonly List<Action> _localizers = new();
     private readonly ContentControl _content = new();
     private readonly TranslateTransform _rootTransform = new(0, 14);
+    private ScrollViewer? _scroller;
 
     public static void ShowSingleton()
     {
@@ -101,11 +102,19 @@ public class SettingsWindow : Window
         Grid.SetColumn(nav, 0);
         root.Children.Add(nav);
 
-        _content.Margin = new Thickness(28, 26, 28, 28);
+        _content.Margin = new Thickness(28, 26, 28, 40);
         _content.RenderTransform = new TranslateTransform();
         _content.Content = categories[0].Panel;
-        Grid.SetColumn(_content, 1);
-        root.Children.Add(_content);
+
+        _scroller = new ScrollViewer
+        {
+            Content = _content,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            Padding = new Thickness(0, 0, 4, 0)
+        };
+        Grid.SetColumn(_scroller, 1);
+        root.Children.Add(_scroller);
 
         var about = BuildAbout();
         Grid.SetColumn(about, 1);
@@ -482,6 +491,7 @@ public class SettingsWindow : Window
 
     private void AnimateContentIn()
     {
+        _scroller?.ScrollToTop();
         var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
         _content.BeginAnimation(OpacityProperty,
             new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(220))) { EasingFunction = ease });
@@ -538,6 +548,7 @@ public class SettingsWindow : Window
         AddImplicitStyle(typeof(ComboBox), ComboBoxStyle);
         AddImplicitStyle(typeof(ComboBoxItem), ComboBoxItemStyle);
         AddImplicitStyle(typeof(Slider), SliderStyle);
+        AddImplicitStyle(typeof(System.Windows.Controls.Primitives.ScrollBar), ScrollBarStyle);
     }
 
     private void AddImplicitStyle(Type targetType, string xaml)
@@ -779,6 +790,54 @@ public class SettingsWindow : Window
                     <Ellipse Width='14' Height='14' Fill='#FFFFFF'>
                       <Ellipse.Effect><DropShadowEffect BlurRadius='4' ShadowDepth='0' Opacity='0.4' Color='#000000'/></Ellipse.Effect>
                     </Ellipse>
+                  </ControlTemplate>
+                </Thumb.Template>
+              </Thumb>
+            </Track.Thumb>
+          </Track>
+        </Grid>
+      </ControlTemplate>
+    </Setter.Value>
+  </Setter>
+</Style>";
+
+    private static readonly string ScrollBarStyle = $@"
+<Style {Ns} TargetType='ScrollBar'>
+  <Setter Property='Width' Value='10'/>
+  <Setter Property='MinWidth' Value='10'/>
+  <Setter Property='Background' Value='Transparent'/>
+  <Setter Property='Template'>
+    <Setter.Value>
+      <ControlTemplate TargetType='ScrollBar'>
+        <Grid Background='Transparent'>
+          <Track x:Name='PART_Track' IsDirectionReversed='True'>
+            <Track.DecreaseRepeatButton>
+              <RepeatButton Focusable='False' Command='{{x:Static ScrollBar.PageUpCommand}}'>
+                <RepeatButton.Template>
+                  <ControlTemplate TargetType='RepeatButton'><Border Background='Transparent'/></ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.DecreaseRepeatButton>
+            <Track.IncreaseRepeatButton>
+              <RepeatButton Focusable='False' Command='{{x:Static ScrollBar.PageDownCommand}}'>
+                <RepeatButton.Template>
+                  <ControlTemplate TargetType='RepeatButton'><Border Background='Transparent'/></ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.IncreaseRepeatButton>
+            <Track.Thumb>
+              <Thumb Focusable='False'>
+                <Thumb.Template>
+                  <ControlTemplate TargetType='Thumb'>
+                    <Border x:Name='tb' CornerRadius='5' Margin='2,2' MinHeight='28' Background='#48FFFFFF'/>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property='IsMouseOver' Value='True'>
+                        <Setter TargetName='tb' Property='Background' Value='#80FFFFFF'/>
+                      </Trigger>
+                      <Trigger Property='IsDragging' Value='True'>
+                        <Setter TargetName='tb' Property='Background' Value='#A0FFFFFF'/>
+                      </Trigger>
+                    </ControlTemplate.Triggers>
                   </ControlTemplate>
                 </Thumb.Template>
               </Thumb>
