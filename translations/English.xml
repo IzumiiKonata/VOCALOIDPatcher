@@ -66,6 +66,10 @@
   <data name="VOCALOIDPatcher_Format_Name_tssln" xml:space="preserve"><value>VoiSona</value></data>
   <data name="VOCALOIDPatcher_Format_Name_svip" xml:space="preserve"><value>X Studio (svip)</value></data>
   <data name="VOCALOIDPatcher_Export_EmptyProject" xml:space="preserve"><value>The current project is empty; there are no notes to export.</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapTitle" xml:space="preserve"><value>Notes Overlap</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapMessage" xml:space="preserve"><value>Overlapping notes were found near bar(s): {0}. How would you like to proceed?</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapAutoFix" xml:space="preserve"><value>Auto Fix</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapStop" xml:space="preserve"><value>Stop Export</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>Upper 3rd</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>Upper 5th</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>Upper 6th</value></data>

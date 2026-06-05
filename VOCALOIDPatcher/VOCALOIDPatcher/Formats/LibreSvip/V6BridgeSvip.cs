@@ -259,7 +259,7 @@ public static class V6BridgeSvip
         ShowOtherTracksNotesPatch.RefreshPianoroll();
     }
 
-    public static Project Export()
+    public static Project Export(bool resolveOverlaps = false)
     {
         if (!TryGetSequence(out var vsm))
             throw new InvalidOperationException("No active sequence.");
@@ -276,6 +276,8 @@ public static class V6BridgeSvip
         int firstBarLength = (int)Math.Round(timeSignatures[0].BarLength());
 
         var tracks = new List<Track>();
+        var pendingPitch = new List<(SingingTrack Track, List<PitchBendData> Data, List<int> Offsets)>();
+        var overlapBars = new SortedSet<int>();
         int trackIndex = 0;
         foreach (var v6Track in vsm.MidiTracks)
         {
@@ -308,17 +310,25 @@ public static class V6BridgeSvip
 
             string name = TrackNameProp?.GetValue(v6Track) as string ?? $"Track {trackIndex + 1}";
             var singingTrack = new SingingTrack { Title = name, NoteList = notes };
+            tracks.Add(singingTrack);
+            trackIndex++;
 
             if (pitchDataList.Count > 0 && notes.Count > 0)
             {
-                var handler = new VocaloidPitchHandler(synchronizer, singingTrack.NoteList, timeSignatures, firstBarLength);
-                var absResult = handler.ToAbsolutePitch(pitchDataList, partOffsets);
-                if (absResult != null)
-                    singingTrack.EditedParams.Pitch = absResult;
+                NormalizeNotesForPitch(notes, timeSignatures, resolveOverlaps, overlapBars);
+                pendingPitch.Add((singingTrack, pitchDataList, partOffsets));
             }
+        }
 
-            tracks.Add(singingTrack);
-            trackIndex++;
+        if (overlapBars.Count > 0 && !resolveOverlaps)
+            throw new NotesOverlapExportException(overlapBars.ToList());
+
+        foreach (var (track, data, offsets) in pendingPitch)
+        {
+            var handler = new VocaloidPitchHandler(synchronizer, track.NoteList, timeSignatures, firstBarLength);
+            var absResult = handler.ToAbsolutePitch(data, offsets);
+            if (absResult != null)
+                track.EditedParams.Pitch = absResult;
         }
 
         return new Project
@@ -327,5 +337,38 @@ public static class V6BridgeSvip
             TimeSignatureList = timeSignatures,
             TrackList = tracks,
         };
+    }
+
+    private static void NormalizeNotesForPitch(List<Note> notes, List<TimeSignature> timeSignatureList, bool resolve, SortedSet<int> overlapBars)
+    {
+        notes.Sort((a, b) => a.StartPos != b.StartPos ? a.StartPos.CompareTo(b.StartPos) : a.EndPos.CompareTo(b.EndPos));
+
+        for (int i = 0; i + 1 < notes.Count; i++)
+            if (notes[i].EndPos > notes[i + 1].StartPos)
+                overlapBars.Add(Core.TickCounter.FindBarIndex(timeSignatureList, notes[i + 1].StartPos));
+
+        if (!resolve)
+            return;
+
+        var result = new List<Note>();
+        foreach (var note in notes)
+        {
+            while (result.Count > 0 && result[^1].EndPos > note.StartPos)
+            {
+                var prev = result[^1];
+                int trimmed = note.StartPos - prev.StartPos;
+                if (trimmed <= 0)
+                    result.RemoveAt(result.Count - 1);
+                else
+                {
+                    prev.Length = trimmed;
+                    break;
+                }
+            }
+            result.Add(note);
+        }
+
+        notes.Clear();
+        notes.AddRange(result);
     }
 }

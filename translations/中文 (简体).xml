@@ -66,6 +66,10 @@
   <data name="VOCALOIDPatcher_Format_Name_tssln" xml:space="preserve"><value>VoiSona</value></data>
   <data name="VOCALOIDPatcher_Format_Name_svip" xml:space="preserve"><value>X Studio (svip)</value></data>
   <data name="VOCALOIDPatcher_Export_EmptyProject" xml:space="preserve"><value>当前工程为空, 没有可导出的音符。</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapTitle" xml:space="preserve"><value>音符重叠</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapMessage" xml:space="preserve"><value>在以下小节附近发现音符重叠: {0}。请选择如何处理。</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapAutoFix" xml:space="preserve"><value>自动处理</value></data>
+  <data name="VOCALOIDPatcher_Export_OverlapStop" xml:space="preserve"><value>停止导出</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_ThirdUp" xml:space="preserve"><value>上三度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_FifthUp" xml:space="preserve"><value>上五度</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_SixthUp" xml:space="preserve"><value>上六度</value></data>

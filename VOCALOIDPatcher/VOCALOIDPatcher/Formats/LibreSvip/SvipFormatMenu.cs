@@ -9,6 +9,7 @@ using VOCALOIDPatcher.Formats.LibreSvip.Model;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.UI;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip;
@@ -21,6 +22,10 @@ public static class SvipFormatMenu
     private const string AllFilesKey = "VOCALOIDPatcher_Format_AllFiles";
     private const string OperationFailedKey = "VOCALOIDPatcher_Format_OperationFailed";
     private const string EmptyProjectKey = "VOCALOIDPatcher_Export_EmptyProject";
+    private const string OverlapTitleKey = "VOCALOIDPatcher_Export_OverlapTitle";
+    private const string OverlapMessageKey = "VOCALOIDPatcher_Export_OverlapMessage";
+    private const string OverlapAutoFixKey = "VOCALOIDPatcher_Export_OverlapAutoFix";
+    private const string OverlapStopKey = "VOCALOIDPatcher_Export_OverlapStop";
 
     private static MenuItem? _exportMenu;
     private static bool _languageHooked;
@@ -160,7 +165,25 @@ public static class SvipFormatMenu
 
     private static void OnExport(SvipFormatInfo info)
     {
-        var project = V6BridgeSvip.Export();
+        Project project;
+        try
+        {
+            project = V6BridgeSvip.Export();
+        }
+        catch (NotesOverlapExportException ex)
+        {
+            string bars = string.Join(", ", ex.Bars);
+            string template = TranslationManager.Get(OverlapMessageKey)
+                ?? "Overlapping notes were found near bar(s): {0}. How would you like to proceed?";
+            bool autoFix = ConfirmChoiceDialog.Show(
+                TranslationManager.Get(OverlapTitleKey) ?? "Notes Overlap",
+                string.Format(template, bars),
+                TranslationManager.Get(OverlapAutoFixKey) ?? "Auto Fix",
+                TranslationManager.Get(OverlapStopKey) ?? "Stop Export");
+            if (!autoFix)
+                return;
+            project = V6BridgeSvip.Export(resolveOverlaps: true);
+        }
 
         if (project.TrackList.OfType<SingingTrack>().All(t => t.NoteList.Count == 0))
         {
