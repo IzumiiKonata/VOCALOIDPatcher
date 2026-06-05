@@ -30,6 +30,21 @@ public static class SvipFormatRegistry
     private static readonly Dictionary<string, SvipFormatInfo> Map = new(StringComparer.OrdinalIgnoreCase);
     private static readonly List<SvipFormatInfo> Order = new();
 
+    private static readonly string[] DisplayPriority =
+    {
+        "svp", "ustx", "ust", "vpr", "vsqx", "s5p", "vsq",
+        "ccs", "tssln", "acep", "vvproj", "ppsf", "dv", "tlpx", "tlp",
+        "svip", "ds", "aisp", "y77", "vog",
+        "musicxml", "json", "ufdata",
+        "lrc", "srt", "ass",
+    };
+
+    private static int Rank(SvipFormatInfo info)
+    {
+        int index = Array.IndexOf(DisplayPriority, info.Id);
+        return index < 0 ? int.MaxValue : index;
+    }
+
     public static void Register(SvipFormatInfo info)
     {
         if (Map.ContainsKey(info.Id))
@@ -44,9 +59,9 @@ public static class SvipFormatRegistry
 
     public static IReadOnlyList<SvipFormatInfo> All => Order;
 
-    public static IEnumerable<SvipFormatInfo> Importable => Order.Where(i => i.CanImport);
+    public static IEnumerable<SvipFormatInfo> Importable => Order.Where(i => i.CanImport).OrderBy(Rank);
 
-    public static IEnumerable<SvipFormatInfo> Exportable => Order.Where(i => i.CanExport);
+    public static IEnumerable<SvipFormatInfo> Exportable => Order.Where(i => i.CanExport).OrderBy(Rank);
 
     public static SvipFormatInfo? FindImportableByExtension(string ext) =>
         Order.FirstOrDefault(i => i.CanImport && i.MatchesExtension(ext));
