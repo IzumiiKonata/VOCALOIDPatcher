@@ -35,6 +35,9 @@ public static class V6BridgeSvip
 
     private static readonly PropertyInfo? TrackNameProp = typeof(WIVSMMidiTrack).GetProperty("Name");
 
+    private static readonly PropertyInfo? CtrlRelPos =
+        typeof(WIVSMMidiController).GetProperty("RelPosTick") ?? typeof(WIVSMMidiController).GetProperty("RelPosition");
+
     private static readonly MethodInfo? ResetPartPhonemesMethod =
         typeof(WIVSMNote).Assembly.GetType("Yamaha.VOCALOID.G2PAMultiLingualManager")
             ?.GetMethod("ResetPhonemes", new[] { typeof(WIVSMMidiPart) });
@@ -52,6 +55,44 @@ public static class V6BridgeSvip
     private static long PartAbs(WIVSMMidiPart part) => UnwrapAbs(PartAbsPos?.GetValue(part));
 
     private static long TempoTick(WIVSMTempo tempo) => Unwrap(TempoRelPos?.GetValue(tempo));
+
+    private static List<ControllerEvent> ReadController(WIVSMMidiPart part, VSMControllerType type)
+    {
+        var result = new List<ControllerEvent>();
+        ulong count = part.GetNumController(type);
+        for (ulong i = 0; i < count; i++)
+        {
+            var controller = part.GetController(type, i);
+            if (controller == null)
+                continue;
+            result.Add(new ControllerEvent((int)Unwrap(CtrlRelPos?.GetValue(controller)), controller.Value));
+        }
+        return result;
+    }
+
+    private static PitchBendData? ReadPartPitchBend(WIVSMMidiPart part)
+    {
+        var pitEvents = ReadController(part, VSMControllerType.PitchBend);
+        var pbsEvents = ReadController(part, VSMControllerType.PitchBendSens);
+        if (pitEvents.Count == 0 && pbsEvents.Count == 0)
+            return null;
+        var pit = new ControllerCurve("pitch_bend", pitEvents, 0, -8192, 8191);
+        var pbs = new ControllerCurve("pitch_bend_sens", pbsEvents, 2, 1, 24);
+        return new PitchBendData(pit, pbs);
+    }
+
+    private static void WritePartPitchBend(WIVSMMidiPart part, ParamCurve pitch, VocaloidPitchHandler handler)
+    {
+        if (pitch.Points.Count == 0)
+            return;
+        var pitchData = handler.FromAbsolutePitch(pitch);
+        if (pitchData.IsEmpty)
+            return;
+        foreach (var e in pitchData.Pbs.Events)
+            part.InsertController(new VSMRelTick(e.Pos), VSMControllerType.PitchBendSens, e.Value);
+        foreach (var e in pitchData.Pit.Events)
+            part.InsertController(new VSMRelTick(e.Pos), VSMControllerType.PitchBend, e.Value);
+    }
 
     private static int VoiceBankLangId(WIVSMMidiPart part, bool isAi)
     {
@@ -152,6 +193,15 @@ public static class V6BridgeSvip
             vsm.InsertTempo(new VSMRelTick(tempo.Position), value);
         }
 
+        var importTimeSignatures = project.TimeSignatureList.Count > 0
+            ? project.TimeSignatureList
+            : new List<TimeSignature> { new() };
+        var importTempos = project.SongTempoList.Count > 0
+            ? project.SongTempoList
+            : new List<SongTempo> { new() };
+        var importSynchronizer = new Core.TimeSynchronizer(importTempos);
+        int importFirstBarLength = (int)Math.Round(importTimeSignatures[0].BarLength());
+
         foreach (var track in project.TrackList.OfType<SingingTrack>())
         {
             if (vsm.NumTrack >= vsm.MaxNumTrack)
@@ -198,6 +248,12 @@ public static class V6BridgeSvip
 
             if (hasDefault && insertedInPart > 0)
                 ResetPartPhonemes(part);
+
+            if (track.EditedParams.Pitch.Points.Count > 0 && track.NoteList.Count > 0)
+            {
+                var handler = new VocaloidPitchHandler(importSynchronizer, track.NoteList, importTimeSignatures, importFirstBarLength);
+                WritePartPitchBend(part, track.EditedParams.Pitch, handler);
+            }
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -208,11 +264,24 @@ public static class V6BridgeSvip
         if (!TryGetSequence(out var vsm))
             throw new InvalidOperationException("No active sequence.");
 
+        var tempos = vsm.Tempos.Select(t => new SongTempo((int)TempoTick(t), t.Value / 100.0)).ToList();
+        if (tempos.Count == 0)
+            tempos.Add(new SongTempo());
+
+        var timeSignatures = vsm.TimeSigs.Select(t => new TimeSignature(t.PosBar, t.Numer, t.Denom)).ToList();
+        if (timeSignatures.Count == 0)
+            timeSignatures.Add(new TimeSignature());
+
+        var synchronizer = new Core.TimeSynchronizer(tempos);
+        int firstBarLength = (int)Math.Round(timeSignatures[0].BarLength());
+
         var tracks = new List<Track>();
         int trackIndex = 0;
         foreach (var v6Track in vsm.MidiTracks)
         {
             var notes = new List<Note>();
+            var pitchDataList = new List<PitchBendData>();
+            var partOffsets = new List<int>();
             foreach (var part in v6Track.MidiParts)
             {
                 long partAbs = PartAbs(part);
@@ -228,20 +297,29 @@ public static class V6BridgeSvip
                         Lyric = note.Lyric ?? DefaultLyric,
                     });
                 }
+
+                var pitchData = ReadPartPitchBend(part);
+                if (pitchData != null)
+                {
+                    pitchDataList.Add(pitchData);
+                    partOffsets.Add((int)partAbs);
+                }
             }
 
             string name = TrackNameProp?.GetValue(v6Track) as string ?? $"Track {trackIndex + 1}";
-            tracks.Add(new SingingTrack { Title = name, NoteList = notes });
+            var singingTrack = new SingingTrack { Title = name, NoteList = notes };
+
+            if (pitchDataList.Count > 0 && notes.Count > 0)
+            {
+                var handler = new VocaloidPitchHandler(synchronizer, singingTrack.NoteList, timeSignatures, firstBarLength);
+                var absResult = handler.ToAbsolutePitch(pitchDataList, partOffsets);
+                if (absResult != null)
+                    singingTrack.EditedParams.Pitch = absResult;
+            }
+
+            tracks.Add(singingTrack);
             trackIndex++;
         }
-
-        var tempos = vsm.Tempos.Select(t => new SongTempo((int)TempoTick(t), t.Value / 100.0)).ToList();
-        if (tempos.Count == 0)
-            tempos.Add(new SongTempo());
-
-        var timeSignatures = vsm.TimeSigs.Select(t => new TimeSignature(t.PosBar, t.Numer, t.Denom)).ToList();
-        if (timeSignatures.Count == 0)
-            timeSignatures.Add(new TimeSignature());
 
         return new Project
         {
