@@ -1,4 +1,7 @@
 ﻿# VOCALOID Patcher
+
+[<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
+
 一个用于为 `VOCALOID 6` 编辑器提供额外功能的补丁, 理论上支持所有版本的 V6 编辑器
 
 ### 翻译条目版本: `6.12.0.1`
@@ -21,7 +24,15 @@
 
 ### 钢琴窗增强
 - **显示其他轨道的音符**: 在当前轨道的钢琴窗中叠加显示其它轨道的音符, 可选择跳过静音轨道。
+![Show Other Notes](./res/show_other_notes.png)
 - **显示音符音高**: 在每个音符上叠加显示音高名 (如 `C4`, `F#3`)。
+![Show Note Pitch](./res/show_note_pitch.png)
+- **使用圆角音符**: 将音符样式修改为圆角矩形
+![Rounded Notes](./res/rounded_notes.png)
+- **居中显示歌词**: 使歌词垂直居中
+![Centered Notes](./res/centered_notes_b.png)
+- **始终显示波形**
+![Always Show Wave](./res/always_show_wave.png)
 - **显示声库封面**: 在钢琴窗右下角显示当前乐段所用声库的封面, 可调整大小与不透明度。
 
 ### 任务

@@ -18,7 +18,6 @@ namespace VOCALOIDPatcher.UI;
 public class SettingsWindow : Window
 {
     private const string GitHubUrl = "https://github.com/IzumiiKonata/VOCALOIDPatcher";
-    private const string ReleasesUrl = GitHubUrl + "/releases";
     private const string AuthorUrl = "https://space.bilibili.com/357605683";
 
     private static readonly int[] AutoSaveIntervals = { 1, 3, 5, 10, 15, 30 };
@@ -471,7 +470,7 @@ public class SettingsWindow : Window
         if (UpdateChecker.HasUpdate && UpdateChecker.LatestVersion != null)
         {
             var suffix = T("VOCALOIDPatcher_Update_VersionSuffix", " (有新版本: {0})");
-            _about.Inlines.Add(Link(string.Format(suffix, UpdateChecker.LatestVersion), ReleasesUrl));
+            _about.Inlines.Add(Link(string.Format(suffix, UpdateChecker.LatestVersion), UpdateChecker.ReleasesPageUrl));
         }
 
         _about.Inlines.Add(new LineBreak());
