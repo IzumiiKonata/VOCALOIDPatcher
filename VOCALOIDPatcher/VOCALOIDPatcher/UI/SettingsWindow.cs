@@ -407,13 +407,7 @@ public class SettingsWindow : Window
                 Settings.FastProjectLoad = checkbox.IsChecked == true;
             });
 
-        var lazyLyric = Toggle("VOCALOIDPatcher_LazyLyricText_Header", "延后歌词文本构造 (需重启)",
-            Settings.LazyLyricText, new Thickness(0, 12, 0, 0), checkbox =>
-            {
-                Settings.LazyLyricText = checkbox.IsChecked == true;
-            });
-
-        var trimWorkingSet = Toggle("VOCALOIDPatcher_TrimWorkingSet_Header", "修剪内存占用 (最小化/载入后)",
+        var trimWorkingSet = Toggle("VOCALOIDPatcher_TrimWorkingSet_Header", "内存优化",
             Settings.TrimWorkingSet, new Thickness(0, 12, 0, 0), checkbox =>
             {
                 Settings.TrimWorkingSet = checkbox.IsChecked == true;
@@ -422,7 +416,6 @@ public class SettingsWindow : Window
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
         panel.Children.Add(fastLoad);
-        panel.Children.Add(lazyLyric);
         panel.Children.Add(trimWorkingSet);
 
         return panel;

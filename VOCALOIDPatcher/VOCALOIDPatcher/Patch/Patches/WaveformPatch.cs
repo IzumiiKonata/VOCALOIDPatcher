@@ -170,7 +170,7 @@ public class WaveformRenderPatch : PatchBase
         double left = Canvas.GetLeft(wave);
         double right = Canvas.GetRight(wave);
         double oneKeyHeight = vm.OneKeyHeight;
-        double waveHeight = Musical.RenderedWaveHeight * (oneKeyHeight / General.KeyBaseHeight) * .5;
+        double waveHeight = Musical.RenderedWaveHeight * (oneKeyHeight / General.KeyBaseHeight) * .3;
 
         var centers = new Dictionary<int, double>();
         var cols = new List<Column>();

@@ -172,7 +172,8 @@ public static class Patcher
             new AudioThumbFromCachePatch(),
 #endif
             new DeferLoadAnalyticsPatch(),
-            new WorkingSetTrimPatch()
+            new WorkingSetTrimPatch(),
+            new RenderCompleteTrimPatch()
         };
 
         patches.ForEach(p =>

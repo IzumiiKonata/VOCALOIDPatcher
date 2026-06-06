@@ -14,7 +14,8 @@ public static class WorkingSetTrimmer
     [DllImport("kernel32.dll")]
     private static extern IntPtr GetCurrentProcess();
 
-    private static DispatcherTimer? _afterLoadTimer;
+    private static DispatcherTimer? _trimTimer;
+    private static string _pendingReason = "";
     private static bool _installed;
 
     public static void Install()
@@ -33,7 +34,7 @@ public static class WorkingSetTrimmer
         };
     }
 
-    public static void ScheduleAfterLoadTrim()
+    public static void ScheduleTrim(string reason)
     {
         if (!Settings.TrimWorkingSet)
             return;
@@ -44,22 +45,23 @@ public static class WorkingSetTrimmer
 
         dispatcher.BeginInvoke(new Action(() =>
         {
-            _afterLoadTimer ??= CreateAfterLoadTimer();
-            _afterLoadTimer.Stop();
-            _afterLoadTimer.Start();
+            _pendingReason = reason;
+            _trimTimer ??= CreateTrimTimer();
+            _trimTimer.Stop();
+            _trimTimer.Start();
         }), DispatcherPriority.Background);
     }
 
-    private static DispatcherTimer CreateAfterLoadTimer()
+    private static DispatcherTimer CreateTrimTimer()
     {
         var timer = new DispatcherTimer(DispatcherPriority.Background, Application.Current.Dispatcher)
         {
-            Interval = TimeSpan.FromSeconds(3)
+            Interval = TimeSpan.FromSeconds(1)
         };
         timer.Tick += (_, _) =>
         {
             timer.Stop();
-            Trim("工程载入完成");
+            Trim(_pendingReason);
         };
         return timer;
     }

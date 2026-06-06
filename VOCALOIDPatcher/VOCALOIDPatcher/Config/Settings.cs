@@ -122,14 +122,6 @@ public static class Settings
         set => Patcher.ConfigManager.Set(FastProjectLoadKey, value);
     }
 
-    public static string LazyLyricTextKey => "LazyLyricText";
-
-    public static bool LazyLyricText
-    {
-        get => Patcher.ConfigManager.Get(LazyLyricTextKey, false);
-        set => Patcher.ConfigManager.Set(LazyLyricTextKey, value);
-    }
-
     public static string FreeAudioPcmCacheKey => "FreeAudioPcmCache";
 
     public static bool FreeAudioPcmCache
