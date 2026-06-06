@@ -113,4 +113,20 @@ public static class Settings
         get => Patcher.ConfigManager.Get(AutoSaveIntervalMinutesKey, 5);
         set => Patcher.ConfigManager.Set(AutoSaveIntervalMinutesKey, value);
     }
+
+    public static string FastProjectLoadKey => "FastProjectLoad";
+
+    public static bool FastProjectLoad
+    {
+        get => Patcher.ConfigManager.Get(FastProjectLoadKey, true);
+        set => Patcher.ConfigManager.Set(FastProjectLoadKey, value);
+    }
+
+    public static string LazyLyricTextKey => "LazyLyricText";
+
+    public static bool LazyLyricText
+    {
+        get => Patcher.ConfigManager.Get(LazyLyricTextKey, false);
+        set => Patcher.ConfigManager.Set(LazyLyricTextKey, value);
+    }
 }

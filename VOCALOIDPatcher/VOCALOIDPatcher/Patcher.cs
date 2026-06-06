@@ -155,7 +155,13 @@ public static class Patcher
             new ScoreFrameCaptureCombinedPatch(),
 #endif
             new CharacterArtPatch(),
-            new SwingMenuPatch()
+            new SwingMenuPatch(),
+            new LeanLyricTextPatch(),
+            new LazyLyricRenderPatch(),
+#if !NET6_0
+            new DeferAudioBufferLoadPatch(),
+#endif
+            new DeferLoadAnalyticsPatch()
         };
 
         patches.ForEach(p =>

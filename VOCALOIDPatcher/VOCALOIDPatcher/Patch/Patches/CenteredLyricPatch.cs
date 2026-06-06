@@ -72,6 +72,8 @@ internal static class CenteredLyricRenderer
         if (dc == null || lyric.VM == null || string.IsNullOrEmpty(lyric.Lyrics) || string.IsNullOrEmpty(lyric.Phoneme))
             return false;
 
+        LyricTextState.EnsureBuilt(lyric);
+
         var first = lyric.FirstFormattedTexts;
         if (first == null)
             return false;

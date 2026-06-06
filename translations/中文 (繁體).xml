@@ -26,6 +26,8 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快工程載入</value></data>
+  <data name="VOCALOIDPatcher_LazyLyricText_Header" xml:space="preserve"><value>延後歌詞文字建構 (需重啟)</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>

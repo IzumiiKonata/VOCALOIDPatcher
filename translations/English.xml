@@ -26,6 +26,8 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>Auto Save</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>Interval</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>Faster Project Loading</value></data>
+  <data name="VOCALOIDPatcher_LazyLyricText_Header" xml:space="preserve"><value>Defer Lyric Text Building (restart required)</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8th Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8th Shuffle</value></data>

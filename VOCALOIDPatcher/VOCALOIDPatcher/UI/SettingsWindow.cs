@@ -401,8 +401,22 @@ public class SettingsWindow : Window
         intervalRow.Children.Add(intervalCombo);
         intervalRow.Children.Add(minutesLabel);
 
+        var fastLoad = Toggle("VOCALOIDPatcher_FastProjectLoad_Header", "加快工程载入",
+            Settings.FastProjectLoad, new Thickness(0, 24, 0, 0), checkbox =>
+            {
+                Settings.FastProjectLoad = checkbox.IsChecked == true;
+            });
+
+        var lazyLyric = Toggle("VOCALOIDPatcher_LazyLyricText_Header", "延后歌词文本构造 (需重启)",
+            Settings.LazyLyricText, new Thickness(0, 12, 0, 0), checkbox =>
+            {
+                Settings.LazyLyricText = checkbox.IsChecked == true;
+            });
+
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
+        panel.Children.Add(fastLoad);
+        panel.Children.Add(lazyLyric);
 
         return panel;
     }

@@ -26,6 +26,8 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>自動保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>プロジェクト読み込みを高速化</value></data>
+  <data name="VOCALOIDPatcher_LazyLyricText_Header" xml:space="preserve"><value>歌詞テキスト生成を遅延 (要再起動)</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8分スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8分シャッフル</value></data>
