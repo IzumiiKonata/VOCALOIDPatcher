@@ -148,7 +148,7 @@ public class CharacterArtPatch : PatchBase
             object? part = vm.ActivePart;
             if (part == null)
             {
-                Debug.Print("[CharacterArt] 当前无活动 Part");
+                // Debug.Print("[CharacterArt] 当前无活动 Part");
                 return null;
             }
 

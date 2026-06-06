@@ -46,6 +46,8 @@ public class DeferAudioBufferLoadPatch : PatchBase
             {
                 _passthrough = false;
             }
+
+            ShowOtherTracksNotesPatch.RequestRefreshPianoroll();
         }), DispatcherPriority.Background);
 
         return false;
