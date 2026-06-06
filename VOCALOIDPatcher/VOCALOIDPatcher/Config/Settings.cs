@@ -130,4 +130,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(LazyLyricTextKey, value);
     }
 
+    public static string FreeAudioPcmCacheKey => "FreeAudioPcmCache";
+
+    public static bool FreeAudioPcmCache
+    {
+        get => Patcher.ConfigManager.Get(FreeAudioPcmCacheKey, true);
+        set => Patcher.ConfigManager.Set(FreeAudioPcmCacheKey, value);
+    }
+
 }

@@ -167,6 +167,8 @@ public static class Patcher
             new TrackOverlayFillBrushPatch(),
 #if !NET6_0
             new DeferAudioBufferLoadPatch(),
+            new AudioPcmReleasePatch(),
+            new WaveThumbGuardPatch(),
 #endif
             new DeferLoadAnalyticsPatch()
         };
