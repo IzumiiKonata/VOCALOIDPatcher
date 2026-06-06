@@ -138,4 +138,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(FreeAudioPcmCacheKey, value);
     }
 
+    public static string TrimWorkingSetKey => "TrimWorkingSet";
+
+    public static bool TrimWorkingSet
+    {
+        get => Patcher.ConfigManager.Get(TrimWorkingSetKey, true);
+        set => Patcher.ConfigManager.Set(TrimWorkingSetKey, value);
+    }
+
 }

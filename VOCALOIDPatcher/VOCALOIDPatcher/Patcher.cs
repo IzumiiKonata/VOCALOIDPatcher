@@ -116,6 +116,7 @@ public static class Patcher
         Formats.LibreSvip.SvipFormatMenu.Install();
         Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
+        WorkingSetTrimmer.Install();
     }
 
     private static bool DetectVstPluginMode()
@@ -170,7 +171,8 @@ public static class Patcher
             new AudioPcmReleasePatch(),
             new AudioThumbFromCachePatch(),
 #endif
-            new DeferLoadAnalyticsPatch()
+            new DeferLoadAnalyticsPatch(),
+            new WorkingSetTrimPatch()
         };
 
         patches.ForEach(p =>

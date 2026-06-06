@@ -413,10 +413,17 @@ public class SettingsWindow : Window
                 Settings.LazyLyricText = checkbox.IsChecked == true;
             });
 
+        var trimWorkingSet = Toggle("VOCALOIDPatcher_TrimWorkingSet_Header", "修剪内存占用 (最小化/载入后)",
+            Settings.TrimWorkingSet, new Thickness(0, 12, 0, 0), checkbox =>
+            {
+                Settings.TrimWorkingSet = checkbox.IsChecked == true;
+            });
+
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
         panel.Children.Add(fastLoad);
         panel.Children.Add(lazyLyric);
+        panel.Children.Add(trimWorkingSet);
 
         return panel;
     }
