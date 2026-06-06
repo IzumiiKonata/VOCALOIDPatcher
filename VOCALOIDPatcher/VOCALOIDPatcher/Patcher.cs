@@ -62,6 +62,8 @@ public static class Patcher
 
     private static void PatcherInit()
     {
+        if (!CheckRuntimeCompatibility()) return;
+
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception)args.ExceptionObject;
@@ -117,6 +119,23 @@ public static class Patcher
         Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
         WorkingSetTrimmer.Install();
+    }
+
+    private static bool CheckRuntimeCompatibility()
+    {
+#if NET6_0
+        var runtimeMajor = Environment.Version.Major;
+        if (runtimeMajor != 6)
+        {
+            Debug.ShowErrorMessage(
+                $"当前 VOCALOID Patcher 为 .NET 6.0 构建版本,只能在基于 .NET 6.0 的 VOCALOID6 编辑器中使用。\n" +
+                $"检测到当前编辑器运行于 .NET {runtimeMajor}.0,请改用对应版本的 VOCALOID Patcher。",
+                "VOCALOID Patcher 版本不匹配");
+            Environment.Exit(0);
+            return false;
+        }
+#endif
+        return true;
     }
 
     private static bool DetectVstPluginMode()
