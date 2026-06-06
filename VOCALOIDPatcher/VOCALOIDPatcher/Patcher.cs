@@ -158,6 +158,13 @@ public static class Patcher
             new SwingMenuPatch(),
             new LeanLyricTextPatch(),
             new LazyLyricRenderPatch(),
+            new FastCanvasViewportRectPatch(),
+            new FastCanvasViewportRangePatch(),
+            new TrackSelectedFillBrushPatch(),
+            new TrackSelectedStrokeBrushPatch(),
+            new TrackUnselectedFillBrushPatch(),
+            new TrackUnselectedStrokeBrushPatch(),
+            new TrackOverlayFillBrushPatch(),
 #if !NET6_0
             new DeferAudioBufferLoadPatch(),
 #endif

@@ -129,4 +129,5 @@ public static class Settings
         get => Patcher.ConfigManager.Get(LazyLyricTextKey, false);
         set => Patcher.ConfigManager.Set(LazyLyricTextKey, value);
     }
+
 }
