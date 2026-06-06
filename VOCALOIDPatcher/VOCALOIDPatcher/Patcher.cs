@@ -168,7 +168,7 @@ public static class Patcher
 #if !NET6_0
             new DeferAudioBufferLoadPatch(),
             new AudioPcmReleasePatch(),
-            new WaveThumbGuardPatch(),
+            new AudioThumbFromCachePatch(),
 #endif
             new DeferLoadAnalyticsPatch()
         };
