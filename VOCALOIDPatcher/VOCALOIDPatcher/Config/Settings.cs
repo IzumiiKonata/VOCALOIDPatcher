@@ -138,4 +138,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(TrimWorkingSetKey, value);
     }
 
+    public static string SpectrumVisualizerKey => "SpectrumVisualizer";
+
+    public static bool SpectrumVisualizer
+    {
+        get => Patcher.ConfigManager.Get(SpectrumVisualizerKey, false);
+        set => Patcher.ConfigManager.Set(SpectrumVisualizerKey, value);
+    }
+
 }

@@ -101,6 +101,7 @@ public class SettingsWindow : Window
         {
             ("VOCALOIDPatcher_Settings_Category_General", "常规", BuildGeneralPanel()),
             ("VOCALOIDPatcher_Settings_Category_Pianoroll", "钢琴窗", BuildPianorollPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Widgets", "小组件", BuildWidgetsPanel()),
             ("VOCALOIDPatcher_Settings_Category_Other", "其它", BuildOtherPanel())
         };
 
@@ -312,6 +313,35 @@ public class SettingsWindow : Window
         panel.Children.Add(waveformOptions);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
+
+        return panel;
+    }
+
+    private StackPanel BuildWidgetsPanel()
+    {
+        var panel = new StackPanel();
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Widgets", "小组件"));
+
+        var spectrum = Toggle("VOCALOIDPatcher_SpectrumVisualizer_Header", "频谱可视化",
+            Settings.SpectrumVisualizer, new Thickness(0, 6, 0, 0), checkbox =>
+            {
+                var enabled = checkbox.IsChecked == true;
+                Settings.SpectrumVisualizer = enabled;
+                SpectrumWidget.SetEnabled(enabled);
+            });
+
+        var hint = new TextBlock
+        {
+            Margin = new Thickness(54, 6, 0, 0),
+            Foreground = MutedBrush,
+            FontSize = 12,
+            TextWrapping = TextWrapping.Wrap
+        };
+        Localize(() => hint.Text = T("VOCALOIDPatcher_SpectrumVisualizer_Hint",
+            "在工具栏 CPU 占用指示器旁显示实时频谱曲线。需要系统通过 WASAPI 共享模式输出声音,ASIO 独占输出时无法捕获。"));
+
+        panel.Children.Add(spectrum);
+        panel.Children.Add(hint);
 
         return panel;
     }

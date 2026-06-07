@@ -119,6 +119,7 @@ public static class Patcher
         Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
         WorkingSetTrimmer.Install();
+        SpectrumWidget.Install();
     }
 
     private static bool CheckRuntimeCompatibility()
