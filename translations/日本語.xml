@@ -12,6 +12,9 @@
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>一般</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>ピアノロール</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>その他</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>ウィジェット</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>スペクトラム表示</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>ASIO 使用時は正しく動作しません</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>他のトラックのノートを表示</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>ミュートされたトラックをスキップ</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>ノートの音高を表示</value></data>

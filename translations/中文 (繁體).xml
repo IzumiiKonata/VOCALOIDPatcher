@@ -12,6 +12,9 @@
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>常規</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>鋼琴窗</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其它</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>小工具</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>頻譜視覺化</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>使用 ASIO 時將不會正常運作</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>顯示其他軌道的音符</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>跳過靜音軌道</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>

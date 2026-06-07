@@ -12,6 +12,9 @@
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>General</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>Piano Roll</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>Other</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>Widgets</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>Spectrum Visualizer</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>Does not work properly when using ASIO</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>Show Notes from Other Tracks</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>Skip Muted Tracks</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>Show Note Pitch</value></data>

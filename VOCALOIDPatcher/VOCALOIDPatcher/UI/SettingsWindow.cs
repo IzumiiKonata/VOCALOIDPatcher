@@ -338,7 +338,7 @@ public class SettingsWindow : Window
             TextWrapping = TextWrapping.Wrap
         };
         Localize(() => hint.Text = T("VOCALOIDPatcher_SpectrumVisualizer_Hint",
-            "在工具栏 CPU 占用指示器旁显示实时频谱曲线。需要系统通过 WASAPI 共享模式输出声音,ASIO 独占输出时无法捕获。"));
+            "使用 ASIO 时将不会正常工作"));
 
         panel.Children.Add(spectrum);
         panel.Children.Add(hint);
