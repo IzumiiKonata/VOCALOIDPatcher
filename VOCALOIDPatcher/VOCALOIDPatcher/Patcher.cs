@@ -180,6 +180,7 @@ public static class Patcher
             new LazyLyricRenderPatch(),
             new FastCanvasViewportRectPatch(),
             new FastCanvasViewportRangePatch(),
+            new TouchpadHorizontalScrollPatch(),
             new TrackSelectedFillBrushPatch(),
             new TrackSelectedStrokeBrushPatch(),
             new TrackUnselectedFillBrushPatch(),
