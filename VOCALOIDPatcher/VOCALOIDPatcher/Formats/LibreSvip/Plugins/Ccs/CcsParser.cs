@@ -45,7 +45,7 @@ internal sealed class CcsParser
         for (int i = 0; i < singingUnits.Count; i++)
         {
             var unit = singingUnits[i];
-            id2Group.TryGetValue(unit.Group, out var group);
+            id2Group.TryGetValue(unit.Group ?? "", out var group);
             group ??= new CcsGroup();
 
             var (track, tempos, timeSigs) = ParseSingingTrack(i, unit, group);
@@ -64,7 +64,7 @@ internal sealed class CcsParser
             for (int i = 0; i < audioUnits.Count; i++)
             {
                 var unit = audioUnits[i];
-                id2Group.TryGetValue(unit.Group, out var group);
+                id2Group.TryGetValue(unit.Group ?? "", out var group);
                 group ??= new CcsGroup();
                 tracks.Add(ParseInstrumentalTrack(i, unit, group));
             }
@@ -212,7 +212,7 @@ internal sealed class CcsParser
         var track = new SingingTrack
         {
             Title = group.Name ?? $"Track {index + 1}",
-            AiSingerName = _singerIdToName.TryGetValue(unit.CastId, out var name) ? name : "",
+            AiSingerName = _singerIdToName.TryGetValue(unit.CastId ?? "", out var name) ? name : "",
             NoteList = notes,
             Mute = group.IsMuted,
             Solo = group.IsSolo,

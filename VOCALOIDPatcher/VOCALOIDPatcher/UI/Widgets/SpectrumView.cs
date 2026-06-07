@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using VOCALOIDPatcher.Utils.Audio;
@@ -28,10 +29,13 @@ public sealed class SpectrumView : FrameworkElement
     private readonly float[] _magnitudes = new float[FftSize / 2];
     private readonly double[] _levels = new double[Points];
     private readonly double[] _display = new double[Points];
+    private readonly double[] _render = new double[Points];
+    private readonly object _dataLock = new();
 
     private bool _enabled;
     private bool _hooked;
-    private long _lastFrame;
+    private volatile bool _analyzing;
+    private Thread? _analysisThread;
 
     static SpectrumView()
     {
@@ -83,15 +87,55 @@ public sealed class SpectrumView : FrameworkElement
         if (_enabled && IsLoaded)
         {
             if (!_capture.IsRunning) _capture.Start();
+            StartAnalysis();
             Hook();
         }
         else
         {
             Unhook();
+            StopAnalysis();
             if (_capture.IsRunning) _capture.Stop();
-            Array.Clear(_levels, 0, _levels.Length);
-            Array.Clear(_display, 0, _display.Length);
+            lock (_dataLock)
+            {
+                Array.Clear(_levels, 0, _levels.Length);
+                Array.Clear(_display, 0, _display.Length);
+            }
             InvalidateVisual();
+        }
+    }
+
+    private void StartAnalysis()
+    {
+        if (_analyzing) return;
+        _analyzing = true;
+        _analysisThread = new Thread(AnalysisLoop)
+        {
+            IsBackground = true,
+            Name = "VOCALOIDPatcher.SpectrumAnalysis"
+        };
+        _analysisThread.Start();
+    }
+
+    private void StopAnalysis()
+    {
+        _analyzing = false;
+        _analysisThread = null;
+    }
+
+    private void AnalysisLoop()
+    {
+        while (_analyzing)
+        {
+            try
+            {
+                Analyze();
+            }
+            catch
+            {
+                /* ignore */
+            }
+
+            Thread.Sleep((int)FrameIntervalMs);
         }
     }
 
@@ -111,11 +155,6 @@ public sealed class SpectrumView : FrameworkElement
 
     private void OnRendering(object? sender, EventArgs e)
     {
-        var now = Environment.TickCount64;
-        if (now - _lastFrame < FrameIntervalMs) return;
-        _lastFrame = now;
-
-        Analyze();
         InvalidateVisual();
     }
 
@@ -174,17 +213,20 @@ public sealed class SpectrumView : FrameworkElement
 
     private void SpatialSmooth()
     {
-        Array.Copy(_levels, _display, Points);
-
-        for (var i = 0; i < LowFreqSmoothCount && i < Points; i++)
+        lock (_dataLock)
         {
-            var l = _levels[i == 0 ? 0 : i - 1];
-            var c = _levels[i];
-            var r = _levels[i == Points - 1 ? Points - 1 : i + 1];
-            var blurred = l * 0.3 + c * 0.4 + r * 0.3;
+            Array.Copy(_levels, _display, Points);
 
-            var weight = 1.0 - (double)i / LowFreqSmoothCount;
-            _display[i] = c + (blurred - c) * weight;
+            for (var i = 0; i < LowFreqSmoothCount && i < Points; i++)
+            {
+                var l = _levels[i == 0 ? 0 : i - 1];
+                var c = _levels[i];
+                var r = _levels[i == Points - 1 ? Points - 1 : i + 1];
+                var blurred = l * 0.3 + c * 0.4 + r * 0.3;
+
+                var weight = 1.0 - (double)i / LowFreqSmoothCount;
+                _display[i] = c + (blurred - c) * weight;
+            }
         }
     }
 
@@ -198,6 +240,10 @@ public sealed class SpectrumView : FrameworkElement
 
         if (!_enabled) return;
 
+        var display = _render;
+        lock (_dataLock)
+            Array.Copy(_display, display, Points);
+
         var geometry = new StreamGeometry();
         using (var ctx = geometry.Open())
         {
@@ -206,7 +252,7 @@ public sealed class SpectrumView : FrameworkElement
             for (var i = 0; i < Points; i++)
             {
                 var x = i / (double)(Points - 1) * w;
-                var y = h - _display[i] * (h - 1);
+                var y = h - display[i] * (h - 1);
                 ctx.LineTo(new Point(x, y), true, false);
             }
 
@@ -219,11 +265,11 @@ public sealed class SpectrumView : FrameworkElement
         var line = new StreamGeometry();
         using (var ctx = line.Open())
         {
-            ctx.BeginFigure(new Point(0, h - _display[0] * (h - 1)), false, false);
+            ctx.BeginFigure(new Point(0, h - display[0] * (h - 1)), false, false);
             for (var i = 1; i < Points; i++)
             {
                 var x = i / (double)(Points - 1) * w;
-                var y = h - _display[i] * (h - 1);
+                var y = h - display[i] * (h - 1);
                 ctx.LineTo(new Point(x, y), true, true);
             }
         }
