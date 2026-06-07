@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Dv;
 
-public sealed class DvPoint
+internal sealed class DvPoint
 {
     public int X { get; set; }
     public int Y { get; set; }
@@ -11,27 +11,27 @@ public sealed class DvPoint
     public DvPoint(int x, int y) { X = x; Y = y; }
 }
 
-public sealed class DvTempo
+internal sealed class DvTempo
 {
     public int Position { get; set; }
     public int Bpm { get; set; }
 }
 
-public sealed class DvTimeSignature
+internal sealed class DvTimeSignature
 {
     public int MeasurePosition { get; set; }
     public int Numerator { get; set; } = 4;
     public int Denominator { get; set; } = 4;
 }
 
-public sealed class DvNoteParameter
+internal sealed class DvNoteParameter
 {
     public List<DvPoint> AmplitudePoints { get; set; } = new();
     public List<DvPoint> FrequencyPoints { get; set; } = new();
     public List<DvPoint> VibratoPoints { get; set; } = new();
 }
 
-public sealed class DvPhoneme
+internal sealed class DvPhoneme
 {
     public sbyte Unknown1 { get; set; }
     public float ConsonantRate { get; set; }
@@ -41,7 +41,7 @@ public sealed class DvPhoneme
     public float Ending { get; set; }
 }
 
-public sealed class DvNote
+internal sealed class DvNote
 {
     public int Start { get; set; }
     public int Length { get; set; }
@@ -62,7 +62,7 @@ public sealed class DvNote
     public int? CrossTimbre { get; set; }
 }
 
-public sealed class DvSegment
+internal sealed class DvSegment
 {
     public int Start { get; set; }
     public int Length { get; set; }
@@ -78,7 +78,7 @@ public sealed class DvSegment
     public List<DvPoint>? Ext7Data { get; set; }
 }
 
-public sealed class DvSingingTrack
+internal sealed class DvSingingTrack
 {
     public string Name { get; set; } = "";
     public byte Mute { get; set; }
@@ -88,7 +88,7 @@ public sealed class DvSingingTrack
     public List<DvSegment> Segments { get; set; } = new();
 }
 
-public sealed class DvAudioInfo
+internal sealed class DvAudioInfo
 {
     public int Start { get; set; }
     public int Length { get; set; }
@@ -96,7 +96,7 @@ public sealed class DvAudioInfo
     public string Path { get; set; } = "";
 }
 
-public sealed class DvAudioTrack
+internal sealed class DvAudioTrack
 {
     public string Name { get; set; } = "";
     public byte Mute { get; set; }
@@ -106,20 +106,20 @@ public sealed class DvAudioTrack
     public List<DvAudioInfo> Infos { get; set; } = new();
 }
 
-public enum DvTrackType
+internal enum DvTrackType
 {
     Singing = 0,
     Audio = 1,
 }
 
-public sealed class DvTrack
+internal sealed class DvTrack
 {
     public DvTrackType TrackType { get; set; }
     public DvSingingTrack? SingingTrack { get; set; }
     public DvAudioTrack? AudioTrack { get; set; }
 }
 
-public sealed class DvInnerProject
+internal sealed class DvInnerProject
 {
     public HashSet<string> Features { get; set; } = new();
     public List<DvTempo> Tempos { get; set; } = new();
@@ -127,7 +127,7 @@ public sealed class DvInnerProject
     public List<DvTrack> Tracks { get; set; } = new();
 }
 
-public sealed class DvProject
+internal sealed class DvProject
 {
     public int Version { get; set; }
     public DvInnerProject InnerProject { get; set; } = new();

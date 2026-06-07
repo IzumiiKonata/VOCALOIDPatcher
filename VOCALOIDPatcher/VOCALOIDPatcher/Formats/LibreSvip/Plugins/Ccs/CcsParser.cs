@@ -15,7 +15,7 @@ internal sealed class CcsParser
     private readonly bool _importInstrumental;
 
     private TimeSynchronizer _synchronizer = new(new List<SongTempo> { new() });
-    private readonly Dictionary<string?, string> _singerIdToName = new();
+    private readonly Dictionary<string, string> _singerIdToName = new();
 
     public CcsParser(bool importPitch, bool importInstrumental)
     {
@@ -28,10 +28,12 @@ internal sealed class CcsParser
         var scene = ccsProject.Sequence.Scene;
 
         foreach (var src in ccsProject.Generation.Svss.SoundSources)
-            if (src.Name != null)
+            if (src.Id != null && src.Name != null)
                 _singerIdToName[src.Id] = src.Name;
 
-        var id2Group = scene.Groups.ToDictionary(g => g.Id);
+        var id2Group = scene.Groups
+            .Where(g => g.Id != null)
+            .ToDictionary(g => g.Id!);
 
         var allTempos = new List<SongTempo>();
         var allTimeSignatures = new List<TimeSignature>();

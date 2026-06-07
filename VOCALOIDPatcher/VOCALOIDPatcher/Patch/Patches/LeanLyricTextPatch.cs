@@ -13,7 +13,7 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-public static class LyricTextState
+internal static class LyricTextState
 {
     public static readonly bool Lazy = Settings.FastProjectLoad;
 

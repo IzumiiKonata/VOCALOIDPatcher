@@ -61,8 +61,11 @@ public class AlwaysShowWaveformPatch : PatchBase
         {
             WaveformSvState.Clear();
 
-            var part = vm?.ActivePart;
-            var seq = vm?.VSMSequence;
+            if (vm == null)
+                return;
+
+            var part = vm.ActivePart;
+            var seq = vm.VSMSequence;
             if (part == null || seq == null)
                 return;
 
