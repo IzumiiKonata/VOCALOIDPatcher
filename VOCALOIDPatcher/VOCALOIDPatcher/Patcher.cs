@@ -181,6 +181,7 @@ public static class Patcher
             new FastCanvasViewportRectPatch(),
             new FastCanvasViewportRangePatch(),
             new TouchpadHorizontalScrollPatch(),
+            new TrackTouchpadHorizontalScrollPatch(),
             new TrackSelectedFillBrushPatch(),
             new TrackSelectedStrokeBrushPatch(),
             new TrackUnselectedFillBrushPatch(),
