@@ -7,7 +7,7 @@ namespace VOCALOIDPatcher.UI.Widgets;
 
 public sealed class SpectrumView : FrameworkElement
 {
-    private const int FftSize = 2048;
+    private const int FftSize = 1024;
     private const int Points = 80;
     private const double MinFreq = 40.0;
     private const double MaxFreq = 18000.0;
@@ -162,8 +162,8 @@ public sealed class SpectrumView : FrameworkElement
 
             var db = 20.0 * Math.Log10(mag * norm + 1e-9);
             var level = (db - MinDb) / (MaxDb - MinDb);
-            if (level < 0) level = 0;
-            else if (level > 1) level = 1;
+            if (!(level > 0.0)) level = 0.0;
+            else if (level > 1.0) level = 1.0;
 
             var smoothing = level > _levels[i] ? AttackSmoothing : DecaySmoothing;
             _levels[i] += (level - _levels[i]) * smoothing;
