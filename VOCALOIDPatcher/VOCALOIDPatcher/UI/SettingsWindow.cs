@@ -1004,7 +1004,7 @@ public class SettingsWindow : Window
             </Trigger.ExitActions>
           </Trigger>
           <Trigger Property='IsPressed' Value='True'>
-            <Setter TargetName='bg' Property='Color' Value='#232327'/>
+            <Setter TargetName='bd' Property='Background' Value='#232327'/>
           </Trigger>
           <Trigger Property='IsEnabled' Value='False'>
             <Setter Property='Opacity' Value='0.4'/>
