@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Utils;
@@ -69,7 +70,7 @@ public class CharacterArtPatch : PatchBase
 
         if (!Settings.ShowCharacterArt)
         {
-            adorner?.SetImage(null);
+            adorner?.SetContent(null);
             return;
         }
 
@@ -77,13 +78,23 @@ public class CharacterArtPatch : PatchBase
         {
             adorner = new CharacterArtAdorner(viewport);
             adornerLayer.Add(adorner);
-            adorner.SetImage(LoadActiveArt(view));
+            adorner.CurrentCompId = GetActiveCompId(view);
+            adorner.SetContent(LoadActiveArt(view));
             Debug.Print($"[CharacterArt] 已创建 adorner，视口尺寸 {viewport.RenderSize.Width:0}x{viewport.RenderSize.Height:0}");
             return;
         }
 
-        if (IsPartOrTrackChange(typeFlags) || !adorner.HasImage)
-            adorner.SetImage(LoadActiveArt(view));
+        var compId = GetActiveCompId(view);
+        var bankChanged = compId != adorner.CurrentCompId;
+
+        if (IsPartOrTrackChange(typeFlags) || bankChanged || !adorner.HasContent)
+        {
+            adorner.CurrentCompId = compId;
+            adorner.SetContent(LoadActiveArt(view));
+
+            if (bankChanged)
+                ActiveVoiceBankChanged?.Invoke();
+        }
     }
 
     public static void RefreshArt()
@@ -121,7 +132,7 @@ public class CharacterArtPatch : PatchBase
 
                 var layer = AdornerLayer.GetAdornerLayer(viewport);
                 var adorner = layer == null ? null : FindAdorner(layer, viewport);
-                adorner?.SetImage(Settings.ShowCharacterArt ? LoadActiveArt(view) : null);
+                adorner?.SetContent(Settings.ShowCharacterArt ? LoadActiveArt(view) : null);
             }
         }
         catch (Exception e)
@@ -259,7 +270,7 @@ public class CharacterArtPatch : PatchBase
         return null;
     }
 
-    private static ImageSource? LoadActiveArt(PianorollView view)
+    private static ArtContent? LoadActiveArt(PianorollView view)
     {
         try
         {
@@ -299,21 +310,144 @@ public class CharacterArtPatch : PatchBase
                 return null;
             }
 
-            var bitmap = new BitmapImage();
-            using (var stream = File.OpenRead(path))
-            {
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.StreamSource = stream;
-                bitmap.EndInit();
-            }
-            bitmap.Freeze();
-            Debug.Print($"[CharacterArt] 已加载立绘: {path} ({bitmap.PixelWidth}x{bitmap.PixelHeight})");
-            return bitmap;
+            return LoadContent(path);
         }
         catch (Exception e)
         {
             Debug.Print($"[CharacterArt] 加载立绘异常: {e.Message}");
+            return null;
+        }
+    }
+
+    private static ArtContent? LoadContent(string path)
+    {
+        var ext = Path.GetExtension(path).ToLowerInvariant();
+
+        if (ext == ".gif")
+        {
+            var gif = LoadGif(path);
+            if (gif != null)
+                return gif;
+        }
+
+        if (IsVideoExtension(ext))
+            return new VideoArtContent(path);
+
+        var image = LoadStaticImage(path);
+        return image == null ? null : new StaticArtContent(image);
+    }
+
+    internal static bool IsVideoExtension(string ext)
+        => ext is ".mp4" or ".m4v" or ".mov" or ".webm" or ".avi" or ".mkv";
+
+    private static ImageSource LoadStaticImage(string path)
+    {
+        var bitmap = new BitmapImage();
+        using (var stream = File.OpenRead(path))
+        {
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+        }
+        bitmap.Freeze();
+        Debug.Print($"[CharacterArt] 已加载立绘: {path} ({bitmap.PixelWidth}x{bitmap.PixelHeight})");
+        return bitmap;
+    }
+
+    private static GifArtContent? LoadGif(string path)
+    {
+        GifBitmapDecoder decoder;
+        using (var stream = File.OpenRead(path))
+            decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+
+        int count = decoder.Frames.Count;
+        if (count <= 1)
+            return null;
+
+        var lefts = new int[count];
+        var tops = new int[count];
+        var delays = new int[count];
+        var disposals = new int[count];
+        int width = 0, height = 0;
+
+        for (int i = 0; i < count; i++)
+        {
+            var frame = decoder.Frames[i];
+            var md = frame.Metadata as BitmapMetadata;
+            lefts[i] = GetQueryInt(md, "/imgdesc/Left", 0);
+            tops[i] = GetQueryInt(md, "/imgdesc/Top", 0);
+            var delay = GetQueryInt(md, "/grctlext/Delay", 0);
+            delays[i] = delay <= 0 ? 100 : delay * 10;
+            disposals[i] = GetQueryInt(md, "/grctlext/Disposal", 0);
+            width = Math.Max(width, lefts[i] + frame.PixelWidth);
+            height = Math.Max(height, tops[i] + frame.PixelHeight);
+        }
+
+        if (width <= 0 || height <= 0)
+            return null;
+
+        var frames = new ImageSource[count];
+        ImageSource? previous = null;
+        int prevDisposal = 0;
+
+        for (int i = 0; i < count; i++)
+        {
+            var raw = decoder.Frames[i];
+            var visual = new DrawingVisual();
+            using (var dc = visual.RenderOpen())
+            {
+                if (previous != null && prevDisposal != 2)
+                    dc.DrawImage(previous, new Rect(0, 0, width, height));
+                dc.DrawImage(raw, new Rect(lefts[i], tops[i], raw.PixelWidth, raw.PixelHeight));
+            }
+
+            var rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(visual);
+            rtb.Freeze();
+            frames[i] = rtb;
+            previous = rtb;
+            prevDisposal = disposals[i];
+        }
+
+        Debug.Print($"[CharacterArt] 已加载 GIF: {path} ({width}x{height}, {count} 帧)");
+        return new GifArtContent(frames, delays);
+    }
+
+    private static int GetQueryInt(BitmapMetadata? metadata, string query, int fallback)
+    {
+        try
+        {
+            if (metadata != null && metadata.ContainsQuery(query))
+            {
+                var value = metadata.GetQuery(query);
+                if (value != null)
+                    return Convert.ToInt32(value);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+        return fallback;
+    }
+
+    private static string? GetActiveCompId(PianorollView view)
+    {
+        try
+        {
+            if (view.DataContext is not MusicalEditorViewModel vm)
+                return null;
+
+            var part = vm.ActivePart;
+            if (part == null)
+                return null;
+
+            var voiceBank = GetVoiceBank(part);
+            return voiceBank == null ? null : GetCompId(voiceBank);
+        }
+        catch
+        {
             return null;
         }
     }
@@ -344,43 +478,178 @@ public class CharacterArtPatch : PatchBase
     }
 }
 
+internal abstract class ArtContent
+{
+    internal abstract double Width { get; }
+    internal abstract double Height { get; }
+    internal abstract void Render(DrawingContext drawingContext, Rect rect);
+    internal virtual void Start(Action invalidate) { }
+    internal virtual void Stop() { }
+}
+
+internal sealed class StaticArtContent : ArtContent
+{
+    private readonly ImageSource _image;
+
+    internal StaticArtContent(ImageSource image) => _image = image;
+
+    internal override double Width => _image.Width;
+    internal override double Height => _image.Height;
+
+    internal override void Render(DrawingContext drawingContext, Rect rect) => drawingContext.DrawImage(_image, rect);
+}
+
+internal sealed class GifArtContent : ArtContent
+{
+    private readonly ImageSource[] _frames;
+    private readonly int[] _delaysMs;
+    private readonly DispatcherTimer _timer;
+    private int _index;
+    private Action? _invalidate;
+
+    internal GifArtContent(ImageSource[] frames, int[] delaysMs)
+    {
+        _frames = frames;
+        _delaysMs = delaysMs;
+        _timer = new DispatcherTimer(DispatcherPriority.Render);
+        _timer.Tick += OnTick;
+    }
+
+    internal override double Width => _frames[0].Width;
+    internal override double Height => _frames[0].Height;
+
+    internal override void Render(DrawingContext drawingContext, Rect rect)
+        => drawingContext.DrawImage(_frames[_index], rect);
+
+    internal override void Start(Action invalidate)
+    {
+        _invalidate = invalidate;
+        _timer.Interval = TimeSpan.FromMilliseconds(Math.Max(20, _delaysMs[_index]));
+        _timer.Start();
+    }
+
+    internal override void Stop()
+    {
+        _timer.Stop();
+        _timer.Tick -= OnTick;
+        _invalidate = null;
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+        _index = (_index + 1) % _frames.Length;
+        _timer.Interval = TimeSpan.FromMilliseconds(Math.Max(20, _delaysMs[_index]));
+        _invalidate?.Invoke();
+    }
+}
+
+internal sealed class VideoArtContent : ArtContent
+{
+    private readonly MediaPlayer _player;
+    private double _width = 16;
+    private double _height = 9;
+    private Action? _invalidate;
+
+    internal VideoArtContent(string path)
+    {
+        _player = new MediaPlayer { Volume = 0.0, ScrubbingEnabled = true };
+        _player.MediaOpened += OnMediaOpened;
+        _player.MediaEnded += OnMediaEnded;
+        _player.Open(new Uri(path));
+    }
+
+    internal override double Width => _width;
+    internal override double Height => _height;
+
+    internal override void Render(DrawingContext drawingContext, Rect rect) => drawingContext.DrawVideo(_player, rect);
+
+    internal override void Start(Action invalidate)
+    {
+        _invalidate = invalidate;
+        _player.Play();
+        invalidate();
+    }
+
+    internal override void Stop()
+    {
+        _player.MediaOpened -= OnMediaOpened;
+        _player.MediaEnded -= OnMediaEnded;
+        _invalidate = null;
+        try
+        {
+            _player.Stop();
+            _player.Close();
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    private void OnMediaOpened(object? sender, EventArgs e)
+    {
+        if (_player.NaturalVideoWidth > 0 && _player.NaturalVideoHeight > 0)
+        {
+            _width = _player.NaturalVideoWidth;
+            _height = _player.NaturalVideoHeight;
+        }
+        _invalidate?.Invoke();
+    }
+
+    private void OnMediaEnded(object? sender, EventArgs e)
+    {
+        _player.Position = TimeSpan.Zero;
+        _player.Play();
+    }
+}
+
 internal sealed class CharacterArtAdorner : Adorner
 {
-    private ImageSource? _image;
+    private ArtContent? _content;
+
+    internal string? CurrentCompId { get; set; }
 
     internal CharacterArtAdorner(UIElement adornedElement) : base(adornedElement)
     {
         IsHitTestVisible = false;
         if (adornedElement is FrameworkElement fe)
+        {
             fe.SizeChanged += (_, _) => InvalidateVisual();
+            fe.Unloaded += (_, _) => SetContent(null);
+        }
     }
 
-    internal bool HasImage => _image != null;
+    internal bool HasContent => _content != null;
 
-    internal void SetImage(ImageSource? image)
+    internal void SetContent(ArtContent? content)
     {
-        _image = image;
+        if (ReferenceEquals(_content, content))
+            return;
+
+        _content?.Stop();
+        _content = content;
+        _content?.Start(InvalidateVisual);
         InvalidateVisual();
     }
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-        var image = _image;
-        if (image == null)
+        var content = _content;
+        if (content == null)
             return;
 
         var viewport = AdornedElement.RenderSize;
-        if (viewport.Width <= 0 || viewport.Height <= 0 || image.Width <= 0 || image.Height <= 0)
+        if (viewport.Width <= 0 || viewport.Height <= 0 || content.Width <= 0 || content.Height <= 0)
             return;
 
         double targetWidth = Math.Min(Settings.CharacterArtSize, viewport.Width * 0.9);
-        double targetHeight = targetWidth * image.Height / image.Width;
+        double targetHeight = targetWidth * content.Height / content.Width;
 
         var maxHeight = viewport.Height * 0.9;
         if (targetHeight > maxHeight)
         {
             targetHeight = maxHeight;
-            targetWidth = targetHeight * image.Width / image.Height;
+            targetWidth = targetHeight * content.Width / content.Height;
         }
 
         const double margin = 16.0;
@@ -390,7 +659,7 @@ internal sealed class CharacterArtAdorner : Adorner
             targetWidth, targetHeight);
 
         drawingContext.PushOpacity(Math.Clamp(Settings.CharacterArtOpacity, 0.0, 1.0));
-        drawingContext.DrawImage(image, rect);
+        content.Render(drawingContext, rect);
         drawingContext.Pop();
     }
 }

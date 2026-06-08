@@ -30,7 +30,7 @@
   <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>既定に戻す</value></data>
   <data name="VOCALOIDPatcher_CharacterArtCurrentBank" xml:space="preserve"><value>現在のボイスバンク：{0}</value></data>
   <data name="VOCALOIDPatcher_CharacterArtNoBank" xml:space="preserve"><value>先にエディターでボイスバンクを選択してください</value></data>
-  <data name="VOCALOIDPatcher_CharacterArtImageFilter" xml:space="preserve"><value>画像ファイル</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtImageFilter" xml:space="preserve"><value>画像 / 動画ファイル</value></data>
   <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>立ち絵のアップロードに失敗しました</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>自動保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>

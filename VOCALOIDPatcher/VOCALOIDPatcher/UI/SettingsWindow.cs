@@ -392,11 +392,11 @@ public class SettingsWindow : Window
             return;
         }
 
-        var imageFilter = T("VOCALOIDPatcher_CharacterArtImageFilter", "图片文件");
+        var mediaFilter = T("VOCALOIDPatcher_CharacterArtImageFilter", "图片 / 视频文件");
         var allFiles = T("VOCALOIDPatcher_Format_AllFiles", "所有文件");
         var dialog = new OpenFileDialog
         {
-            Filter = $"{imageFilter}|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|{allFiles}|*.*",
+            Filter = $"{mediaFilter}|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.mp4;*.m4v;*.mov;*.webm;*.avi;*.mkv|{allFiles}|*.*",
             Multiselect = false
         };
 
