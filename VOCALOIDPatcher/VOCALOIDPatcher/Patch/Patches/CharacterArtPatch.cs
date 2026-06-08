@@ -299,7 +299,6 @@ public class CharacterArtPatch : PatchBase
             {
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 bitmap.StreamSource = stream;
                 bitmap.EndInit();
             }
