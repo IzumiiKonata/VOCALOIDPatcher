@@ -1,6 +1,7 @@
 ﻿# VOCALOID Patcher
 
 [<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
+[<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
 一个用于为 `VOCALOID 6` 编辑器提供额外功能的补丁, 理论上支持所有版本的 V6 编辑器
 
@@ -8,7 +9,7 @@
 ### 已测试的编辑器版本: `6.1.0.2 (.net 6.0)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`
 
 提交反馈/技术交流/单纯聊天 请加入 `422827160`  
-我没有什么使用 V6 编辑器的经验, 所以可能会出现翻译不准确的情况。开个 issue 或者加群反馈给我, 然后下个版本我会修改翻译。
+我没有什么使用 V6 编辑器的经验, 所以可能会出现翻译不准确的情况。您可以开个 issue 或者加群反馈给我, 然后下个版本我会修改翻译。
 
 ## 安装
 前往 [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) 中下载最新发行版  
@@ -33,7 +34,13 @@
 ![Centered Notes](./res/centered_notes_b.png)
 - **始终显示波形**  
 ![Always Show Wave](./res/always_show_wave.png)
-- **显示声库封面**: 在钢琴窗右下角显示当前乐段所用声库的封面, 可调整大小与不透明度。
+- **显示声库封面 / 自定义立绘**: 在钢琴窗右下角显示当前乐段所用声库的封面, 可调整大小与不透明度。
+  - 可为**每个声库**单独上传一张自定义立绘替换默认封面, 切换乐段声库时自动更新。
+  - 立绘支持静态图片以及 `GIF` 动图和 `MP4` 等视频 (循环播放、静音), 无需任何额外依赖。
+  - 立绘渲染在音符下层, 不会遮挡音符。
+
+### 小组件
+- **频谱可视化**: 在编辑器中显示实时音频频谱 (使用 ASIO 时无法正常工作)。
 
 ### 任务
 - **歌词替换**: 将选中音符的歌词批量替换为指定音节。
@@ -42,8 +49,9 @@
 - **Swing 节奏**: 钢琴窗右键菜单内置 8 分 / 16 分的 Swing 与 Shuffle 预设。
 
 ### 多格式导入 / 导出
-- 在原生 `Vpr/Vsqx/MIDI` 之外, 额外支持与以下工程格式互转:
-  `UST` (UTAU)、`USTX` (OpenUTAU)、`CCS` (CeVIO)、`SVP` (Synthesizer V)、`S5P`、`MusicXML`、`DV` (DeepVocal)、`VSQ`、`PPSF`、`Tssln` (VoiSona)、`ufdata`。
+- 在原生 `Vpr/Vsqx/MIDI` 之外, 额外支持与以下工程格式互转 (导入 + 导出):
+  `USTX` (OpenUTAU)、`UST` (UTAU)、`SVP` (Synthesizer V Studio)、`S5P` (Synthesizer V Editor)、`VSQ` (VOCALOID2)、`CCS` (CeVIO)、`Tssln` (VoiSona)、`ACEP` (ACE Studio)、`VVProj` (VOICEVOX)、`PPSF` (Piapro Studio NT)、`DV` (DeepVocal)、`TLPX` / `TLP` (TuneLab)、`SVIP` (X Studio)、`DS` (DiffSinger)、`AISP` (AISingers)、`Y77` (Yuan77)、`VOG` (Vogen)、`MusicXML`、`OpenSVIP` (json)、`ufdata` (UtaFormatix)。
+- 此外还支持导出歌词 / 字幕: `LRC`、`SRT`、`ASS`。
 - 导入/导出时会按目标格式自动转换音高曲线、音素等数据。
 
 ### 其它

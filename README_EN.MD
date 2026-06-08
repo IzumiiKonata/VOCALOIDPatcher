@@ -1,6 +1,7 @@
 # VOCALOID Patcher
 
 [<img src="./res/lang_zh.svg" alt="阅读中文版" height="28">](./README.MD)
+[<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
 A patch that adds extra features to the `VOCALOID 6` editor. In theory it supports every version of the V6 editor.
 
@@ -33,7 +34,13 @@ Launch the editor and open a project; if a `VOCALOID Patcher` entry appears in t
 ![Centered Notes](./res/centered_notes_b.png)
 - **Always Show Waveform**  
 ![Always Show Wave](./res/always_show_wave.png)
-- **Show Voicebank Cover**: Displays the cover art of the voicebank used by the current part in the bottom-right of the piano roll, with adjustable size and opacity.
+- **Show Voicebank Cover / Custom Art**: Displays the cover art of the voicebank used by the current part in the bottom-right of the piano roll, with adjustable size and opacity.
+  - You can upload a custom image **per voicebank** to replace the default cover; it updates automatically when a part's voicebank changes.
+  - The art supports static images as well as animated `GIF` and video files such as `MP4` (looped and muted), with no extra dependencies.
+  - The art is rendered beneath the notes, so it never covers them.
+
+### Widgets
+- **Spectrum Visualizer**: Shows a real-time audio spectrum in the editor (does not work properly when using ASIO).
 
 ### Jobs
 - **Replace Lyrics**: Batch-replaces the lyrics of the selected notes with a specified syllable.
@@ -42,12 +49,16 @@ Launch the editor and open a project; if a `VOCALOID Patcher` entry appears in t
 - **Swing Groove**: Built-in 8th / 16th Swing and Shuffle presets in the piano roll's right-click menu.
 
 ### Multi-format Import / Export
-- In addition to the native `Vpr/Vsqx/MIDI`, it adds round-trip conversion with the following project formats:
-  `UST` (UTAU), `USTX` (OpenUTAU), `CCS` (CeVIO), `SVP` (Synthesizer V), `S5P`, `MusicXML`, `DV` (DeepVocal), `VSQ`, `PPSF`, `Tssln` (VoiSona), `ufdata`.
+- In addition to the native `Vpr/Vsqx/MIDI`, it adds round-trip (import + export) conversion with the following project formats:
+  `USTX` (OpenUTAU), `UST` (UTAU), `SVP` (Synthesizer V Studio), `S5P` (Synthesizer V Editor), `VSQ` (VOCALOID2), `CCS` (CeVIO), `Tssln` (VoiSona), `ACEP` (ACE Studio), `VVProj` (VOICEVOX), `PPSF` (Piapro Studio NT), `DV` (DeepVocal), `TLPX` / `TLP` (TuneLab), `SVIP` (X Studio), `DS` (DiffSinger), `AISP` (AISingers), `Y77` (Yuan77), `VOG` (Vogen), `MusicXML`, `OpenSVIP` (json), `ufdata` (UtaFormatix).
+- It can also export lyrics / subtitles: `LRC`, `SRT`, `ASS`.
 - During import/export, data such as pitch curves and phonemes is automatically converted to match the target format.
 
 ### Misc
 - **Auto Save**: Automatically saves the current project at a configurable interval.
+- **Project Load Optimization**
+- **Memory Usage Optimization**
+- **Touchpad Horizontal Scrolling**: Adds horizontal (left/right) scrolling of the piano roll for touchpads.
 
 ## Debugging
 After installing the patch, press and hold `Left Shift` while opening the `VOCALOID 6` editor to bring up a console, where `VOCALOIDPatcher` prints some debug logs.
