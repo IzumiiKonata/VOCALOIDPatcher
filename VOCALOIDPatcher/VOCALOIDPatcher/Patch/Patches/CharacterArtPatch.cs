@@ -28,6 +28,8 @@ public class CharacterArtPatch : PatchBase
         typeof(object)
     };
 
+    public static event Action? ActiveVoiceBankChanged;
+
     [HarmonyPostfix]
     private static void Postfix(object __instance, UpdateViewTypeFlag typeFlags)
     {
@@ -37,6 +39,9 @@ public class CharacterArtPatch : PatchBase
         try
         {
             Apply(view, typeFlags);
+
+            if (IsPartOrTrackChange(typeFlags))
+                ActiveVoiceBankChanged?.Invoke();
         }
         catch (Exception e)
         {

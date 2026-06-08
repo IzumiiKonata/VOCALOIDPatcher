@@ -354,7 +354,11 @@ public class SettingsWindow : Window
         container.Children.Add(buttonRow);
 
         Localize(RefreshArtBankInfo);
+
+        void OnBankChanged() => Dispatcher.Invoke(RefreshArtBankInfo);
+        CharacterArtPatch.ActiveVoiceBankChanged += OnBankChanged;
         Activated += (_, _) => RefreshArtBankInfo();
+        Closed += (_, _) => CharacterArtPatch.ActiveVoiceBankChanged -= OnBankChanged;
 
         return container;
     }
@@ -972,36 +976,35 @@ public class SettingsWindow : Window
 
     private static readonly string ButtonStyle = $@"
 <Style {Ns} TargetType='Button'>
-  <Setter Property='Foreground' Value='#E0E0E0'/>
-  <Setter Property='FontSize' Value='12'/>
-  <Setter Property='Height' Value='30'/>
-  <Setter Property='Padding' Value='16,0'/>
+  <Setter Property='Foreground' Value='#C8C8C8'/>
+  <Setter Property='FontSize' Value='13'/>
+  <Setter Property='Height' Value='34'/>
+  <Setter Property='Padding' Value='18,0'/>
   <Setter Property='Cursor' Value='Hand'/>
   <Setter Property='Template'>
     <Setter.Value>
       <ControlTemplate TargetType='Button'>
         <Border x:Name='bd' CornerRadius='8' BorderThickness='1' Padding='{{TemplateBinding Padding}}'>
-          <Border.Background><SolidColorBrush x:Name='bg' Color='#2F2F34'/></Border.Background>
+          <Border.Background><SolidColorBrush x:Name='bg' Color='#2A2A2E'/></Border.Background>
           <Border.BorderBrush><SolidColorBrush x:Name='bb' Color='#3F3F46'/></Border.BorderBrush>
           <ContentPresenter HorizontalAlignment='Center' VerticalAlignment='Center' RecognizesAccessKey='True'/>
         </Border>
         <ControlTemplate.Triggers>
           <Trigger Property='IsMouseOver' Value='True'>
+            <Setter Property='Foreground' Value='#FFFFFF'/>
             <Trigger.EnterActions>
               <BeginStoryboard><Storyboard>
-                <ColorAnimation Storyboard.TargetName='bg' Storyboard.TargetProperty='Color' To='#39393F' Duration='0:0:0.16'/>
-                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#29ABE2' Duration='0:0:0.16'/>
+                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#29ABE2' Duration='0:0:0.18'/>
               </Storyboard></BeginStoryboard>
             </Trigger.EnterActions>
             <Trigger.ExitActions>
               <BeginStoryboard><Storyboard>
-                <ColorAnimation Storyboard.TargetName='bg' Storyboard.TargetProperty='Color' To='#2F2F34' Duration='0:0:0.16'/>
-                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#3F3F46' Duration='0:0:0.16'/>
+                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#3F3F46' Duration='0:0:0.18'/>
               </Storyboard></BeginStoryboard>
             </Trigger.ExitActions>
           </Trigger>
           <Trigger Property='IsPressed' Value='True'>
-            <Setter TargetName='bg' Property='Color' Value='#26262A'/>
+            <Setter TargetName='bg' Property='Color' Value='#232327'/>
           </Trigger>
           <Trigger Property='IsEnabled' Value='False'>
             <Setter Property='Opacity' Value='0.4'/>
