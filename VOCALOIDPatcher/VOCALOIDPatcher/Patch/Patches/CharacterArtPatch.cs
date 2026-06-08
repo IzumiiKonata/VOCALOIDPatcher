@@ -52,45 +52,41 @@ public class CharacterArtPatch : PatchBase
 
     private static void Apply(PianorollView view, UpdateViewTypeFlag typeFlags)
     {
-        var viewport = FindViewport(view);
-        if (viewport == null)
+        var panel = FindPanel(view);
+        if (panel == null)
         {
-            Debug.Print("[CharacterArt] 未找到滚动视口 (ScrollContentPresenter/ScrollViewer)");
+            Debug.Print("[CharacterArt] 未找到钢琴窗根面板 (xPanel)");
             return;
         }
 
-        var adornerLayer = AdornerLayer.GetAdornerLayer(viewport);
-        if (adornerLayer == null)
-        {
-            Debug.Print("[CharacterArt] 未找到 AdornerLayer");
-            return;
-        }
-
-        var adorner = FindAdorner(adornerLayer, viewport);
+        var layer = FindLayer(panel);
 
         if (!Settings.ShowCharacterArt)
         {
-            adorner?.SetContent(null);
+            layer?.SetContent(null);
             return;
         }
 
-        if (adorner == null)
+        if (layer == null)
         {
-            adorner = new CharacterArtAdorner(viewport);
-            adornerLayer.Add(adorner);
-            adorner.CurrentCompId = GetActiveCompId(view);
-            adorner.SetContent(LoadActiveArt(view));
-            Debug.Print($"[CharacterArt] 已创建 adorner，视口尺寸 {viewport.RenderSize.Width:0}x{viewport.RenderSize.Height:0}");
+            layer = new CharacterArtLayer();
+            panel.Children.Insert(Math.Min(1, panel.Children.Count), layer);
+            layer.AttachViewport(FindViewport(view));
+            layer.CurrentCompId = GetActiveCompId(view);
+            layer.SetContent(LoadActiveArt(view));
+            Debug.Print("[CharacterArt] 已在音符下层插入立绘图层");
             return;
         }
+
+        layer.AttachViewport(FindViewport(view));
 
         var compId = GetActiveCompId(view);
-        var bankChanged = compId != adorner.CurrentCompId;
+        var bankChanged = compId != layer.CurrentCompId;
 
-        if (IsPartOrTrackChange(typeFlags) || bankChanged || !adorner.HasContent)
+        if (IsPartOrTrackChange(typeFlags) || bankChanged || !layer.HasContent)
         {
-            adorner.CurrentCompId = compId;
-            adorner.SetContent(LoadActiveArt(view));
+            layer.CurrentCompId = compId;
+            layer.SetContent(LoadActiveArt(view));
 
             if (bankChanged)
                 ActiveVoiceBankChanged?.Invoke();
@@ -104,13 +100,9 @@ public class CharacterArtPatch : PatchBase
             foreach (Window window in Application.Current.Windows)
             foreach (var view in ShowOtherTracksNotesPatch.FindVisualChildren<PianorollView>(window))
             {
-                var viewport = FindViewport(view);
-                if (viewport == null)
-                    continue;
-
-                var layer = AdornerLayer.GetAdornerLayer(viewport);
-                if (layer != null)
-                    FindAdorner(layer, viewport)?.InvalidateVisual();
+                var panel = FindPanel(view);
+                if (panel != null)
+                    FindLayer(panel)?.InvalidateVisual();
             }
         }
         catch (Exception e)
@@ -126,13 +118,9 @@ public class CharacterArtPatch : PatchBase
             foreach (Window window in Application.Current.Windows)
             foreach (var view in ShowOtherTracksNotesPatch.FindVisualChildren<PianorollView>(window))
             {
-                var viewport = FindViewport(view);
-                if (viewport == null)
-                    continue;
-
-                var layer = AdornerLayer.GetAdornerLayer(viewport);
-                var adorner = layer == null ? null : FindAdorner(layer, viewport);
-                adorner?.SetContent(Settings.ShowCharacterArt ? LoadActiveArt(view) : null);
+                var panel = FindPanel(view);
+                var layer = panel == null ? null : FindLayer(panel);
+                layer?.SetContent(Settings.ShowCharacterArt ? LoadActiveArt(view) : null);
             }
         }
         catch (Exception e)
@@ -244,30 +232,31 @@ public class CharacterArtPatch : PatchBase
             or UpdateViewTypeFlag.ShowMusicalEditor
             or UpdateViewTypeFlag.SequenceChanged;
 
-    private static UIElement? FindViewport(PianorollView view)
+    private static Panel? FindPanel(PianorollView view) => view.FindName("xPanel") as Panel;
+
+    private static CharacterArtLayer? FindLayer(Panel panel)
     {
+        foreach (UIElement child in panel.Children)
+            if (child is CharacterArtLayer layer)
+                return layer;
+        return null;
+    }
+
+    private static ViewportInfo FindViewport(PianorollView view)
+    {
+        UIElement? presenter = null;
         ScrollViewer? scrollViewer = null;
         for (DependencyObject? d = VisualTreeHelper.GetParent(view); d != null; d = VisualTreeHelper.GetParent(d))
         {
-            if (d is ScrollContentPresenter presenter)
-                return presenter;
-            if (scrollViewer == null && d is ScrollViewer sv)
+            if (presenter == null && d is ScrollContentPresenter p)
+                presenter = p;
+            if (d is ScrollViewer sv)
+            {
                 scrollViewer = sv;
+                break;
+            }
         }
-        return scrollViewer;
-    }
-
-    private static CharacterArtAdorner? FindAdorner(AdornerLayer layer, UIElement adorned)
-    {
-        var adorners = layer.GetAdorners(adorned);
-        if (adorners == null)
-            return null;
-
-        foreach (var adorner in adorners)
-            if (adorner is CharacterArtAdorner found)
-                return found;
-
-        return null;
+        return new ViewportInfo(presenter ?? scrollViewer, scrollViewer);
     }
 
     private static ArtContent? LoadActiveArt(PianorollView view)
@@ -603,23 +592,53 @@ internal sealed class VideoArtContent : ArtContent
     }
 }
 
-internal sealed class CharacterArtAdorner : Adorner
+internal readonly struct ViewportInfo
+{
+    internal ViewportInfo(UIElement? element, ScrollViewer? scroller)
+    {
+        Element = element;
+        Scroller = scroller;
+    }
+
+    internal UIElement? Element { get; }
+    internal ScrollViewer? Scroller { get; }
+}
+
+internal sealed class CharacterArtLayer : FrameworkElement
 {
     private ArtContent? _content;
+    private UIElement? _viewport;
+    private ScrollViewer? _scroller;
+    private ScrollChangedEventHandler? _scrollHandler;
 
     internal string? CurrentCompId { get; set; }
 
-    internal CharacterArtAdorner(UIElement adornedElement) : base(adornedElement)
+    internal CharacterArtLayer()
     {
         IsHitTestVisible = false;
-        if (adornedElement is FrameworkElement fe)
-        {
-            fe.SizeChanged += (_, _) => InvalidateVisual();
-            fe.Unloaded += (_, _) => SetContent(null);
-        }
+        Unloaded += (_, _) => SetContent(null);
     }
 
     internal bool HasContent => _content != null;
+
+    internal void AttachViewport(ViewportInfo info)
+    {
+        _viewport = info.Element;
+
+        if (ReferenceEquals(_scroller, info.Scroller))
+            return;
+
+        if (_scroller != null && _scrollHandler != null)
+            _scroller.ScrollChanged -= _scrollHandler;
+
+        _scroller = info.Scroller;
+
+        if (_scroller != null)
+        {
+            _scrollHandler ??= (_, _) => InvalidateVisual();
+            _scroller.ScrollChanged += _scrollHandler;
+        }
+    }
 
     internal void SetContent(ArtContent? content)
     {
@@ -635,11 +654,11 @@ internal sealed class CharacterArtAdorner : Adorner
     protected override void OnRender(DrawingContext drawingContext)
     {
         var content = _content;
-        if (content == null)
+        if (content == null || content.Width <= 0 || content.Height <= 0)
             return;
 
-        var viewport = AdornedElement.RenderSize;
-        if (viewport.Width <= 0 || viewport.Height <= 0 || content.Width <= 0 || content.Height <= 0)
+        var viewport = GetViewportRect();
+        if (viewport.Width <= 0 || viewport.Height <= 0)
             return;
 
         double targetWidth = Math.Min(Settings.CharacterArtSize, viewport.Width * 0.9);
@@ -654,12 +673,29 @@ internal sealed class CharacterArtAdorner : Adorner
 
         const double margin = 16.0;
         var rect = new Rect(
-            viewport.Width - targetWidth - margin,
-            viewport.Height - targetHeight - margin,
+            viewport.Right - targetWidth - margin,
+            viewport.Bottom - targetHeight - margin,
             targetWidth, targetHeight);
 
         drawingContext.PushOpacity(Math.Clamp(Settings.CharacterArtOpacity, 0.0, 1.0));
         content.Render(drawingContext, rect);
         drawingContext.Pop();
+    }
+
+    private Rect GetViewportRect()
+    {
+        if (_viewport != null && _viewport.RenderSize.Width > 0 && _viewport.RenderSize.Height > 0)
+        {
+            try
+            {
+                var topLeft = _viewport.TransformToVisual(this).Transform(new Point(0, 0));
+                return new Rect(topLeft, _viewport.RenderSize);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+        return new Rect(0, 0, ActualWidth, ActualHeight);
     }
 }
