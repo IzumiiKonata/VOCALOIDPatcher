@@ -1,4 +1,6 @@
-﻿namespace VOCALOIDPatcher.Config;
+﻿using System.Collections.Generic;
+
+namespace VOCALOIDPatcher.Config;
 
 public static class Settings
 {
@@ -48,6 +50,34 @@ public static class Settings
     {
         get => Patcher.ConfigManager.Get(CharacterArtOpacityKey, 0.9);
         set => Patcher.ConfigManager.Set(CharacterArtOpacityKey, value);
+    }
+
+    public static string CharacterArtPathsKey => "CharacterArtPaths";
+
+    public static Dictionary<string, string> CharacterArtPaths
+    {
+        get => Patcher.ConfigManager.Get(CharacterArtPathsKey, new Dictionary<string, string>());
+        set => Patcher.ConfigManager.Set(CharacterArtPathsKey, value);
+    }
+
+    public static string? GetCharacterArtPath(string compId)
+    {
+        if (string.IsNullOrEmpty(compId))
+            return null;
+        return CharacterArtPaths.TryGetValue(compId, out var path) ? path : null;
+    }
+
+    public static void SetCharacterArtPath(string compId, string? path)
+    {
+        if (string.IsNullOrEmpty(compId))
+            return;
+
+        var map = CharacterArtPaths;
+        if (string.IsNullOrEmpty(path))
+            map.Remove(compId);
+        else
+            map[compId] = path!;
+        CharacterArtPaths = map;
     }
 
     public static string ShowNotePitchKey => "ShowNotePitch";

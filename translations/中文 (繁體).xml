@@ -26,6 +26,12 @@
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫封面</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>封面大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtUpload_Header" xml:space="preserve"><value>上傳立繪</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>恢復預設</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtCurrentBank" xml:space="preserve"><value>目前聲庫：{0}</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtNoBank" xml:space="preserve"><value>請先在編輯器中選擇一個聲庫</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtImageFilter" xml:space="preserve"><value>圖片檔案</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>立繪上傳失敗</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>

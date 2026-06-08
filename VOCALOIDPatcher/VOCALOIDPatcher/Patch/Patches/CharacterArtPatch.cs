@@ -103,6 +103,125 @@ public class CharacterArtPatch : PatchBase
         }
     }
 
+    public static void ReloadArt()
+    {
+        try
+        {
+            foreach (Window window in Application.Current.Windows)
+            foreach (var view in ShowOtherTracksNotesPatch.FindVisualChildren<PianorollView>(window))
+            {
+                var viewport = FindViewport(view);
+                if (viewport == null)
+                    continue;
+
+                var layer = AdornerLayer.GetAdornerLayer(viewport);
+                var adorner = layer == null ? null : FindAdorner(layer, viewport);
+                adorner?.SetImage(Settings.ShowCharacterArt ? LoadActiveArt(view) : null);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"[CharacterArt] 重载失败: {e.Message}");
+        }
+    }
+
+    public static (string CompId, string Name)? GetActiveVoiceBankInfo()
+    {
+        try
+        {
+            foreach (Window window in Application.Current.Windows)
+            foreach (var view in ShowOtherTracksNotesPatch.FindVisualChildren<PianorollView>(window))
+            {
+                if (view.DataContext is not MusicalEditorViewModel vm)
+                    continue;
+
+                var part = vm.ActivePart;
+                if (part == null)
+                    continue;
+
+                var voiceBank = GetVoiceBank(part);
+                if (voiceBank == null)
+                    continue;
+
+                var compId = GetCompId(voiceBank);
+                if (!string.IsNullOrEmpty(compId))
+                    return (compId!, GetName(voiceBank) ?? compId!);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"[CharacterArt] 取活动声库失败: {e.Message}");
+        }
+        return null;
+    }
+
+    public static string ArtStorageDir => Path.Combine(Patcher.ConfigDir, "CharacterArt");
+
+    public static bool ImportArt(string compId, string sourcePath)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(compId) || !File.Exists(sourcePath))
+                return false;
+
+            Directory.CreateDirectory(ArtStorageDir);
+
+            DeleteStoredArt(compId);
+
+            var safeId = SanitizeFileName(compId);
+            var extension = Path.GetExtension(sourcePath);
+            var target = Path.Combine(ArtStorageDir, safeId + extension);
+            File.Copy(sourcePath, target, true);
+
+            Settings.SetCharacterArtPath(compId, target);
+            ReloadArt();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"[CharacterArt] 导入立绘失败: {e.Message}");
+            return false;
+        }
+    }
+
+    public static void ClearArt(string compId)
+    {
+        try
+        {
+            DeleteStoredArt(compId);
+            Settings.SetCharacterArtPath(compId, null);
+            ReloadArt();
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"[CharacterArt] 清除立绘失败: {e.Message}");
+        }
+    }
+
+    public static bool HasCustomArt(string compId)
+    {
+        var path = Settings.GetCharacterArtPath(compId);
+        return !string.IsNullOrEmpty(path) && File.Exists(path);
+    }
+
+    private static void DeleteStoredArt(string compId)
+    {
+        var existing = Settings.GetCharacterArtPath(compId);
+        if (!string.IsNullOrEmpty(existing) && File.Exists(existing) &&
+            Path.GetFullPath(existing).StartsWith(Path.GetFullPath(ArtStorageDir), StringComparison.OrdinalIgnoreCase))
+        {
+            try { File.Delete(existing); }
+            catch (Exception e) { Debug.Print($"[CharacterArt] 删除旧立绘失败: {e.Message}"); }
+        }
+    }
+
+    private static string SanitizeFileName(string name)
+    {
+        foreach (var c in Path.GetInvalidFileNameChars())
+            name = name.Replace(c, '_');
+        return name;
+    }
+
     private static bool IsPartOrTrackChange(UpdateViewTypeFlag f)
         => f is UpdateViewTypeFlag.ActivePartChanged
             or UpdateViewTypeFlag.ActiveTrackChanged
@@ -159,7 +278,10 @@ public class CharacterArtPatch : PatchBase
                 return null;
             }
 
-            var path = GetImagePath(voiceBank);
+            var path = Settings.GetCharacterArtPath(GetCompId(voiceBank) ?? string.Empty);
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                path = GetImagePath(voiceBank);
+
             if (string.IsNullOrEmpty(path))
             {
                 Debug.Print("[CharacterArt] 立绘路径为空");
@@ -173,10 +295,14 @@ public class CharacterArtPatch : PatchBase
             }
 
             var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(path);
-            bitmap.EndInit();
+            using (var stream = File.OpenRead(path))
+            {
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+            }
             bitmap.Freeze();
             Debug.Print($"[CharacterArt] 已加载立绘: {path} ({bitmap.PixelWidth}x{bitmap.PixelHeight})");
             return bitmap;
@@ -197,6 +323,12 @@ public class CharacterArtPatch : PatchBase
         return AccessTools.Method("Yamaha.VOCALOID.WIVSMMidiPartExtension:VoiceBank")
             ?.Invoke(null, new[] { part });
     }
+
+    private static string? GetCompId(object voiceBank)
+        => voiceBank.GetType().GetProperty("CompID")?.GetValue(voiceBank) as string;
+
+    private static string? GetName(object voiceBank)
+        => voiceBank.GetType().GetProperty("Name")?.GetValue(voiceBank) as string;
 
     private static string? GetImagePath(object voiceBank)
     {

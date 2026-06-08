@@ -26,6 +26,12 @@
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtUpload_Header" xml:space="preserve"><value>Upload Cover</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>Reset</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtCurrentBank" xml:space="preserve"><value>Current voicebank: {0}</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtNoBank" xml:space="preserve"><value>Select a voicebank in the editor first</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtImageFilter" xml:space="preserve"><value>Image Files</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>Failed to upload cover</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>Auto Save</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>Interval</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>

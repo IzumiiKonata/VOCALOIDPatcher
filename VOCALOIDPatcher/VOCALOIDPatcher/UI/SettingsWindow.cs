@@ -8,6 +8,7 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Microsoft.Win32;
 using VOCALOIDPatcher.Config;
 using VOCALOIDPatcher.Patch.Patches;
 using VOCALOIDPatcher.Translation;
@@ -34,6 +35,9 @@ public class SettingsWindow : Window
     private readonly TranslateTransform _rootTransform = new(0, 14);
     private ScrollViewer? _scroller;
     private TextBlock? _about;
+    private TextBlock? _artBankLabel;
+    private Button? _artUploadButton;
+    private Button? _artResetButton;
 
     public static void ShowSingleton()
     {
@@ -293,6 +297,7 @@ public class SettingsWindow : Window
         artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtOpacity_Header", "不透明度",
             0.1, 1.0, Settings.CharacterArtOpacity,
             v => { Settings.CharacterArtOpacity = v; CharacterArtPatch.RefreshArt(); }));
+        artOptions.Children.Add(BuildCharacterArtUpload());
 
         var showCharacterArt = Toggle("VOCALOIDPatcher_ShowCharacterArt_Header", "显示声库封面",
             Settings.ShowCharacterArt, new Thickness(0, 18, 0, 0), checkbox =>
@@ -315,6 +320,99 @@ public class SettingsWindow : Window
         panel.Children.Add(artOptions);
 
         return panel;
+    }
+
+    private FrameworkElement BuildCharacterArtUpload()
+    {
+        var container = new StackPanel { Margin = new Thickness(0, 4, 0, 4) };
+
+        var bankLabel = new TextBlock
+        {
+            Foreground = MutedBrush,
+            FontSize = 12,
+            TextWrapping = TextWrapping.Wrap,
+            Margin = new Thickness(0, 0, 0, 8)
+        };
+        _artBankLabel = bankLabel;
+
+        var buttonRow = new StackPanel { Orientation = Orientation.Horizontal };
+
+        var uploadButton = new Button { Margin = new Thickness(0, 0, 10, 0) };
+        Localize(() => uploadButton.Content = T("VOCALOIDPatcher_CharacterArtUpload_Header", "上传立绘"));
+        uploadButton.Click += (_, _) => UploadCharacterArt();
+        _artUploadButton = uploadButton;
+
+        var resetButton = new Button();
+        Localize(() => resetButton.Content = T("VOCALOIDPatcher_CharacterArtReset_Header", "恢复默认"));
+        resetButton.Click += (_, _) => ResetCharacterArt();
+        _artResetButton = resetButton;
+
+        buttonRow.Children.Add(uploadButton);
+        buttonRow.Children.Add(resetButton);
+
+        container.Children.Add(bankLabel);
+        container.Children.Add(buttonRow);
+
+        Localize(RefreshArtBankInfo);
+        Activated += (_, _) => RefreshArtBankInfo();
+
+        return container;
+    }
+
+    private void RefreshArtBankInfo()
+    {
+        if (_artBankLabel == null)
+            return;
+
+        var info = CharacterArtPatch.GetActiveVoiceBankInfo();
+        if (info == null)
+        {
+            _artBankLabel.Text = T("VOCALOIDPatcher_CharacterArtNoBank", "请先在编辑器中选择一个声库");
+            if (_artUploadButton != null) _artUploadButton.IsEnabled = false;
+            if (_artResetButton != null) _artResetButton.IsEnabled = false;
+            return;
+        }
+
+        var (compId, name) = info.Value;
+        _artBankLabel.Text = string.Format(T("VOCALOIDPatcher_CharacterArtCurrentBank", "当前声库：{0}"), name);
+        if (_artUploadButton != null) _artUploadButton.IsEnabled = true;
+        if (_artResetButton != null) _artResetButton.IsEnabled = CharacterArtPatch.HasCustomArt(compId);
+    }
+
+    private void UploadCharacterArt()
+    {
+        var info = CharacterArtPatch.GetActiveVoiceBankInfo();
+        if (info == null)
+        {
+            Debug.ShowMessageBox(T("VOCALOIDPatcher_CharacterArtNoBank", "请先在编辑器中选择一个声库"));
+            return;
+        }
+
+        var imageFilter = T("VOCALOIDPatcher_CharacterArtImageFilter", "图片文件");
+        var allFiles = T("VOCALOIDPatcher_Format_AllFiles", "所有文件");
+        var dialog = new OpenFileDialog
+        {
+            Filter = $"{imageFilter}|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|{allFiles}|*.*",
+            Multiselect = false
+        };
+
+        if (dialog.ShowDialog(this) != true)
+            return;
+
+        if (CharacterArtPatch.ImportArt(info.Value.CompId, dialog.FileName))
+            RefreshArtBankInfo();
+        else
+            Debug.ShowMessageBox(T("VOCALOIDPatcher_CharacterArtUploadFailed", "立绘上传失败"));
+    }
+
+    private void ResetCharacterArt()
+    {
+        var info = CharacterArtPatch.GetActiveVoiceBankInfo();
+        if (info == null)
+            return;
+
+        CharacterArtPatch.ClearArt(info.Value.CompId);
+        RefreshArtBankInfo();
     }
 
     private StackPanel BuildWidgetsPanel()
@@ -618,6 +716,7 @@ public class SettingsWindow : Window
         AddImplicitStyle(typeof(ComboBox), ComboBoxStyle);
         AddImplicitStyle(typeof(ComboBoxItem), ComboBoxItemStyle);
         AddImplicitStyle(typeof(Slider), SliderStyle);
+        AddImplicitStyle(typeof(Button), ButtonStyle);
         AddImplicitStyle(typeof(System.Windows.Controls.Primitives.ScrollBar), ScrollBarStyle);
     }
 
@@ -866,6 +965,48 @@ public class SettingsWindow : Window
             </Track.Thumb>
           </Track>
         </Grid>
+      </ControlTemplate>
+    </Setter.Value>
+  </Setter>
+</Style>";
+
+    private static readonly string ButtonStyle = $@"
+<Style {Ns} TargetType='Button'>
+  <Setter Property='Foreground' Value='#E0E0E0'/>
+  <Setter Property='FontSize' Value='12'/>
+  <Setter Property='Height' Value='30'/>
+  <Setter Property='Padding' Value='16,0'/>
+  <Setter Property='Cursor' Value='Hand'/>
+  <Setter Property='Template'>
+    <Setter.Value>
+      <ControlTemplate TargetType='Button'>
+        <Border x:Name='bd' CornerRadius='8' BorderThickness='1' Padding='{{TemplateBinding Padding}}'>
+          <Border.Background><SolidColorBrush x:Name='bg' Color='#2F2F34'/></Border.Background>
+          <Border.BorderBrush><SolidColorBrush x:Name='bb' Color='#3F3F46'/></Border.BorderBrush>
+          <ContentPresenter HorizontalAlignment='Center' VerticalAlignment='Center' RecognizesAccessKey='True'/>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property='IsMouseOver' Value='True'>
+            <Trigger.EnterActions>
+              <BeginStoryboard><Storyboard>
+                <ColorAnimation Storyboard.TargetName='bg' Storyboard.TargetProperty='Color' To='#39393F' Duration='0:0:0.16'/>
+                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#29ABE2' Duration='0:0:0.16'/>
+              </Storyboard></BeginStoryboard>
+            </Trigger.EnterActions>
+            <Trigger.ExitActions>
+              <BeginStoryboard><Storyboard>
+                <ColorAnimation Storyboard.TargetName='bg' Storyboard.TargetProperty='Color' To='#2F2F34' Duration='0:0:0.16'/>
+                <ColorAnimation Storyboard.TargetName='bb' Storyboard.TargetProperty='Color' To='#3F3F46' Duration='0:0:0.16'/>
+              </Storyboard></BeginStoryboard>
+            </Trigger.ExitActions>
+          </Trigger>
+          <Trigger Property='IsPressed' Value='True'>
+            <Setter TargetName='bg' Property='Color' Value='#26262A'/>
+          </Trigger>
+          <Trigger Property='IsEnabled' Value='False'>
+            <Setter Property='Opacity' Value='0.4'/>
+          </Trigger>
+        </ControlTemplate.Triggers>
       </ControlTemplate>
     </Setter.Value>
   </Setter>
