@@ -48,6 +48,12 @@ public class WpfTranslationPatch : PatchBase
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => TranslateElement(sender)));
 
+        EventManager.RegisterClassHandler(typeof(PushButton), FrameworkElement.LoadedEvent,
+            new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
+
+        EventManager.RegisterClassHandler(typeof(PushToggleButton), FrameworkElement.LoadedEvent,
+            new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
+
         EventManager.RegisterClassHandler(typeof(ContextMenu), ContextMenu.OpenedEvent,
             new RoutedEventHandler((sender, _) => RefreshAll((DependencyObject)sender)));
 

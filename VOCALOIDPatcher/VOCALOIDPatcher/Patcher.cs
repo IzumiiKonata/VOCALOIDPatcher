@@ -159,7 +159,6 @@ public static class Patcher
             new AppLanguagePatch(),
             new WpfTranslationPatch(),
             new ResourceManagerPatch(),
-            new DependencyObjectPatch(),
             new ShowOtherTracksNotesPatch(),
             new TrackMuteRefreshPatch(),
             new TrackSoloRefreshPatch(),
