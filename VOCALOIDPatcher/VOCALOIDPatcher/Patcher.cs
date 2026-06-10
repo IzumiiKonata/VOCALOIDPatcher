@@ -205,7 +205,9 @@ public static class Patcher
             new TrackNoteNumberChangedPatch(),
             new TrackPartDurationChangedPatch(),
             new UIMidiPartNotesRenderPatch(),
-            new AudioTrackHeightResizePatch()
+            new AudioTrackHeightResizePatch(),
+            new TrackRulerGridLinePatch(),
+            new MusicalRulerGridLinePatch()
 #endif
         };
 

@@ -143,7 +143,14 @@ internal sealed class PitchLabelLayer : FrameworkElement
 
     private static readonly Brush TextBrush = CreateBrush();
 
-    private static readonly Dictionary<int, FormattedText> NoteTextCache = new();
+    private sealed class NoteLabel
+    {
+        public Drawing Drawing = null!;
+        public double Width;
+        public double Height;
+    }
+
+    private static readonly Dictionary<int, NoteLabel> NoteTextCache = new();
     private static double _noteTextCacheDpi;
 
     private static double _lyricHeight;
@@ -184,30 +191,39 @@ internal sealed class PitchLabelLayer : FrameworkElement
             if (double.IsNaN(x) || double.IsNaN(y) || double.IsNaN(h) || h <= 0)
                 continue;
 
-            var text = GetNoteText(note.Number, dpi);
+            var label = GetNoteLabel(note.Number, dpi);
 
-            if (!double.IsNaN(w) && text.Width + 6 > w)
+            if (!double.IsNaN(w) && label.Width + 6 > w)
                 continue;
 
             double textX = x + 3;
 
             double textY = h >= _lyricHeight
                 ? y + h
-                : y + (h - text.Height) / 2.0;
+                : y + (h - label.Height) / 2.0;
 
-            drawingContext.DrawText(text, new Point(textX, textY));
+            drawingContext.PushTransform(new TranslateTransform(textX, textY));
+            drawingContext.DrawDrawing(label.Drawing);
+            drawingContext.Pop();
         }
     }
 
-    private static FormattedText GetNoteText(int number, double dpi)
+    private static NoteLabel GetNoteLabel(int number, double dpi)
     {
-        if (NoteTextCache.TryGetValue(number, out var text))
-            return text;
+        if (NoteTextCache.TryGetValue(number, out var label))
+            return label;
 
-        text = new FormattedText(ShowNotePitchPatch.NoteName(number),
+        var text = new FormattedText(ShowNotePitchPatch.NoteName(number),
             CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface, 9.0, TextBrush, dpi);
-        NoteTextCache[number] = text;
-        return text;
+
+        var group = new DrawingGroup();
+        using (var ctx = group.Open())
+            ctx.DrawText(text, new Point(0.0, 0.0));
+        group.Freeze();
+
+        label = new NoteLabel { Drawing = group, Width = text.Width, Height = text.Height };
+        NoteTextCache[number] = label;
+        return label;
     }
 
     private static double? _lyricFontSize;
