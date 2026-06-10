@@ -14,6 +14,8 @@ namespace VOCALOIDPatcher.Patch.Patches;
 #if !NET6_0
 internal static class GridLineTextCache
 {
+    private const int MaxCacheEntries = 512;
+
     private static readonly Dictionary<(string Text, Brush Brush, double Dpi), Drawing> Cache = new();
 
     private static readonly ConditionalWeakTable<Control, Typeface> Typefaces = new();
@@ -44,6 +46,9 @@ internal static class GridLineTextCache
         using (var ctx = group.Open())
             ctx.DrawText(formatted, new Point(0.0, 0.0));
         group.Freeze();
+
+        if (Cache.Count >= MaxCacheEntries)
+            Cache.Clear();
 
         Cache[key] = group;
         return group;

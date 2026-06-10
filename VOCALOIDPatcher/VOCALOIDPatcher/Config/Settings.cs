@@ -176,6 +176,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(OptimizeTrackRenderingKey, value);
     }
 
+    public static string SkipUnchangedPartRedrawKey => "SkipUnchangedPartRedraw";
+
+    public static bool SkipUnchangedPartRedraw
+    {
+        get => Patcher.ConfigManager.Get(SkipUnchangedPartRedrawKey, true);
+        set => Patcher.ConfigManager.Set(SkipUnchangedPartRedrawKey, value);
+    }
+
     public static string SpectrumVisualizerKey => "SpectrumVisualizer";
 
     public static bool SpectrumVisualizer

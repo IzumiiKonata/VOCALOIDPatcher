@@ -181,6 +181,7 @@ public static class Patcher
             new LazyLyricRenderPatch(),
             new FastCanvasViewportRectPatch(),
             new FastCanvasViewportRangePatch(),
+            new SkipUnchangedPartRedrawPatch(),
             new TouchpadHorizontalScrollPatch(),
             new TrackTouchpadHorizontalScrollPatch(),
             new CursorNoteNameTranslationFixPatch(),
