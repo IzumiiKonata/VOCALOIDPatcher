@@ -59,27 +59,48 @@ public class AlwaysShowWaveformPatch : PatchBase
     {
         try
         {
-            WaveformSvState.Clear();
-
             if (vm == null)
+            {
+                WaveformSvState.Clear();
                 return;
+            }
 
             var part = vm.ActivePart;
             var seq = vm.VSMSequence;
             if (part == null || seq == null)
+            {
+                WaveformSvState.Clear();
                 return;
+            }
 
-            var scores = vm.GetScoreEnumerator(part);
             var samples = vm.GetSampleEnumerator(part);
-            if (scores == null || samples == null)
+            if (samples == null)
+            {
+                WaveformSvState.Clear();
                 return;
+            }
 
             long samplesPerFrame = seq.NumSampleInFrame;
             if (samplesPerFrame <= 0)
+            {
+                WaveformSvState.Clear();
                 return;
+            }
 
             long frameCount = samples.NumSamples / samplesPerFrame;
+            if (WaveformSvState.IsCached(part, frameCount))
+                return;
+
+            var scores = vm.GetScoreEnumerator(part);
+            if (scores == null)
+            {
+                WaveformSvState.Clear();
+                return;
+            }
+
+            WaveformSvState.Clear();
             WaveformSvState.Precompute(scores, frameCount);
+            WaveformSvState.SetCacheKey(part, frameCount);
         }
         catch
         {
@@ -310,8 +331,15 @@ public class WaveformRenderPatch : PatchBase
         }
     }
 
+    private static Brush? _fadeRightBrush;
+    private static Brush? _fadeLeftBrush;
+
     private static Brush MakeFadeBrush(bool fadeRight)
     {
+        var cached = fadeRight ? _fadeRightBrush : _fadeLeftBrush;
+        if (cached != null)
+            return cached;
+
         var opaque = Color.FromArgb(255, 255, 255, 255);
         var clear = Color.FromArgb(0, 255, 255, 255);
         var brush = new LinearGradientBrush
@@ -330,6 +358,12 @@ public class WaveformRenderPatch : PatchBase
             brush.GradientStops.Add(new GradientStop(opaque, 1.0));
         }
         brush.Freeze();
+
+        if (fadeRight)
+            _fadeRightBrush = brush;
+        else
+            _fadeLeftBrush = brush;
+
         return brush;
     }
 
@@ -433,6 +467,21 @@ public class ScoreFrameCaptureCombinedPatch : PatchBase
 }
 #endif
 
+public class WaveformBaselineInvalidatePatch : PatchBase
+{
+    public override string PatchName        => "WaveformBaselineInvalidatePatch";
+    public override Type   TargetClass      => typeof(AudioPlayer);
+    public override string TargetMethodName => "OnRendererCompleted";
+
+    public override Type[] ArgumentTypes => new[] { typeof(object), typeof(RendererObserverCompleteEventArgs) };
+
+    [HarmonyPostfix]
+    private static void Postfix()
+    {
+        WaveformSvState.Invalidate();
+    }
+}
+
 internal static class WaveformSvState
 {
     private const int GroupSemitones = 7;
@@ -444,12 +493,38 @@ internal static class WaveformSvState
 
     private static int[]? _baselineByFrame;
 
+    private static object? _cachedPart;
+    private static long _cachedFrameCount;
+
     public static bool HasBaselines => _baselineByFrame != null;
 
     public static void Activate() => Active = true;
     public static void Deactivate() => Active = false;
 
-    public static void Clear() => _baselineByFrame = null;
+    public static void Clear()
+    {
+        _baselineByFrame = null;
+        _cachedPart = null;
+        _cachedFrameCount = 0;
+    }
+
+    public static bool IsCached(object part, long frameCount)
+        => _baselineByFrame != null
+           && _cachedPart != null
+           && _cachedFrameCount == frameCount
+           && _cachedPart.Equals(part);
+
+    public static void SetCacheKey(object part, long frameCount)
+    {
+        _cachedPart = part;
+        _cachedFrameCount = frameCount;
+    }
+
+    public static void Invalidate()
+    {
+        _cachedPart = null;
+        _cachedFrameCount = 0;
+    }
 
     public static int BaselineAtFrame(long frame)
     {

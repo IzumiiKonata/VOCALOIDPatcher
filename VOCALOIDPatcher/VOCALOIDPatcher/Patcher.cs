@@ -168,6 +168,7 @@ public static class Patcher
             new CenteredLyricPlainPatch(),
             new AlwaysShowWaveformPatch(),
             new WaveformRenderPatch(),
+            new WaveformBaselineInvalidatePatch(),
             new NoteRowRemapPatch(),
             new ScoreFrameCaptureListPatch(),
             new ScoreFrameCaptureFilePatch(),
