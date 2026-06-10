@@ -104,10 +104,7 @@ public static class Patcher
         TranslationManager.Initialize();
         Debug.Print("TranslationManager 已初始化");
 
-        if (!IsPatchDisabled("GlobalHandlers"))
-            WpfTranslationPatch.InstallGlobalHandlers();
-        else
-            Debug.Print("跳过 GlobalHandlers (已禁用)");
+        WpfTranslationPatch.InstallGlobalHandlers();
 
         if (!VstPluginMode) PostInject();
 
@@ -198,32 +195,24 @@ public static class Patcher
 #endif
             new DeferLoadAnalyticsPatch(),
             new WorkingSetTrimPatch(),
-            new RenderCompleteTrimPatch()
+            new RenderCompleteTrimPatch(),
+#if !NET6_0
+            new TrackNoteInsertPatch(),
+            new TrackNoteRemovePatch(),
+            new TrackNoteDurationChangedPatch(),
+            new TrackNoteMovedPatch(),
+            new TrackNoteNumberChangedPatch(),
+            new TrackPartDurationChangedPatch(),
+            new UIMidiPartNotesRenderPatch(),
+            new AudioTrackHeightResizePatch()
+#endif
         };
 
         patches.ForEach(p =>
         {
-            if (IsPatchDisabled(p.PatchName))
-            {
-                Debug.Print($"跳过 {p.PatchName} (已禁用)");
-                return;
-            }
-
             Debug.Print($"应用 {p.PatchName}...");
             p.Apply(_harmony);
         });
-    }
-
-    private static List<string>? _disabledPatches;
-
-    public static bool IsPatchDisabled(string patchName)
-    {
-        _disabledPatches ??= ConfigManager.Get("DisabledPatches", new List<string>());
-
-        if (_disabledPatches.Count == 0)
-            return false;
-
-        return _disabledPatches.Contains("*") || _disabledPatches.Contains(patchName);
     }
 
     private static readonly MenuItem PatcherMenuItem = new()

@@ -168,6 +168,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(TrimWorkingSetKey, value);
     }
 
+    public static string OptimizeTrackRenderingKey => "OptimizeTrackRendering";
+
+    public static bool OptimizeTrackRendering
+    {
+        get => Patcher.ConfigManager.Get(OptimizeTrackRenderingKey, true);
+        set => Patcher.ConfigManager.Set(OptimizeTrackRenderingKey, value);
+    }
+
     public static string SpectrumVisualizerKey => "SpectrumVisualizer";
 
     public static bool SpectrumVisualizer

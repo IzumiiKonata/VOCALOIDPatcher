@@ -545,10 +545,17 @@ public class SettingsWindow : Window
                 Settings.TrimWorkingSet = checkbox.IsChecked == true;
             });
 
+        var optimizeTrackRendering = Toggle("VOCALOIDPatcher_OptimizeTrackRendering_Header", "优化音轨区域渲染 (重启编辑器生效)",
+            Settings.OptimizeTrackRendering, new Thickness(0, 12, 0, 0), checkbox =>
+            {
+                Settings.OptimizeTrackRendering = checkbox.IsChecked == true;
+            });
+
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
         panel.Children.Add(fastLoad);
         panel.Children.Add(trimWorkingSet);
+        panel.Children.Add(optimizeTrackRendering);
 
         return panel;
     }
