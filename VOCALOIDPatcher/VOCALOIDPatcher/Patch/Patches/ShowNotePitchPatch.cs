@@ -28,6 +28,20 @@ public class ShowNotePitchPatch : PatchBase
         typeof(object)
     };
 
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<PianorollView, PitchLabelLayer> Layers = new();
+
+    private static readonly System.Reflection.FieldInfo? PanelField =
+        AccessTools.Field(typeof(PianorollView), "xPanel");
+
+    private static readonly System.Reflection.FieldInfo? NoteCanvasField =
+        AccessTools.Field(typeof(PianorollView), "xNoteInsideActiveTrackCanvas");
+
+    private static readonly System.Reflection.FieldInfo? ScaleTransformField =
+        AccessTools.Field(typeof(PianorollView), "scaleTransform");
+
+    private static readonly System.Reflection.FieldInfo? GuideCanvasField =
+        AccessTools.Field(typeof(PianorollView), "xGuideCanvas");
+
     [HarmonyPostfix]
     private static void Postfix(object __instance, UpdateViewTypeFlag typeFlags)
     {
@@ -36,15 +50,16 @@ public class ShowNotePitchPatch : PatchBase
 
         try
         {
+            if (!Settings.ShowNotePitch)
+            {
+                if (Layers.TryGetValue(view, out var existing))
+                    existing.Visibility = Visibility.Collapsed;
+                return;
+            }
+
             var layer = EnsureLayer(view);
             if (layer == null)
                 return;
-
-            if (!Settings.ShowNotePitch)
-            {
-                layer.Visibility = Visibility.Collapsed;
-                return;
-            }
 
             layer.Visibility = Visibility.Visible;
             if (IsLayoutChange(typeFlags))
@@ -70,15 +85,20 @@ public class ShowNotePitchPatch : PatchBase
 
     private static PitchLabelLayer? EnsureLayer(PianorollView view)
     {
-        if (AccessTools.Field(typeof(PianorollView), "xPanel")?.GetValue(view) is not Grid panel)
+        if (Layers.TryGetValue(view, out var cached))
+            return cached;
+
+        if (PanelField?.GetValue(view) is not Grid panel)
             return null;
 
         foreach (var child in panel.Children)
             if (child is PitchLabelLayer existing)
+            {
+                Layers.Add(view, existing);
                 return existing;
+            }
 
-        if (AccessTools.Field(typeof(PianorollView), "xNoteInsideActiveTrackCanvas")?.GetValue(view)
-            is not FastCanvas noteCanvas)
+        if (NoteCanvasField?.GetValue(view) is not FastCanvas noteCanvas)
             return null;
 
         var layer = new PitchLabelLayer
@@ -89,11 +109,11 @@ public class ShowNotePitchPatch : PatchBase
             Focusable = false
         };
 
-        if (AccessTools.Field(typeof(PianorollView), "scaleTransform")?.GetValue(view) is Transform scale)
+        if (ScaleTransformField?.GetValue(view) is Transform scale)
             layer.RenderTransform = scale;
 
         var insertAt = panel.Children.Count;
-        if (AccessTools.Field(typeof(PianorollView), "xGuideCanvas")?.GetValue(view) is UIElement guide)
+        if (GuideCanvasField?.GetValue(view) is UIElement guide)
         {
             var index = panel.Children.IndexOf(guide);
             if (index >= 0)
@@ -101,6 +121,7 @@ public class ShowNotePitchPatch : PatchBase
         }
         panel.Children.Insert(insertAt, layer);
 
+        Layers.Add(view, layer);
         return layer;
     }
 

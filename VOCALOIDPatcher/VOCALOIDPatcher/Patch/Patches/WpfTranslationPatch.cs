@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,9 +20,11 @@ public class WpfTranslationPatch : PatchBase
 {
     private static bool _globalHandlersInstalled;
 
-    private static readonly Dictionary<object, string> OriginalMapping = new();
+    private static readonly ConditionalWeakTable<object, string> OriginalMapping = new();
 
-    public static readonly HashSet<object> Untranslatable = new();
+    public static readonly ConditionalWeakTable<object, object> Untranslatable = new();
+
+    private static readonly ConditionalWeakTable<object, object> PendingRefresh = new();
 
     public static readonly DependencyProperty UntranslatableProperty =
         DependencyProperty.RegisterAttached(
@@ -68,18 +71,18 @@ public class WpfTranslationPatch : PatchBase
 
     private static string GetOriginal(object obj, string? translated)
     {
-        if (Untranslatable.Contains(obj))
+        if (Untranslatable.TryGetValue(obj, out _))
             return translated ?? "";
 
         if (translated is not null)
         {
             if (TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
-                OriginalMapping[obj] = res;
-            else if (!OriginalMapping.ContainsKey(obj))
-                OriginalMapping[obj] = translated;
+                OriginalMapping.AddOrUpdate(obj, res);
+            else if (!OriginalMapping.TryGetValue(obj, out _))
+                OriginalMapping.AddOrUpdate(obj, translated);
         }
 
-        return OriginalMapping[obj];
+        return OriginalMapping.TryGetValue(obj, out var original) ? original : translated ?? "";
     }
 
     private static string GetTranslatedText(string value)
@@ -111,7 +114,7 @@ public class WpfTranslationPatch : PatchBase
         if (element is DependencyObject dep && (bool)dep.GetValue(UntranslatableProperty))
             return;
 
-        if (Untranslatable.Contains(element))
+        if (Untranslatable.TryGetValue(element, out _))
             return;
 
         switch (element)
@@ -145,7 +148,18 @@ public class WpfTranslationPatch : PatchBase
     {
         _RefreshAll(obj, new HashSet<DependencyObject>());
 
-        if (obj is FrameworkElement { IsLoaded: false } fe) fe.Loaded += (_, _) => RefreshAll(fe);
+        if (obj is not FrameworkElement { IsLoaded: false } fe || PendingRefresh.TryGetValue(fe, out _))
+            return;
+
+        PendingRefresh.Add(fe, fe);
+        RoutedEventHandler handler = null!;
+        handler = (_, _) =>
+        {
+            fe.Loaded -= handler;
+            PendingRefresh.Remove(fe);
+            RefreshAll(fe);
+        };
+        fe.Loaded += handler;
     }
 
     private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited)

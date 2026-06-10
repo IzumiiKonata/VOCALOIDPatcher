@@ -50,8 +50,18 @@ public class CharacterArtPatch : PatchBase
         }
     }
 
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<PianorollView, CharacterArtLayer> LayerCache = new();
+
     private static void Apply(PianorollView view, UpdateViewTypeFlag typeFlags)
     {
+        LayerCache.TryGetValue(view, out var cachedLayer);
+
+        if (!Settings.ShowCharacterArt)
+        {
+            cachedLayer?.SetContent(null);
+            return;
+        }
+
         var panel = FindPanel(view);
         if (panel == null)
         {
@@ -59,24 +69,22 @@ public class CharacterArtPatch : PatchBase
             return;
         }
 
-        var layer = FindLayer(panel);
-
-        if (!Settings.ShowCharacterArt)
-        {
-            layer?.SetContent(null);
-            return;
-        }
+        var layer = cachedLayer ?? FindLayer(panel);
 
         if (layer == null)
         {
             layer = new CharacterArtLayer();
             panel.Children.Insert(Math.Min(1, panel.Children.Count), layer);
+            LayerCache.Add(view, layer);
             layer.AttachViewport(FindViewport(view));
             layer.CurrentCompId = GetActiveCompId(view);
             layer.SetContent(LoadActiveArt(view));
             Debug.Print("[CharacterArt] 已在音符下层插入立绘图层");
             return;
         }
+
+        if (cachedLayer == null)
+            LayerCache.Add(view, layer);
 
         layer.AttachViewport(FindViewport(view));
 

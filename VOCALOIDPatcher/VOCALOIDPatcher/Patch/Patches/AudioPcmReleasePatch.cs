@@ -42,20 +42,33 @@ public class AudioThumbFromCachePatch : PatchBase
 
     private const int ThumbUnit = 256;
 
-    private static readonly FieldInfo? ThumbsMinField =
-        AccessTools.Field(typeof(AugmentedAudioBuffer), "thumbsMin");
+    private static readonly AccessTools.FieldRef<AugmentedAudioBuffer, List<List<short>>>? ThumbsMinRef =
+        CreateFieldRef("thumbsMin");
 
-    private static readonly FieldInfo? ThumbsMaxField =
-        AccessTools.Field(typeof(AugmentedAudioBuffer), "thumbsMax");
+    private static readonly AccessTools.FieldRef<AugmentedAudioBuffer, List<List<short>>>? ThumbsMaxRef =
+        CreateFieldRef("thumbsMax");
+
+    private static AccessTools.FieldRef<AugmentedAudioBuffer, List<List<short>>>? CreateFieldRef(string name)
+    {
+        try
+        {
+            return AccessTools.FieldRefAccess<AugmentedAudioBuffer, List<List<short>>>(name);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
     [HarmonyPrefix]
     private static bool Prefix(AugmentedAudioBuffer __instance, long beginSample, long endSample, ref IList<VSMAudioThumb?> __result)
     {
-        if (!Settings.FreeAudioPcmCache || ThumbsMinField == null || ThumbsMaxField == null)
+        if (!Settings.FreeAudioPcmCache || ThumbsMinRef == null || ThumbsMaxRef == null)
             return true;
 
-        if (ThumbsMinField.GetValue(__instance) is not List<List<short>> mins ||
-            ThumbsMaxField.GetValue(__instance) is not List<List<short>> maxs)
+        var mins = ThumbsMinRef(__instance);
+        var maxs = ThumbsMaxRef(__instance);
+        if (mins == null || maxs == null)
             return true;
 
         long total = __instance.NumSamples;
@@ -92,18 +105,57 @@ public class AudioThumbFromCachePatch : PatchBase
             var spanMin = CollectionsMarshal.AsSpan(minList).Slice(first, last - first);
             var spanMax = CollectionsMarshal.AsSpan(maxList).Slice(first, last - first);
 
-            short mn = short.MaxValue;
-            short mx = short.MinValue;
-            for (int k = 0; k < spanMin.Length; k++)
-                if (spanMin[k] < mn) mn = spanMin[k];
-            for (int k = 0; k < spanMax.Length; k++)
-                if (spanMax[k] > mx) mx = spanMax[k];
-
-            list.Add(new VSMAudioThumb { Min = mn, Max = mx });
+            list.Add(new VSMAudioThumb { Min = SimdMin(spanMin), Max = SimdMax(spanMax) });
         }
 
         __result = list;
         return false;
+    }
+
+    private static short SimdMin(ReadOnlySpan<short> span)
+    {
+        short result = short.MaxValue;
+        int i = 0;
+
+        if (System.Numerics.Vector.IsHardwareAccelerated && span.Length >= System.Numerics.Vector<short>.Count)
+        {
+            var acc = new System.Numerics.Vector<short>(short.MaxValue);
+            for (; i <= span.Length - System.Numerics.Vector<short>.Count; i += System.Numerics.Vector<short>.Count)
+                acc = System.Numerics.Vector.Min(acc, new System.Numerics.Vector<short>(span.Slice(i, System.Numerics.Vector<short>.Count)));
+
+            for (int k = 0; k < System.Numerics.Vector<short>.Count; k++)
+                if (acc[k] < result)
+                    result = acc[k];
+        }
+
+        for (; i < span.Length; i++)
+            if (span[i] < result)
+                result = span[i];
+
+        return result;
+    }
+
+    private static short SimdMax(ReadOnlySpan<short> span)
+    {
+        short result = short.MinValue;
+        int i = 0;
+
+        if (System.Numerics.Vector.IsHardwareAccelerated && span.Length >= System.Numerics.Vector<short>.Count)
+        {
+            var acc = new System.Numerics.Vector<short>(short.MinValue);
+            for (; i <= span.Length - System.Numerics.Vector<short>.Count; i += System.Numerics.Vector<short>.Count)
+                acc = System.Numerics.Vector.Max(acc, new System.Numerics.Vector<short>(span.Slice(i, System.Numerics.Vector<short>.Count)));
+
+            for (int k = 0; k < System.Numerics.Vector<short>.Count; k++)
+                if (acc[k] > result)
+                    result = acc[k];
+        }
+
+        for (; i < span.Length; i++)
+            if (span[i] > result)
+                result = span[i];
+
+        return result;
     }
 }
 #endif

@@ -35,6 +35,17 @@ public class SwingMenuPatch : PatchBase
         typeof(object)
     };
 
+    private static readonly System.Reflection.FieldInfo? ContextMenuField =
+        AccessTools.Field(typeof(PianorollView), "xContextMenu");
+
+    private sealed class SwingMenuState
+    {
+        public MenuItem Item = null!;
+        public string? Language;
+    }
+
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<ContextMenu, SwingMenuState> States = new();
+
     [HarmonyPostfix]
     private static void Postfix(object __instance, UpdateViewTypeFlag typeFlags)
     {
@@ -53,8 +64,17 @@ public class SwingMenuPatch : PatchBase
 
     private static void EnsureSwingMenu(PianorollView view)
     {
-        if (AccessTools.Field(typeof(PianorollView), "xContextMenu")?.GetValue(view) is not ContextMenu contextMenu)
+        if (ContextMenuField?.GetValue(view) is not ContextMenu contextMenu)
             return;
+
+        if (States.TryGetValue(contextMenu, out var state))
+        {
+            if (state.Language == TranslationManager.CurrentLanguage)
+                return;
+
+            ApplyHeaders(state);
+            return;
+        }
 
         var parent = FindJobMenu(contextMenu.Items)?.Items ?? contextMenu.Items;
 
@@ -73,9 +93,17 @@ public class SwingMenuPatch : PatchBase
             parent.Add(swing);
         }
 
-        swing.Header = T("VOCALOIDPatcher_Job_Swing_Header", "摇摆");
-        for (int i = 0; i < Presets.Length && i < swing.Items.Count; i++)
-            if (swing.Items[i] is MenuItem item)
+        state = new SwingMenuState { Item = swing };
+        States.Add(contextMenu, state);
+        ApplyHeaders(state);
+    }
+
+    private static void ApplyHeaders(SwingMenuState state)
+    {
+        state.Language = TranslationManager.CurrentLanguage;
+        state.Item.Header = T("VOCALOIDPatcher_Job_Swing_Header", "摇摆");
+        for (int i = 0; i < Presets.Length && i < state.Item.Items.Count; i++)
+            if (state.Item.Items[i] is MenuItem item)
                 item.Header = T(Presets[i].Key, Presets[i].Fallback);
     }
 

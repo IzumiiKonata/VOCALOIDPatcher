@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Windows;
 using HarmonyLib;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -16,14 +17,19 @@ public class CursorNoteNameTranslationFixPatch : PatchBase
         typeof(double), typeof(System.Windows.Point), typeof(bool), typeof(bool)
     };
 
+    private static readonly FieldInfo? LabelField =
+        AccessTools.Field(typeof(PianorollView), "xMouseCursorNoteNumber");
+
     [HarmonyPostfix]
     private static void Postfix(PianorollView __instance)
     {
-        if (AccessTools.Field(typeof(PianorollView), "xMouseCursorNoteNumber")?.GetValue(__instance)
-                is not DependencyObject label)
+        if (LabelField?.GetValue(__instance) is not DependencyObject label)
             return;
 
-        if (WpfTranslationPatch.Untranslatable.Add(label))
-            WpfTranslationPatch.MarkUntranslatable(label);
+        if (WpfTranslationPatch.Untranslatable.TryGetValue(label, out _))
+            return;
+
+        WpfTranslationPatch.Untranslatable.Add(label, label);
+        WpfTranslationPatch.MarkUntranslatable(label);
     }
 }

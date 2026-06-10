@@ -58,7 +58,10 @@ public class ConfigManager
             return cached is T typed ? typed : defaultValue;
 
         if (!data.TryGetValue(key, out var value))
+        {
+            cache[key] = defaultValue;
             return defaultValue;
+        }
 
         try
         {
