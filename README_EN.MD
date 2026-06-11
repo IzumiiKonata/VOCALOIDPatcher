@@ -54,10 +54,18 @@ Launch the editor and open a project; if a `VOCALOID Patcher` entry appears in t
 - It can also export lyrics / subtitles: `LRC`, `SRT`, `ASS`.
 - During import/export, data such as pitch curves and phonemes is automatically converted to match the target format.
 
+### Performance & Smoothness
+- **Faster Project Loading**: Moves deferrable work (audio waveform pre-reads, load-time analytics, etc.) off the critical path so large projects open faster.
+- **Memory Optimization**: Frees audio caches that are no longer needed and trims the working set after loading and rendering.
+- **Optimize Track Area Rendering**: Caches reusable objects such as track / note brushes to cut the track editor's redraw cost.
+- **Faster Part Switching**: Skips redrawing unchanged content when switching between parts within the same track, making switching smoother.
+- **Rendered Waveform Cache**: Reuses already-loaded synthesized waveforms when switching parts, avoiding a fresh disk read on the UI thread every time.
+- **Faster Selection Clearing**: Only deselects events that were actually selected, instead of scanning the entire project on every click.
+- **Deferred Parameter Panel Refresh**: Refreshes the bottom parameter panel slightly later when switching tracks / parts, so switching feels instant.
+- **Smooth Playhead**: Drives the piano roll's white playback-position line from the display's refresh cycle (instead of a background timer), removing the irregular stutter — especially noticeable while the spectrum widget is on.
+
 ### Misc
 - **Auto Save**: Automatically saves the current project at a configurable interval.
-- **Project Load Optimization**
-- **Memory Usage Optimization**
 - **Touchpad Horizontal Scrolling**: Adds horizontal (left/right) scrolling of the piano roll for touchpads.
 
 ## Debugging
