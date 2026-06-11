@@ -187,6 +187,10 @@ public static class Patcher
             new BreakPointSelectionTrackPatch(),
             new FastSelectionSweepPatch(),
             new ParameterViewDeferPatch(),
+#if !NET6_0
+            new SmoothPlayheadBeginPatch(),
+            new SmoothPlayheadEndPatch(),
+#endif
             new TouchpadHorizontalScrollPatch(),
             new TrackTouchpadHorizontalScrollPatch(),
             new CursorNoteNameTranslationFixPatch(),

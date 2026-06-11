@@ -50,6 +50,8 @@
   <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>パートをクリックした際、実際に選択されていたイベントだけを解除し、プロジェクト全体のスキャンを省略します。</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>パラメータパネルの遅延更新</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>トラックやパートの切り替え時に下部のパラメータパネルを少し遅れて更新し、切り替えの反応を即座にします。</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>再生位置ラインをスムーズに</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>再生位置のラインをバックグラウンドタイマーではなく画面の更新周期で動かし、不規則なカクつきを解消します。スペクトル表示中は特に効果的です。</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8分スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8分シャッフル</value></data>
@@ -1075,5 +1077,6 @@ Spliceのリースが完了しました。
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>他トラックのノート収集に失敗: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>ピアノロールの更新に失敗: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>同一トラック内パート切替の高速再描画に失敗, 完全再描画にフォールバック: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SmoothPlayhead_Failed" xml:space="preserve"><value>再生位置ラインのスムーズ更新に失敗, タイマーにフォールバック: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

@@ -50,6 +50,8 @@
   <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>Only deselects events that were actually selected instead of scanning the entire project on every click.</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>Deferred Parameter Panel Refresh</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>Refreshes the bottom parameter panel slightly later when switching tracks or parts, so switching feels instant.</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>Smooth Playhead</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>Drives the playback position line from the display's refresh cycle instead of a background timer, removing the irregular stutter — especially noticeable while the spectrum widget is on.</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8th Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8th Shuffle</value></data>
@@ -1075,5 +1077,6 @@ Please enter your license key to activate the application.</value></data>
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>Failed to collect notes from other tracks: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>Failed to refresh piano roll: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>Fast same-track part redraw failed, falling back to full redraw: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SmoothPlayhead_Failed" xml:space="preserve"><value>Smooth playhead update failed, falling back to timer: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

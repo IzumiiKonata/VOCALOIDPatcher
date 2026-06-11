@@ -216,4 +216,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(SpectrumVisualizerKey, value);
     }
 
+    public static string SmoothPlayheadKey => "SmoothPlayhead";
+
+    public static bool SmoothPlayhead
+    {
+        get => Patcher.ConfigManager.Get(SmoothPlayheadKey, true);
+        set => Patcher.ConfigManager.Set(SmoothPlayheadKey, value);
+    }
+
 }

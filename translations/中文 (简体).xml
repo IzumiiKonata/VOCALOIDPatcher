@@ -50,6 +50,8 @@
   <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>点击乐段时只取消确实被选中过的事件，不再每次扫描整个工程。</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>延后参数面板刷新</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>切换音轨或乐段时，下方参数面板稍后再刷新，让切换立即响应。</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>平滑播放指示条</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>用屏幕刷新节奏而非后台定时器驱动播放进度指示条，消除不规则的卡顿——开启频谱小组件时尤为明显。</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>
@@ -1071,5 +1073,6 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>收集其他轨道音符失败: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>刷新钢琴窗失败: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>同轨换乐段快速重画失败,回退完整重画: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SmoothPlayhead_Failed" xml:space="preserve"><value>平滑播放指示条更新失败,回退定时器: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

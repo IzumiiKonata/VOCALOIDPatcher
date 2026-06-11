@@ -600,6 +600,13 @@ public class SettingsWindow : Window
                 Settings.DeferParameterViewUpdate = checkbox.IsChecked == true;
             }));
 
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SmoothPlayhead_Header",
+            "VOCALOIDPatcher_SmoothPlayhead_Desc",
+            Settings.SmoothPlayhead, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.SmoothPlayhead = checkbox.IsChecked == true;
+            }));
+
         return panel;
     }
 
