@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -167,7 +168,7 @@ public class RoundedNotePatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"刷新圆角音符失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_RoundedNote_RefreshFailed", e.Message));
         }
     }
 }

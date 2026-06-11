@@ -21,7 +21,7 @@ internal sealed class ExportProgressDialog : Window
         Background = DarkTheme.WindowBackground();
         Foreground = DarkTheme.Foreground;
         FontSize = 13;
-        Title = T("VOCALOIDPatcher_Export_ProgressTitle", "Exporting");
+        Title = TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressTitle");
         SizeToContent = SizeToContent.WidthAndHeight;
         ResizeMode = ResizeMode.NoResize;
         WindowStyle = WindowStyle.ToolWindow;
@@ -38,7 +38,7 @@ internal sealed class ExportProgressDialog : Window
 
         _status = new TextBlock
         {
-            Text = T("VOCALOIDPatcher_Export_ProgressReading", "Reading project…"),
+            Text = TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressReading"),
             Foreground = DarkTheme.Foreground,
             TextWrapping = TextWrapping.Wrap,
             MaxWidth = 360,
@@ -65,12 +65,10 @@ internal sealed class ExportProgressDialog : Window
     {
         _status.Text = p.Phase switch
         {
-            ExportPhase.Reading => T("VOCALOIDPatcher_Export_ProgressReading", "Reading project…"),
-            ExportPhase.Pitch => string.Format(
-                T("VOCALOIDPatcher_Export_ProgressPitch", "Processing pitch ({0}/{1})…"), p.Current, p.Total),
-            ExportPhase.Generating => string.Format(
-                T("VOCALOIDPatcher_Export_ProgressGenerating", "Generating {0}…"), p.Arg ?? ""),
-            ExportPhase.Writing => T("VOCALOIDPatcher_Export_ProgressWriting", "Writing file…"),
+            ExportPhase.Reading => TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressReading"),
+            ExportPhase.Pitch => TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressPitch", p.Current, p.Total),
+            ExportPhase.Generating => TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressGenerating", p.Arg ?? ""),
+            ExportPhase.Writing => TranslationManager.Tr("VOCALOIDPatcher_Export_ProgressWriting"),
             _ => _status.Text
         };
     }
@@ -110,6 +108,4 @@ internal sealed class ExportProgressDialog : Window
         captured?.Throw();
         return result;
     }
-
-    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 }

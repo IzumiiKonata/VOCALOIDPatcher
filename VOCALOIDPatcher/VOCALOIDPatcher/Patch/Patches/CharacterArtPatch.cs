@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.VSM;
@@ -46,7 +47,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_Exception", e.Message));
         }
     }
 
@@ -65,7 +66,7 @@ public class CharacterArtPatch : PatchBase
         var panel = FindPanel(view);
         if (panel == null)
         {
-            Debug.Print("[CharacterArt] 未找到钢琴窗根面板 (xPanel)");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound"));
             return;
         }
 
@@ -79,7 +80,7 @@ public class CharacterArtPatch : PatchBase
             layer.AttachViewport(FindViewport(view));
             layer.CurrentCompId = GetActiveCompId(view);
             layer.SetContent(LoadActiveArt(view));
-            Debug.Print("[CharacterArt] 已在音符下层插入立绘图层");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_LayerInserted"));
             return;
         }
 
@@ -115,7 +116,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 刷新失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_RefreshFailed", e.Message));
         }
     }
 
@@ -133,7 +134,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 重载失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ReloadFailed", e.Message));
         }
     }
 
@@ -162,7 +163,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 取活动声库失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_GetActiveBankFailed", e.Message));
         }
         return null;
     }
@@ -191,7 +192,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 导入立绘失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ImportFailed", e.Message));
             return false;
         }
     }
@@ -206,7 +207,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 清除立绘失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ClearFailed", e.Message));
         }
     }
 
@@ -223,7 +224,7 @@ public class CharacterArtPatch : PatchBase
             Path.GetFullPath(existing).StartsWith(Path.GetFullPath(ArtStorageDir), StringComparison.OrdinalIgnoreCase))
         {
             try { File.Delete(existing); }
-            catch (Exception e) { Debug.Print($"[CharacterArt] 删除旧立绘失败: {e.Message}"); }
+            catch (Exception e) { Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_DeleteOldFailed", e.Message)); }
         }
     }
 
@@ -273,7 +274,7 @@ public class CharacterArtPatch : PatchBase
         {
             if (view.DataContext is not MusicalEditorViewModel vm)
             {
-                Debug.Print("[CharacterArt] DataContext 不是 MusicalEditorViewModel");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_DataContextMismatch"));
                 return null;
             }
 
@@ -287,7 +288,7 @@ public class CharacterArtPatch : PatchBase
             var voiceBank = GetVoiceBank(part);
             if (voiceBank == null)
             {
-                Debug.Print("[CharacterArt] 取声库失败 (VoiceBank == null)");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_VoiceBankNull"));
                 return null;
             }
 
@@ -297,13 +298,13 @@ public class CharacterArtPatch : PatchBase
 
             if (string.IsNullOrEmpty(path))
             {
-                Debug.Print("[CharacterArt] 立绘路径为空");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ArtPathEmpty"));
                 return null;
             }
 
             if (!File.Exists(path))
             {
-                Debug.Print($"[CharacterArt] 立绘文件不存在: {path}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ArtFileMissing", path));
                 return null;
             }
 
@@ -311,7 +312,7 @@ public class CharacterArtPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[CharacterArt] 加载立绘异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_LoadArtException", e.Message));
             return null;
         }
     }
@@ -385,7 +386,7 @@ public class CharacterArtPatch : PatchBase
             bitmap.EndInit();
         }
         bitmap.Freeze();
-        Debug.Print($"[CharacterArt] 已加载立绘: {path} ({bitmap.PixelWidth}x{bitmap.PixelHeight})");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_ArtLoaded", path, bitmap.PixelWidth, bitmap.PixelHeight));
         return bitmap;
     }
 
@@ -444,7 +445,7 @@ public class CharacterArtPatch : PatchBase
             prevDisposal = disposals[i];
         }
 
-        Debug.Print($"[CharacterArt] 已加载 GIF: {path} ({width}x{height}, {count} 帧)");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CharacterArt_GifLoaded", path, width, height, count));
         return (frames, delays);
     }
 

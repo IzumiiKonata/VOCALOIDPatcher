@@ -990,4 +990,90 @@ Please enter your license key to activate the application.</value></data>
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>_Cancel</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>_Yes</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>_No</value></data>
+  <!-- Debug / Diagnostic messages -->
+  <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>Translation folder not found! Make sure you also copied the "VOCALOIDPatcher" folder into the editor directory.</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>No translations found! Make sure you also copied the "VOCALOIDPatcher" folder into the editor directory.</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang" xml:space="preserve"><value>First run, using system language {0} -&gt; {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_MatchSystemLangFailed" xml:space="preserve"><value>Failed to match system language: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceSetUnavailable" xml:space="preserve"><value>Failed to read the editor resource set</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceIndexLoaded" xml:space="preserve"><value>Loaded {0} resource index entries</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_BuildResourceIndexFailed" xml:space="preserve"><value>Failed to build resource index</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_HardcodedMapMissing" xml:space="preserve"><value>Hardcoded mapping not found: HardcodedPropertyMap.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_LoadMissingLanguage" xml:space="preserve"><value>Tried to load a non-existent translation: {0}.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_InitFailed" xml:space="preserve"><value>Patcher initialization failed!</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ErrorTitle" xml:space="preserve"><value>VOCALOID Patcher Error</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Started" xml:space="preserve"><value>VOCALOID Patcher launched</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Version" xml:space="preserve"><value>Version: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID editor version: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>Detected VOCALOID6 editor running in VST plugin mode</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager initialized</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>This VOCALOID Patcher is a .NET 6.0 build and can only be used with a .NET 6.0 based VOCALOID6 editor.&#10;The current editor is running on .NET {0}.0; please use the matching version of VOCALOID Patcher.</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher Version Mismatch</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>Applying {0}...</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>Auto save enabled: every {0} min</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>Auto save disabled</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Succeeded" xml:space="preserve"><value>Auto save succeeded: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Failed" xml:space="preserve"><value>Auto save failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Exception" xml:space="preserve"><value>Auto save exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_SwingFailed" xml:space="preserve"><value>[Job] Swing failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_LyricFailed" xml:space="preserve"><value>[Job] Lyric replacement failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_QuantizeFailed" xml:space="preserve"><value>[Job] Quantize length failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyNoTrack" xml:space="preserve"><value>[Job] Harmony: no free track and unable to create a new one</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyFailed" xml:space="preserve"><value>[Job] Harmony failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_MenuNotFound" xml:space="preserve"><value>[JobMenu] Job menu not found in the menu bar</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_InstallFailed" xml:space="preserve"><value>[JobMenu] Install failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SwingMenu_Exception" xml:space="preserve"><value>[SwingMenu] Exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_DarkTitleBarFailed" xml:space="preserve"><value>Failed to set dark title bar: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LoadStyleFailed" xml:space="preserve"><value>Failed to load {0} style: {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_LoopbackUnavailable" xml:space="preserve"><value>Spectrum: process loopback unavailable, falling back to default device loopback (captures all system sound)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_CaptureThreadException" xml:space="preserve"><value>Spectrum: capture thread exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackInitFailed" xml:space="preserve"><value>Spectrum: process loopback Initialize failed (buffer={0}, hr=0x{1})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackEnabled" xml:space="preserve"><value>Spectrum: process loopback enabled (capturing editor only)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackException" xml:space="preserve"><value>Spectrum: process loopback exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_GetActivateResultFailed" xml:space="preserve"><value>Spectrum: process loopback GetActivateResult failed (hr=0x{0})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ActivateAsyncException" xml:space="preserve"><value>Spectrum: ActivateAudioInterfaceAsync exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_CheckFailed" xml:space="preserve"><value>Update check failed ({0}): {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_MissingTagName" xml:space="preserve"><value>Update check failed ({0}): tag_name missing in response</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_ParseVersionFailed" xml:space="preserve"><value>Update check failed ({0}): unable to parse version {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_UpToDate" xml:space="preserve"><value>Already up to date: {0} (latest release {1}, source {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_NewVersionFound" xml:space="preserve"><value>New version found: {0} (current {1}, source {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Trimmed" xml:space="preserve"><value>Working set trimmed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Failed" xml:space="preserve"><value>Failed to trim working set: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: method {2} not found in {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch failed, &#10;{1}&#10;{2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] Exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] Piano roll root panel not found (xPanel)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LayerInserted" xml:space="preserve"><value>[CharacterArt] Inserted cover layer beneath the notes</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_RefreshFailed" xml:space="preserve"><value>[CharacterArt] Refresh failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ReloadFailed" xml:space="preserve"><value>[CharacterArt] Reload failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GetActiveBankFailed" xml:space="preserve"><value>[CharacterArt] Failed to get active voicebank: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ImportFailed" xml:space="preserve"><value>[CharacterArt] Failed to import cover: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ClearFailed" xml:space="preserve"><value>[CharacterArt] Failed to clear cover: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DeleteOldFailed" xml:space="preserve"><value>[CharacterArt] Failed to delete old cover: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DataContextMismatch" xml:space="preserve"><value>[CharacterArt] DataContext is not MusicalEditorViewModel</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_VoiceBankNull" xml:space="preserve"><value>[CharacterArt] Failed to get voicebank (VoiceBank == null)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtPathEmpty" xml:space="preserve"><value>[CharacterArt] Cover path is empty</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtFileMissing" xml:space="preserve"><value>[CharacterArt] Cover file does not exist: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LoadArtException" xml:space="preserve"><value>[CharacterArt] Cover load exception: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtLoaded" xml:space="preserve"><value>[CharacterArt] Cover loaded: {0} ({1}x{2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GifLoaded" xml:space="preserve"><value>[CharacterArt] GIF loaded: {0} ({1}x{2}, {3} frames)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CenteredLyric_RefreshFailed" xml:space="preserve"><value>Failed to refresh centered lyrics: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_FileMenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] File menu not found</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_ImportSubmenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] Import submenu not found</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_InstallFailed" xml:space="preserve"><value>[SvipFormatMenu] Install failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipDrop_InstallFailed" xml:space="preserve"><value>[SvipFormatDragDrop] Install failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LeanLyric_DeferConstructFailed" xml:space="preserve"><value>Failed to defer lyric text construction: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastSelectionSweep_Failed" xml:space="preserve"><value>Fast deselect failed, falling back to full scan: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferWaveformFailed" xml:space="preserve"><value>Failed to defer audio waveform loading: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferLogFailed" xml:space="preserve"><value>Failed to defer load log reporting: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowNotePitch_Failed" xml:space="preserve"><value>Note pitch overlay failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_Failed" xml:space="preserve"><value>Rendered waveform cache failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_RefreshCanvasFailed" xml:space="preserve"><value>Failed to refresh rendered waveform canvas: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RoundedNote_RefreshFailed" xml:space="preserve"><value>Failed to refresh rounded notes: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ParameterViewDefer_Failed" xml:space="preserve"><value>Failed to defer parameter panel update: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SpectrumWidget_InjectFailed" xml:space="preserve"><value>SpectrumWidget injection failed: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>Failed to collect notes from other tracks: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>Failed to refresh piano roll: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>Fast same-track part redraw failed, falling back to full redraw: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

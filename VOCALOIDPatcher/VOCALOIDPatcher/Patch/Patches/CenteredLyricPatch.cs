@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID.MusicalEditor;
 
@@ -136,7 +137,7 @@ internal static class CenteredLyricRenderer
         }
         catch (Exception e)
         {
-            Debug.Print($"刷新居中歌词失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_CenteredLyric_RefreshFailed", e.Message));
         }
     }
 }

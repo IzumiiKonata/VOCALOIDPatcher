@@ -15,12 +15,12 @@ public class SwingMenuPatch : PatchBase
 {
     private const string MarkerTag = "VOCALOIDPatcher_SwingMenu";
 
-    private static readonly (string Key, string Fallback, int Subdivision, double Ratio)[] Presets =
+    private static readonly (string Key, int Subdivision, double Ratio)[] Presets =
     {
-        ("VOCALOIDPatcher_Job_Swing_8", "8 分摇摆", 8, 60.0),
-        ("VOCALOIDPatcher_Job_Swing_8_Shuffle", "8 分 Shuffle", 8, 66.667),
-        ("VOCALOIDPatcher_Job_Swing_16", "16 分摇摆", 16, 60.0),
-        ("VOCALOIDPatcher_Job_Swing_16_Shuffle", "16 分 Shuffle", 16, 66.667),
+        ("VOCALOIDPatcher_Job_Swing_8", 8, 60.0),
+        ("VOCALOIDPatcher_Job_Swing_8_Shuffle", 8, 66.667),
+        ("VOCALOIDPatcher_Job_Swing_16", 16, 60.0),
+        ("VOCALOIDPatcher_Job_Swing_16_Shuffle", 16, 66.667),
     };
 
     public override string PatchName        => "SwingMenuPatch";
@@ -58,7 +58,7 @@ public class SwingMenuPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"[SwingMenu] 异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SwingMenu_Exception", e.Message));
         }
     }
 
@@ -101,10 +101,10 @@ public class SwingMenuPatch : PatchBase
     private static void ApplyHeaders(SwingMenuState state)
     {
         state.Language = TranslationManager.CurrentLanguage;
-        state.Item.Header = T("VOCALOIDPatcher_Job_Swing_Header", "摇摆");
+        state.Item.Header = TranslationManager.Tr("VOCALOIDPatcher_Job_Swing_Header");
         for (int i = 0; i < Presets.Length && i < state.Item.Items.Count; i++)
             if (state.Item.Items[i] is MenuItem item)
-                item.Header = T(Presets[i].Key, Presets[i].Fallback);
+                item.Header = TranslationManager.Tr(Presets[i].Key);
     }
 
     private static MenuItem? FindJobMenu(ItemCollection items)
@@ -122,6 +122,4 @@ public class SwingMenuPatch : PatchBase
 
         return null;
     }
-
-    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 }

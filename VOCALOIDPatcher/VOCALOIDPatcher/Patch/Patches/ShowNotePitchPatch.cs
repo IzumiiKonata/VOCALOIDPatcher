@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -68,7 +69,7 @@ public class ShowNotePitchPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"音高叠加失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_ShowNotePitch_Failed", e.Message));
         }
     }
 

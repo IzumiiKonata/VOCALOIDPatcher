@@ -34,7 +34,7 @@ public static class SvipFormatDragDrop
         }
         catch (Exception e)
         {
-            Debug.Print($"[SvipFormatDragDrop] 安装失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SvipDrop_InstallFailed", e.Message));
         }
     }
 
@@ -66,7 +66,7 @@ public static class SvipFormatDragDrop
         }
         catch (Exception ex)
         {
-            Debug.ShowErrorMessage(TranslationManager.Get("VOCALOIDPatcher_Format_ImportFailed") ?? "Import Failed", ex);
+            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Format_ImportFailed"), ex);
         }
     }
 

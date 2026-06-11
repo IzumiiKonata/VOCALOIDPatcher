@@ -10,13 +10,13 @@ internal sealed class JobDialog : Window
 {
     private readonly StackPanel _fields = new();
 
-    internal JobDialog(string titleKey, string titleFallback)
+    internal JobDialog(string titleKey)
     {
         DarkTheme.Apply(this);
         Background = DarkTheme.WindowBackground();
         Foreground = DarkTheme.Foreground;
         FontSize = 13;
-        Title = T(titleKey, titleFallback);
+        Title = TranslationManager.Tr(titleKey);
         SizeToContent = SizeToContent.WidthAndHeight;
         ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -32,7 +32,7 @@ internal sealed class JobDialog : Window
 
         var apply = new Button
         {
-            Content = T("VOCALOIDPatcher_Job_Apply", "应用"),
+            Content = TranslationManager.Tr("VOCALOIDPatcher_Job_Apply"),
             MinWidth = 84,
             HorizontalAlignment = HorizontalAlignment.Right,
             Margin = new Thickness(0, 20, 0, 0)
@@ -47,10 +47,10 @@ internal sealed class JobDialog : Window
 
     internal bool ShowForApply() => ShowDialog() == true;
 
-    internal Slider AddSlider(string key, string fallback, double min, double max, double value)
+    internal Slider AddSlider(string key, double min, double max, double value)
     {
         var row = NewRow();
-        row.Children.Add(NewLabel(key, fallback));
+        row.Children.Add(NewLabel(key));
 
         var slider = new Slider
         {
@@ -78,10 +78,10 @@ internal sealed class JobDialog : Window
         return slider;
     }
 
-    internal TextBox AddTextBox(string key, string fallback, string value)
+    internal TextBox AddTextBox(string key, string value)
     {
         var row = NewRow();
-        row.Children.Add(NewLabel(key, fallback));
+        row.Children.Add(NewLabel(key));
 
         var box = new TextBox
         {
@@ -101,10 +101,10 @@ internal sealed class JobDialog : Window
         return box;
     }
 
-    internal ComboBox AddCombo(string key, string fallback, IEnumerable items, int selectedIndex)
+    internal ComboBox AddCombo(string key, IEnumerable items, int selectedIndex)
     {
         var row = NewRow();
-        row.Children.Add(NewLabel(key, fallback));
+        row.Children.Add(NewLabel(key));
 
         var combo = new ComboBox
         {
@@ -119,11 +119,11 @@ internal sealed class JobDialog : Window
         return combo;
     }
 
-    internal CheckBox AddCheckBox(string key, string fallback, bool isChecked)
+    internal CheckBox AddCheckBox(string key, bool isChecked)
     {
         var box = new CheckBox
         {
-            Content = T(key, fallback),
+            Content = TranslationManager.Tr(key),
             IsChecked = isChecked,
             Foreground = DarkTheme.Foreground,
             VerticalContentAlignment = VerticalAlignment.Center,
@@ -136,16 +136,14 @@ internal sealed class JobDialog : Window
     private static StackPanel NewRow()
         => new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
 
-    private static TextBlock NewLabel(string key, string fallback)
+    private static TextBlock NewLabel(string key)
         => new()
         {
-            Text = T(key, fallback),
+            Text = TranslationManager.Tr(key),
             Width = 96,
             Foreground = DarkTheme.Muted,
             FontSize = 12,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 10, 0)
         };
-
-    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 }

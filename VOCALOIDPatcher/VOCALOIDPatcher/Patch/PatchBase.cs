@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Patch;
@@ -21,7 +22,7 @@ public abstract class PatchBase
 
         if (original == null)
         {
-            Debug.ShowErrorMessage($"{PatchName}: 未在 {TargetClass.FullName} 中找到方法 {TargetMethodName}");
+            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_MethodNotFound", PatchName, TargetClass.FullName, TargetMethodName));
             return;
         }
 
@@ -41,7 +42,7 @@ public abstract class PatchBase
         }
         catch (Exception e)
         {
-            Debug.ShowErrorMessage($"{PatchName}: patch 失败, \n{e.Message}\n{e.StackTrace}");
+            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_ApplyFailed", PatchName, e.Message, e.StackTrace));
         }
     }
 

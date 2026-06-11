@@ -37,7 +37,7 @@ public static class TranslationManager
     {
         if (!Directory.Exists(TranslationsDir))
         {
-            Debug.ShowErrorMessage("未找到翻译文件夹! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
+            Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_FolderNotFound"));
             return;
         }
 
@@ -54,7 +54,7 @@ public static class TranslationManager
 
         if (AvailableLanguages.Count == 0)
         {
-            Debug.ShowErrorMessage("未找到任何翻译! 请确保您将 \"VOCALOIDPatcher\" 文件夹也复制到了编辑器目录中");
+            Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_NoTranslations"));
             return;
         }
 
@@ -91,14 +91,14 @@ public static class TranslationManager
                 foreach (var lang in preferred)
                     if (AvailableLanguages.Contains(lang))
                     {
-                        Debug.Print($"首次运行, 使用系统语言 {name} -> {lang}");
+                        Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang", name, lang));
                         return lang;
                     }
             }
         }
         catch (Exception e)
         {
-            Debug.Print($"匹配系统语言失败: {e.Message}");
+            Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_MatchSystemLangFailed", e.Message));
         }
 
         return AvailableLanguages.Contains("English") ? "English" : AvailableLanguages[0];
@@ -115,7 +115,7 @@ public static class TranslationManager
 
             if (set == null)
             {
-                Debug.ShowErrorMessage("无法读取编辑器资源集");
+                Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_ResourceSetUnavailable"));
                 return;
             }
 
@@ -128,11 +128,11 @@ public static class TranslationManager
                 KeyByOriginal.TryAdd(original, key);
             }
 
-            Debug.Print($"已加载 {OriginalByKey.Count} 条资源索引");
+            Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_ResourceIndexLoaded", OriginalByKey.Count));
         }
         catch (Exception e)
         {
-            Debug.ShowErrorMessage("构建资源索引失败", e);
+            Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_BuildResourceIndexFailed"), e);
         }
     }
 
@@ -142,7 +142,7 @@ public static class TranslationManager
 
         if (!File.Exists(path))
         {
-            Debug.ShowErrorMessage("硬编码映射不存在: HardcodedPropertyMap.xml");
+            Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_HardcodedMapMissing"));
             return;
         }
 
@@ -176,7 +176,7 @@ public static class TranslationManager
 
         if (!File.Exists(path))
         {
-            Debug.ShowErrorMessage($"试图加载不存在的翻译: {language}.xml");
+            Debug.ShowErrorMessage(Tr("VOCALOIDPatcher_Debug_Translation_LoadMissingLanguage", language));
             return false;
         }
 
@@ -224,6 +224,25 @@ public static class TranslationManager
         if (value == null && MissingKeyList.Add(key)) Debug.Print($"Missing key: {key}");
 
         return value;
+    }
+
+    public static string Tr(string key) => Get(key) ?? key;
+
+    public static string Tr(string key, params object?[] args)
+    {
+        var format = Get(key) ?? key;
+
+        if (args.Length == 0)
+            return format;
+
+        try
+        {
+            return string.Format(format, args);
+        }
+        catch (FormatException)
+        {
+            return format;
+        }
     }
 
     public static string? GetKeyByOriginal(string original)

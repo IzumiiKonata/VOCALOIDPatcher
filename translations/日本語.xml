@@ -990,4 +990,90 @@ Spliceのリースが完了しました。
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>キャンセル(_C)</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>はい(_Y)</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>いいえ(_N)</value></data>
+  <!-- Debug / Diagnostic messages -->
+  <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>翻訳フォルダーが見つかりません! "VOCALOIDPatcher" フォルダーもエディターのディレクトリにコピーしたか確認してください</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>翻訳が一つも見つかりません! "VOCALOIDPatcher" フォルダーもエディターのディレクトリにコピーしたか確認してください</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang" xml:space="preserve"><value>初回起動, システム言語 {0} -&gt; {1} を使用</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_MatchSystemLangFailed" xml:space="preserve"><value>システム言語のマッチングに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceSetUnavailable" xml:space="preserve"><value>エディターのリソースセットを読み込めません</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceIndexLoaded" xml:space="preserve"><value>リソースインデックスを {0} 件読み込みました</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_BuildResourceIndexFailed" xml:space="preserve"><value>リソースインデックスの構築に失敗</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_HardcodedMapMissing" xml:space="preserve"><value>ハードコードマッピングが存在しません: HardcodedPropertyMap.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_LoadMissingLanguage" xml:space="preserve"><value>存在しない翻訳を読み込もうとしました: {0}.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_InitFailed" xml:space="preserve"><value>Patcher の初期化に失敗しました!</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ErrorTitle" xml:space="preserve"><value>VOCALOID Patcher エラー</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Started" xml:space="preserve"><value>VOCALOID Patcher を起動しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Version" xml:space="preserve"><value>バージョン: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID エディターのバージョン: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>VOCALOID6 エディターが VST プラグインモードで実行されていることを検出しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager を初期化しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>この VOCALOID Patcher は .NET 6.0 ビルドであり, .NET 6.0 ベースの VOCALOID6 エディターでのみ使用できます。&#10;現在のエディターは .NET {0}.0 で実行されています。対応するバージョンの VOCALOID Patcher をご使用ください。</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher バージョン不一致</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>{0} を適用中...</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>自動保存を有効化: {0} 分ごと</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>自動保存を無効化しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Succeeded" xml:space="preserve"><value>自動保存に成功: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Failed" xml:space="preserve"><value>自動保存に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Exception" xml:space="preserve"><value>自動保存の例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_SwingFailed" xml:space="preserve"><value>[Job] Swing に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_LyricFailed" xml:space="preserve"><value>[Job] 歌詞置換に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_QuantizeFailed" xml:space="preserve"><value>[Job] 長さのクオンタイズに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyNoTrack" xml:space="preserve"><value>[Job] ハーモニー: 空きトラックがなく新規作成もできません</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyFailed" xml:space="preserve"><value>[Job] ハーモニーに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_MenuNotFound" xml:space="preserve"><value>[JobMenu] メニューバーに Job メニューが見つかりません</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_InstallFailed" xml:space="preserve"><value>[JobMenu] インストールに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SwingMenu_Exception" xml:space="preserve"><value>[SwingMenu] 例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_DarkTitleBarFailed" xml:space="preserve"><value>ダークタイトルバーの設定に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LoadStyleFailed" xml:space="preserve"><value>{0} スタイルの読み込みに失敗: {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_LoopbackUnavailable" xml:space="preserve"><value>スペクトラム: プロセスループバックが利用できません, 既定デバイスのループバックにフォールバック (システム全体の音を取得します)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_CaptureThreadException" xml:space="preserve"><value>スペクトラム: キャプチャスレッドの例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackInitFailed" xml:space="preserve"><value>スペクトラム: プロセスループバックの Initialize に失敗 (buffer={0}, hr=0x{1})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackEnabled" xml:space="preserve"><value>スペクトラム: プロセスループバックを有効化 (エディターのみ取得)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackException" xml:space="preserve"><value>スペクトラム: プロセスループバックの例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_GetActivateResultFailed" xml:space="preserve"><value>スペクトラム: プロセスループバックの GetActivateResult に失敗 (hr=0x{0})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ActivateAsyncException" xml:space="preserve"><value>スペクトラム: ActivateAudioInterfaceAsync の例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_CheckFailed" xml:space="preserve"><value>更新の確認に失敗 ({0}): {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_MissingTagName" xml:space="preserve"><value>更新の確認に失敗 ({0}): レスポンスに tag_name がありません</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_ParseVersionFailed" xml:space="preserve"><value>更新の確認に失敗 ({0}): バージョン番号を解析できません {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_UpToDate" xml:space="preserve"><value>すでに最新バージョンです: {0} (最新リリース {1}, ソース {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_NewVersionFound" xml:space="preserve"><value>新しいバージョンを発見: {0} (現在 {1}, ソース {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Trimmed" xml:space="preserve"><value>ワーキングセットを縮小しました: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Failed" xml:space="preserve"><value>ワーキングセットの縮小に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: {1} 内にメソッド {2} が見つかりません</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch に失敗, &#10;{1}&#10;{2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] ピアノロールのルートパネルが見つかりません (xPanel)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LayerInserted" xml:space="preserve"><value>[CharacterArt] ノートの下層に立ち絵レイヤーを挿入しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_RefreshFailed" xml:space="preserve"><value>[CharacterArt] 更新に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ReloadFailed" xml:space="preserve"><value>[CharacterArt] 再読み込みに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GetActiveBankFailed" xml:space="preserve"><value>[CharacterArt] アクティブな音源の取得に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ImportFailed" xml:space="preserve"><value>[CharacterArt] 立ち絵のインポートに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ClearFailed" xml:space="preserve"><value>[CharacterArt] 立ち絵のクリアに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DeleteOldFailed" xml:space="preserve"><value>[CharacterArt] 古い立ち絵の削除に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DataContextMismatch" xml:space="preserve"><value>[CharacterArt] DataContext が MusicalEditorViewModel ではありません</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_VoiceBankNull" xml:space="preserve"><value>[CharacterArt] 音源の取得に失敗 (VoiceBank == null)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtPathEmpty" xml:space="preserve"><value>[CharacterArt] 立ち絵のパスが空です</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtFileMissing" xml:space="preserve"><value>[CharacterArt] 立ち絵ファイルが存在しません: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LoadArtException" xml:space="preserve"><value>[CharacterArt] 立ち絵の読み込み例外: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtLoaded" xml:space="preserve"><value>[CharacterArt] 立ち絵を読み込みました: {0} ({1}x{2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GifLoaded" xml:space="preserve"><value>[CharacterArt] GIF を読み込みました: {0} ({1}x{2}, {3} フレーム)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CenteredLyric_RefreshFailed" xml:space="preserve"><value>中央揃え歌詞の更新に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_FileMenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] ファイルメニューが見つかりません</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_ImportSubmenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] インポートサブメニューが見つかりません</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_InstallFailed" xml:space="preserve"><value>[SvipFormatMenu] インストールに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipDrop_InstallFailed" xml:space="preserve"><value>[SvipFormatDragDrop] インストールに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LeanLyric_DeferConstructFailed" xml:space="preserve"><value>歌詞テキストの遅延構築に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastSelectionSweep_Failed" xml:space="preserve"><value>高速選択解除に失敗, 完全スキャンにフォールバック: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferWaveformFailed" xml:space="preserve"><value>音声波形の遅延読み込みに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferLogFailed" xml:space="preserve"><value>読み込みログの遅延報告に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowNotePitch_Failed" xml:space="preserve"><value>ピッチ重ね描画に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_Failed" xml:space="preserve"><value>レンダリング波形キャッシュに失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_RefreshCanvasFailed" xml:space="preserve"><value>レンダリング波形キャンバスの更新に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RoundedNote_RefreshFailed" xml:space="preserve"><value>角丸ノートの更新に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ParameterViewDefer_Failed" xml:space="preserve"><value>パラメーターパネル更新の遅延に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SpectrumWidget_InjectFailed" xml:space="preserve"><value>SpectrumWidget の注入に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>他トラックのノート収集に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>ピアノロールの更新に失敗: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>同一トラック内パート切替の高速再描画に失敗, 完全再描画にフォールバック: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

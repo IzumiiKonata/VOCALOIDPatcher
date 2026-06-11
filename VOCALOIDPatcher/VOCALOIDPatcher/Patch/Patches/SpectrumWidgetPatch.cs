@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.UI.Widgets;
 using VOCALOIDPatcher.Utils;
 
@@ -40,7 +41,7 @@ public static class SpectrumWidget
         }
         catch (Exception e)
         {
-            Debug.Print($"SpectrumWidget 注入失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SpectrumWidget_InjectFailed", e.Message));
         }
     }
 

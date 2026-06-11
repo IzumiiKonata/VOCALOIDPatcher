@@ -986,4 +986,90 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>取消</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>是</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>否</value></data>
+  <!-- Debug / Diagnostic messages -->
+  <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>未找到翻译文件夹! 请确保您将 "VOCALOIDPatcher" 文件夹也复制到了编辑器目录中</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>未找到任何翻译! 请确保您将 "VOCALOIDPatcher" 文件夹也复制到了编辑器目录中</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang" xml:space="preserve"><value>首次运行, 使用系统语言 {0} -&gt; {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_MatchSystemLangFailed" xml:space="preserve"><value>匹配系统语言失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceSetUnavailable" xml:space="preserve"><value>无法读取编辑器资源集</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_ResourceIndexLoaded" xml:space="preserve"><value>已加载 {0} 条资源索引</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_BuildResourceIndexFailed" xml:space="preserve"><value>构建资源索引失败</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_HardcodedMapMissing" xml:space="preserve"><value>硬编码映射不存在: HardcodedPropertyMap.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Translation_LoadMissingLanguage" xml:space="preserve"><value>试图加载不存在的翻译: {0}.xml</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_InitFailed" xml:space="preserve"><value>Patcher 初始化失败!</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ErrorTitle" xml:space="preserve"><value>VOCALOID Patcher 错误</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Started" xml:space="preserve"><value>已拉起 VOCALOID Patcher</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_Version" xml:space="preserve"><value>版本: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID 编辑器版本: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>检测到正在以 VST 插件模式运行 VOCALOID6 编辑器</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager 已初始化</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>当前 VOCALOID Patcher 为 .NET 6.0 构建版本,只能在基于 .NET 6.0 的 VOCALOID6 编辑器中使用。&#10;检测到当前编辑器运行于 .NET {0}.0,请改用对应版本的 VOCALOID Patcher。</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher 版本不匹配</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>应用 {0}...</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>定时保存已启用: 每 {0} 分钟</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>定时保存已关闭</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Succeeded" xml:space="preserve"><value>定时保存成功: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Failed" xml:space="preserve"><value>定时保存失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_AutoSave_Exception" xml:space="preserve"><value>定时保存异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_SwingFailed" xml:space="preserve"><value>[Job] Swing 失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_LyricFailed" xml:space="preserve"><value>[Job] 歌词替换失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_QuantizeFailed" xml:space="preserve"><value>[Job] 量化时值失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyNoTrack" xml:space="preserve"><value>[Job] 和声: 无空闲轨道且无法新建</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyFailed" xml:space="preserve"><value>[Job] 和声失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_MenuNotFound" xml:space="preserve"><value>[JobMenu] 未找到菜单栏 Job 菜单</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_InstallFailed" xml:space="preserve"><value>[JobMenu] 安装失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SwingMenu_Exception" xml:space="preserve"><value>[SwingMenu] 异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_DarkTitleBarFailed" xml:space="preserve"><value>设置深色标题栏失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LoadStyleFailed" xml:space="preserve"><value>加载 {0} 样式失败: {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_LoopbackUnavailable" xml:space="preserve"><value>频谱: 进程环回不可用, 回退到默认设备环回 (会捕获系统全部声音)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_CaptureThreadException" xml:space="preserve"><value>频谱: 捕获线程异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackInitFailed" xml:space="preserve"><value>频谱: 进程环回 Initialize 失败 (buffer={0}, hr=0x{1})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackEnabled" xml:space="preserve"><value>频谱: 进程环回已启用 (仅捕获编辑器)</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackException" xml:space="preserve"><value>频谱: 进程环回异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_GetActivateResultFailed" xml:space="preserve"><value>频谱: 进程环回 GetActivateResult 失败 (hr=0x{0})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Spectrum_ActivateAsyncException" xml:space="preserve"><value>频谱: ActivateAudioInterfaceAsync 异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_CheckFailed" xml:space="preserve"><value>检查更新失败 ({0}): {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_MissingTagName" xml:space="preserve"><value>检查更新失败 ({0}): 响应中缺少 tag_name</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_ParseVersionFailed" xml:space="preserve"><value>检查更新失败 ({0}): 无法解析版本号 {1}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_UpToDate" xml:space="preserve"><value>已是最新版本: {0} (最新发布 {1}, 源 {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_Update_NewVersionFound" xml:space="preserve"><value>发现新版本: {0} (当前 {1}, 源 {2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Trimmed" xml:space="preserve"><value>已修剪工作集: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_MemTrim_Failed" xml:space="preserve"><value>修剪工作集失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: 未在 {1} 中找到方法 {2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch 失败, &#10;{1}&#10;{2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] 未找到钢琴窗根面板 (xPanel)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LayerInserted" xml:space="preserve"><value>[CharacterArt] 已在音符下层插入立绘图层</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_RefreshFailed" xml:space="preserve"><value>[CharacterArt] 刷新失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ReloadFailed" xml:space="preserve"><value>[CharacterArt] 重载失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GetActiveBankFailed" xml:space="preserve"><value>[CharacterArt] 取活动声库失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ImportFailed" xml:space="preserve"><value>[CharacterArt] 导入立绘失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ClearFailed" xml:space="preserve"><value>[CharacterArt] 清除立绘失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DeleteOldFailed" xml:space="preserve"><value>[CharacterArt] 删除旧立绘失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_DataContextMismatch" xml:space="preserve"><value>[CharacterArt] DataContext 不是 MusicalEditorViewModel</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_VoiceBankNull" xml:space="preserve"><value>[CharacterArt] 取声库失败 (VoiceBank == null)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtPathEmpty" xml:space="preserve"><value>[CharacterArt] 立绘路径为空</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtFileMissing" xml:space="preserve"><value>[CharacterArt] 立绘文件不存在: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_LoadArtException" xml:space="preserve"><value>[CharacterArt] 加载立绘异常: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_ArtLoaded" xml:space="preserve"><value>[CharacterArt] 已加载立绘: {0} ({1}x{2})</value></data>
+  <data name="VOCALOIDPatcher_Debug_CharacterArt_GifLoaded" xml:space="preserve"><value>[CharacterArt] 已加载 GIF: {0} ({1}x{2}, {3} 帧)</value></data>
+  <data name="VOCALOIDPatcher_Debug_CenteredLyric_RefreshFailed" xml:space="preserve"><value>刷新居中歌词失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_FileMenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] 未找到文件菜单</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_ImportSubmenuNotFound" xml:space="preserve"><value>[SvipFormatMenu] 未找到导入子菜单</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipMenu_InstallFailed" xml:space="preserve"><value>[SvipFormatMenu] 安装失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SvipDrop_InstallFailed" xml:space="preserve"><value>[SvipFormatDragDrop] 安装失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_LeanLyric_DeferConstructFailed" xml:space="preserve"><value>延后构造歌词文本失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastSelectionSweep_Failed" xml:space="preserve"><value>快速反选失败,回退完整扫描: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferWaveformFailed" xml:space="preserve"><value>延后加载音频波形失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_FastProjectLoad_DeferLogFailed" xml:space="preserve"><value>延后上报载入日志失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowNotePitch_Failed" xml:space="preserve"><value>音高叠加失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_Failed" xml:space="preserve"><value>渲染波形缓存失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RenderedWaveCache_RefreshCanvasFailed" xml:space="preserve"><value>刷新渲染波形画布失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_RoundedNote_RefreshFailed" xml:space="preserve"><value>刷新圆角音符失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ParameterViewDefer_Failed" xml:space="preserve"><value>延后参数面板更新失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SpectrumWidget_InjectFailed" xml:space="preserve"><value>SpectrumWidget 注入失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed" xml:space="preserve"><value>收集其他轨道音符失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed" xml:space="preserve"><value>刷新钢琴窗失败: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_SkipPartRedraw_Failed" xml:space="preserve"><value>同轨换乐段快速重画失败,回退完整重画: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Wpf_KeyNotFound" xml:space="preserve"><value>Key not found: {0}</value></data>
 </root>

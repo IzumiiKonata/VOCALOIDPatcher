@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using VOCALOIDPatcher.Translation;
 
 namespace VOCALOIDPatcher.Utils.Audio;
 
@@ -136,12 +137,12 @@ public sealed class WasapiLoopbackCapture : IDisposable
             if (!_running) return;
 
             ProcessIsolated = false;
-            Debug.Print("频谱: 进程环回不可用, 回退到默认设备环回 (会捕获系统全部声音)");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_LoopbackUnavailable"));
             RunDefaultEndpoint();
         }
         catch (Exception e)
         {
-            Debug.Print($"频谱: 捕获线程异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_CaptureThreadException", e.Message));
         }
     }
 
@@ -174,7 +175,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
                     break;
                 }
 
-                Debug.Print($"频谱: 进程环回 Initialize 失败 (buffer={bufferDuration}, hr=0x{hr:X8})");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackInitFailed", bufferDuration, hr.ToString("X8")));
                 Marshal.ReleaseComObject(client);
             }
 
@@ -196,7 +197,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
             if (!_loggedIsolated)
             {
                 _loggedIsolated = true;
-                Debug.Print("频谱: 进程环回已启用 (仅捕获编辑器)");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackEnabled"));
             }
 
             while (_running)
@@ -216,7 +217,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
         }
         catch (Exception e)
         {
-            Debug.Print($"频谱: 进程环回异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_ProcessLoopbackException", e.Message));
             return SessionResult.CannotStart;
         }
         finally
@@ -274,7 +275,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
                 var result = operation.GetActivateResult(out var hr, out var clientObj);
                 if (result != 0 || hr != 0)
                 {
-                    Debug.Print($"频谱: 进程环回 GetActivateResult 失败 (hr=0x{hr:X8})");
+                    Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_GetActivateResultFailed", hr.ToString("X8")));
                     return null;
                 }
 
@@ -287,7 +288,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
         }
         catch (Exception e)
         {
-            Debug.Print($"频谱: ActivateAudioInterfaceAsync 异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Spectrum_ActivateAsyncException", e.Message));
             return null;
         }
         finally

@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Threading;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using Yamaha.VOCALOID;
 
 namespace VOCALOIDPatcher.Utils;
@@ -26,12 +27,12 @@ public static class AutoSaveService
             var minutes = Math.Max(1, Settings.AutoSaveIntervalMinutes);
             _timer.Interval = TimeSpan.FromMinutes(minutes);
             _timer.Start();
-            Debug.Print($"定时保存已启用: 每 {minutes} 分钟");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_AutoSave_Enabled", minutes));
         }
         else
         {
             _timer.Stop();
-            Debug.Print("定时保存已关闭");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_AutoSave_Disabled"));
         }
     }
 
@@ -69,11 +70,13 @@ public static class AutoSaveService
             if (string.IsNullOrEmpty(dir) || string.IsNullOrEmpty(name))
                 return;
 
-            Debug.Print(document.Save(dir, name) ? $"定时保存成功: {path}" : $"定时保存失败: {path}");
+            Debug.Print(document.Save(dir, name)
+                ? TranslationManager.Tr("VOCALOIDPatcher_Debug_AutoSave_Succeeded", path)
+                : TranslationManager.Tr("VOCALOIDPatcher_Debug_AutoSave_Failed", path));
         }
         catch (Exception e)
         {
-            Debug.Print($"定时保存异常: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_AutoSave_Exception", e.Message));
         }
     }
 }

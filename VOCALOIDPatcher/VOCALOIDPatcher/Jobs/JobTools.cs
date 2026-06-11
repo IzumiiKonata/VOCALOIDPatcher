@@ -114,7 +114,7 @@ public static class JobTools
         }
         catch (Exception e)
         {
-            Debug.Print($"[Job] Swing 失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Job_SwingFailed", e.Message));
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -144,7 +144,7 @@ public static class JobTools
         }
         catch (Exception e)
         {
-            Debug.Print($"[Job] 歌词替换失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Job_LyricFailed", e.Message));
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -171,7 +171,7 @@ public static class JobTools
         }
         catch (Exception e)
         {
-            Debug.Print($"[Job] 量化时值失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Job_QuantizeFailed", e.Message));
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -225,7 +225,7 @@ public static class JobTools
                     : FindFreeTrack(vsm, sourcePart, srcAbs, srcEnd) ?? CreateHarmonyTrack(vsm, sourcePart);
                 if (target == null)
                 {
-                    Debug.Print("[Job] 和声: 无空闲轨道且无法新建");
+                    Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Job_HarmonyNoTrack"));
                     break;
                 }
 
@@ -248,7 +248,7 @@ public static class JobTools
         }
         catch (Exception e)
         {
-            Debug.Print($"[Job] 和声失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Job_HarmonyFailed", e.Message));
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -318,7 +318,7 @@ public static class JobTools
             return null;
 
         var type = vsm.MidiTracks.FirstOrDefault(t => t.HasPart(sourcePart))?.Type ?? VSMTrackType.MidiAi;
-        string name = TranslationManager.Get("VOCALOIDPatcher_Job_Harmony_TrackName") ?? "Harmony";
+        string name = TranslationManager.Tr("VOCALOIDPatcher_Job_Harmony_TrackName");
         return vsm.InsertTrackEx(vsm.NumTrack, type, name) as WIVSMMidiTrack;
     }
 

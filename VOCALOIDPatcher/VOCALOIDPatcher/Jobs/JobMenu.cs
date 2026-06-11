@@ -15,7 +15,7 @@ public static class JobMenu
 {
     private const string MarkerTag = "VOCALOIDPatcher_Job";
 
-    private static readonly List<(MenuItem Item, string Key, string Fallback)> Localizers = new();
+    private static readonly List<(MenuItem Item, string Key)> Localizers = new();
     private static bool _languageHooked;
 
     public static void Install()
@@ -26,7 +26,7 @@ public static class JobMenu
             var jobMenu = FindJobMenu(menu);
             if (jobMenu == null)
             {
-                Debug.Print("[JobMenu] 未找到菜单栏 Job 菜单");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_JobMenu_MenuNotFound"));
                 return;
             }
 
@@ -34,25 +34,25 @@ public static class JobMenu
                 return;
 
             jobMenu.Items.Add(new Separator());
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Lyric_Header", "歌词替换", ShowLyricDialog));
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_QuantizeLength_Header", "量化时值", ShowQuantizeDialog));
-            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Harmony_Header", "生成和声", ShowHarmonyDialog));
+            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Lyric_Header", ShowLyricDialog));
+            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_QuantizeLength_Header", ShowQuantizeDialog));
+            jobMenu.Items.Add(BuildItem("VOCALOIDPatcher_Job_Harmony_Header", ShowHarmonyDialog));
 
             HookLanguage();
             RefreshHeaders();
         }
         catch (Exception e)
         {
-            Debug.Print($"[JobMenu] 安装失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_JobMenu_InstallFailed", e.Message));
         }
     }
 
-    private static MenuItem BuildItem(string key, string fallback, Action onClick)
+    private static MenuItem BuildItem(string key, Action onClick)
     {
         var item = new MenuItem { Tag = MarkerTag };
         item.Click += (_, _) => onClick();
         WpfTranslationPatch.MarkUntranslatable(item);
-        Localizers.Add((item, key, fallback));
+        Localizers.Add((item, key));
         return item;
     }
 
@@ -83,15 +83,15 @@ public static class JobMenu
 
     private static void RefreshHeaders()
     {
-        foreach (var (item, key, fallback) in Localizers)
-            item.Header = (TranslationManager.Get(key) ?? fallback) + "...";
+        foreach (var (item, key) in Localizers)
+            item.Header = TranslationManager.Tr(key) + "...";
     }
 
 
     private static void ShowLyricDialog()
     {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_Lyric_Header", "歌词替换");
-        var box = dialog.AddTextBox("VOCALOIDPatcher_Job_Lyric_Syllable", "音节", "la");
+        var dialog = new JobDialog("VOCALOIDPatcher_Job_Lyric_Header");
+        var box = dialog.AddTextBox("VOCALOIDPatcher_Job_Lyric_Syllable", "la");
 
         if (dialog.ShowForApply())
             JobTools.ApplyLyric(box.Text);
@@ -99,11 +99,11 @@ public static class JobMenu
 
     private static void ShowQuantizeDialog()
     {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_QuantizeLength_Header", "量化时值");
+        var dialog = new JobDialog("VOCALOIDPatcher_Job_QuantizeLength_Header");
         var labels = new[] { "1/1", "1/2", "1/4", "1/8", "1/16", "1/32" };
         var denoms = new[] { 1, 2, 4, 8, 16, 32 };
-        var grid = dialog.AddCombo("VOCALOIDPatcher_Job_QuantizeLength_Grid", "网格", labels, 4);
-        var strength = dialog.AddSlider("VOCALOIDPatcher_Job_QuantizeLength_Strength", "强度 (%)", 0, 100, 100);
+        var grid = dialog.AddCombo("VOCALOIDPatcher_Job_QuantizeLength_Grid", labels, 4);
+        var strength = dialog.AddSlider("VOCALOIDPatcher_Job_QuantizeLength_Strength", 0, 100, 100);
 
         if (dialog.ShowForApply())
         {
@@ -113,32 +113,32 @@ public static class JobMenu
         }
     }
 
-    private static readonly (JobTools.HarmonyInterval Interval, string Key, string Fallback, bool Default)[] HarmonyOptions =
+    private static readonly (JobTools.HarmonyInterval Interval, string Key, bool Default)[] HarmonyOptions =
     {
-        (JobTools.HarmonyInterval.ThirdUp, "VOCALOIDPatcher_Job_Harmony_ThirdUp", "上三度", true),
-        (JobTools.HarmonyInterval.FifthUp, "VOCALOIDPatcher_Job_Harmony_FifthUp", "上五度", false),
-        (JobTools.HarmonyInterval.SixthUp, "VOCALOIDPatcher_Job_Harmony_SixthUp", "上六度", false),
-        (JobTools.HarmonyInterval.FourthUp, "VOCALOIDPatcher_Job_Harmony_FourthUp", "上四度", false),
-        (JobTools.HarmonyInterval.ThirdDown, "VOCALOIDPatcher_Job_Harmony_ThirdDown", "下三度", false),
-        (JobTools.HarmonyInterval.OctaveUp, "VOCALOIDPatcher_Job_Harmony_OctaveUp", "上八度", false),
-        (JobTools.HarmonyInterval.OctaveDown, "VOCALOIDPatcher_Job_Harmony_OctaveDown", "下八度", false)
+        (JobTools.HarmonyInterval.ThirdUp, "VOCALOIDPatcher_Job_Harmony_ThirdUp", true),
+        (JobTools.HarmonyInterval.FifthUp, "VOCALOIDPatcher_Job_Harmony_FifthUp", false),
+        (JobTools.HarmonyInterval.SixthUp, "VOCALOIDPatcher_Job_Harmony_SixthUp", false),
+        (JobTools.HarmonyInterval.FourthUp, "VOCALOIDPatcher_Job_Harmony_FourthUp", false),
+        (JobTools.HarmonyInterval.ThirdDown, "VOCALOIDPatcher_Job_Harmony_ThirdDown", false),
+        (JobTools.HarmonyInterval.OctaveUp, "VOCALOIDPatcher_Job_Harmony_OctaveUp", false),
+        (JobTools.HarmonyInterval.OctaveDown, "VOCALOIDPatcher_Job_Harmony_OctaveDown", false)
     };
 
     private static void ShowHarmonyDialog()
     {
-        var dialog = new JobDialog("VOCALOIDPatcher_Job_Harmony_Header", "生成和声");
+        var dialog = new JobDialog("VOCALOIDPatcher_Job_Harmony_Header");
         var roots = new[] { "C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B" };
-        var root = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Root", "调式根音", roots, 0);
+        var root = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Root", roots, 0);
 
         var trackLabels = new[]
         {
-            TranslationManager.Get("VOCALOIDPatcher_Job_Harmony_TrackExisting") ?? "使用现有轨道",
-            TranslationManager.Get("VOCALOIDPatcher_Job_Harmony_TrackNew") ?? "新建轨道"
+            TranslationManager.Tr("VOCALOIDPatcher_Job_Harmony_TrackExisting"),
+            TranslationManager.Tr("VOCALOIDPatcher_Job_Harmony_TrackNew")
         };
-        var trackMode = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Track", "目标轨道", trackLabels, 0);
+        var trackMode = dialog.AddCombo("VOCALOIDPatcher_Job_Harmony_Track", trackLabels, 0);
 
         var boxes = HarmonyOptions
-            .Select(o => (o.Interval, Box: dialog.AddCheckBox(o.Key, o.Fallback, o.Default)))
+            .Select(o => (o.Interval, Box: dialog.AddCheckBox(o.Key, o.Default)))
             .ToList();
 
         if (dialog.ShowForApply())

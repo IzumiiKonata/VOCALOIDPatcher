@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 
 namespace VOCALOIDPatcher.Utils;
 
@@ -74,11 +75,11 @@ public static class WorkingSetTrimmer
         try
         {
             if (EmptyWorkingSet(GetCurrentProcess()))
-                Debug.Print($"已修剪工作集: {reason}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_MemTrim_Trimmed", reason));
         }
         catch (Exception e)
         {
-            Debug.Print($"修剪工作集失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_MemTrim_Failed", e.Message));
         }
     }
 }

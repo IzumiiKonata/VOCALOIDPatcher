@@ -99,7 +99,7 @@ public class WpfTranslationPatch : PatchBase
             return TranslationManager.Get(translationKey) ?? value;
 
         if (MissingKeyList.Add(value))
-            Debug.Print($"Key not found: {value}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Wpf_KeyNotFound", value));
 
         return value;
     }

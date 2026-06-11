@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.VSM;
@@ -40,7 +41,7 @@ public class DeferAudioBufferLoadPatch : PatchBase
             }
             catch (Exception e)
             {
-                Debug.Print($"延后加载音频波形失败: {e.Message}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_FastProjectLoad_DeferWaveformFailed", e.Message));
             }
             finally
             {
@@ -85,7 +86,7 @@ public class DeferLoadAnalyticsPatch : PatchBase
             }
             catch (Exception e)
             {
-                Debug.Print($"延后上报载入日志失败: {e.Message}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_FastProjectLoad_DeferLogFailed", e.Message));
             }
             finally
             {

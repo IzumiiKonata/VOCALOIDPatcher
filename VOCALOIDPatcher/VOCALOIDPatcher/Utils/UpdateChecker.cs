@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using VOCALOIDPatcher.Translation;
 
 namespace VOCALOIDPatcher.Utils;
 
@@ -37,7 +38,7 @@ public static class UpdateChecker
             }
             catch (Exception e)
             {
-                Debug.Print($"检查更新失败 ({source.WebBase}): {e.Message}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Update_CheckFailed", source.WebBase, e.Message));
             }
         }
     }
@@ -55,7 +56,7 @@ public static class UpdateChecker
         using var doc = JsonDocument.Parse(json);
         if (!doc.RootElement.TryGetProperty("tag_name", out var tagElement))
         {
-            Debug.Print($"检查更新失败 ({source.WebBase}): 响应中缺少 tag_name");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Update_MissingTagName", source.WebBase));
             return true;
         }
 
@@ -63,19 +64,19 @@ public static class UpdateChecker
         var latest = Normalize(tag);
         if (latest == null)
         {
-            Debug.Print($"检查更新失败 ({source.WebBase}): 无法解析版本号 {tag}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Update_ParseVersionFailed", source.WebBase, tag));
             return true;
         }
 
         if (Compare(latest, Patcher.Version) <= 0)
         {
-            Debug.Print($"已是最新版本: {Patcher.Version} (最新发布 {latest}, 源 {source.WebBase})");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Update_UpToDate", Patcher.Version, latest, source.WebBase));
             return true;
         }
 
         LatestVersion = latest;
         HasUpdate = true;
-        Debug.Print($"发现新版本: {latest} (当前 {Patcher.Version}, 源 {source.WebBase})");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Update_NewVersionFound", latest, Patcher.Version, source.WebBase));
         UpdateAvailable?.Invoke();
         return true;
     }

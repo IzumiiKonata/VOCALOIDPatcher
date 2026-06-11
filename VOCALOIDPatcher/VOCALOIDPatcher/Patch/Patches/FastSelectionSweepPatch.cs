@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.VSM;
@@ -120,7 +121,7 @@ public class FastSelectionSweepPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"快速反选失败,回退完整扫描: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_FastSelectionSweep_Failed", e.Message));
             return true;
         }
     }

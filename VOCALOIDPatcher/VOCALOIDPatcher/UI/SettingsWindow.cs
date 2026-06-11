@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Interop;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
@@ -23,10 +20,10 @@ public class SettingsWindow : Window
 
     private static readonly int[] AutoSaveIntervals = { 1, 3, 5, 10, 15, 30 };
 
-    private static readonly Brush NavBrush        = Frozen(Color.FromRgb(0x2D, 0x2D, 0x30));
-    private static readonly Brush ForegroundBrush = Frozen(Color.FromRgb(0xC8, 0xC8, 0xC8));
-    private static readonly Brush MutedBrush      = Frozen(Color.FromRgb(0xA0, 0xA0, 0xA0));
-    private static readonly Brush AccentBrush     = Frozen(Color.FromRgb(0x29, 0xAB, 0xE2));
+    private static readonly Brush NavBrush        = DarkTheme.Frozen(Color.FromRgb(0x2D, 0x2D, 0x30));
+    private static readonly Brush ForegroundBrush = DarkTheme.Foreground;
+    private static readonly Brush MutedBrush      = DarkTheme.Muted;
+    private static readonly Brush AccentBrush     = DarkTheme.Accent;
 
     private static SettingsWindow? _instance;
 
@@ -70,7 +67,7 @@ public class SettingsWindow : Window
         MinHeight = 360;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
         ResizeMode = ResizeMode.CanResize;
-        Background = WindowBackground();
+        Background = DarkTheme.WindowBackground();
         Foreground = ForegroundBrush;
         FontSize = 13;
         Opacity = 0;
@@ -89,7 +86,7 @@ public class SettingsWindow : Window
             UpdateChecker.UpdateAvailable -= OnUpdateAvailable;
         };
 
-        SourceInitialized += (_, _) => EnableDarkTitleBar();
+        SourceInitialized += (_, _) => DarkTheme.EnableDarkTitleBar(this);
         Loaded += (_, _) => PlayEntrance();
 
         ApplyLocalization();
@@ -128,24 +125,24 @@ public class SettingsWindow : Window
         Content = root;
     }
 
-    private (string Key, string Fallback, UIElement Panel)[] BuildPanelList()
+    private (string Key, UIElement Panel)[] BuildPanelList()
     {
-        List<(string, string, UIElement)> result = new() {
-            ("VOCALOIDPatcher_Settings_Category_General", "常规", BuildGeneralPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Pianoroll", "钢琴窗", BuildPianorollPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Widgets", "小组件", BuildWidgetsPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Other", "其它", BuildOtherPanel())
+        List<(string, UIElement)> result = new() {
+            ("VOCALOIDPatcher_Settings_Category_General", BuildGeneralPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Pianoroll", BuildPianorollPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Widgets", BuildWidgetsPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Other", BuildOtherPanel())
         };
 
         if (Patcher.DebugMode)
         {
-            result.Insert(result.Count - 1, ("VOCALOIDPatcher_Settings_Category_Performance", "性能", BuildPerformancePanel()));
+            result.Insert(result.Count - 1, ("VOCALOIDPatcher_Settings_Category_Performance", BuildPerformancePanel()));
         }
 
         return result.ToArray();
     }
 
-    private ListBox BuildNav((string Key, string Fallback, UIElement Panel)[] categories)
+    private ListBox BuildNav((string Key, UIElement Panel)[] categories)
     {
         var nav = new ListBox
         {
@@ -160,7 +157,7 @@ public class SettingsWindow : Window
         {
             var item = new ListBoxItem();
             var captured = category;
-            Localize(() => item.Content = T(captured.Key, captured.Fallback));
+            Localize(() => item.Content = TranslationManager.Tr(captured.Key));
             nav.Items.Add(item);
         }
 
@@ -181,7 +178,7 @@ public class SettingsWindow : Window
     private StackPanel BuildGeneralPanel()
     {
         var panel = new StackPanel();
-        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_General", "常规"));
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_General"));
 
         var languageLabel = new TextBlock
         {
@@ -189,7 +186,7 @@ public class SettingsWindow : Window
             Foreground = MutedBrush,
             FontSize = 12
         };
-        Localize(() => languageLabel.Text = T("VOCALOIDPatcher_Language_Header", "语言"));
+        Localize(() => languageLabel.Text = TranslationManager.Tr("VOCALOIDPatcher_Language_Header"));
 
         var languageCombo = new ComboBox
         {
@@ -211,7 +208,7 @@ public class SettingsWindow : Window
         panel.Children.Add(languageLabel);
         panel.Children.Add(languageCombo);
 
-        var translateHardcoded = Toggle("VOCALOIDPatcher_TranslateHardcodedStrings_Header", "翻译硬编码字符串",
+        var translateHardcoded = Toggle("VOCALOIDPatcher_TranslateHardcodedStrings_Header",
             Settings.TranslateHardcodedStrings, new Thickness(0, 26, 0, 0), checkbox =>
             {
                 var enabled = checkbox.IsChecked == true;
@@ -220,7 +217,7 @@ public class SettingsWindow : Window
 
                 if (!enabled)
                     Debug.ShowMessageBox(
-                        T("VOCALOIDPatcher_TranslateHardcodedStringsRestart", "重启编辑器以应用更改。"));
+                        TranslationManager.Tr("VOCALOIDPatcher_TranslateHardcodedStringsRestart"));
             });
         panel.Children.Add(translateHardcoded);
 
@@ -230,9 +227,9 @@ public class SettingsWindow : Window
     private StackPanel BuildPianorollPanel()
     {
         var panel = new StackPanel();
-        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Pianoroll", "钢琴窗"));
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Pianoroll"));
 
-        var skipMuted = Toggle("VOCALOIDPatcher_SkipMutedTracks_Header", "跳过静音轨道",
+        var skipMuted = Toggle("VOCALOIDPatcher_SkipMutedTracks_Header",
             Settings.ShowOtherTracksSkipMuted, new Thickness(28, 16, 0, 0), checkbox =>
             {
                 Settings.ShowOtherTracksSkipMuted = checkbox.IsChecked == true;
@@ -240,7 +237,7 @@ public class SettingsWindow : Window
             });
         skipMuted.IsEnabled = Settings.ShowOtherTracksNotes;
 
-        var showOtherTracks = Toggle("VOCALOIDPatcher_ShowOtherTracksNotes_Header", "显示其他轨道的音符",
+        var showOtherTracks = Toggle("VOCALOIDPatcher_ShowOtherTracksNotes_Header",
             Settings.ShowOtherTracksNotes, new Thickness(0, 6, 0, 0), checkbox =>
             {
                 var enabled = checkbox.IsChecked == true;
@@ -249,21 +246,21 @@ public class SettingsWindow : Window
                 ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
-        var showNotePitch = Toggle("VOCALOIDPatcher_ShowNotePitch_Header", "显示音符音高",
+        var showNotePitch = Toggle("VOCALOIDPatcher_ShowNotePitch_Header",
             Settings.ShowNotePitch, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 Settings.ShowNotePitch = checkbox.IsChecked == true;
                 ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
-        var roundedNotes = Toggle("VOCALOIDPatcher_RoundedNotes_Header", "使用圆角音符",
+        var roundedNotes = Toggle("VOCALOIDPatcher_RoundedNotes_Header",
             Settings.RoundedNotes, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 Settings.RoundedNotes = checkbox.IsChecked == true;
                 RoundedNotePatch.RefreshNotes();
             });
 
-        var centeredLyrics = Toggle("VOCALOIDPatcher_CenteredLyrics_Header", "居中显示歌词",
+        var centeredLyrics = Toggle("VOCALOIDPatcher_CenteredLyrics_Header",
             Settings.CenteredLyrics, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 Settings.CenteredLyrics = checkbox.IsChecked == true;
@@ -276,17 +273,17 @@ public class SettingsWindow : Window
             IsEnabled = Settings.AlwaysShowWaveform,
             Opacity = Settings.AlwaysShowWaveform ? 1.0 : 0.4
         };
-        waveformOptions.Children.Add(Toggle("VOCALOIDPatcher_SvEditorStyle_Header", "SV编辑器样式",
+        waveformOptions.Children.Add(Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
             Settings.SvEditorStyle, new Thickness(0, 0, 0, 8), checkbox =>
             {
                 Settings.SvEditorStyle = checkbox.IsChecked == true;
                 AlwaysShowWaveformPatch.RefreshWaveform();
             }));
-        waveformOptions.Children.Add(SliderRow("VOCALOIDPatcher_WaveformOpacity_Header", "不透明度",
+        waveformOptions.Children.Add(SliderRow("VOCALOIDPatcher_WaveformOpacity_Header",
             0.1, 1.0, Settings.WaveformOpacity,
             v => { Settings.WaveformOpacity = v; AlwaysShowWaveformPatch.RefreshWaveform(); }));
 
-        var alwaysShowWaveform = Toggle("VOCALOIDPatcher_AlwaysShowWaveform_Header", "始终显示音符波形",
+        var alwaysShowWaveform = Toggle("VOCALOIDPatcher_AlwaysShowWaveform_Header",
             Settings.AlwaysShowWaveform, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 var enabled = checkbox.IsChecked == true;
@@ -302,15 +299,15 @@ public class SettingsWindow : Window
             IsEnabled = Settings.ShowCharacterArt,
             Opacity = Settings.ShowCharacterArt ? 1.0 : 0.4
         };
-        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtSize_Header", "封面大小",
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtSize_Header",
             80, 480, Settings.CharacterArtSize,
             v => { Settings.CharacterArtSize = (int)v; CharacterArtPatch.RefreshArt(); }));
-        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtOpacity_Header", "不透明度",
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtOpacity_Header",
             0.1, 1.0, Settings.CharacterArtOpacity,
             v => { Settings.CharacterArtOpacity = v; CharacterArtPatch.RefreshArt(); }));
         artOptions.Children.Add(BuildCharacterArtUpload());
 
-        var showCharacterArt = Toggle("VOCALOIDPatcher_ShowCharacterArt_Header", "显示声库封面",
+        var showCharacterArt = Toggle("VOCALOIDPatcher_ShowCharacterArt_Header",
             Settings.ShowCharacterArt, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 var enabled = checkbox.IsChecked == true;
@@ -349,12 +346,12 @@ public class SettingsWindow : Window
         var buttonRow = new StackPanel { Orientation = Orientation.Horizontal };
 
         var uploadButton = new Button { Margin = new Thickness(0, 0, 10, 0) };
-        Localize(() => uploadButton.Content = T("VOCALOIDPatcher_CharacterArtUpload_Header", "上传立绘"));
+        Localize(() => uploadButton.Content = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtUpload_Header"));
         uploadButton.Click += (_, _) => UploadCharacterArt();
         _artUploadButton = uploadButton;
 
         var resetButton = new Button();
-        Localize(() => resetButton.Content = T("VOCALOIDPatcher_CharacterArtReset_Header", "恢复默认"));
+        Localize(() => resetButton.Content = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtReset_Header"));
         resetButton.Click += (_, _) => ResetCharacterArt();
         _artResetButton = resetButton;
 
@@ -382,14 +379,14 @@ public class SettingsWindow : Window
         var info = CharacterArtPatch.GetActiveVoiceBankInfo();
         if (info == null)
         {
-            _artBankLabel.Text = T("VOCALOIDPatcher_CharacterArtNoBank", "请先在编辑器中选择一个声库");
+            _artBankLabel.Text = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtNoBank");
             if (_artUploadButton != null) _artUploadButton.IsEnabled = false;
             if (_artResetButton != null) _artResetButton.IsEnabled = false;
             return;
         }
 
         var (compId, name) = info.Value;
-        _artBankLabel.Text = string.Format(T("VOCALOIDPatcher_CharacterArtCurrentBank", "当前声库：{0}"), name);
+        _artBankLabel.Text = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtCurrentBank", name);
         if (_artUploadButton != null) _artUploadButton.IsEnabled = true;
         if (_artResetButton != null) _artResetButton.IsEnabled = CharacterArtPatch.HasCustomArt(compId);
     }
@@ -399,12 +396,12 @@ public class SettingsWindow : Window
         var info = CharacterArtPatch.GetActiveVoiceBankInfo();
         if (info == null)
         {
-            Debug.ShowMessageBox(T("VOCALOIDPatcher_CharacterArtNoBank", "请先在编辑器中选择一个声库"));
+            Debug.ShowMessageBox(TranslationManager.Tr("VOCALOIDPatcher_CharacterArtNoBank"));
             return;
         }
 
-        var mediaFilter = T("VOCALOIDPatcher_CharacterArtImageFilter", "图片 / 视频文件");
-        var allFiles = T("VOCALOIDPatcher_Format_AllFiles", "所有文件");
+        var mediaFilter = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtImageFilter");
+        var allFiles = TranslationManager.Tr("VOCALOIDPatcher_Format_AllFiles");
         var dialog = new OpenFileDialog
         {
             Filter = $"{mediaFilter}|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.mp4;*.m4v;*.mov;*.webm;*.avi;*.mkv|{allFiles}|*.*",
@@ -417,7 +414,7 @@ public class SettingsWindow : Window
         if (CharacterArtPatch.ImportArt(info.Value.CompId, dialog.FileName))
             RefreshArtBankInfo();
         else
-            Debug.ShowMessageBox(T("VOCALOIDPatcher_CharacterArtUploadFailed", "立绘上传失败"));
+            Debug.ShowMessageBox(TranslationManager.Tr("VOCALOIDPatcher_CharacterArtUploadFailed"));
     }
 
     private void ResetCharacterArt()
@@ -433,9 +430,9 @@ public class SettingsWindow : Window
     private StackPanel BuildWidgetsPanel()
     {
         var panel = new StackPanel();
-        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Widgets", "小组件"));
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Widgets"));
 
-        var spectrum = Toggle("VOCALOIDPatcher_SpectrumVisualizer_Header", "频谱可视化",
+        var spectrum = Toggle("VOCALOIDPatcher_SpectrumVisualizer_Header",
             Settings.SpectrumVisualizer, new Thickness(0, 6, 0, 0), checkbox =>
             {
                 var enabled = checkbox.IsChecked == true;
@@ -450,8 +447,7 @@ public class SettingsWindow : Window
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap
         };
-        Localize(() => hint.Text = T("VOCALOIDPatcher_SpectrumVisualizer_Hint",
-            "使用 ASIO 时将不会正常工作"));
+        Localize(() => hint.Text = TranslationManager.Tr("VOCALOIDPatcher_SpectrumVisualizer_Hint"));
 
         panel.Children.Add(spectrum);
         panel.Children.Add(hint);
@@ -459,7 +455,7 @@ public class SettingsWindow : Window
         return panel;
     }
 
-    private FrameworkElement SliderRow(string key, string fallback, double min, double max, double value,
+    private FrameworkElement SliderRow(string key, double min, double max, double value,
         Action<double> onChanged)
     {
         var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
@@ -471,7 +467,7 @@ public class SettingsWindow : Window
             FontSize = 12,
             VerticalAlignment = VerticalAlignment.Center
         };
-        Localize(() => label.Text = T(key, fallback));
+        Localize(() => label.Text = TranslationManager.Tr(key));
 
         var slider = new Slider
         {
@@ -491,7 +487,7 @@ public class SettingsWindow : Window
     private StackPanel BuildOtherPanel()
     {
         var panel = new StackPanel();
-        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Other", "其它"));
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Other"));
 
         var intervalRow = new StackPanel
         {
@@ -500,7 +496,7 @@ public class SettingsWindow : Window
             IsEnabled = Settings.AutoSaveEnabled
         };
 
-        var autoSave = Toggle("VOCALOIDPatcher_AutoSave_Header", "定时保存",
+        var autoSave = Toggle("VOCALOIDPatcher_AutoSave_Header",
             Settings.AutoSaveEnabled, new Thickness(0, 6, 0, 0), checkbox =>
             {
                 Settings.AutoSaveEnabled = checkbox.IsChecked == true;
@@ -514,7 +510,7 @@ public class SettingsWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 10, 0)
         };
-        Localize(() => intervalLabel.Text = T("VOCALOIDPatcher_AutoSave_Interval_Header", "保存间隔"));
+        Localize(() => intervalLabel.Text = TranslationManager.Tr("VOCALOIDPatcher_AutoSave_Interval_Header"));
 
         var intervalCombo = new ComboBox
         {
@@ -538,7 +534,7 @@ public class SettingsWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(8, 0, 0, 0)
         };
-        Localize(() => minutesLabel.Text = T("VOCALOIDPatcher_Minutes_Suffix", "分钟"));
+        Localize(() => minutesLabel.Text = TranslationManager.Tr("VOCALOIDPatcher_Minutes_Suffix"));
 
         intervalRow.Children.Add(intervalLabel);
         intervalRow.Children.Add(intervalCombo);
@@ -553,52 +549,52 @@ public class SettingsWindow : Window
     private StackPanel BuildPerformancePanel()
     {
         var panel = new StackPanel();
-        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Performance", "性能"));
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Performance"));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastProjectLoad_Header", "加快工程载入",
-            "VOCALOIDPatcher_FastProjectLoad_Desc", "打开工程时把音频波形预读等耗时步骤移到后台执行，缩短打开大工程的等待时间。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastProjectLoad_Header",
+            "VOCALOIDPatcher_FastProjectLoad_Desc",
             Settings.FastProjectLoad, new Thickness(0, 6, 0, 0), checkbox =>
             {
                 Settings.FastProjectLoad = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_TrimWorkingSet_Header", "内存优化",
-            "VOCALOIDPatcher_TrimWorkingSet_Desc", "空闲时自动释放不再使用的内存，降低编辑器的内存占用。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_TrimWorkingSet_Header",
+            "VOCALOIDPatcher_TrimWorkingSet_Desc",
             Settings.TrimWorkingSet, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.TrimWorkingSet = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_OptimizeTrackRendering_Header", "优化音轨区域渲染",
-            "VOCALOIDPatcher_OptimizeTrackRendering_Desc", "用更高效的方式绘制音轨区域的音符、标尺与波形，减少编辑时的卡顿。更改后需重启编辑器生效。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_OptimizeTrackRendering_Header",
+            "VOCALOIDPatcher_OptimizeTrackRendering_Desc",
             Settings.OptimizeTrackRendering, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.OptimizeTrackRendering = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SkipUnchangedPartRedraw_Header", "加快乐段切换",
-            "VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc", "在同一音轨内切换乐段时，跳过画面中无需变化部分的重绘，使切换更流畅。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SkipUnchangedPartRedraw_Header",
+            "VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc",
             Settings.SkipUnchangedPartRedraw, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.SkipUnchangedPartRedraw = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_CacheRenderedWaves_Header", "合成波形缓存",
-            "VOCALOIDPatcher_CacheRenderedWaves_Desc", "记住最近乐段的合成波形并在后台读取新波形，切换乐段时不再因读取波形而卡顿。波形可能稍后才显示。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_CacheRenderedWaves_Header",
+            "VOCALOIDPatcher_CacheRenderedWaves_Desc",
             Settings.CacheRenderedWaves, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.CacheRenderedWaves = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastSelectionSweep_Header", "加快选区清除",
-            "VOCALOIDPatcher_FastSelectionSweep_Desc", "点击乐段时只取消确实被选中过的事件，不再每次扫描整个工程。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastSelectionSweep_Header",
+            "VOCALOIDPatcher_FastSelectionSweep_Desc",
             Settings.FastSelectionSweep, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.FastSelectionSweep = checkbox.IsChecked == true;
             }));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_DeferParameterViewUpdate_Header", "延后参数面板刷新",
-            "VOCALOIDPatcher_DeferParameterViewUpdate_Desc", "切换音轨或乐段时，下方参数面板稍后再刷新，让切换立即响应。",
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_DeferParameterViewUpdate_Header",
+            "VOCALOIDPatcher_DeferParameterViewUpdate_Desc",
             Settings.DeferParameterViewUpdate, new Thickness(0, 16, 0, 0), checkbox =>
             {
                 Settings.DeferParameterViewUpdate = checkbox.IsChecked == true;
@@ -607,13 +603,13 @@ public class SettingsWindow : Window
         return panel;
     }
 
-    private StackPanel DescribedToggle(string key, string fallback, string descKey, string descFallback,
+    private StackPanel DescribedToggle(string key, string descKey,
         bool initial, Thickness margin, Action<CheckBox> onClick)
     {
         var container = new StackPanel { Margin = margin };
 
         var checkbox = new CheckBox { IsChecked = initial };
-        Localize(() => checkbox.Content = T(key, fallback));
+        Localize(() => checkbox.Content = TranslationManager.Tr(key));
         checkbox.Click += (_, _) => onClick(checkbox);
 
         var desc = new TextBlock
@@ -624,26 +620,26 @@ public class SettingsWindow : Window
             Margin = new Thickness(22, 4, 12, 0),
             Opacity = 0.85
         };
-        Localize(() => desc.Text = T(descKey, descFallback));
+        Localize(() => desc.Text = TranslationManager.Tr(descKey));
 
         container.Children.Add(checkbox);
         container.Children.Add(desc);
         return container;
     }
 
-    private CheckBox Toggle(string key, string fallback, bool initial, Thickness margin, Action<CheckBox> onClick)
+    private CheckBox Toggle(string key, bool initial, Thickness margin, Action<CheckBox> onClick)
     {
         var checkbox = new CheckBox
         {
             Margin = margin,
             IsChecked = initial
         };
-        Localize(() => checkbox.Content = T(key, fallback));
+        Localize(() => checkbox.Content = TranslationManager.Tr(key));
         checkbox.Click += (_, _) => onClick(checkbox);
         return checkbox;
     }
 
-    private TextBlock SectionTitle(string key, string fallback)
+    private TextBlock SectionTitle(string key)
     {
         var title = new TextBlock
         {
@@ -652,7 +648,7 @@ public class SettingsWindow : Window
             Foreground = ForegroundBrush,
             Margin = new Thickness(0, 0, 0, 18)
         };
-        Localize(() => title.Text = T(key, fallback));
+        Localize(() => title.Text = TranslationManager.Tr(key));
         return title;
     }
 
@@ -693,7 +689,7 @@ public class SettingsWindow : Window
 
         if (UpdateChecker.HasUpdate && UpdateChecker.LatestVersion != null)
         {
-            var suffix = T("VOCALOIDPatcher_Update_VersionSuffix", " (有新版本: {0})");
+            var suffix = TranslationManager.Tr("VOCALOIDPatcher_Update_VersionSuffix");
             _about.Inlines.Add(Link(string.Format(suffix, UpdateChecker.LatestVersion), UpdateChecker.ReleasesPageUrl));
         }
 
@@ -723,12 +719,10 @@ public class SettingsWindow : Window
 
     private void ApplyLocalization()
     {
-        Title = T("VOCALOIDPatcher_Settings_Title", "VOCALOID Patcher 设置");
+        Title = TranslationManager.Tr("VOCALOIDPatcher_Settings_Title");
         foreach (var localizer in _localizers)
             localizer();
     }
-
-    private static string T(string key, string fallback) => TranslationManager.Get(key) ?? fallback;
 
     private void PlayEntrance()
     {
@@ -750,69 +744,15 @@ public class SettingsWindow : Window
                 new DoubleAnimation(10, 0, new Duration(TimeSpan.FromMilliseconds(260))) { EasingFunction = ease });
     }
 
-    [DllImport("dwmapi.dll")]
-    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
-
-    private void EnableDarkTitleBar()
-    {
-        try
-        {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            if (hwnd == IntPtr.Zero)
-                return;
-
-            int enabled = 1;
-            if (DwmSetWindowAttribute(hwnd, 20, ref enabled, sizeof(int)) != 0)
-                DwmSetWindowAttribute(hwnd, 19, ref enabled, sizeof(int));
-        }
-        catch (Exception e)
-        {
-            Debug.Print($"设置深色标题栏失败: {e.Message}");
-        }
-    }
-
-    private static LinearGradientBrush WindowBackground()
-    {
-        var brush = new LinearGradientBrush
-        {
-            StartPoint = new Point(0, 0),
-            EndPoint = new Point(0, 1)
-        };
-        brush.GradientStops.Add(new GradientStop(Color.FromRgb(0x22, 0x22, 0x26), 0));
-        brush.GradientStops.Add(new GradientStop(Color.FromRgb(0x1A, 0x1A, 0x1C), 1));
-        brush.Freeze();
-        return brush;
-    }
-
-    private static SolidColorBrush Frozen(Color color)
-    {
-        var brush = new SolidColorBrush(color);
-        brush.Freeze();
-        return brush;
-    }
-
     private void ApplyTheme()
     {
-        AddImplicitStyle(typeof(ListBoxItem), NavItemStyle);
-        AddImplicitStyle(typeof(CheckBox), ToggleSwitchStyle);
-        AddImplicitStyle(typeof(ComboBox), ComboBoxStyle);
-        AddImplicitStyle(typeof(ComboBoxItem), ComboBoxItemStyle);
-        AddImplicitStyle(typeof(Slider), SliderStyle);
-        AddImplicitStyle(typeof(Button), ButtonStyle);
-        AddImplicitStyle(typeof(System.Windows.Controls.Primitives.ScrollBar), ScrollBarStyle);
-    }
-
-    private void AddImplicitStyle(Type targetType, string xaml)
-    {
-        try
-        {
-            if (XamlReader.Parse(xaml) is Style style)
-                Resources[targetType] = style;
-        }
-        catch (Exception e)
-        {
-            Debug.Print($"加载 {targetType.Name} 样式失败: {e.Message}");
-        }
+        DarkTheme.AddStyle(this, typeof(ListBoxItem), NavItemStyle);
+        DarkTheme.AddStyle(this, typeof(CheckBox), ToggleSwitchStyle);
+        DarkTheme.AddStyle(this, typeof(ComboBox), ComboBoxStyle);
+        DarkTheme.AddStyle(this, typeof(ComboBoxItem), ComboBoxItemStyle);
+        DarkTheme.AddStyle(this, typeof(Slider), SliderStyle);
+        DarkTheme.AddStyle(this, typeof(Button), ButtonStyle);
+        DarkTheme.AddStyle(this, typeof(System.Windows.Controls.Primitives.ScrollBar), ScrollBarStyle);
     }
 
     private const string Ns =

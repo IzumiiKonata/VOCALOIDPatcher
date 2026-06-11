@@ -56,7 +56,7 @@ public static class Patcher
         }
         catch (Exception e)
         {
-            Debug.ShowErrorMessage("Patcher 初始化失败!", e);
+            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_InitFailed"), e);
         }
     }
 
@@ -67,7 +67,8 @@ public static class Patcher
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception)args.ExceptionObject;
-            Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace, "VOCALOID Patcher 错误");
+            Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace,
+                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ErrorTitle"));
         };
 
         if (!Directory.Exists(ConfigDir)) Directory.CreateDirectory(ConfigDir);
@@ -79,15 +80,15 @@ public static class Patcher
 
         ConsoleHelper.InitConsole();
 
-        Debug.Print("已拉起 VOCALOID Patcher");
-        Debug.Print($"版本: {Version}");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Started"));
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Version", Version));
         Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
 
         var targetType = typeof(App);
         var asm = targetType.Assembly;
         var version = asm.GetName().Version;
 
-        Debug.Print($"VOCALOID 编辑器版本: {version}");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_EditorVersion", version));
 
         if (VstPluginMode)
         {
@@ -96,13 +97,13 @@ public static class Patcher
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor",
                 "VOCALOIDPatcher"
             });
-            Debug.Print("检测到正在以 VST 插件模式运行 VOCALOID6 编辑器");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_VstMode"));
             VstPluginPatch.ApplyPatches(_harmony);
         }
 
         ApplyPatches();
         TranslationManager.Initialize();
-        Debug.Print("TranslationManager 已初始化");
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_TranslationInitialized"));
 
         WpfTranslationPatch.InstallGlobalHandlers();
 
@@ -129,9 +130,8 @@ public static class Patcher
         if (runtimeMajor != 6)
         {
             Debug.ShowErrorMessage(
-                $"当前 VOCALOID Patcher 为 .NET 6.0 构建版本,只能在基于 .NET 6.0 的 VOCALOID6 编辑器中使用。\n" +
-                $"检测到当前编辑器运行于 .NET {runtimeMajor}.0,请改用对应版本的 VOCALOID Patcher。",
-                "VOCALOID Patcher 版本不匹配");
+                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch", runtimeMajor),
+                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle"));
             Environment.Exit(0);
             return false;
         }
@@ -220,7 +220,7 @@ public static class Patcher
 
         patches.ForEach(p =>
         {
-            Debug.Print($"应用 {p.PatchName}...");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ApplyingPatch", p.PatchName));
             p.Apply(_harmony);
         });
     }
@@ -258,7 +258,7 @@ public static class Patcher
         {
             var header = "VOCALOID Patcher";
             if (UpdateChecker.HasUpdate)
-                header += TranslationManager.Get("VOCALOIDPatcher_Update_MenuSuffix") ?? " (新版本可用)";
+                header += TranslationManager.Tr("VOCALOIDPatcher_Update_MenuSuffix");
 
             PatcherMenuItem.Header = header;
         }

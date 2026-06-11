@@ -6,6 +6,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -50,7 +51,7 @@ public class ShowOtherTracksNotesPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"收集其他轨道音符失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_ShowOtherTracks_CollectFailed", e.Message));
         }
     }
 
@@ -101,7 +102,7 @@ public class ShowOtherTracksNotesPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"刷新钢琴窗失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_ShowOtherTracks_RefreshPianorollFailed", e.Message));
         }
     }
 

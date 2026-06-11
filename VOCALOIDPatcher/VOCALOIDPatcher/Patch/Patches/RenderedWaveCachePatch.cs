@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -126,7 +127,7 @@ public class RenderedWaveCachePatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"渲染波形缓存失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_RenderedWaveCache_Failed", e.Message));
             return true;
         }
     }
@@ -149,7 +150,7 @@ public class RenderedWaveCachePatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"刷新渲染波形画布失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_RenderedWaveCache_RefreshCanvasFailed", e.Message));
         }
     }
 }

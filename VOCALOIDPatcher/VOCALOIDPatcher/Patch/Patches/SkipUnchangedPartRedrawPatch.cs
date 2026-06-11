@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -97,7 +98,7 @@ public class SkipUnchangedPartRedrawPatch : PatchBase
         }
         catch (Exception e)
         {
-            Debug.Print($"同轨换乐段快速重画失败,回退完整重画: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SkipPartRedraw_Failed", e.Message));
             return true;
         }
     }

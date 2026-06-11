@@ -45,14 +45,14 @@ public static class SvipFormatMenu
             var fileMenu = menu.Items.OfType<MenuItem>().FirstOrDefault(m => m.Tag as string == "Menu_File");
             if (fileMenu == null)
             {
-                Debug.Print("[SvipFormatMenu] 未找到文件菜单");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SvipMenu_FileMenuNotFound"));
                 return;
             }
 
             var importMenu = fileMenu.Items.OfType<MenuItem>().FirstOrDefault(m => m.Tag as string == "File_Import");
             if (importMenu == null)
             {
-                Debug.Print("[SvipFormatMenu] 未找到导入子菜单");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SvipMenu_ImportSubmenuNotFound"));
                 return;
             }
 
@@ -64,7 +64,7 @@ public static class SvipFormatMenu
         }
         catch (Exception e)
         {
-            Debug.Print($"[SvipFormatMenu] 安装失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_SvipMenu_InstallFailed", e.Message));
         }
     }
 
@@ -120,7 +120,7 @@ public static class SvipFormatMenu
     private static void RefreshHeaders()
     {
         if (_exportMenu != null)
-            _exportMenu.Header = TranslationManager.Get(ExportHeaderKey) ?? ExportHeaderKey;
+            _exportMenu.Header = TranslationManager.Tr(ExportHeaderKey);
 
         foreach (var (item, info) in _formatItems)
             item.Header = $"{LocalizedName(info)}…";
@@ -137,7 +137,7 @@ public static class SvipFormatMenu
             }
             catch (Exception e)
             {
-                Debug.ShowErrorMessage(TranslationManager.Get(OperationFailedKey) ?? "Operation Failed", e);
+                Debug.ShowErrorMessage(TranslationManager.Tr(OperationFailedKey), e);
             }
         };
         WpfTranslationPatch.MarkUntranslatable(item);
@@ -148,7 +148,7 @@ public static class SvipFormatMenu
     {
         var extensions = info.AllExtensions.Distinct().ToList();
         var pattern = string.Join(";", extensions.Select(e => "*." + e));
-        var allFiles = TranslationManager.Get(AllFilesKey) ?? "All Files";
+        var allFiles = TranslationManager.Tr(AllFilesKey);
 
         var dialog = new OpenFileDialog
         {
@@ -169,16 +169,14 @@ public static class SvipFormatMenu
 
         if (!raw.HasNotes)
         {
-            Debug.ShowMessageBox(
-                TranslationManager.Get(EmptyProjectKey)
-                ?? "The current project is empty; there are no notes to export.");
+            Debug.ShowMessageBox(TranslationManager.Tr(EmptyProjectKey));
             return;
         }
 
         var save = new SaveFileDialog
         {
             FileName = $"export.{info.Extension}",
-            Filter = $"{LocalizedName(info)}|*.{info.Extension}|{TranslationManager.Get(AllFilesKey) ?? "All Files"}|*.*",
+            Filter = $"{LocalizedName(info)}|*.{info.Extension}|{TranslationManager.Tr(AllFilesKey)}|*.*",
         };
         if (save.ShowDialog() != true)
             return;
@@ -205,13 +203,12 @@ public static class SvipFormatMenu
             catch (NotesOverlapExportException ex)
             {
                 string bars = string.Join(", ", ex.Bars);
-                string template = TranslationManager.Get(OverlapMessageKey)
-                    ?? "Overlapping notes were found near bar(s): {0}. How would you like to proceed?";
+                string template = TranslationManager.Tr(OverlapMessageKey);
                 bool autoFix = ConfirmChoiceDialog.Show(
-                    TranslationManager.Get(OverlapTitleKey) ?? "Notes Overlap",
+                    TranslationManager.Tr(OverlapTitleKey),
                     string.Format(template, bars),
-                    TranslationManager.Get(OverlapAutoFixKey) ?? "Auto Fix",
-                    TranslationManager.Get(OverlapStopKey) ?? "Stop Export");
+                    TranslationManager.Tr(OverlapAutoFixKey),
+                    TranslationManager.Tr(OverlapStopKey));
                 if (!autoFix)
                     return;
                 resolveOverlaps = true;

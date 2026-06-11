@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.UI;
@@ -41,7 +42,7 @@ internal static class DarkTheme
         AddStyle(element, typeof(Button), ButtonStyle);
     }
 
-    private static void AddStyle(FrameworkElement element, Type targetType, string xaml)
+    internal static void AddStyle(FrameworkElement element, Type targetType, string xaml)
     {
         try
         {
@@ -50,7 +51,7 @@ internal static class DarkTheme
         }
         catch (Exception e)
         {
-            Debug.Print($"加载 {targetType.Name} 样式失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_LoadStyleFailed", targetType.Name, e.Message));
         }
     }
 
@@ -71,7 +72,7 @@ internal static class DarkTheme
         }
         catch (Exception e)
         {
-            Debug.Print($"设置深色标题栏失败: {e.Message}");
+            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_DarkTitleBarFailed", e.Message));
         }
     }
 

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -69,7 +70,7 @@ public class ParameterViewDeferPatch : PatchBase
             }
             catch (Exception e)
             {
-                Debug.Print($"延后参数面板更新失败: {e.Message}");
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_ParameterViewDefer_Failed", e.Message));
             }
         }), DispatcherPriority.Background);
 

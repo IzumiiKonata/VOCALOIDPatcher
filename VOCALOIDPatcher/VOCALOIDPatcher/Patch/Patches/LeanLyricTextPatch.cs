@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using HarmonyLib;
 using VOCALOIDPatcher.Config;
+using VOCALOIDPatcher.Translation;
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.VSM;
@@ -70,7 +71,7 @@ internal static class LyricTextState
         }
         catch (Exception e)
         {
-            VOCALOIDPatcher.Utils.Debug.Print($"延后构造歌词文本失败: {e.Message}");
+            VOCALOIDPatcher.Utils.Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_LeanLyric_DeferConstructFailed", e.Message));
         }
     }
 }
