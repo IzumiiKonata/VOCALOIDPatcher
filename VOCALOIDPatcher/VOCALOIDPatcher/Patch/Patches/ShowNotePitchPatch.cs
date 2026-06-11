@@ -82,7 +82,11 @@ public class ShowNotePitchPatch : PatchBase
             or UpdateViewTypeFlag.NoteSelectionChanged
             or UpdateViewTypeFlag.HorizontalZoomed
             or UpdateViewTypeFlag.VerticalZoomed
-            or UpdateViewTypeFlag.EditModeChanged;
+            or UpdateViewTypeFlag.EditModeChanged
+#if !NET6_0
+            or UpdateViewTypeFlag.Scrolled
+#endif
+        ;
 
     private static PitchLabelLayer? EnsureLayer(PianorollView view)
     {

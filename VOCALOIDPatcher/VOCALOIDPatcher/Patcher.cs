@@ -182,6 +182,11 @@ public static class Patcher
             new FastCanvasViewportRectPatch(),
             new FastCanvasViewportRangePatch(),
             new SkipUnchangedPartRedrawPatch(),
+            new TimeSigSelectionTrackPatch(),
+            new TempoSelectionTrackPatch(),
+            new BreakPointSelectionTrackPatch(),
+            new FastSelectionSweepPatch(),
+            new ParameterViewDeferPatch(),
             new TouchpadHorizontalScrollPatch(),
             new TrackTouchpadHorizontalScrollPatch(),
             new CursorNoteNameTranslationFixPatch(),
@@ -208,7 +213,8 @@ public static class Patcher
             new UIMidiPartNotesRenderPatch(),
             new AudioTrackHeightResizePatch(),
             new TrackRulerGridLinePatch(),
-            new MusicalRulerGridLinePatch()
+            new MusicalRulerGridLinePatch(),
+            new RenderedWaveCachePatch()
 #endif
         };
 

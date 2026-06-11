@@ -176,6 +176,30 @@ public static class Settings
         set => Patcher.ConfigManager.Set(OptimizeTrackRenderingKey, value);
     }
 
+    public static string FastSelectionSweepKey => "FastSelectionSweep";
+
+    public static bool FastSelectionSweep
+    {
+        get => Patcher.ConfigManager.Get(FastSelectionSweepKey, true);
+        set => Patcher.ConfigManager.Set(FastSelectionSweepKey, value);
+    }
+
+    public static string DeferParameterViewUpdateKey => "DeferParameterViewUpdate";
+
+    public static bool DeferParameterViewUpdate
+    {
+        get => Patcher.ConfigManager.Get(DeferParameterViewUpdateKey, true);
+        set => Patcher.ConfigManager.Set(DeferParameterViewUpdateKey, value);
+    }
+
+    public static string CacheRenderedWavesKey => "CacheRenderedWaves";
+
+    public static bool CacheRenderedWaves
+    {
+        get => Patcher.ConfigManager.Get(CacheRenderedWavesKey, true);
+        set => Patcher.ConfigManager.Set(CacheRenderedWavesKey, value);
+    }
+
     public static string SkipUnchangedPartRedrawKey => "SkipUnchangedPartRedraw";
 
     public static bool SkipUnchangedPartRedraw

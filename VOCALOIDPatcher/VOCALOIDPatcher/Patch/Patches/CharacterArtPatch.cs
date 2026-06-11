@@ -91,7 +91,7 @@ public class CharacterArtPatch : PatchBase
         var compId = GetActiveCompId(view);
         var bankChanged = compId != layer.CurrentCompId;
 
-        if (IsPartOrTrackChange(typeFlags) || bankChanged || !layer.HasContent)
+        if (bankChanged || !layer.HasContent)
         {
             layer.CurrentCompId = compId;
             layer.SetContent(LoadActiveArt(view));
@@ -316,21 +316,58 @@ public class CharacterArtPatch : PatchBase
         }
     }
 
+    private const int ArtCacheCapacity = 2;
+
+    private static readonly System.Collections.Generic.Dictionary<string, (DateTime WriteTime, ImageSource[]? Frames, int[]? Delays, ImageSource? Image)> ArtCache = new();
+
+    private static readonly System.Collections.Generic.LinkedList<string> ArtCacheOrder = new();
+
     private static ArtContent? LoadContent(string path)
     {
         var ext = Path.GetExtension(path).ToLowerInvariant();
 
-        if (ext == ".gif")
-        {
-            var gif = LoadGif(path);
-            if (gif != null)
-                return gif;
-        }
-
         if (IsVideoExtension(ext))
             return new VideoArtContent(path);
 
-        var image = LoadStaticImage(path);
+        var writeTime = File.GetLastWriteTimeUtc(path);
+        if (ArtCache.TryGetValue(path, out var cached) && cached.WriteTime == writeTime)
+        {
+            ArtCacheOrder.Remove(path);
+            ArtCacheOrder.AddFirst(path);
+
+            if (cached.Frames != null && cached.Delays != null)
+                return new GifArtContent(cached.Frames, cached.Delays);
+
+            return cached.Image == null ? null : new StaticArtContent(cached.Image);
+        }
+
+        ImageSource[]? frames = null;
+        int[]? delays = null;
+        ImageSource? image = null;
+
+        if (ext == ".gif")
+        {
+            var gif = LoadGifFrames(path);
+            if (gif != null)
+                (frames, delays) = gif.Value;
+        }
+
+        if (frames == null)
+            image = LoadStaticImage(path);
+
+        ArtCache[path] = (writeTime, frames, delays, image);
+        ArtCacheOrder.Remove(path);
+        ArtCacheOrder.AddFirst(path);
+        while (ArtCacheOrder.Count > ArtCacheCapacity)
+        {
+            var oldest = ArtCacheOrder.Last!.Value;
+            ArtCacheOrder.RemoveLast();
+            ArtCache.Remove(oldest);
+        }
+
+        if (frames != null && delays != null)
+            return new GifArtContent(frames, delays);
+
         return image == null ? null : new StaticArtContent(image);
     }
 
@@ -352,7 +389,7 @@ public class CharacterArtPatch : PatchBase
         return bitmap;
     }
 
-    private static GifArtContent? LoadGif(string path)
+    private static (ImageSource[] Frames, int[] Delays)? LoadGifFrames(string path)
     {
         GifBitmapDecoder decoder;
         using (var stream = File.OpenRead(path))
@@ -408,7 +445,7 @@ public class CharacterArtPatch : PatchBase
         }
 
         Debug.Print($"[CharacterArt] 已加载 GIF: {path} ({width}x{height}, {count} 帧)");
-        return new GifArtContent(frames, delays);
+        return (frames, delays);
     }
 
     private static int GetQueryInt(BitmapMetadata? metadata, string query, int fallback)
