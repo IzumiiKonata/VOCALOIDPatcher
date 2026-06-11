@@ -35,9 +35,21 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>Auto Save</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>Interval</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>Performance</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>Faster Project Loading</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>Moves audio waveform pre-loading and other heavy steps to the background, so large projects open faster.</value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>Memory Optimization</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>Optimize Track Area Rendering (requires restart)</value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>Automatically releases unused memory when idle to reduce the editor's memory footprint.</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>Optimize Track Area Rendering</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>Draws notes, rulers and waveforms in the track area more efficiently to reduce stutter while editing. Requires restarting the editor.</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>Faster Part Switching</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>Skips redrawing unchanged content when switching parts within the same track, making switching smoother.</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>Rendered Waveform Cache</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>Keeps recent parts' rendered waveforms in memory and loads new ones in the background, so switching parts no longer stalls on waveform loading. The waveform may appear with a short delay.</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>Faster Selection Clearing</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>Only deselects events that were actually selected instead of scanning the entire project on every click.</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>Deferred Parameter Panel Refresh</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>Refreshes the bottom parameter panel slightly later when switching tracks or parts, so switching feels instant.</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8th Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8th Shuffle</value></data>

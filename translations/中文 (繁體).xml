@@ -35,9 +35,21 @@
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>效能</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快工程載入</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>開啟工程時把音訊波形預讀等耗時步驟移到背景執行，縮短開啟大工程的等待時間。</value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>記憶體優化</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>最佳化音軌區域渲染 (重啟編輯器生效)</value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>閒置時自動釋放不再使用的記憶體，降低編輯器的記憶體佔用。</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>最佳化音軌區域渲染</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>用更高效的方式繪製音軌區域的音符、標尺與波形，減少編輯時的卡頓。變更後需重啟編輯器生效。</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>加快樂段切換</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>在同一音軌內切換樂段時，跳過畫面中無需變化部分的重繪，使切換更流暢。</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形快取</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>記住最近樂段的合成波形並在背景讀取新波形，切換樂段時不再因讀取波形而卡頓。波形可能稍後才顯示。</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>加快選取清除</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>點擊樂段時只取消確實被選取過的事件，不再每次掃描整個工程。</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>延後參數面板刷新</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>切換音軌或樂段時，下方參數面板稍後再刷新，讓切換立即回應。</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>

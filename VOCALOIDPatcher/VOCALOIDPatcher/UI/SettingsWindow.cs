@@ -101,13 +101,7 @@ public class SettingsWindow : Window
         root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
         root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-        var categories = new (string Key, string Fallback, UIElement Panel)[]
-        {
-            ("VOCALOIDPatcher_Settings_Category_General", "常规", BuildGeneralPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Pianoroll", "钢琴窗", BuildPianorollPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Widgets", "小组件", BuildWidgetsPanel()),
-            ("VOCALOIDPatcher_Settings_Category_Other", "其它", BuildOtherPanel())
-        };
+        var categories = BuildPanelList();
 
         var nav = BuildNav(categories);
         Grid.SetColumn(nav, 0);
@@ -132,6 +126,23 @@ public class SettingsWindow : Window
         root.Children.Add(about);
 
         Content = root;
+    }
+
+    private (string Key, string Fallback, UIElement Panel)[] BuildPanelList()
+    {
+        List<(string, string, UIElement)> result = new() {
+            ("VOCALOIDPatcher_Settings_Category_General", "常规", BuildGeneralPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Pianoroll", "钢琴窗", BuildPianorollPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Widgets", "小组件", BuildWidgetsPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Other", "其它", BuildOtherPanel())
+        };
+
+        if (Patcher.DebugMode)
+        {
+            result.Insert(result.Count - 1, ("VOCALOIDPatcher_Settings_Category_Performance", "性能", BuildPerformancePanel()));
+        }
+
+        return result.ToArray();
     }
 
     private ListBox BuildNav((string Key, string Fallback, UIElement Panel)[] categories)
@@ -533,31 +544,91 @@ public class SettingsWindow : Window
         intervalRow.Children.Add(intervalCombo);
         intervalRow.Children.Add(minutesLabel);
 
-        var fastLoad = Toggle("VOCALOIDPatcher_FastProjectLoad_Header", "加快工程载入",
-            Settings.FastProjectLoad, new Thickness(0, 24, 0, 0), checkbox =>
-            {
-                Settings.FastProjectLoad = checkbox.IsChecked == true;
-            });
-
-        var trimWorkingSet = Toggle("VOCALOIDPatcher_TrimWorkingSet_Header", "内存优化",
-            Settings.TrimWorkingSet, new Thickness(0, 12, 0, 0), checkbox =>
-            {
-                Settings.TrimWorkingSet = checkbox.IsChecked == true;
-            });
-
-        var optimizeTrackRendering = Toggle("VOCALOIDPatcher_OptimizeTrackRendering_Header", "优化音轨区域渲染 (重启编辑器生效)",
-            Settings.OptimizeTrackRendering, new Thickness(0, 12, 0, 0), checkbox =>
-            {
-                Settings.OptimizeTrackRendering = checkbox.IsChecked == true;
-            });
-
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
-        panel.Children.Add(fastLoad);
-        panel.Children.Add(trimWorkingSet);
-        panel.Children.Add(optimizeTrackRendering);
 
         return panel;
+    }
+
+    private StackPanel BuildPerformancePanel()
+    {
+        var panel = new StackPanel();
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Performance", "性能"));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastProjectLoad_Header", "加快工程载入",
+            "VOCALOIDPatcher_FastProjectLoad_Desc", "打开工程时把音频波形预读等耗时步骤移到后台执行，缩短打开大工程的等待时间。",
+            Settings.FastProjectLoad, new Thickness(0, 6, 0, 0), checkbox =>
+            {
+                Settings.FastProjectLoad = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_TrimWorkingSet_Header", "内存优化",
+            "VOCALOIDPatcher_TrimWorkingSet_Desc", "空闲时自动释放不再使用的内存，降低编辑器的内存占用。",
+            Settings.TrimWorkingSet, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.TrimWorkingSet = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_OptimizeTrackRendering_Header", "优化音轨区域渲染",
+            "VOCALOIDPatcher_OptimizeTrackRendering_Desc", "用更高效的方式绘制音轨区域的音符、标尺与波形，减少编辑时的卡顿。更改后需重启编辑器生效。",
+            Settings.OptimizeTrackRendering, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.OptimizeTrackRendering = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SkipUnchangedPartRedraw_Header", "加快乐段切换",
+            "VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc", "在同一音轨内切换乐段时，跳过画面中无需变化部分的重绘，使切换更流畅。",
+            Settings.SkipUnchangedPartRedraw, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.SkipUnchangedPartRedraw = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_CacheRenderedWaves_Header", "合成波形缓存",
+            "VOCALOIDPatcher_CacheRenderedWaves_Desc", "记住最近乐段的合成波形并在后台读取新波形，切换乐段时不再因读取波形而卡顿。波形可能稍后才显示。",
+            Settings.CacheRenderedWaves, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.CacheRenderedWaves = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastSelectionSweep_Header", "加快选区清除",
+            "VOCALOIDPatcher_FastSelectionSweep_Desc", "点击乐段时只取消确实被选中过的事件，不再每次扫描整个工程。",
+            Settings.FastSelectionSweep, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.FastSelectionSweep = checkbox.IsChecked == true;
+            }));
+
+        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_DeferParameterViewUpdate_Header", "延后参数面板刷新",
+            "VOCALOIDPatcher_DeferParameterViewUpdate_Desc", "切换音轨或乐段时，下方参数面板稍后再刷新，让切换立即响应。",
+            Settings.DeferParameterViewUpdate, new Thickness(0, 16, 0, 0), checkbox =>
+            {
+                Settings.DeferParameterViewUpdate = checkbox.IsChecked == true;
+            }));
+
+        return panel;
+    }
+
+    private StackPanel DescribedToggle(string key, string fallback, string descKey, string descFallback,
+        bool initial, Thickness margin, Action<CheckBox> onClick)
+    {
+        var container = new StackPanel { Margin = margin };
+
+        var checkbox = new CheckBox { IsChecked = initial };
+        Localize(() => checkbox.Content = T(key, fallback));
+        checkbox.Click += (_, _) => onClick(checkbox);
+
+        var desc = new TextBlock
+        {
+            Foreground = MutedBrush,
+            FontSize = 11.5,
+            TextWrapping = TextWrapping.Wrap,
+            Margin = new Thickness(22, 4, 12, 0),
+            Opacity = 0.85
+        };
+        Localize(() => desc.Text = T(descKey, descFallback));
+
+        container.Children.Add(checkbox);
+        container.Children.Add(desc);
+        return container;
     }
 
     private CheckBox Toggle(string key, string fallback, bool initial, Thickness margin, Action<CheckBox> onClick)
