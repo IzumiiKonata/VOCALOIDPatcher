@@ -11,7 +11,7 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$root            = $PSScriptRoot
+$root            = Split-Path -Parent $PSScriptRoot
 $proj            = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher.csproj'
 $patcherCs       = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher\Patcher.cs'
 $translationsDir = Join-Path $root 'translations'
