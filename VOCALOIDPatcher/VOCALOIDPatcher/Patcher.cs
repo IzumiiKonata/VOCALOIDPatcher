@@ -75,35 +75,35 @@ public static class Patcher
 
         VstPluginMode = DetectVstPluginMode();
 
-        ConfigManager = new ConfigManager(ConfigFile);
-        _harmony = new Harmony("VOCALOIDPatcher");
-
-        ConsoleHelper.InitConsole();
-
-        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Started"));
-        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Version", Version));
-        Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
-
-        var targetType = typeof(App);
-        var asm = targetType.Assembly;
-        var version = asm.GetName().Version;
-
-        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_EditorVersion", version));
-
         if (VstPluginMode)
-        {
             DataDir = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor",
                 "VOCALOIDPatcher"
             });
+
+        ConfigManager = new ConfigManager(ConfigFile);
+        _harmony = new Harmony("VOCALOIDPatcher");
+
+        ConsoleHelper.InitConsole();
+
+        TranslationManager.Initialize();
+
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Started"));
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Version", Version));
+        Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
+
+        var version = typeof(App).Assembly.GetName().Version;
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_EditorVersion", version));
+        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_TranslationInitialized"));
+
+        if (VstPluginMode)
+        {
             Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_VstMode"));
             VstPluginPatch.ApplyPatches(_harmony);
         }
 
         ApplyPatches();
-        TranslationManager.Initialize();
-        Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_TranslationInitialized"));
 
         WpfTranslationPatch.InstallGlobalHandlers();
 

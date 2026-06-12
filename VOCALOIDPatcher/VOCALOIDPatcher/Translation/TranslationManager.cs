@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using VOCALOIDPatcher.Utils;
 using Yamaha.VOCALOID.Properties;
@@ -41,9 +42,6 @@ public static class TranslationManager
             return;
         }
 
-        BuildResourceIndex();
-        LoadHardcodedMappings();
-
         AvailableLanguages.Clear();
 
         foreach (var file in Directory.GetFiles(TranslationsDir, "*.xml"))
@@ -68,14 +66,33 @@ public static class TranslationManager
             LoadLanguage(configured);
         }
 
+        BuildResourceIndex();
+        LoadHardcodedMappings();
+        RebuildReverseMaps();
+
         Patcher.ConfigManager.Set("Language", configured);
+    }
+
+    [DllImport("kernel32.dll")]
+    private static extern ushort GetUserDefaultUILanguage();
+
+    private static CultureInfo GetUserUiCulture()
+    {
+        try
+        {
+            return CultureInfo.GetCultureInfo(GetUserDefaultUILanguage());
+        }
+        catch
+        {
+            return CultureInfo.InstalledUICulture;
+        }
     }
 
     private static string ResolveSystemLanguage()
     {
         try
         {
-            var culture = CultureInfo.CurrentUICulture;
+            var culture = GetUserUiCulture();
             if (culture.TwoLetterISOLanguageName == "zh")
             {
                 var name = culture.Name;
@@ -181,8 +198,6 @@ public static class TranslationManager
         }
 
         Dict.Clear();
-        TranslatedToOriginalMap.Clear();
-        TranslatedToTranslationKeyMap.Clear();
 
         try
         {
@@ -196,24 +211,33 @@ public static class TranslationManager
                 if (key == null || value == null)
                     continue;
 
-                if (!Dict.TryAdd(key, value))
-                    continue;
-
-                if (OriginalByKey.TryGetValue(key, out var original)
-                    || HardcodedPropertyMappingReversed.TryGetValue(key, out original))
-                {
-                    TranslatedToOriginalMap[value] = original;
-                    TranslatedToTranslationKeyMap[value] = key;
-                }
+                Dict.TryAdd(key, value);
             }
 
             CurrentLanguage = language;
+            RebuildReverseMaps();
             LanguageChanged?.Invoke(null, CurrentLanguage);
             return true;
         }
         catch (Exception)
         {
             return false;
+        }
+    }
+
+    private static void RebuildReverseMaps()
+    {
+        TranslatedToOriginalMap.Clear();
+        TranslatedToTranslationKeyMap.Clear();
+
+        foreach (var pair in Dict)
+        {
+            if (OriginalByKey.TryGetValue(pair.Key, out var original)
+                || HardcodedPropertyMappingReversed.TryGetValue(pair.Key, out original))
+            {
+                TranslatedToOriginalMap[pair.Value] = original;
+                TranslatedToTranslationKeyMap[pair.Value] = pair.Key;
+            }
         }
     }
 
