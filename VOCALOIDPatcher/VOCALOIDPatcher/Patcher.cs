@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "2.2.4";
+    public static string Version => "2.2.5";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
@@ -179,6 +179,7 @@ public static class Patcher
                 new CursorNoteNameTranslationFixPatch(),
                 new FastCanvasViewportRectPatch(),
                 new FastCanvasViewportRangePatch(),
+                new WaveformBaselineInvalidatePatch(),
                 new TrackSelectedFillBrushPatch(),
                 new TrackSelectedStrokeBrushPatch(),
                 new TrackUnselectedFillBrushPatch(),
@@ -202,7 +203,6 @@ public static class Patcher
                 new WaveformRenderPatch()),
 
             new(Settings.SvEditorStyleKey,
-                new WaveformBaselineInvalidatePatch(),
                 new NoteRowRemapPatch(),
                 new ScoreFrameCaptureListPatch(),
                 new ScoreFrameCaptureFilePatch()
@@ -270,7 +270,7 @@ public static class Patcher
             {
                 Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ApplyingPatch", patch.PatchName));
 
-                if (patch.Apply(_harmony) || group.FeatureKey == null)
+                if (patch.Apply(_harmony, group.FeatureKey) || group.FeatureKey == null)
                     continue;
 
                 if (!Settings.IsFeatureDisabled(group.FeatureKey))
@@ -286,12 +286,23 @@ public static class Patcher
             ReportDisabledFeatures(disabled);
     }
 
+    private const string NotifiedDisabledFeaturesKey = "NotifiedDisabledFeatures";
+
     private static void ReportDisabledFeatures(List<string> features)
     {
+        var notified = ConfigManager.Get(NotifiedDisabledFeaturesKey, new List<string>());
+
+        var newly = features.FindAll(f => !notified.Contains(f));
+        if (newly.Count == 0)
+            return;
+
         var list = string.Join(Environment.NewLine,
-            features.Select(key => "• " + TranslationManager.Tr($"VOCALOIDPatcher_{key}_Header")));
+            newly.Select(key => "• " + TranslationManager.Tr($"VOCALOIDPatcher_{key}_Header")));
 
         Debug.ShowMessageBox(TranslationManager.Tr("VOCALOIDPatcher_Patch_FeaturesDisabled", list));
+
+        notified.AddRange(newly);
+        ConfigManager.Set(NotifiedDisabledFeaturesKey, notified);
     }
 
     private static readonly MenuItem PatcherMenuItem = new()

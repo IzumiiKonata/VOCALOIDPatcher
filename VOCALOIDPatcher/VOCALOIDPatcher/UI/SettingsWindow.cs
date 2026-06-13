@@ -273,12 +273,13 @@ public class SettingsWindow : Window
             IsEnabled = Settings.AlwaysShowWaveform,
             Opacity = Settings.AlwaysShowWaveform ? 1.0 : 0.4
         };
-        waveformOptions.Children.Add(Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
+        var svEditorStyle = Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
             Settings.SvEditorStyle, new Thickness(0, 0, 0, 8), checkbox =>
             {
                 Settings.SvEditorStyle = checkbox.IsChecked == true;
                 AlwaysShowWaveformPatch.RefreshWaveform();
-            }));
+            });
+        waveformOptions.Children.Add(svEditorStyle);
         waveformOptions.Children.Add(SliderRow("VOCALOIDPatcher_WaveformOpacity_Header",
             0.1, 1.0, Settings.WaveformOpacity,
             v => { Settings.WaveformOpacity = v; AlwaysShowWaveformPatch.RefreshWaveform(); }));
@@ -326,6 +327,14 @@ public class SettingsWindow : Window
         panel.Children.Add(waveformOptions);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
+
+        HideIfUnsupported(Settings.ShowOtherTracksNotesKey, showOtherTracks, skipMuted);
+        HideIfUnsupported(Settings.ShowNotePitchKey, showNotePitch);
+        HideIfUnsupported(Settings.RoundedNotesKey, roundedNotes);
+        HideIfUnsupported(Settings.CenteredLyricsKey, centeredLyrics);
+        HideIfUnsupported(Settings.AlwaysShowWaveformKey, alwaysShowWaveform, waveformOptions);
+        HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle);
+        HideIfUnsupported(Settings.ShowCharacterArtKey, showCharacterArt, artOptions);
 
         return panel;
     }
@@ -551,61 +560,52 @@ public class SettingsWindow : Window
         var panel = new StackPanel();
         panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Performance"));
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastProjectLoad_Header",
+        void Add(string featureKey, string header, string desc, bool initial, Thickness margin, Action<CheckBox> onClick)
+        {
+            var toggle = DescribedToggle(header, desc, initial, margin, onClick);
+            panel.Children.Add(toggle);
+            HideIfUnsupported(featureKey, toggle);
+        }
+
+        Add(Settings.FastProjectLoadKey, "VOCALOIDPatcher_FastProjectLoad_Header",
             "VOCALOIDPatcher_FastProjectLoad_Desc",
-            Settings.FastProjectLoad, new Thickness(0, 6, 0, 0), checkbox =>
-            {
-                Settings.FastProjectLoad = checkbox.IsChecked == true;
-            }));
+            Settings.FastProjectLoad, new Thickness(0, 6, 0, 0),
+            checkbox => Settings.FastProjectLoad = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_TrimWorkingSet_Header",
+        Add(Settings.TrimWorkingSetKey, "VOCALOIDPatcher_TrimWorkingSet_Header",
             "VOCALOIDPatcher_TrimWorkingSet_Desc",
-            Settings.TrimWorkingSet, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.TrimWorkingSet = checkbox.IsChecked == true;
-            }));
+            Settings.TrimWorkingSet, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.TrimWorkingSet = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_OptimizeTrackRendering_Header",
+        Add(Settings.OptimizeTrackRenderingKey, "VOCALOIDPatcher_OptimizeTrackRendering_Header",
             "VOCALOIDPatcher_OptimizeTrackRendering_Desc",
-            Settings.OptimizeTrackRendering, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.OptimizeTrackRendering = checkbox.IsChecked == true;
-            }));
+            Settings.OptimizeTrackRendering, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.OptimizeTrackRendering = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SkipUnchangedPartRedraw_Header",
+        Add(Settings.SkipUnchangedPartRedrawKey, "VOCALOIDPatcher_SkipUnchangedPartRedraw_Header",
             "VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc",
-            Settings.SkipUnchangedPartRedraw, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.SkipUnchangedPartRedraw = checkbox.IsChecked == true;
-            }));
+            Settings.SkipUnchangedPartRedraw, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.SkipUnchangedPartRedraw = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_CacheRenderedWaves_Header",
+        Add(Settings.CacheRenderedWavesKey, "VOCALOIDPatcher_CacheRenderedWaves_Header",
             "VOCALOIDPatcher_CacheRenderedWaves_Desc",
-            Settings.CacheRenderedWaves, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.CacheRenderedWaves = checkbox.IsChecked == true;
-            }));
+            Settings.CacheRenderedWaves, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.CacheRenderedWaves = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_FastSelectionSweep_Header",
+        Add(Settings.FastSelectionSweepKey, "VOCALOIDPatcher_FastSelectionSweep_Header",
             "VOCALOIDPatcher_FastSelectionSweep_Desc",
-            Settings.FastSelectionSweep, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.FastSelectionSweep = checkbox.IsChecked == true;
-            }));
+            Settings.FastSelectionSweep, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.FastSelectionSweep = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_DeferParameterViewUpdate_Header",
+        Add(Settings.DeferParameterViewUpdateKey, "VOCALOIDPatcher_DeferParameterViewUpdate_Header",
             "VOCALOIDPatcher_DeferParameterViewUpdate_Desc",
-            Settings.DeferParameterViewUpdate, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.DeferParameterViewUpdate = checkbox.IsChecked == true;
-            }));
+            Settings.DeferParameterViewUpdate, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.DeferParameterViewUpdate = checkbox.IsChecked == true);
 
-        panel.Children.Add(DescribedToggle("VOCALOIDPatcher_SmoothPlayhead_Header",
+        Add(Settings.SmoothPlayheadKey, "VOCALOIDPatcher_SmoothPlayhead_Header",
             "VOCALOIDPatcher_SmoothPlayhead_Desc",
-            Settings.SmoothPlayhead, new Thickness(0, 16, 0, 0), checkbox =>
-            {
-                Settings.SmoothPlayhead = checkbox.IsChecked == true;
-            }));
+            Settings.SmoothPlayhead, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.SmoothPlayhead = checkbox.IsChecked == true);
 
         return panel;
     }
@@ -632,6 +632,15 @@ public class SettingsWindow : Window
         container.Children.Add(checkbox);
         container.Children.Add(desc);
         return container;
+    }
+
+    private static void HideIfUnsupported(string featureKey, params UIElement[] elements)
+    {
+        if (!Settings.IsFeatureDisabled(featureKey))
+            return;
+
+        foreach (var element in elements)
+            element.Visibility = Visibility.Collapsed;
     }
 
     private CheckBox Toggle(string key, bool initial, Thickness margin, Action<CheckBox> onClick)

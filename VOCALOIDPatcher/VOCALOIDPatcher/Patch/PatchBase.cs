@@ -19,7 +19,7 @@ public abstract class PatchBase
     public string? FailureReason { get; private set; }
 
     [CLSCompliant(false)]
-    public bool Apply(Harmony harmony)
+    public bool Apply(Harmony harmony, string? featureKey = null)
     {
         Applied = false;
         FailureReason = null;
@@ -52,6 +52,7 @@ public abstract class PatchBase
             if (reversePatch != null) harmony.CreateReversePatcher(original, reversePatch).Patch();
 
             Applied = true;
+            PatchRuntimeGuard.Install(harmony, original, featureKey);
             return true;
         }
         catch (Exception e)

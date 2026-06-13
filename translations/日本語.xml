@@ -1045,6 +1045,7 @@ Spliceのリースが完了しました。
   <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: {1} 内にメソッド {2} が見つかりません</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch に失敗, &#10;{1}&#10;{2}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabled" xml:space="preserve"><value>依存するパッチの注入に失敗したため、機能を無効化しました: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabledRuntime" xml:space="preserve"><value>実行時にエディター非互換のため機能を無効化しました: {0} ({1})</value></data>
   <data name="VOCALOIDPatcher_Patch_FeaturesDisabled" xml:space="preserve"><value>一部の機能は現在のVOCALOIDエディターのバージョンと互換性がないため、エディターが正常に動作するよう自動的に無効化されました：&#10;&#10;{0}&#10;&#10;その他の機能は通常どおり利用できます。</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 例外: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] ピアノロールのルートパネルが見つかりません (xPanel)</value></data>

@@ -1041,6 +1041,7 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: 未在 {1} 中找到方法 {2}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch 失敗, &#10;{1}&#10;{2}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabled" xml:space="preserve"><value>因其依賴的修補注入失敗，已停用功能：{0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabledRuntime" xml:space="preserve"><value>執行時因編輯器不相容已停用功能：{0}（{1}）</value></data>
   <data name="VOCALOIDPatcher_Patch_FeaturesDisabled" xml:space="preserve"><value>部分功能與目前 VOCALOID 編輯器版本不相容，已自動停用以確保編輯器正常運行：&#10;&#10;{0}&#10;&#10;其餘功能不受影響。</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 例外: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] 找不到鋼琴視窗根面板 (xPanel)</value></data>

@@ -1045,6 +1045,7 @@ Please enter your license key to activate the application.</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: method {2} not found in {1}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch failed, &#10;{1}&#10;{2}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabled" xml:space="preserve"><value>Feature disabled because a patch it relies on failed to inject: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabledRuntime" xml:space="preserve"><value>Feature disabled at runtime (editor incompatibility): {0} ({1})</value></data>
   <data name="VOCALOIDPatcher_Patch_FeaturesDisabled" xml:space="preserve"><value>Some features are not compatible with your VOCALOID editor version and have been disabled automatically so the editor can run normally:&#10;&#10;{0}&#10;&#10;All other features work as usual.</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] Exception: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] Piano roll root panel not found (xPanel)</value></data>

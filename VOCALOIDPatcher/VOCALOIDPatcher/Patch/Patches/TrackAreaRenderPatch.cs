@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -308,10 +309,13 @@ public class AudioTrackHeightResizePatch : PatchBase
         typeof(object)
     };
 
+    private static readonly MethodInfo? SetViewPositionHeightMethod =
+        AccessTools.Method(typeof(UIWave), "SetViewPositionHeight", new[] { typeof(double) });
+
     [HarmonyPrefix]
     private static bool Prefix(AudioTrackControl __instance, UpdateViewTypeFlag typeFlags, object? addition)
     {
-        if (!TrackAreaRenderState.Enabled)
+        if (!TrackAreaRenderState.Enabled || SetViewPositionHeightMethod == null)
             return true;
 
         if (typeFlags != UpdateViewTypeFlag.TrackLaneHeightChanged
@@ -337,9 +341,10 @@ public class AudioTrackHeightResizePatch : PatchBase
             if (child is UIAudioPart audioPart)
                 audioPart.Height = partHeight;
 
+        var args = new object[] { drawHeight };
         foreach (var virtualChild in TrackAreaRenderState.WaveCanvasRef(__instance).VirtualChildren)
             if (virtualChild is UIWave wave)
-                wave.SetViewPositionHeight(drawHeight);
+                SetViewPositionHeightMethod.Invoke(wave, args);
 
         return false;
     }
