@@ -16,7 +16,7 @@ namespace VOCALOIDPatcher.Patch.Patches;
 
 internal static class LyricTextState
 {
-    public static readonly bool Lazy = Settings.FastProjectLoad;
+    public static bool Lazy => Settings.FastProjectLoad;
 
     public static Typeface? Typeface;
     public static Brush? Brush;

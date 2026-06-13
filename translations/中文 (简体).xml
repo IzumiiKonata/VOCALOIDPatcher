@@ -45,6 +45,7 @@
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>加快乐段切换</value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>在同一音轨内切换乐段时，跳过画面中无需变化部分的重绘，使切换更流畅。</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形缓存</value></data>
+  <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>释放音频 PCM 缓存</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>记住最近乐段的合成波形并在后台读取新波形，切换乐段时不再因读取波形而卡顿。波形可能稍后才显示。</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>加快选区清除</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>点击乐段时只取消确实被选中过的事件，不再每次扫描整个工程。</value></data>
@@ -1039,6 +1040,8 @@ VOCALOID6 将以 Lite 版本启动。</value></data>
   <data name="VOCALOIDPatcher_Debug_MemTrim_Failed" xml:space="preserve"><value>修剪工作集失败: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: 未在 {1} 中找到方法 {2}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch 失败, &#10;{1}&#10;{2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabled" xml:space="preserve"><value>因其依赖的补丁注入失败，已禁用功能：{0}</value></data>
+  <data name="VOCALOIDPatcher_Patch_FeaturesDisabled" xml:space="preserve"><value>部分功能与当前 VOCALOID 编辑器版本不兼容，已自动禁用以保证编辑器正常运行：&#10;&#10;{0}&#10;&#10;其余功能不受影响。</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 异常: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] 未找到钢琴窗根面板 (xPanel)</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_LayerInserted" xml:space="preserve"><value>[CharacterArt] 已在音符下层插入立绘图层</value></data>

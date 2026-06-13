@@ -45,6 +45,7 @@
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>パート切り替えを高速化</value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>同じトラック内でパートを切り替える際、変化しない部分の再描画をスキップして切り替えをスムーズにします。</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形キャッシュ</value></data>
+  <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>オーディオPCMキャッシュの解放</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>最近のパートの合成波形を保持し、新しい波形はバックグラウンドで読み込むため、パート切り替えが波形読み込みで止まらなくなります。波形の表示が少し遅れることがあります。</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>選択解除を高速化</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>パートをクリックした際、実際に選択されていたイベントだけを解除し、プロジェクト全体のスキャンを省略します。</value></data>
@@ -1043,6 +1044,8 @@ Spliceのリースが完了しました。
   <data name="VOCALOIDPatcher_Debug_MemTrim_Failed" xml:space="preserve"><value>ワーキングセットの縮小に失敗: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_MethodNotFound" xml:space="preserve"><value>{0}: {1} 内にメソッド {2} が見つかりません</value></data>
   <data name="VOCALOIDPatcher_Debug_Patch_ApplyFailed" xml:space="preserve"><value>{0}: patch に失敗, &#10;{1}&#10;{2}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_FeatureDisabled" xml:space="preserve"><value>依存するパッチの注入に失敗したため、機能を無効化しました: {0}</value></data>
+  <data name="VOCALOIDPatcher_Patch_FeaturesDisabled" xml:space="preserve"><value>一部の機能は現在のVOCALOIDエディターのバージョンと互換性がないため、エディターが正常に動作するよう自動的に無効化されました：&#10;&#10;{0}&#10;&#10;その他の機能は通常どおり利用できます。</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_Exception" xml:space="preserve"><value>[CharacterArt] 例外: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_PanelNotFound" xml:space="preserve"><value>[CharacterArt] ピアノロールのルートパネルが見つかりません (xPanel)</value></data>
   <data name="VOCALOIDPatcher_Debug_CharacterArt_LayerInserted" xml:space="preserve"><value>[CharacterArt] ノートの下層に立ち絵レイヤーを挿入しました</value></data>

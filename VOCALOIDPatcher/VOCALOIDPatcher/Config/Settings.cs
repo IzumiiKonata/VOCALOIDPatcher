@@ -4,6 +4,20 @@ namespace VOCALOIDPatcher.Config;
 
 public static class Settings
 {
+    private static readonly HashSet<string> DisabledFeatures = new();
+
+    public static void DisableFeature(string key)
+    {
+        if (!string.IsNullOrEmpty(key))
+            DisabledFeatures.Add(key);
+    }
+
+    public static bool IsFeatureDisabled(string key)
+        => DisabledFeatures.Count != 0 && DisabledFeatures.Contains(key);
+
+    private static bool FeatureFlag(string key, bool defaultValue)
+        => !IsFeatureDisabled(key) && Patcher.ConfigManager.Get(key, defaultValue);
+
     public static string TranslateHardcodedStringsKey => "TranslateHardcodedStrings";
 
     public static bool TranslateHardcodedStrings
@@ -16,7 +30,7 @@ public static class Settings
 
     public static bool ShowOtherTracksNotes
     {
-        get => Patcher.ConfigManager.Get(ShowOtherTracksNotesKey, false);
+        get => FeatureFlag(ShowOtherTracksNotesKey, false);
         set => Patcher.ConfigManager.Set(ShowOtherTracksNotesKey, value);
     }
 
@@ -32,7 +46,7 @@ public static class Settings
 
     public static bool ShowCharacterArt
     {
-        get => Patcher.ConfigManager.Get(ShowCharacterArtKey, false);
+        get => FeatureFlag(ShowCharacterArtKey, false);
         set => Patcher.ConfigManager.Set(ShowCharacterArtKey, value);
     }
 
@@ -84,7 +98,7 @@ public static class Settings
 
     public static bool ShowNotePitch
     {
-        get => Patcher.ConfigManager.Get(ShowNotePitchKey, false);
+        get => FeatureFlag(ShowNotePitchKey, false);
         set => Patcher.ConfigManager.Set(ShowNotePitchKey, value);
     }
 
@@ -92,7 +106,7 @@ public static class Settings
 
     public static bool RoundedNotes
     {
-        get => Patcher.ConfigManager.Get(RoundedNotesKey, false);
+        get => FeatureFlag(RoundedNotesKey, false);
         set => Patcher.ConfigManager.Set(RoundedNotesKey, value);
     }
 
@@ -100,7 +114,7 @@ public static class Settings
 
     public static bool CenteredLyrics
     {
-        get => Patcher.ConfigManager.Get(CenteredLyricsKey, false);
+        get => FeatureFlag(CenteredLyricsKey, false);
         set => Patcher.ConfigManager.Set(CenteredLyricsKey, value);
     }
 
@@ -108,7 +122,7 @@ public static class Settings
 
     public static bool AlwaysShowWaveform
     {
-        get => Patcher.ConfigManager.Get(AlwaysShowWaveformKey, false);
+        get => FeatureFlag(AlwaysShowWaveformKey, false);
         set => Patcher.ConfigManager.Set(AlwaysShowWaveformKey, value);
     }
 
@@ -116,7 +130,7 @@ public static class Settings
 
     public static bool SvEditorStyle
     {
-        get => Patcher.ConfigManager.Get(SvEditorStyleKey, false);
+        get => FeatureFlag(SvEditorStyleKey, false);
         set => Patcher.ConfigManager.Set(SvEditorStyleKey, value);
     }
 
@@ -148,7 +162,7 @@ public static class Settings
 
     public static bool FastProjectLoad
     {
-        get => Patcher.ConfigManager.Get(FastProjectLoadKey, true);
+        get => FeatureFlag(FastProjectLoadKey, true);
         set => Patcher.ConfigManager.Set(FastProjectLoadKey, value);
     }
 
@@ -156,7 +170,7 @@ public static class Settings
 
     public static bool FreeAudioPcmCache
     {
-        get => Patcher.ConfigManager.Get(FreeAudioPcmCacheKey, true);
+        get => FeatureFlag(FreeAudioPcmCacheKey, true);
         set => Patcher.ConfigManager.Set(FreeAudioPcmCacheKey, value);
     }
 
@@ -164,7 +178,7 @@ public static class Settings
 
     public static bool TrimWorkingSet
     {
-        get => Patcher.ConfigManager.Get(TrimWorkingSetKey, true);
+        get => FeatureFlag(TrimWorkingSetKey, true);
         set => Patcher.ConfigManager.Set(TrimWorkingSetKey, value);
     }
 
@@ -172,7 +186,7 @@ public static class Settings
 
     public static bool OptimizeTrackRendering
     {
-        get => Patcher.ConfigManager.Get(OptimizeTrackRenderingKey, true);
+        get => FeatureFlag(OptimizeTrackRenderingKey, true);
         set => Patcher.ConfigManager.Set(OptimizeTrackRenderingKey, value);
     }
 
@@ -180,7 +194,7 @@ public static class Settings
 
     public static bool FastSelectionSweep
     {
-        get => Patcher.ConfigManager.Get(FastSelectionSweepKey, true);
+        get => FeatureFlag(FastSelectionSweepKey, true);
         set => Patcher.ConfigManager.Set(FastSelectionSweepKey, value);
     }
 
@@ -188,7 +202,7 @@ public static class Settings
 
     public static bool DeferParameterViewUpdate
     {
-        get => Patcher.ConfigManager.Get(DeferParameterViewUpdateKey, true);
+        get => FeatureFlag(DeferParameterViewUpdateKey, true);
         set => Patcher.ConfigManager.Set(DeferParameterViewUpdateKey, value);
     }
 
@@ -196,7 +210,7 @@ public static class Settings
 
     public static bool CacheRenderedWaves
     {
-        get => Patcher.ConfigManager.Get(CacheRenderedWavesKey, true);
+        get => FeatureFlag(CacheRenderedWavesKey, true);
         set => Patcher.ConfigManager.Set(CacheRenderedWavesKey, value);
     }
 
@@ -204,7 +218,7 @@ public static class Settings
 
     public static bool SkipUnchangedPartRedraw
     {
-        get => Patcher.ConfigManager.Get(SkipUnchangedPartRedrawKey, true);
+        get => FeatureFlag(SkipUnchangedPartRedrawKey, true);
         set => Patcher.ConfigManager.Set(SkipUnchangedPartRedrawKey, value);
     }
 
@@ -220,7 +234,7 @@ public static class Settings
 
     public static bool SmoothPlayhead
     {
-        get => Patcher.ConfigManager.Get(SmoothPlayheadKey, true);
+        get => FeatureFlag(SmoothPlayheadKey, true);
         set => Patcher.ConfigManager.Set(SmoothPlayheadKey, value);
     }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -15,40 +15,62 @@ public abstract class PatchBase
     public virtual bool IsConstructor => false;
     public virtual Type[]? ArgumentTypes => null;
 
+    public bool Applied { get; private set; }
+    public string? FailureReason { get; private set; }
+
     [CLSCompliant(false)]
-    public void Apply(Harmony harmony)
+    public bool Apply(Harmony harmony)
     {
-        var original = GetTargetMethod();
-
-        if (original == null)
-        {
-            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_MethodNotFound", PatchName, TargetClass.FullName, TargetMethodName));
-            return;
-        }
-
-        var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-
-        var prefix = FindHarmonyMethod(methods, typeof(HarmonyPrefix));
-        var postfix = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
-        var transpiler = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
-        var finalizer = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
-        var reversePatch = FindHarmonyMethod(methods, typeof(HarmonyReversePatch));
+        Applied = false;
+        FailureReason = null;
 
         try
         {
+            MethodBase? original;
+            try
+            {
+                original = GetTargetMethod();
+            }
+            catch (Exception e)
+            {
+                return Fail(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_ApplyFailed", PatchName, e.Message, e.StackTrace));
+            }
+
+            if (original == null)
+                return Fail(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_MethodNotFound", PatchName, TargetClass.FullName, TargetMethodName));
+
+            var methods = GetType().GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+            var prefix = FindHarmonyMethod(methods, typeof(HarmonyPrefix));
+            var postfix = FindHarmonyMethod(methods, typeof(HarmonyPostfix));
+            var transpiler = FindHarmonyMethod(methods, typeof(HarmonyTranspiler));
+            var finalizer = FindHarmonyMethod(methods, typeof(HarmonyFinalizer));
+            var reversePatch = FindHarmonyMethod(methods, typeof(HarmonyReversePatch));
+
             harmony.Patch(original, prefix, postfix, transpiler, finalizer);
 
             if (reversePatch != null) harmony.CreateReversePatcher(original, reversePatch).Patch();
+
+            Applied = true;
+            return true;
         }
         catch (Exception e)
         {
-            Debug.ShowErrorMessage(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_ApplyFailed", PatchName, e.Message, e.StackTrace));
+            return Fail(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patch_ApplyFailed", PatchName, e.Message, e.StackTrace));
         }
+    }
+
+    private bool Fail(string reason)
+    {
+        FailureReason = reason;
+        Debug.Print(reason);
+        return false;
     }
 
     private MethodBase? GetTargetMethod()
     {
         var targetClass = TargetClass;
+        if (targetClass == null) return null;
 
         if (IsConstructor) return AccessTools.Constructor(targetClass, ArgumentTypes ?? Type.EmptyTypes);
 

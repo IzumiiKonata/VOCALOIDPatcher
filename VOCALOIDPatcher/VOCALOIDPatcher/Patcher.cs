@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using HarmonyLib;
@@ -152,81 +153,145 @@ public static class Patcher
         }
     }
 
+    private sealed class FeatureGroup
+    {
+        public readonly string? FeatureKey;
+        public readonly PatchBase[] Patches;
+
+        public FeatureGroup(string? featureKey, params PatchBase[] patches)
+        {
+            FeatureKey = featureKey;
+            Patches = patches;
+        }
+    }
+
     private static void ApplyPatches()
     {
-        List<PatchBase> patches = new()
+        var groups = new List<FeatureGroup>
         {
-            new AppLanguagePatch(),
-            new WpfTranslationPatch(),
-            new ResourceManagerPatch(),
-            new ShowOtherTracksNotesPatch(),
-            new TrackMuteRefreshPatch(),
-            new TrackSoloRefreshPatch(),
-            new ShowNotePitchPatch(),
-            new RoundedNotePatch(),
-            new CenteredLyricPatch(),
-            new CenteredLyricPlainPatch(),
-            new AlwaysShowWaveformPatch(),
-            new WaveformRenderPatch(),
-            new WaveformBaselineInvalidatePatch(),
-            new NoteRowRemapPatch(),
-            new ScoreFrameCaptureListPatch(),
-            new ScoreFrameCaptureFilePatch(),
+            new(null,
+                new AppLanguagePatch(),
+                new WpfTranslationPatch(),
+                new ResourceManagerPatch(),
+                new SwingMenuPatch(),
+                new TouchpadHorizontalScrollPatch(),
+                new TrackTouchpadHorizontalScrollPatch(),
+                new CursorNoteNameTranslationFixPatch(),
+                new FastCanvasViewportRectPatch(),
+                new FastCanvasViewportRangePatch(),
+                new TrackSelectedFillBrushPatch(),
+                new TrackSelectedStrokeBrushPatch(),
+                new TrackUnselectedFillBrushPatch(),
+                new TrackUnselectedStrokeBrushPatch(),
+                new TrackOverlayFillBrushPatch()),
+
+            new(Settings.ShowOtherTracksNotesKey,
+                new ShowOtherTracksNotesPatch(),
+                new TrackMuteRefreshPatch(),
+                new TrackSoloRefreshPatch()),
+
+            new(Settings.ShowNotePitchKey, new ShowNotePitchPatch()),
+            new(Settings.RoundedNotesKey, new RoundedNotePatch()),
+
+            new(Settings.CenteredLyricsKey,
+                new CenteredLyricPatch(),
+                new CenteredLyricPlainPatch()),
+
+            new(Settings.AlwaysShowWaveformKey,
+                new AlwaysShowWaveformPatch(),
+                new WaveformRenderPatch()),
+
+            new(Settings.SvEditorStyleKey,
+                new WaveformBaselineInvalidatePatch(),
+                new NoteRowRemapPatch(),
+                new ScoreFrameCaptureListPatch(),
+                new ScoreFrameCaptureFilePatch()
 #if !NET6_0
-            new ScoreFrameCaptureCombinedPatch(),
+                , new ScoreFrameCaptureCombinedPatch()
 #endif
-            new CharacterArtPatch(),
-            new SwingMenuPatch(),
-            new LeanLyricTextPatch(),
-            new LazyLyricRenderPatch(),
-            new FastCanvasViewportRectPatch(),
-            new FastCanvasViewportRangePatch(),
-            new SkipUnchangedPartRedrawPatch(),
-            new TimeSigSelectionTrackPatch(),
-            new TempoSelectionTrackPatch(),
-            new BreakPointSelectionTrackPatch(),
-            new FastSelectionSweepPatch(),
-            new ParameterViewDeferPatch(),
+            ),
+
+            new(Settings.ShowCharacterArtKey, new CharacterArtPatch()),
+
+            new(Settings.FastProjectLoadKey,
+                new LazyLyricRenderPatch(),
 #if !NET6_0
-            new SmoothPlayheadBeginPatch(),
-            new SmoothPlayheadEndPatch(),
+                new DeferAudioBufferLoadPatch(),
 #endif
-            new TouchpadHorizontalScrollPatch(),
-            new TrackTouchpadHorizontalScrollPatch(),
-            new CursorNoteNameTranslationFixPatch(),
-            new TrackSelectedFillBrushPatch(),
-            new TrackSelectedStrokeBrushPatch(),
-            new TrackUnselectedFillBrushPatch(),
-            new TrackUnselectedStrokeBrushPatch(),
-            new TrackOverlayFillBrushPatch(),
+                new DeferLoadAnalyticsPatch(),
+                new LeanLyricTextPatch()),
+
+            new(Settings.SkipUnchangedPartRedrawKey, new SkipUnchangedPartRedrawPatch()),
+
+            new(Settings.FastSelectionSweepKey,
+                new TimeSigSelectionTrackPatch(),
+                new TempoSelectionTrackPatch(),
+                new BreakPointSelectionTrackPatch(),
+                new FastSelectionSweepPatch()),
+
+            new(Settings.DeferParameterViewUpdateKey, new ParameterViewDeferPatch()),
+
 #if !NET6_0
-            new DeferAudioBufferLoadPatch(),
-            new AudioPcmReleasePatch(),
-            new AudioThumbFromCachePatch(),
+            new(Settings.SmoothPlayheadKey,
+                new SmoothPlayheadBeginPatch(),
+                new SmoothPlayheadEndPatch()),
+
+            new(Settings.FreeAudioPcmCacheKey,
+                new AudioPcmReleasePatch(),
+                new AudioThumbFromCachePatch()),
 #endif
-            new DeferLoadAnalyticsPatch(),
-            new WorkingSetTrimPatch(),
-            new RenderCompleteTrimPatch(),
+
+            new(Settings.TrimWorkingSetKey,
+                new WorkingSetTrimPatch(),
+                new RenderCompleteTrimPatch()),
+
 #if !NET6_0
-            new TrackNoteInsertPatch(),
-            new TrackNoteRemovePatch(),
-            new TrackNoteDurationChangedPatch(),
-            new TrackNoteMovedPatch(),
-            new TrackNoteNumberChangedPatch(),
-            new TrackPartDurationChangedPatch(),
-            new UIMidiPartNotesRenderPatch(),
-            new AudioTrackHeightResizePatch(),
-            new TrackRulerGridLinePatch(),
-            new MusicalRulerGridLinePatch(),
-            new RenderedWaveCachePatch()
+            new(Settings.OptimizeTrackRenderingKey,
+                new TrackNoteInsertPatch(),
+                new TrackNoteRemovePatch(),
+                new TrackNoteDurationChangedPatch(),
+                new TrackNoteMovedPatch(),
+                new TrackNoteNumberChangedPatch(),
+                new TrackPartDurationChangedPatch(),
+                new UIMidiPartNotesRenderPatch(),
+                new AudioTrackHeightResizePatch(),
+                new TrackRulerGridLinePatch(),
+                new MusicalRulerGridLinePatch()),
+
+            new(Settings.CacheRenderedWavesKey, new RenderedWaveCachePatch()),
 #endif
         };
 
-        patches.ForEach(p =>
+        var disabled = new List<string>();
+
+        foreach (var group in groups)
         {
-            Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ApplyingPatch", p.PatchName));
-            p.Apply(_harmony);
-        });
+            foreach (var patch in group.Patches)
+            {
+                Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ApplyingPatch", patch.PatchName));
+
+                if (patch.Apply(_harmony) || group.FeatureKey == null)
+                    continue;
+
+                if (!Settings.IsFeatureDisabled(group.FeatureKey))
+                {
+                    Settings.DisableFeature(group.FeatureKey);
+                    disabled.Add(group.FeatureKey);
+                    Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_FeatureDisabled", group.FeatureKey));
+                }
+            }
+        }
+
+        if (disabled.Count > 0)
+            ReportDisabledFeatures(disabled);
+    }
+
+    private static void ReportDisabledFeatures(List<string> features)
+    {
+        var list = string.Join(Environment.NewLine,
+            features.Select(key => "• " + TranslationManager.Tr($"VOCALOIDPatcher_{key}_Header")));
+
+        Debug.ShowMessageBox(TranslationManager.Tr("VOCALOIDPatcher_Patch_FeaturesDisabled", list));
     }
 
     private static readonly MenuItem PatcherMenuItem = new()

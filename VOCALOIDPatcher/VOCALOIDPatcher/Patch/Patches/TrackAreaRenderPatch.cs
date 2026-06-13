@@ -16,7 +16,7 @@ namespace VOCALOIDPatcher.Patch.Patches;
 #if !NET6_0
 internal static class TrackAreaRenderState
 {
-    public static readonly bool Enabled = Settings.OptimizeTrackRendering;
+    public static bool Enabled => Settings.OptimizeTrackRendering;
 
     internal struct NoteData
     {
