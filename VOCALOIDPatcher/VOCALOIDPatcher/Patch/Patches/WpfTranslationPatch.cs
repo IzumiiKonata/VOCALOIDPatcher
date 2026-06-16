@@ -193,6 +193,20 @@ public class WpfTranslationPatch : PatchBase
                     _RefreshAll(container, visited);
             }
 
+        switch (root)
+        {
+            case PushButton pb:
+                _RefreshAll(pb.NormalIcon as DependencyObject, visited);
+                _RefreshAll(pb.PressedIcon as DependencyObject, visited);
+                _RefreshAll(pb.DisabledIcon as DependencyObject, visited);
+                break;
+            case PushToggleButton ptb:
+                _RefreshAll(ptb.NormalIcon as DependencyObject, visited);
+                _RefreshAll(ptb.PressedIcon as DependencyObject, visited);
+                _RefreshAll(ptb.DisabledIcon as DependencyObject, visited);
+                break;
+        }
+
         if (root is FrameworkElement fe)
         {
             if (fe.ContextMenu != null)

@@ -173,6 +173,7 @@ public static class Patcher
                 new AppLanguagePatch(),
                 new WpfTranslationPatch(),
                 new ResourceManagerPatch(),
+                new AudioEffectWindowTranslatePatch(),
                 new SwingMenuPatch(),
                 new TouchpadHorizontalScrollPatch(),
                 new TrackTouchpadHorizontalScrollPatch(),
