@@ -14,7 +14,7 @@ function Test-Admin {
 if (-not (Test-Admin)) {
     Write-Host 'Requesting administrator privileges...'
     Start-Process powershell -Verb RunAs -ArgumentList @(
-        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-Editor', $Editor)
+        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath)
     exit
 }
 
