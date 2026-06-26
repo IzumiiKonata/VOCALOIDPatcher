@@ -63,8 +63,6 @@ public static class Patcher
 
     private static void PatcherInit()
     {
-        if (!CheckRuntimeCompatibility()) return;
-
         AppDomain.CurrentDomain.UnhandledException += (_, args) =>
         {
             var ex = (Exception)args.ExceptionObject;
@@ -89,6 +87,8 @@ public static class Patcher
         ConsoleHelper.InitConsole();
 
         TranslationManager.Initialize();
+
+        if (!CheckRuntimeCompatibility()) return;
 
         Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Started"));
         Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Version", Version));
