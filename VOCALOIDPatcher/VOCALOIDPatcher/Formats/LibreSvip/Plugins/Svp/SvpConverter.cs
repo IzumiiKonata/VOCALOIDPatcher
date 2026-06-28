@@ -204,7 +204,7 @@ public sealed class SvpConverter : FormatConverter
         if (svp.Time.Tempo.Count == 0)
             svp.Time.Tempo.Add(new SVTempo { Position = 0, Bpm = Constants.DefaultBpm });
 
-        var synchronizer = new TimeSynchronizer(project.SongTempoList);
+        var synchronizer = new TimeSynchronizer(project.SongTempoList, _firstBarTick);
 
         foreach (var track in project.TrackList)
         {
@@ -226,7 +226,7 @@ public sealed class SvpConverter : FormatConverter
                             Phonemes = n.Pronunciation ?? "",
                             Pitch = n.KeyNumber,
                         }).ToList(),
-                        Parameters = GenerateParams(singing.EditedParams, singing.NoteList, synchronizer),
+                        Parameters = GenerateParams(singing.EditedParams, singing.NoteList, synchronizer, project.TimeSignatureList),
                     },
                 });
             }
@@ -256,7 +256,8 @@ public sealed class SvpConverter : FormatConverter
 
     private const int DownSample = 20;
 
-    private SVParameters GenerateParams(Params parameters, List<Note> noteList, TimeSynchronizer synchronizer)
+    private SVParameters GenerateParams(Params parameters, List<Note> noteList, TimeSynchronizer synchronizer,
+        List<TimeSignature> timeSignatureList)
     {
         var result = new SVParameters
         {
@@ -268,17 +269,17 @@ public sealed class SvpConverter : FormatConverter
             Breathiness = GenerateParamCurve(parameters.Breath.ReduceSampleRate(DownSample), 0, 0.0, val => 1000.0 / val),
             Gender = GenerateParamCurve(parameters.Gender.ReduceSampleRate(DownSample), 0, 0.0, val => -1000.0 / val),
         };
-        result.PitchDelta = GeneratePitchCurve(parameters.Pitch.ReduceSampleRate(DownSample, -100), noteList, synchronizer);
+        result.PitchDelta = GeneratePitchCurve(parameters.Pitch.ReduceSampleRate(DownSample, -100), noteList, synchronizer, timeSignatureList);
         return result;
     }
 
-    private SVParamCurve GeneratePitchCurve(ParamCurve curve, List<Note> noteList, TimeSynchronizer synchronizer)
+    private SVParamCurve GeneratePitchCurve(ParamCurve curve, List<Note> noteList, TimeSynchronizer synchronizer,
+        List<TimeSignature> timeSignatureList)
     {
         var svCurve = new SVParamCurve();
         if (noteList.Count == 0)
             return svCurve;
-        var noteStructs = noteList.Select(n => ToNoteStruct(n, synchronizer)).ToList();
-        var simulator = new SynthVPitchSimulator(synchronizer, noteStructs);
+        var simulator = new PitchSimulator(synchronizer, PortamentoPitch.NoPortamento(), noteList, timeSignatureList);
         var pointList = svCurve.Points;
         var buffer = new List<Point>();
         const int minInterval = 1;
@@ -313,11 +314,13 @@ public sealed class SvpConverter : FormatConverter
         return svCurve;
     }
 
-    private static double GeneratePitchDiff(SynthVPitchSimulator simulator,
+    private static double GeneratePitchDiff(PitchSimulator simulator,
         TimeSynchronizer synchronizer, int pos, int pitch)
     {
-        double simulatedPitch = simulator.PitchAtSecs(synchronizer.GetActualSecsFromTicks(pos));
-        return pitch - simulatedPitch;
+        double? simulatedPitch = simulator.PitchAtSecs(synchronizer.GetActualSecsFromTicks(pos));
+        if (simulatedPitch != null)
+            return pitch - simulatedPitch.Value;
+        return 0.0;
     }
 
     private SVParamCurve GenerateParamCurve(ParamCurve curve, int termination, double defaultValue,
