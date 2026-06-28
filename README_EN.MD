@@ -5,10 +5,9 @@
 
 A patch that adds extra features to the `VOCALOID 6` editor. In theory it supports every version of the V6 editor.
 
-### Translation entry version: `6.12.0.1`
-### Tested editor versions: `6.1.0.2 (.net 6.0)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`
+### Translation version: `6.13.0.1`
+### Tested editor versions: `6.1.0.2 (.net 6.0)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1`
 
-For feedback / technical discussion / just chatting, join QQ group `422827160`.  
 I don't have much experience with the V6 editor, so some translations may be inaccurate. Open an issue or report it in the group, and I'll fix the translation in the next release.
 
 ## Installation
