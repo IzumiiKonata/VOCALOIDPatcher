@@ -1,89 +1,101 @@
-﻿# VOCALOID Patcher
+# VOCALOID Patcher
 
 [<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
 [<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
-一个用于为 `VOCALOID 6` 编辑器提供额外功能的补丁, 理论上支持所有版本的 V6 编辑器
+VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。它为编辑器补充多语言界面、钢琴窗小功能、批处理工具和项目格式转换。
 
-### 翻译条目版本: `6.13.0.1`
-### 已测试的编辑器版本: `6.1.0.2 (.net 6.0)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1`
+- 翻译条目版本：`6.13.0.1`
+- 已测试版本：`6.1.0.2 (.NET 6)`、`6.6.0`、`6.11.0.1`、`6.12.0.1`、`6.13.0.1`
+- 反馈与交流：QQ群 `422827160`
 
-提交反馈/技术交流/单纯聊天 请加入 `422827160`  
-我没有什么使用 V6 编辑器的经验, 所以可能会出现翻译不准确的情况。您可以开个 issue 或者加群反馈给我, 然后下个版本我会修改翻译。
+我平时并不重度使用 VOCALOID 6，翻译或格式转换难免会碰到没有覆盖到的地方。发现问题时请附上编辑器版本、源文件格式和复现步骤 (如果需要)，可以的话再提供一份能复现问题的精简工程。
 
 ## 安装
-前往 [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) 中下载最新发行版  
-如果您的编辑器版本较老, 请下载 `.net 6.0` 的版本  
-将压缩包中的所有文件 _(除了 README.txt)_ 复制并替换到 `C:\Program Files\VOCALOID6\Editor` 中 (如果编辑器没有安装在默认目录中可能会有问题)  
-打开编辑器并打开一个工程, 如果菜单栏中出现 `VOCALOID Patcher` 选项则安装成功。  
-![img](./res/screenshot.png)
+
+1. 从 [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) 下载最新版。
+2. 较老的 VOCALOID 6 (6.3.0 及之前的版本) 请使用 `.NET 6` 构建；新版编辑器使用 `.NET 8` 构建 (没有 `_NET6` 后缀的版本)。
+3. 将压缩包中的文件（`README.txt` 除外）复制到 `C:\Program Files\VOCALOID6\Editor` 并覆盖原文件。
+4. 启动编辑器并打开任意工程。菜单栏出现 `VOCALOID Patcher` 即表示加载成功。
+
+如果编辑器不在默认目录，请将文件复制到实际的 Editor 目录。
+
+![VOCALOID Patcher menu](./res/screenshot.png)
 
 ## 功能
 
-### 界面汉化 / 多语言
-- 翻译编辑器的资源条目与硬编码字符串, 翻译文件为外置 xml, 可自行修改。
+### 界面翻译
 
-### 钢琴窗增强
-- **显示其他轨道的音符**: 在当前轨道的钢琴窗中叠加显示其它轨道的音符, 可选择跳过静音轨道。  
-![Show Other Notes](./res/show_other_notes.png)
-- **显示音符音高**: 在每个音符上叠加显示音高名 (如 `C4`, `F#3`)。  
-![Show Note Pitch](./res/show_note_pitch.png)
-- **使用圆角音符**: 将音符样式修改为圆角矩形  
-![Rounded Notes](./res/rounded_notes.png)
-- **居中显示歌词**: 使歌词垂直居中  
-![Centered Notes](./res/centered_notes_b.png)
-- **始终显示波形**  
-![Always Show Wave](./res/always_show_wave.png)
-- **显示声库封面 / 自定义立绘**: 在钢琴窗右下角显示当前乐段所用声库的封面, 可调整大小与不透明度。
-  - 可为**每个声库**单独上传一张自定义立绘替换默认封面, 切换乐段声库时自动更新。
-  - 立绘支持静态图片以及 `GIF` 动图和 `MP4` 等视频 (循环播放、静音), 无需任何额外依赖。
-  - 立绘渲染在音符下层, 不会遮挡音符。
+编辑器资源和部分硬编码文本都可以翻译。译文保存在外置 XML 文件中。
 
-### 小组件
-- **频谱可视化**: 在编辑器中显示实时音频频谱 (使用 ASIO 时无法正常工作)。
+### 钢琴窗
 
-### 任务
-- **歌词替换**: 将选中音符的歌词批量替换为指定音节。
-- **量化时值**: 按网格量化音符时值。
-- **生成和声**: 按调式根音生成 上/下 三、四、五、六、八度等多个声部, 可写入现有或新建轨道。
-- **Swing 节奏**: 钢琴窗右键菜单内置 8 分 / 16 分的 Swing 与 Shuffle 预设。
+- 在当前钢琴窗中显示其它轨道的音符，并可跳过静音轨道。
+- 在音符上显示 `C4`、`F#3` 这样的音高名。
+- 圆角音符、歌词垂直居中和始终显示波形。
+- 在右下角显示当前声库封面；每个声库都可以单独设置立绘、大小和透明度。
+- 立绘支持静态图片、`GIF` 和 `MP4` 等视频。
+- 为触控板补充钢琴窗横向滚动。
 
-### 多格式导入 / 导出
-- 在原生 `Vpr/Vsqx/MIDI` 之外, 额外支持与以下工程格式互转 (导入 + 导出):
-  `USTX` (OpenUTAU)、`UST` (UTAU)、`SVP` (Synthesizer V Studio)、`S5P` (Synthesizer V Editor)、`VSQ` (VOCALOID2)、`CCS` (CeVIO)、`Tssln` (VoiSona)、`ACEP` (ACE Studio)、`VVProj` (VOICEVOX)、`PPSF` (Piapro Studio NT)、`DV` (DeepVocal)、`TLPX` / `TLP` (TuneLab)、`SVIP` (X Studio)、`DS` (DiffSinger)、`AISP` (AISingers)、`Y77` (Yuan77)、`VOG` (Vogen)、`MusicXML`、`OpenSVIP` (json)、`ufdata` (UtaFormatix)。
-- 此外还支持导出歌词 / 字幕: `LRC`、`SRT`、`ASS`。
-- 导入/导出时会按目标格式自动转换音高曲线、音素等数据。
+![Show notes from other tracks](./res/show_other_notes.png)
+![Show note pitch](./res/show_note_pitch.png)
+![Rounded notes](./res/rounded_notes.png)
+![Centered lyrics](./res/centered_notes_b.png)
+![Always show waveform](./res/always_show_wave.png)
 
-### 性能与流畅度优化 (默认开启)
-- **加快工程载入**: 把音频波形预读、载入统计等可延后的工作移出关键路径, 大型工程打开更快。
-- **内存优化**: 工程载入完成与渲染后及时释放不再需要的音频缓存并回收工作集。
-- **优化音轨区域渲染**: 减少音轨列表的渲染卡顿。
-- **加快乐段切换**: 减少切换乐段时的卡顿。
-- **合成波形缓存**: 减少乐段渲染卡顿。
-- **加快选区清除**: 减少视觉卡顿。
-- **延后参数面板刷新**: 减少切换乐段时的卡顿。
-- **平滑播放指示条**: 减轻播放进度指示条的不规则卡顿。
+### 批处理工具
+
+- 批量替换选中音符的歌词。
+- 按当前网格量化音符时值。
+- 按调式生成上、下三度至八度的和声，可写入现有轨道或新轨道。
+- 钢琴窗右键菜单提供八分音符、十六分音符的 Swing 和 Shuffle 预设。
+
+### 项目格式转换
+
+除了编辑器原生支持的格式，补丁还可以直接导入和导出：
+
+`USTX`、`UST`、`SVP`、`S5P`、`VSQ`、`VSQX`、`VPR`、`CCS`、`TSSln`、`ACEP`、`VVProj`、`PPSF`、`DV`、`TLPX`、`TLP`、`SVIP`、`DS`、`AISP`、`Y77`、`VOG`、`MusicXML`、`OpenSVIP JSON` 和 `UFData`。
+
+也可以将歌词导出为 `LRC`、`SRT` 或 `ASS`。
+
+这部分代码移植自 [`LibreSVIP`](https://github.com/SoulMelody/LibreSVIP)
+
+导入含有中文字符的工程时，也可以自动将中文字符转换为拼音。
+
+不同编辑器的数据模型并不完全相同，转换后仍建议检查音高曲线、音素、换气和伴奏位置之类的东西。PPSF 目前支持新版 ZIP/JSON 工程，不支持旧版二进制 PPSF。
 
 ### 其它
-- **定时保存**: 按设定间隔自动保存当前工程。
-- **为触控板添加钢琴窗左右滚动支持**
+
+- 按设定间隔自动保存当前工程。
+- 在编辑器中显示实时频谱；使用 ASIO 时频谱可能无法正常工作。
 
 ## 调试
-安装该补丁后, 在打开 `VOCALOID 6` 编辑器时长按 `左 Shift` 会打开控制台, `VOCALOIDPatcher` 会在其中显示一些 Debug 日志。
 
-## 更新翻译
-运行 `ResourceTranslationComparer`, 控制台会输出翻译比对结果:
-
-- **[1] 未翻译条目**: 新增的 resx 翻译条目
-- **[2] 未翻译且编辑器未使用条目**: resx 条目, 但是没有 UI 元素引用的条目
-- **[3] 硬编码字符串**: 添加到 `HardcodedPropertyMap.xml` 中, (字面量 → 自定义键)
-- **[4] 多余键 / [5] 未使用的硬编码字符串**
-
-使用参数 `--write-map` 可额外导出一份整理过的 `HardcodedPropertyMap.generated.xml`
+启动 VOCALOID 6 时按住左 `Shift`，补丁会额外打开一个控制台并输出调试日志。反馈启动失败、转换异常或兼容性问题时，请一并附上相关日志。
 
 ## 开发
 
-### 注意事项
-你需要在默认目录中 `(C:\Program Files\VOCALOID6\Editor)` 安装一份最新的 VOCALOID6 编辑器  
-编译完成后, 会在 `VOCALOIDPatcher\bin\Release\net8.0-windows\out` 中构建一个包含依赖的 `Microsoft.Xaml.Behaviors.dll`。
-你可以使用 mklink 命令将构建后的 dll 文件链接到编辑器目录中, 可以避免每次构建后还需要手动覆盖的问题。
+需要在默认目录 `C:\Program Files\VOCALOID6\Editor` 安装一份较新的 VOCALOID 6。项目会同时构建 `.NET 6` 和 `.NET 8` 两个目标：
+
+```powershell
+dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
+```
+
+Release 构建会将依赖合并到：
+
+```text
+VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll
+```
+
+开发时可以用 `mklink` 把该 DLL 链接到编辑器目录，省去每次构建后手动复制。
+
+### 更新翻译
+
+运行 `ResourceTranslationComparer` 可以检查：
+
+- 新增但尚未翻译的资源条目；
+- 编辑器没有实际使用的资源；
+- 需要加入 `HardcodedPropertyMap.xml` 的硬编码文本；
+- 多余或已经失效的翻译键。
+
+使用 `--write-map` 会另外生成整理后的 `HardcodedPropertyMap.generated.xml`。
