@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "2.2.6";
+    public static string Version => "2.3.0";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
