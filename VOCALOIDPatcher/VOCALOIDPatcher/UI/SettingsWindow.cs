@@ -303,6 +303,12 @@ public class SettingsWindow : Window
         artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtSize_Header",
             80, 480, Settings.CharacterArtSize,
             v => { Settings.CharacterArtSize = (int)v; CharacterArtPatch.RefreshArt(); }));
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtHorizontalPosition_Header",
+            0, 100, Settings.CharacterArtHorizontalPosition,
+            v => { Settings.CharacterArtHorizontalPosition = v; CharacterArtPatch.RefreshArt(); }));
+        artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtVerticalPosition_Header",
+            0, 100, Settings.CharacterArtVerticalPosition,
+            v => { Settings.CharacterArtVerticalPosition = v; CharacterArtPatch.RefreshArt(); }));
         artOptions.Children.Add(SliderRow("VOCALOIDPatcher_CharacterArtOpacity_Header",
             0.1, 1.0, Settings.CharacterArtOpacity,
             v => { Settings.CharacterArtOpacity = v; CharacterArtPatch.RefreshArt(); }));

@@ -718,9 +718,15 @@ internal sealed class CharacterArtLayer : FrameworkElement
         }
 
         const double margin = 16.0;
+        double horizontalPosition = Math.Clamp(Settings.CharacterArtHorizontalPosition, 0.0, 100.0) / 100.0;
+        double verticalPosition = Math.Clamp(Settings.CharacterArtVerticalPosition, 0.0, 100.0) / 100.0;
+        double horizontalInset = Math.Min(margin, Math.Max(0.0, viewport.Width - targetWidth) * 0.5);
+        double verticalInset = Math.Min(margin, Math.Max(0.0, viewport.Height - targetHeight) * 0.5);
+        double horizontalRange = Math.Max(0.0, viewport.Width - targetWidth - horizontalInset * 2.0);
+        double verticalRange = Math.Max(0.0, viewport.Height - targetHeight - verticalInset * 2.0);
         var rect = new Rect(
-            viewport.Right - targetWidth - margin,
-            viewport.Bottom - targetHeight - margin,
+            viewport.Left + horizontalInset + horizontalRange * horizontalPosition,
+            viewport.Top + verticalInset + verticalRange * verticalPosition,
             targetWidth, targetHeight);
 
         drawingContext.PushOpacity(Math.Clamp(Settings.CharacterArtOpacity, 0.0, 1.0));

@@ -25,6 +25,8 @@
   <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫封面</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>封面大小</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>水平位置</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtVerticalPosition_Header" xml:space="preserve"><value>垂直位置</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_CharacterArtUpload_Header" xml:space="preserve"><value>上傳立繪</value></data>
   <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>恢復預設</value></data>

@@ -66,6 +66,22 @@ public static class Settings
         set => Patcher.ConfigManager.Set(CharacterArtOpacityKey, value);
     }
 
+    public static string CharacterArtHorizontalPositionKey => "CharacterArtHorizontalPosition";
+
+    public static double CharacterArtHorizontalPosition
+    {
+        get => Patcher.ConfigManager.Get(CharacterArtHorizontalPositionKey, 100.0);
+        set => Patcher.ConfigManager.Set(CharacterArtHorizontalPositionKey, value);
+    }
+
+    public static string CharacterArtVerticalPositionKey => "CharacterArtVerticalPosition";
+
+    public static double CharacterArtVerticalPosition
+    {
+        get => Patcher.ConfigManager.Get(CharacterArtVerticalPositionKey, 100.0);
+        set => Patcher.ConfigManager.Set(CharacterArtVerticalPositionKey, value);
+    }
+
     public static string CharacterArtPathsKey => "CharacterArtPaths";
 
     public static Dictionary<string, string> CharacterArtPaths

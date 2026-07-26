@@ -25,6 +25,8 @@
   <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>Horizontal</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtVerticalPosition_Header" xml:space="preserve"><value>Vertical</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
   <data name="VOCALOIDPatcher_CharacterArtUpload_Header" xml:space="preserve"><value>Upload Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>Reset</value></data>

@@ -25,6 +25,8 @@
   <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>ボイスバンクのカバーを表示</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>カバーのサイズ</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>横位置</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtVerticalPosition_Header" xml:space="preserve"><value>縦位置</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_CharacterArtUpload_Header" xml:space="preserve"><value>立ち絵をアップロード</value></data>
   <data name="VOCALOIDPatcher_CharacterArtReset_Header" xml:space="preserve"><value>既定に戻す</value></data>
