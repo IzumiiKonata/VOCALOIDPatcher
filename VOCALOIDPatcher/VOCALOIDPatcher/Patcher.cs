@@ -180,6 +180,15 @@ public static class Patcher
                 new CursorNoteNameTranslationFixPatch(),
                 new FastCanvasViewportRectPatch(),
                 new FastCanvasViewportRangePatch(),
+#if !NET6_0
+                new AudioBufferReleaseSafetyPatch(),
+                new CommonUserSettingsJsonOptionsPatch(),
+                new UniqueUserSettingsJsonOptionsPatch(),
+                new NewsImageCachePatch(),
+                new ShortcutModifierCachePatch(),
+                new ShortcutKeyMapCachePatch(),
+                new ShortcutJsonModifierCachePatch(),
+#endif
                 new WaveformBaselineInvalidatePatch(),
                 new TrackSelectedFillBrushPatch(),
                 new TrackSelectedStrokeBrushPatch(),
@@ -218,11 +227,24 @@ public static class Patcher
                 new LazyLyricRenderPatch(),
 #if !NET6_0
                 new DeferAudioBufferLoadPatch(),
+                new CancelDeferredAudioBufferLoadPatch(),
+                new ExcludeRemovedDeferredAudioBufferPatch(),
+                new ExcludeReplacedDeferredAudioBufferPatch(),
+                new VisiblePianorollNotesPatch(),
+                new VisiblePianorollLyricsPatch(),
+                new PianorollVirtualizationViewportPatch(),
 #endif
                 new DeferLoadAnalyticsPatch(),
                 new LeanLyricTextPatch()),
 
-            new(Settings.SkipUnchangedPartRedrawKey, new SkipUnchangedPartRedrawPatch()),
+            new(Settings.SkipUnchangedPartRedrawKey,
+                new SkipUnchangedPartRedrawPatch()
+#if !NET6_0
+                , new PianorollSelectionPenCachePatch()
+#endif
+            ),
+
+            new(Settings.ThrottleRendererPreviewKey, new RendererPreviewThrottlePatch()),
 
             new(Settings.FastSelectionSweepKey,
                 new TimeSigSelectionTrackPatch(),
@@ -230,7 +252,12 @@ public static class Patcher
                 new BreakPointSelectionTrackPatch(),
                 new FastSelectionSweepPatch()),
 
-            new(Settings.DeferParameterViewUpdateKey, new ParameterViewDeferPatch()),
+            new(Settings.DeferParameterViewUpdateKey,
+                new ParameterViewDeferPatch()
+#if !NET6_0
+                , new ParameterVisibleRangePatch()
+#endif
+            ),
 
 #if !NET6_0
             new(Settings.SmoothPlayheadKey,
@@ -256,10 +283,16 @@ public static class Patcher
                 new TrackPartDurationChangedPatch(),
                 new UIMidiPartNotesRenderPatch(),
                 new AudioTrackHeightResizePatch(),
+                new MidiTrackSelectionRefreshPatch(),
+                new AudioTrackSelectionRefreshPatch(),
+                new MidiPartSelectionPenCachePatch(),
+                new AudioPartSelectionPenCachePatch(),
                 new TrackRulerGridLinePatch(),
                 new MusicalRulerGridLinePatch()),
 
-            new(Settings.CacheRenderedWavesKey, new RenderedWaveCachePatch()),
+            new(Settings.CacheRenderedWavesKey,
+                new RenderedWaveCachePatch(),
+                new RenderedWaveCacheClearPatch()),
 #endif
         };
 

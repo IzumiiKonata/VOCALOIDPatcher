@@ -37,22 +37,24 @@
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分钟</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>性能</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快工程载入</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>打开工程时把音频波形预读等耗时步骤移到后台执行，缩短打开大工程的等待时间。</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>内存优化</value></data>
-  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>空闲时自动释放不再使用的内存，降低编辑器的内存占用。</value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>优化音轨区域渲染</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>用更高效的方式绘制音轨区域的音符、标尺与波形，减少编辑时的卡顿。更改后需重启编辑器生效。</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>加快乐段切换</value></data>
-  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>在同一音轨内切换乐段时，跳过画面中无需变化部分的重绘，使切换更流畅。</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形缓存</value></data>
   <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>释放音频 PCM 缓存</value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>记住最近乐段的合成波形并在后台读取新波形，切换乐段时不再因读取波形而卡顿。波形可能稍后才显示。</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Header" xml:space="preserve"><value>优化合成预览刷新</value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>加快选区清除</value></data>
-  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>点击乐段时只取消确实被选中过的事件，不再每次扫描整个工程。</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>延后参数面板刷新</value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>切换音轨或乐段时，下方参数面板稍后再刷新，让切换立即响应。</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>平滑播放指示条</value></data>
-  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>用屏幕刷新节奏而非后台定时器驱动播放进度指示条，消除不规则的卡顿——开启频谱小组件时尤为明显。</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分摇摆</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>

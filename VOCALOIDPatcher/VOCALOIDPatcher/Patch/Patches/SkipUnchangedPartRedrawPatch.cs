@@ -47,10 +47,13 @@ public class SkipUnchangedPartRedrawPatch : PatchBase
     private static readonly MethodInfo? MUpdateOutsideLayer =
         AccessTools.Method(typeof(PianorollView), "UpdateOutsideActivePartLayer", new[] { typeof(MusicalEditorViewModel) });
 
+    private static readonly MethodInfo? MRedrawSelectedNotes =
+        AccessTools.Method(typeof(PianorollView), "RedrawSelectChangedNotes", Type.EmptyTypes);
+
     private static readonly bool MethodsResolved =
         MDrawNoteInside != null && MDrawRenderedWave != null && MDrawVibrato != null
         && MDrawPitchBend != null && MDrawAmplitude != null && MDrawPartName != null
-        && MUpdateOutsideLayer != null;
+        && MUpdateOutsideLayer != null && MRedrawSelectedNotes != null;
 
     private sealed class TrackBox
     {
@@ -65,12 +68,38 @@ public class SkipUnchangedPartRedrawPatch : PatchBase
         if (!Settings.SkipUnchangedPartRedraw || !MethodsResolved)
             return true;
 
-        if (typeFlags != UpdateViewTypeFlag.ActivePartChanged)
-            return true;
-
         try
         {
             if (__instance.DataContext is not MusicalEditorViewModel vm)
+                return true;
+
+            if (typeFlags == UpdateViewTypeFlag.NoteSelectionChanged)
+            {
+                MRedrawSelectedNotes!.Invoke(__instance, null);
+
+                switch (vm.EditorMode.Mode)
+                {
+                    case EditModeME.Pitch:
+#if !NET6_0
+                    case EditModeME.PitchPencil:
+                    case EditModeME.PitchEraser:
+#endif
+                    case EditModeME.Vibrato:
+                        MDrawVibrato!.Invoke(__instance, null);
+                        MDrawPitchBend!.Invoke(__instance, null);
+                        MDrawAmplitude!.Invoke(__instance, new object?[] { vm });
+                        break;
+                    case EditModeME.Amplitude:
+                        MDrawAmplitude!.Invoke(__instance, new object?[] { vm });
+                        MDrawRenderedWave!.Invoke(__instance, new object?[] { vm });
+                        break;
+                }
+
+                vm.UpdateViewport();
+                return false;
+            }
+
+            if (typeFlags != UpdateViewTypeFlag.ActivePartChanged)
                 return true;
 
             var box = LastTrack.GetOrCreateValue(__instance);

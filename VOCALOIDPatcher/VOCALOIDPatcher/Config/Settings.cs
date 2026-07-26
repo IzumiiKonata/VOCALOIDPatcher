@@ -238,4 +238,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(SmoothPlayheadKey, value);
     }
 
+    public static string ThrottleRendererPreviewKey => "ThrottleRendererPreview";
+
+    public static bool ThrottleRendererPreview
+    {
+        get => FeatureFlag(ThrottleRendererPreviewKey, true);
+        set => Patcher.ConfigManager.Set(ThrottleRendererPreviewKey, value);
+    }
+
 }

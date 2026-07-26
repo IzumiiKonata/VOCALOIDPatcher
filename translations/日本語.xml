@@ -37,22 +37,24 @@
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>パフォーマンス</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>プロジェクト読み込みを高速化</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>オーディオ波形の先読みなど時間のかかる処理をバックグラウンドに移し、大きなプロジェクトを開く時間を短縮します。</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>メモリ最適化</value></data>
-  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>アイドル時に未使用のメモリを自動的に解放し、エディタのメモリ使用量を抑えます。</value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>トラックエリアの描画を最適化</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>トラックエリアのノート・ルーラー・波形をより効率的に描画し、編集時のカクつきを軽減します。変更はエディタの再起動後に有効になります。</value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>パート切り替えを高速化</value></data>
-  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>同じトラック内でパートを切り替える際、変化しない部分の再描画をスキップして切り替えをスムーズにします。</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形キャッシュ</value></data>
   <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>オーディオPCMキャッシュの解放</value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>最近のパートの合成波形を保持し、新しい波形はバックグラウンドで読み込むため、パート切り替えが波形読み込みで止まらなくなります。波形の表示が少し遅れることがあります。</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Header" xml:space="preserve"><value>合成プレビュー更新の最適化</value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>選択解除を高速化</value></data>
-  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>パートをクリックした際、実際に選択されていたイベントだけを解除し、プロジェクト全体のスキャンを省略します。</value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>パラメータパネルの遅延更新</value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>トラックやパートの切り替え時に下部のパラメータパネルを少し遅れて更新し、切り替えの反応を即座にします。</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>再生位置ラインをスムーズに</value></data>
-  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>再生位置のラインをバックグラウンドタイマーではなく画面の更新周期で動かし、不規則なカクつきを解消します。スペクトル表示中は特に効果的です。</value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value></value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8分スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8分シャッフル</value></data>

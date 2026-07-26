@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -48,9 +49,11 @@ public class RenderedWaveCachePatch : PatchBase
     {
         public readonly LinkedList<nint> Order = new();
         public readonly HashSet<nint> Pending = new();
+        public int Generation;
     }
 
     private static readonly ConditionalWeakTable<RenderedWaveCacheManager, LruState> States = new();
+    private static readonly SemaphoreSlim LoadSlots = new(2);
 
     [HarmonyPrefix]
     private static bool Prefix(RenderedWaveCacheManager __instance, WIVSMMidiPart part, ref IVSMSampleEnumerator? __result)
@@ -90,11 +93,16 @@ public class RenderedWaveCachePatch : PatchBase
             if (!state.Pending.Add(key))
                 return false;
 
+            int generation = state.Generation;
             Task.Run(() =>
             {
                 AugmentedAudioBuffer? buffer = null;
                 try
                 {
+                    LoadSlots.Wait();
+                    if (Volatile.Read(ref state.Generation) != generation)
+                        return;
+
                     var loaded = new AugmentedAudioBuffer();
                     if (loaded.Load(path))
                         buffer = loaded;
@@ -102,11 +110,15 @@ public class RenderedWaveCachePatch : PatchBase
                 catch
                 {
                 }
+                finally
+                {
+                    LoadSlots.Release();
+                }
 
                 Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     state.Pending.Remove(key);
-                    if (buffer == null)
+                    if (buffer == null || state.Generation != generation)
                         return;
 
                     dict[key] = Tuple.Create(path, buffer);
@@ -152,6 +164,29 @@ public class RenderedWaveCachePatch : PatchBase
         {
             Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_RenderedWaveCache_RefreshCanvasFailed", e.Message));
         }
+    }
+
+    internal static void Invalidate(RenderedWaveCacheManager manager)
+    {
+        var state = States.GetOrCreateValue(manager);
+        state.Generation++;
+        state.Pending.Clear();
+        state.Order.Clear();
+    }
+}
+
+public class RenderedWaveCacheClearPatch : PatchBase
+{
+    public override string PatchName        => "RenderedWaveCacheClearPatch";
+    public override Type   TargetClass      => typeof(RenderedWaveCacheManager);
+    public override string TargetMethodName => "Clear";
+
+    public override Type[] ArgumentTypes => Type.EmptyTypes;
+
+    [HarmonyPostfix]
+    private static void Postfix(RenderedWaveCacheManager __instance)
+    {
+        RenderedWaveCachePatch.Invalidate(__instance);
     }
 }
 #endif

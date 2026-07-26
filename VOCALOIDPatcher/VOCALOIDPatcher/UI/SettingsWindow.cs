@@ -592,6 +592,11 @@ public class SettingsWindow : Window
             Settings.CacheRenderedWaves, new Thickness(0, 16, 0, 0),
             checkbox => Settings.CacheRenderedWaves = checkbox.IsChecked == true);
 
+        Add(Settings.ThrottleRendererPreviewKey, "VOCALOIDPatcher_ThrottleRendererPreview_Header",
+            "VOCALOIDPatcher_ThrottleRendererPreview_Desc",
+            Settings.ThrottleRendererPreview, new Thickness(0, 16, 0, 0),
+            checkbox => Settings.ThrottleRendererPreview = checkbox.IsChecked == true);
+
         Add(Settings.FastSelectionSweepKey, "VOCALOIDPatcher_FastSelectionSweep_Header",
             "VOCALOIDPatcher_FastSelectionSweep_Desc",
             Settings.FastSelectionSweep, new Thickness(0, 16, 0, 0),
