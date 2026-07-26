@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using VOCALOIDPatcher.Formats.LibreSvip.Core;
@@ -15,10 +16,18 @@ public sealed class DsConverter : FormatConverter
 
     public bool ImportPitch { get; set; } = true;
     public double Tempo { get; set; } = Constants.DefaultBpm;
+    public int TrackIndex { get; set; } = -1;
+    public string DictName { get; set; } = "opencpop-extension";
+    public double SplitThreshold { get; set; } = 5;
+    public int MinInterval { get; set; } = 400;
+    public int Seed { get; set; } = -1;
+    public bool ExportGender { get; set; }
+    public int Indent { get; set; } = 2;
 
     private TimeSynchronizer _synchronizer = new(new List<SongTempo> { new() });
 
     public override bool CanLoad => true;
+    public override bool CanDump => true;
 
     public override Project Load(byte[] content)
     {
@@ -126,5 +135,145 @@ public sealed class DsConverter : FormatConverter
         }
         points.Add(Point.EndPoint());
         return new ParamCurve { Points = points };
+    }
+
+    public override byte[] Dump(Project project)
+    {
+        var singing = TrackIndex >= 0 && TrackIndex < project.TrackList.Count
+            ? project.TrackList[TrackIndex] as SingingTrack
+            : project.TrackList.OfType<SingingTrack>().FirstOrDefault(track => track.NoteList.Count > 0);
+        if (singing == null)
+            throw new InvalidOperationException("No singing track found");
+        var tempos = project.SongTempoList.Count > 0
+            ? project.SongTempoList
+            : new List<SongTempo> { new() };
+        var synchronizer = new TimeSynchronizer(tempos);
+        var groups = SplitNotes(singing.NoteList, synchronizer);
+        var items = groups.Select(group => GenerateItem(
+            group, singing, synchronizer, project.TimeSignatureList)).ToList();
+        var options = new JsonSerializerOptions(JsonHelper.Default) { WriteIndented = Indent >= 0 };
+        return TextHelper.EncodeUtf8(JsonSerializer.Serialize(items, options));
+    }
+
+    private List<List<Note>> SplitNotes(List<Note> notes, TimeSynchronizer synchronizer)
+    {
+        if (SplitThreshold < 0 || notes.Count == 0)
+            return new List<List<Note>> { notes };
+        var result = new List<List<Note>>();
+        var current = new List<Note>();
+        foreach (var note in notes.OrderBy(note => note.StartPos))
+        {
+            if (current.Count > 0)
+            {
+                var previous = current[^1];
+                double gapMs = synchronizer.GetDurationSecsFromTicks(previous.EndPos, note.StartPos) * 1000;
+                double duration = synchronizer.GetDurationSecsFromTicks(current[0].StartPos, previous.EndPos);
+                if (gapMs >= MinInterval && (SplitThreshold == 0 || duration >= SplitThreshold))
+                {
+                    result.Add(current);
+                    current = new List<Note>();
+                }
+            }
+            current.Add(note);
+        }
+        if (current.Count > 0)
+            result.Add(current);
+        return result;
+    }
+
+    private DsItem GenerateItem(
+        List<Note> notes,
+        SingingTrack track,
+        TimeSynchronizer synchronizer,
+        List<TimeSignature> timeSignatures)
+    {
+        double offset = notes.Count > 0 ? synchronizer.GetActualSecsFromTicks(notes[0].StartPos) : 0;
+        var item = new DsItem
+        {
+            Offset = offset,
+            Seed = Seed >= 0 ? Seed : null,
+            InputType = "phoneme",
+            NoteDur = new List<double>(),
+            NoteSlur = new List<int>(),
+            IsSlurSeq = new List<int>(),
+            PhDur = new List<double>(),
+            PhNum = new List<int>(),
+            NoteDurSeq = new List<double>(),
+        };
+        double cursor = offset;
+        foreach (var note in notes)
+        {
+            double start = synchronizer.GetActualSecsFromTicks(note.StartPos);
+            double end = synchronizer.GetActualSecsFromTicks(note.EndPos);
+            if (start > cursor + 0.000001)
+                AddDsToken(item, "SP", "SP", "rest", start - cursor, 0);
+            string lyric = note.Lyric == "-" ? "-" : Regex.Replace(note.Lyric, @"[\p{P}\p{S}]", "");
+            string phoneme = note.Pronunciation ?? (lyric == "-" ? item.PhSeq.LastOrDefault() ?? "a" : lyric);
+            AddDsToken(item, lyric, phoneme, MusicMath.Midi2Note(note.KeyNumber), end - start, lyric == "-" ? 1 : 0);
+            cursor = end;
+        }
+        AddDsToken(item, "SP", "SP", "rest", 0.05, 0);
+        double totalDuration = item.NoteDur!.Sum();
+        const double step = 0.005;
+        item.F0Timestep = step;
+        var signatures = timeSignatures.Count > 0
+            ? timeSignatures
+            : new List<TimeSignature> { new() };
+        var pitchSimulator = new PitchSimulator(
+            synchronizer, PortamentoPitch.NoPortamento(), track.NoteList, signatures);
+        int firstBar = (int)Math.Round(signatures[0].BarLength());
+        pitchSimulator.MergePitchCurve(track.EditedParams.Pitch, firstBar);
+        item.F0Seq = new List<double>();
+        for (double secs = offset; secs < offset + totalDuration; secs += step)
+        {
+            double? pitch = pitchSimulator.PitchAtSecs(secs);
+            item.F0Seq.Add(pitch.HasValue ? MusicMath.Midi2Hz(pitch.Value / 100) : 0);
+        }
+        if (ExportGender)
+        {
+            item.GenderTimestep = step;
+            item.Gender = new List<double>();
+            for (double secs = offset; secs < offset + totalDuration; secs += step)
+            {
+                int tick = (int)Math.Round(synchronizer.GetActualTicksFromSecs(secs)) + firstBar;
+                item.Gender.Add(SampleCurve(track.EditedParams.Gender, tick) / 1000.0);
+            }
+        }
+        return item;
+    }
+
+    private static void AddDsToken(
+        DsItem item,
+        string lyric,
+        string phoneme,
+        string noteName,
+        double duration,
+        int slur)
+    {
+        item.Text.Add(string.IsNullOrEmpty(lyric) ? "la" : lyric);
+        item.PhSeq.Add(string.IsNullOrEmpty(phoneme) ? "a" : phoneme);
+        item.NoteSeq.Add(noteName);
+        item.NoteDur!.Add(Math.Round(Math.Max(duration, 0.001), 6));
+        item.NoteDurSeq!.Add(Math.Round(Math.Max(duration, 0.001), 6));
+        item.NoteSlur!.Add(slur);
+        item.IsSlurSeq!.Add(slur);
+        item.PhDur!.Add(Math.Round(Math.Max(duration, 0.001), 6));
+        item.PhNum!.Add(1);
+    }
+
+    private static int SampleCurve(ParamCurve curve, int tick)
+    {
+        var points = curve.Points.Where(point => point.X != Point.StartX && point.X != Point.EndX)
+            .OrderBy(point => point.X).ToList();
+        if (points.Count == 0)
+            return 0;
+        int index = Search.FindLastIndex(points, point => point.X <= tick);
+        if (index < 0)
+            return points[0].Y;
+        if (index >= points.Count - 1)
+            return points[^1].Y;
+        var left = points[index];
+        var right = points[index + 1];
+        return (int)Math.Round(MusicMath.LinearInterpolation(tick, (left.X, left.Y), (right.X, right.Y)));
     }
 }

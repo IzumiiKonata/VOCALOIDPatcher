@@ -36,6 +36,8 @@
   <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>立繪上傳失敗</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Header" xml:space="preserve"><value>匯入時自動將中文歌詞轉換為拼音</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Desc" xml:space="preserve"><value>自動識別中文歌詞軌道，結合詞組上下文處理多音字，並保留來源工程中的有效拼音。</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>效能</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快工程載入</value></data>
@@ -77,6 +79,140 @@
   <data name="VOCALOIDPatcher_Format_AllFiles" xml:space="preserve"><value>所有檔案</value></data>
   <data name="VOCALOIDPatcher_Format_OperationFailed" xml:space="preserve"><value>操作失敗</value></data>
   <data name="VOCALOIDPatcher_Format_ImportFailed" xml:space="preserve"><value>匯入失敗</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTitle" xml:space="preserve"><value>匯入 {0}</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportTitle" xml:space="preserve"><value>匯出 {0}</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_InvalidValue" xml:space="preserve"><value>「{0}」的值無效。</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportPitch" xml:space="preserve"><value>匯入音高曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumental" xml:space="preserve"><value>匯入伴奏軌道</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumentalTrack" xml:space="preserve"><value>匯入伴奏軌道</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTempo" xml:space="preserve"><value>匯入速度變化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportVolume" xml:space="preserve"><value>匯入音量曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportBreath" xml:space="preserve"><value>匯入氣聲曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportGender" xml:space="preserve"><value>匯入性別曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportStrength" xml:space="preserve"><value>匯入力度曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTension" xml:space="preserve"><value>匯入張力曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportEnergy" xml:space="preserve"><value>匯入能量曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_KeepAllPronunciation" xml:space="preserve"><value>保留所有發音</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Tempo" xml:space="preserve"><value>速度（BPM）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Breath" xml:space="preserve"><value>換氣音符處理</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyCoefficient" xml:space="preserve"><value>能量係數</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CurveSampleInterval" xml:space="preserve"><value>曲線取樣間隔</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalization" xml:space="preserve"><value>氣聲正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalization" xml:space="preserve"><value>張力正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalization" xml:space="preserve"><value>能量正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Artist" xml:space="preserve"><value>歌手</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Title" xml:space="preserve"><value>歌曲標題</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Album" xml:space="preserve"><value>專輯</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_By" xml:space="preserve"><value>歌詞編輯</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitBy" xml:space="preserve"><value>換行依據</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IgnoreSlurNotes" xml:space="preserve"><value>忽略連音音符</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Version" xml:space="preserve"><value>檔案版本</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLanguage" xml:space="preserve"><value>預設語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IsAiSinger" xml:space="preserve"><value>使用 AI 聲庫</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLangId" xml:space="preserve"><value>預設語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultCompId" xml:space="preserve"><value>預設聲庫 ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerName" xml:space="preserve"><value>預設歌手名稱</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerId" xml:space="preserve"><value>預設聲庫 ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerVersion" xml:space="preserve"><value>預設聲庫版本</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TicksPerBeat" xml:space="preserve"><value>每拍 Tick 數</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Singer" xml:space="preserve"><value>歌手</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MapStrengthInfo" xml:space="preserve"><value>力度映射</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitThreshold" xml:space="preserve"><value>拆分閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricLanguage" xml:space="preserve"><value>歌詞語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultConsonantLength" xml:space="preserve"><value>預設輔音長度</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Serialization" xml:space="preserve"><value>序列化格式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Offset" xml:space="preserve"><value>偏移（毫秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_OffsetPolicy" xml:space="preserve"><value>偏移策略</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Timeline" xml:space="preserve"><value>寫入時間軸</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Encoding" xml:space="preserve"><value>文字編碼</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TrackIndex" xml:space="preserve"><value>軌道索引（-1 為自動）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_VersionCompatibility" xml:space="preserve"><value>Synthesizer V 版本相容性</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Vibrato" xml:space="preserve"><value>顫音處理方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DownSample" xml:space="preserve"><value>參數取樣間隔（0 為不限制）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LanguageOverride" xml:space="preserve"><value>聲庫預設語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Instant" xml:space="preserve"><value>始終跟隨瞬時音高模式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PitchMode" xml:space="preserve"><value>音高匯入模式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Group" xml:space="preserve"><value>音符組處理方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indented" xml:space="preserve"><value>縮排 JSON</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SingerName" xml:space="preserve"><value>歌手名稱</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricEncoding" xml:space="preserve"><value>歌詞文字編碼</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PlusHandlingMode" xml:space="preserve"><value>加號處理方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLyrics" xml:space="preserve"><value>換氣歌詞</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SilenceLyrics" xml:space="preserve"><value>靜音歌詞</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnglishPhonemizerCompatibility" xml:space="preserve"><value>英語音素器相容性</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportDynamics" xml:space="preserve"><value>將力度記號匯入為音量曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ApplyFermataStretch" xml:space="preserve"><value>延長帶延音記號的音符</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CombineSyllables" xml:space="preserve"><value>合併音節</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PrettyXml" xml:space="preserve"><value>格式化 XML</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExtractAudio" xml:space="preserve"><value>提取內嵌音訊</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DictName" xml:space="preserve"><value>字典名稱</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DsSplitThreshold" xml:space="preserve"><value>分段閾值（秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MinInterval" xml:space="preserve"><value>最小間隔（毫秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Seed" xml:space="preserve"><value>隨機種子（-1 為隨機）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportGender" xml:space="preserve"><value>匯出性別參數</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indent" xml:space="preserve"><value>JSON 縮排（-1 為緊湊）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationMethod" xml:space="preserve"><value>氣聲正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLowerThreshold" xml:space="preserve"><value>氣聲下閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathUpperThreshold" xml:space="preserve"><value>氣聲上閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationScale" xml:space="preserve"><value>氣聲正規化縮放</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationBias" xml:space="preserve"><value>氣聲正規化偏置</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationMethod" xml:space="preserve"><value>張力正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionLowerThreshold" xml:space="preserve"><value>張力下閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionUpperThreshold" xml:space="preserve"><value>張力上閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationScale" xml:space="preserve"><value>張力正規化縮放</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationBias" xml:space="preserve"><value>張力正規化偏置</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationMethod" xml:space="preserve"><value>能量正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyLowerThreshold" xml:space="preserve"><value>能量下閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyUpperThreshold" xml:space="preserve"><value>能量上閾值</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationScale" xml:space="preserve"><value>能量正規化縮放</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationBias" xml:space="preserve"><value>能量正規化偏置</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Timeline" xml:space="preserve"><value>作用於時間軸</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Meta" xml:space="preserve"><value>寫入中繼資料標籤</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Below190" xml:space="preserve"><value>相容 Synthesizer V Studio 1.9.0 及以下</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Between1100And1112" xml:space="preserve"><value>相容 Synthesizer V Studio 1.10.0–1.11.2</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Above200" xml:space="preserve"><value>相容 Synthesizer V Studio 2.0 及以上</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_None" xml:space="preserve"><value>移除全部顫音</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Always" xml:space="preserve"><value>保留全部顫音</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Hybrid" xml:space="preserve"><value>移除已編輯區域的顫音</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Mandarin" xml:space="preserve"><value>國語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cantonese" xml:space="preserve"><value>粵語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_German" xml:space="preserve"><value>德語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Full" xml:space="preserve"><value>完整音高曲線</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vibrato" xml:space="preserve"><value>僅編輯部分（保留預設顫音）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Plain" xml:space="preserve"><value>僅編輯部分（忽略預設顫音）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Convert" xml:space="preserve"><value>轉換為換氣標記</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Split" xml:space="preserve"><value>全部拆分為軌道</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Merge" xml:space="preserve"><value>保持原始位置</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Monosyllabic" xml:space="preserve"><value>單音節語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Polysyllabic" xml:space="preserve"><value>多音節語言</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_NonArpa" xml:space="preserve"><value>不相容 ARPAsing</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Arpa" xml:space="preserve"><value>相容 ARPAsing</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_ZScore" xml:space="preserve"><value>Z-score 標準化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_MinMax" xml:space="preserve"><value>最小-最大正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Auto" xml:space="preserve"><value>自動</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Ignore" xml:space="preserve"><value>忽略</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Keep" xml:space="preserve"><value>保留</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Both" xml:space="preserve"><value>兩者</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Gap" xml:space="preserve"><value>間隔</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Symbol" xml:space="preserve"><value>標點符號</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Energy" xml:space="preserve"><value>能量</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Tension" xml:space="preserve"><value>張力</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Chinese" xml:space="preserve"><value>中文</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_SimplifiedChinese" xml:space="preserve"><value>簡體中文</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Japanese" xml:space="preserve"><value>日語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_English" xml:space="preserve"><value>英語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Korean" xml:space="preserve"><value>韓語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Spanish" xml:space="preserve"><value>西班牙語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Portuguese" xml:space="preserve"><value>葡萄牙語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_French" xml:space="preserve"><value>法語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Italian" xml:space="preserve"><value>義大利語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Json" xml:space="preserve"><value>JSON</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cbor" xml:space="preserve"><value>CBOR</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq3" xml:space="preserve"><value>VSQX 3</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq4" xml:space="preserve"><value>VSQX 4</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip700" xml:space="preserve"><value>SVIP 7.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip600" xml:space="preserve"><value>SVIP 6.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Compat" xml:space="preserve"><value>相容模式</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ufdata" xml:space="preserve"><value>UtaFormatix Data</value></data>
   <data name="VOCALOIDPatcher_Format_Name_json" xml:space="preserve"><value>OpenSVIP</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ust" xml:space="preserve"><value>UTAU 音序文字</value></data>

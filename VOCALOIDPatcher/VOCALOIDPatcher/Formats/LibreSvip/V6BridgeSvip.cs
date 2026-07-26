@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using VOCALOIDPatcher.Formats.LibreSvip.Model;
@@ -30,6 +31,9 @@ public static class V6BridgeSvip
     private static readonly PropertyInfo? PartAbsPos =
         typeof(WIVSMMidiPart).GetProperty("AbsPosTick") ?? typeof(WIVSMMidiPart).GetProperty("AbsPosition");
 
+    private static readonly PropertyInfo? AudioPartAbsPos =
+        typeof(WIVSMAudioPart).GetProperty("AbsPosTick") ?? typeof(WIVSMAudioPart).GetProperty("AbsPosition");
+
     private static readonly PropertyInfo? TempoRelPos =
         typeof(WIVSMTempo).GetProperty("RelPosTick") ?? typeof(WIVSMTempo).GetProperty("RelPosition");
 
@@ -53,6 +57,8 @@ public static class V6BridgeSvip
     private static long NoteLen(WIVSMNote note) => Unwrap(NoteDuration?.GetValue(note));
 
     private static long PartAbs(WIVSMMidiPart part) => UnwrapAbs(PartAbsPos?.GetValue(part));
+
+    private static long AudioPartAbs(WIVSMAudioPart part) => UnwrapAbs(AudioPartAbsPos?.GetValue(part));
 
     private static long TempoTick(WIVSMTempo tempo) => Unwrap(TempoRelPos?.GetValue(tempo));
 
@@ -92,6 +98,71 @@ public static class V6BridgeSvip
             part.InsertController(new VSMRelTick(e.Pos), VSMControllerType.PitchBendSens, e.Value);
         foreach (var e in pitchData.Pit.Events)
             part.InsertController(new VSMRelTick(e.Pos), VSMControllerType.PitchBend, e.Value);
+    }
+
+    private static ParamCurve ReadParameter(
+        WIVSMMidiPart part,
+        VSMControllerType type,
+        int partOffset,
+        int firstBarLength)
+    {
+        int defaultValue = WIVSMMidiController.GetDefaultValue(type);
+        int minValue = WIVSMMidiController.GetMinValue(type);
+        int maxValue = WIVSMMidiController.GetMaxValue(type);
+        var points = ReadController(part, type)
+            .Select(e => new Point(
+                e.Pos + partOffset + firstBarLength,
+                MapToInternal(e.Value, defaultValue, minValue, maxValue)))
+            .ToList();
+        return new ParamCurve { Points = points };
+    }
+
+    private static void WriteParameter(
+        WIVSMMidiPart part,
+        ParamCurve curve,
+        VSMControllerType type,
+        int firstBarLength)
+    {
+        int defaultValue = WIVSMMidiController.GetDefaultValue(type);
+        int minValue = WIVSMMidiController.GetMinValue(type);
+        int maxValue = WIVSMMidiController.GetMaxValue(type);
+        foreach (var point in curve.Points)
+        {
+            if (point.X is Point.StartX or Point.EndX || point.X < firstBarLength)
+                continue;
+            int position = point.X - firstBarLength;
+            int value = MapToExternal(point.Y, defaultValue, minValue, maxValue);
+            part.InsertController(new VSMRelTick(position), type, value);
+        }
+    }
+
+    private static int MapToInternal(int value, int defaultValue, int minValue, int maxValue)
+    {
+        int clamped = Math.Clamp(value, minValue, maxValue);
+        if (clamped >= defaultValue)
+        {
+            int range = maxValue - defaultValue;
+            return range == 0 ? 0 : (int)Math.Round((clamped - defaultValue) * 1000.0 / range);
+        }
+        int lowerRange = defaultValue - minValue;
+        return lowerRange == 0 ? 0 : (int)Math.Round((clamped - defaultValue) * 1000.0 / lowerRange);
+    }
+
+    private static int MapToExternal(int value, int defaultValue, int minValue, int maxValue)
+    {
+        int clamped = Math.Clamp(value, -1000, 1000);
+        double mapped = clamped >= 0
+            ? defaultValue + clamped * (maxValue - defaultValue) / 1000.0
+            : defaultValue + clamped * (defaultValue - minValue) / 1000.0;
+        return Math.Clamp((int)Math.Round(mapped), minValue, maxValue);
+    }
+
+    private static void MergeCurve(ParamCurve target, ParamCurve source)
+    {
+        if (source.Points.Count == 0)
+            return;
+        target.Points.AddRange(source.Points);
+        target.Points.Sort((a, b) => a.X.CompareTo(b.X));
     }
 
     private static int VoiceBankLangId(WIVSMMidiPart part, bool isAi)
@@ -211,6 +282,20 @@ public static class V6BridgeSvip
                 continue;
 
             long span = track.NoteList.Count > 0 ? track.NoteList.Max(n => (long)n.EndPos) : TicksInFullNote;
+            var parameterPoints = new[]
+            {
+                track.EditedParams.Volume.Points,
+                track.EditedParams.Breath.Points,
+                track.EditedParams.Gender.Points,
+                track.EditedParams.Strength.Points,
+            };
+            long lastParameterPosition = parameterPoints
+                .SelectMany(points => points)
+                .Where(point => point.X != Point.StartX && point.X != Point.EndX)
+                .Select(point => (long)point.X - importFirstBarLength + 1)
+                .DefaultIfEmpty(0)
+                .Max();
+            span = Math.Max(span, lastParameterPosition);
             if (v6Track.InsertPart(new VSMAbsTick(0), new VSMRelTick((int)span), track.Title) is not { } part)
                 continue;
 
@@ -231,10 +316,17 @@ public static class V6BridgeSvip
                 && DefaultLyricManager.GetUserSettingDefaultLyric((VSMLanguageID)langId, out _, out defaultPhoneme)
                 && !string.IsNullOrEmpty(defaultPhoneme);
 
+            var importedLyrics = Config.Settings.AutoConvertChineseLyricsToPinyin
+                && (langId == (int)VSMLanguageID.Chinese || ChineseLyricConverter.LooksLikeChinese(track.NoteList))
+                ? ChineseLyricConverter.Convert(track.NoteList)
+                : null;
+
             int insertedInPart = 0;
-            foreach (var note in track.NoteList)
+            for (int noteIndex = 0; noteIndex < track.NoteList.Count; noteIndex++)
             {
-                string lyric = string.IsNullOrEmpty(note.Lyric) ? DefaultLyric : note.Lyric;
+                var note = track.NoteList[noteIndex];
+                string sourceLyric = importedLyrics?[noteIndex] ?? note.Lyric;
+                string lyric = string.IsNullOrEmpty(sourceLyric) ? DefaultLyric : sourceLyric;
                 var noteEvent = new VSMNoteEvent(note.Length, Math.Clamp(note.KeyNumber, 0, 127), 64);
                 var relPos = new VSMRelTick(note.StartPos);
 
@@ -254,6 +346,25 @@ public static class V6BridgeSvip
                 var handler = new VocaloidPitchHandler(importSynchronizer, track.NoteList, importTimeSignatures, importFirstBarLength);
                 WritePartPitchBend(part, track.EditedParams.Pitch, handler);
             }
+            WriteParameter(part, track.EditedParams.Volume, VSMControllerType.Dynamics, importFirstBarLength);
+            WriteParameter(part, track.EditedParams.Breath, VSMControllerType.Breathiness, importFirstBarLength);
+            WriteParameter(part, track.EditedParams.Gender, VSMControllerType.Character, importFirstBarLength);
+            WriteParameter(part, track.EditedParams.Strength, VSMControllerType.Brightness, importFirstBarLength);
+        }
+
+        foreach (var track in project.TrackList.OfType<InstrumentalTrack>())
+        {
+            if (vsm.NumTrack >= vsm.MaxNumTrack)
+                break;
+            if (!File.Exists(track.AudioFilePath))
+                continue;
+            if (vsm.InsertTrackEx(vsm.NumTrack, VSMTrackType.Audio, track.Title) is not WIVSMAudioTrack audioTrack)
+                continue;
+            if (audioTrack.InsertPart(new VSMAbsTick(Math.Max(0, track.Offset)), track.Title) is not { } audioPart)
+                continue;
+            string fullPath = Path.GetFullPath(track.AudioFilePath);
+            audioPart.SetOriginalWaveFile(fullPath, Path.GetFileName(fullPath));
+            audioPart.SetWaveFile(fullPath);
         }
 
         ShowOtherTracksNotesPatch.RefreshPianoroll();
@@ -274,12 +385,14 @@ public static class V6BridgeSvip
         var timeSignatures = vsm.TimeSigs.Select(t => new TimeSignature(t.PosBar, t.Numer, t.Denom)).ToList();
         if (timeSignatures.Count == 0)
             timeSignatures.Add(new TimeSignature());
+        int firstBarLength = (int)Math.Round(timeSignatures[0].BarLength());
 
         var rawTracks = new List<RawSingingTrack>();
         int trackIndex = 0;
         foreach (var v6Track in vsm.MidiTracks)
         {
             var notes = new List<Note>();
+            var editedParams = new Params();
             var pitchDataList = new List<PitchBendData>();
             var partOffsets = new List<int>();
             foreach (var part in v6Track.MidiParts)
@@ -304,6 +417,14 @@ public static class V6BridgeSvip
                     pitchDataList.Add(pitchData);
                     partOffsets.Add((int)partAbs);
                 }
+                MergeCurve(editedParams.Volume,
+                    ReadParameter(part, VSMControllerType.Dynamics, (int)partAbs, firstBarLength));
+                MergeCurve(editedParams.Breath,
+                    ReadParameter(part, VSMControllerType.Breathiness, (int)partAbs, firstBarLength));
+                MergeCurve(editedParams.Gender,
+                    ReadParameter(part, VSMControllerType.Character, (int)partAbs, firstBarLength));
+                MergeCurve(editedParams.Strength,
+                    ReadParameter(part, VSMControllerType.Brightness, (int)partAbs, firstBarLength));
             }
 
             string name = TrackNameProp?.GetValue(v6Track) as string ?? $"Track {trackIndex + 1}";
@@ -311,13 +432,41 @@ public static class V6BridgeSvip
             {
                 Title = name,
                 Notes = notes,
+                EditedParams = editedParams,
                 PitchData = pitchDataList,
                 PartOffsets = partOffsets,
             });
             trackIndex++;
         }
 
-        return new RawExport { Tempos = tempos, TimeSignatures = timeSignatures, Tracks = rawTracks };
+        var instrumentalTracks = new List<InstrumentalTrack>();
+        foreach (var audioTrack in vsm.AudioTracks)
+        {
+            string trackName = TrackNameProp?.GetValue(audioTrack) as string ?? "";
+            for (ulong partIndex = 0; partIndex < audioTrack.NumParts; partIndex++)
+            {
+                var part = audioTrack.GetPart(partIndex);
+                if (part == null)
+                    continue;
+                string path = part.GetOriginalWaveFilePath();
+                if (string.IsNullOrEmpty(path))
+                    path = part.GetWaveFilePath();
+                instrumentalTracks.Add(new InstrumentalTrack
+                {
+                    Title = string.IsNullOrEmpty(trackName) ? Path.GetFileNameWithoutExtension(path) : trackName,
+                    AudioFilePath = path,
+                    Offset = (int)AudioPartAbs(part),
+                });
+            }
+        }
+
+        return new RawExport
+        {
+            Tempos = tempos,
+            TimeSignatures = timeSignatures,
+            Tracks = rawTracks,
+            InstrumentalTracks = instrumentalTracks,
+        };
     }
 
     public static Project BuildProject(RawExport raw, bool resolveOverlaps, IProgress<ExportProgress>? progress)
@@ -326,11 +475,17 @@ public static class V6BridgeSvip
         int firstBarLength = (int)Math.Round(raw.TimeSignatures[0].BarLength());
 
         var tracks = new List<Track>();
+        tracks.AddRange(raw.InstrumentalTracks);
         var pendingPitch = new List<(SingingTrack Track, List<PitchBendData> Data, List<int> Offsets)>();
         var overlapBars = new SortedSet<int>();
         foreach (var rawTrack in raw.Tracks)
         {
-            var singingTrack = new SingingTrack { Title = rawTrack.Title, NoteList = rawTrack.Notes };
+            var singingTrack = new SingingTrack
+            {
+                Title = rawTrack.Title,
+                NoteList = rawTrack.Notes,
+                EditedParams = rawTrack.EditedParams,
+            };
             tracks.Add(singingTrack);
 
             if (rawTrack.PitchData.Count > 0 && rawTrack.Notes.Count > 0)

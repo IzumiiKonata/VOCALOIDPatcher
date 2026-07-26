@@ -35,6 +35,10 @@ public sealed class SVNoteAttributes
     [JsonPropertyName("dF0Vbr")] public double? DF0Vbr { get; set; }
     [JsonPropertyName("fF0Vbr")] public double? FF0Vbr { get; set; }
     [JsonPropertyName("pF0Vbr")] public double? PF0Vbr { get; set; }
+    [JsonPropertyName("paramLoudness")] public double? ParamLoudness { get; set; }
+    [JsonPropertyName("paramBreathiness")] public double? ParamBreathiness { get; set; }
+    [JsonPropertyName("paramGender")] public double? ParamGender { get; set; }
+    [JsonPropertyName("paramTension")] public double? ParamTension { get; set; }
 
     [JsonIgnore] public double TransitionOffset => TF0Offset ?? 0.0;
     [JsonIgnore] public double PortamentoLeft => TF0Left ?? 0.07;
@@ -56,7 +60,9 @@ public sealed class SVNote
     [JsonPropertyName("lyrics")] public string Lyrics { get; set; } = "";
     [JsonPropertyName("phonemes")] public string Phonemes { get; set; } = "";
     [JsonPropertyName("pitch")] public int Pitch { get; set; }
+    [JsonPropertyName("instantMode")] public bool? InstantMode { get; set; }
     [JsonPropertyName("attributes")] public SVNoteAttributes Attributes { get; set; } = new();
+    [JsonPropertyName("systemAttributes")] public SVNoteAttributes? SystemAttributes { get; set; }
 }
 
 public readonly record struct SvParamPoint(long Offset, double Value);
@@ -77,17 +83,29 @@ public sealed class SVParameters
     [JsonPropertyName("gender")] public SVParamCurve Gender { get; set; } = new();
 }
 
+public sealed class SVPitchControl
+{
+    [JsonPropertyName("pos")] public long Pos { get; set; }
+    [JsonPropertyName("pitch")] public double Pitch { get; set; }
+    [JsonPropertyName("id")] public string Id { get; set; } = "";
+    [JsonPropertyName("type")] public string Type { get; set; } = "curve";
+    [JsonPropertyName("points")][JsonConverter(typeof(SvpPointsConverter))] public List<SvParamPoint> Points { get; set; } = new();
+}
+
 public sealed class SVGroup
 {
     [JsonPropertyName("name")] public string Name { get; set; } = "main";
     [JsonPropertyName("uuid")] public string Uuid { get; set; } = "";
     [JsonPropertyName("notes")] public List<SVNote> Notes { get; set; } = new();
     [JsonPropertyName("parameters")] public SVParameters Parameters { get; set; } = new();
+    [JsonPropertyName("pitchControls")] public List<SVPitchControl> PitchControls { get; set; } = new();
 }
 
 public sealed class SVDatabase
 {
     [JsonPropertyName("name")] public string Name { get; set; } = "";
+    [JsonPropertyName("languageOverride")] public string? LanguageOverride { get; set; }
+    [JsonPropertyName("phonesetOverride")] public string? PhonesetOverride { get; set; }
 }
 
 public sealed class SVAudio
@@ -102,8 +120,10 @@ public sealed class SVRef
     [JsonPropertyName("blickOffset")] public long BlickOffset { get; set; }
     [JsonPropertyName("pitchOffset")] public int PitchOffset { get; set; }
     [JsonPropertyName("database")] public SVDatabase Database { get; set; } = new();
+    [JsonPropertyName("voice")] public SVNoteAttributes Voice { get; set; } = new();
     [JsonPropertyName("groupID")] public string GroupId { get; set; } = "";
     [JsonPropertyName("isInstrumental")] public bool IsInstrumental { get; set; }
+    [JsonPropertyName("systemPitchDelta")] public SVParamCurve SystemPitchDelta { get; set; } = new();
 }
 
 public sealed class SVMixer

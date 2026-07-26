@@ -558,6 +558,13 @@ public class SettingsWindow : Window
         panel.Children.Add(autoSave);
         panel.Children.Add(intervalRow);
 
+        var autoPinyin = DescribedToggle("VOCALOIDPatcher_AutoPinyin_Header",
+            "VOCALOIDPatcher_AutoPinyin_Desc",
+            Settings.AutoConvertChineseLyricsToPinyin, new Thickness(0, 22, 0, 0),
+            checkbox => Settings.AutoConvertChineseLyricsToPinyin = checkbox.IsChecked == true);
+        panel.Children.Add(autoPinyin);
+        HideIfUnsupported(Settings.AutoConvertChineseLyricsToPinyinKey, autoPinyin);
+
         return panel;
     }
 

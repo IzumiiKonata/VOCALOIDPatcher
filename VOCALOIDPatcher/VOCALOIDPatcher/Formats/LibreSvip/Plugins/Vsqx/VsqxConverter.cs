@@ -21,8 +21,16 @@ public sealed class VsqxConverter : FormatConverter
 
     public bool ImportInstrumental { get; set; } = true;
     public bool ImportPitch { get; set; } = true;
+    public bool ImportVolume { get; set; } = true;
+    public bool ImportBreath { get; set; } = true;
+    public bool ImportGender { get; set; } = true;
+    public bool ImportStrength { get; set; } = true;
+    public bool CombineSyllables { get; set; }
     public VsqxVersion Version { get; set; } = VsqxVersion.Vsq4;
     public VocaloidLanguage DefaultLanguage { get; set; } = VocaloidLanguage.SimplifiedChinese;
+    public bool PrettyXml { get; set; } = true;
+    public string DefaultCompId { get; set; } = "BETDB8W6KWZPYEB9";
+    public string DefaultSingerName { get; set; } = "Tianyi_CHN";
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -132,6 +140,8 @@ public sealed class VsqxConverter : FormatConverter
                         seqElemName, seqPosName, seqValueName);
                     partNotes.Add(newNote);
                 }
+                if (CombineSyllables)
+                    CombinePartSyllables(partNotes);
                 singing.NoteList.AddRange(partNotes);
                 if (ImportPitch && partNotes.Count > 0)
                 {
@@ -144,6 +154,8 @@ public sealed class VsqxConverter : FormatConverter
                         singing.EditedParams.Pitch.Points.AddRange(pitch.Points);
                     }
                 }
+                ParsePartParams(part, singing.EditedParams, offset, firstBarLength,
+                    ccName, ccPosName, ccValueName, isVsq3);
             }
             if (singing.EditedParams.Pitch.Points.Count > 0)
             {
@@ -159,6 +171,94 @@ public sealed class VsqxConverter : FormatConverter
             TimeSignatureList = timeSignatures,
             TrackList = trackList,
         };
+    }
+
+    private void ParsePartParams(
+        XElement part,
+        Params parameters,
+        int offset,
+        int firstBarLength,
+        string ccName,
+        string ccPosName,
+        string ccValueName,
+        bool isVsq3)
+    {
+        AddControllerCurve(parameters.Volume, part, isVsq3 ? "DYN" : "D", 64, 0, 127,
+            offset + firstBarLength, false, ImportVolume, ccName, ccPosName, ccValueName);
+        AddControllerCurve(parameters.Breath, part, isVsq3 ? "BRE" : "B", 0, 0, 127,
+            offset + firstBarLength, false, ImportBreath, ccName, ccPosName, ccValueName);
+        AddControllerCurve(parameters.Gender, part, isVsq3 ? "GEN" : "G", 64, 0, 127,
+            offset + firstBarLength, true, ImportGender, ccName, ccPosName, ccValueName);
+        AddControllerCurve(parameters.Strength, part, isVsq3 ? "BRI" : "R", 0, 0, 127,
+            offset + firstBarLength, false, ImportStrength, ccName, ccPosName, ccValueName);
+    }
+
+    private static void AddControllerCurve(
+        ParamCurve target,
+        XElement part,
+        string id,
+        int defaultValue,
+        int minValue,
+        int maxValue,
+        int positionOffset,
+        bool reverse,
+        bool enabled,
+        string ccName,
+        string ccPosName,
+        string ccValueName)
+    {
+        if (!enabled)
+            return;
+        int previous = MapExternal(defaultValue, defaultValue, minValue, maxValue, reverse);
+        foreach (var cc in part.Children(ccName))
+        {
+            var valueElement = cc.Child(ccValueName);
+            if (valueElement?.Attribute("id")?.Value != id)
+                continue;
+            int pos = ParseInt(cc.ChildText(ccPosName)) + positionOffset;
+            int current = MapExternal(ParseInt(valueElement.Value), defaultValue, minValue, maxValue, reverse);
+            if (current != previous && pos > 0)
+                target.Points.Add(new Point(pos - 1, previous));
+            target.Points.Add(new Point(pos, current));
+            previous = current;
+        }
+    }
+
+    private static int MapExternal(int value, int defaultValue, int minValue, int maxValue, bool reverse)
+    {
+        double mapped = value >= defaultValue
+            ? (value - defaultValue) * 1000.0 / Math.Max(1, maxValue - defaultValue)
+            : (value - defaultValue) * 1000.0 / Math.Max(1, defaultValue - minValue);
+        return Math.Clamp((int)Math.Round(reverse ? -mapped : mapped), -1000, 1000);
+    }
+
+    private static int MapInternal(int value, int defaultValue, int minValue, int maxValue, bool reverse)
+    {
+        int actual = reverse ? -value : value;
+        double mapped = actual >= 0
+            ? defaultValue + actual / 1000.0 * (maxValue - defaultValue)
+            : defaultValue + actual / 1000.0 * (defaultValue - minValue);
+        return Math.Clamp((int)Math.Round(mapped), minValue, maxValue);
+    }
+
+    private static void CombinePartSyllables(List<Note> notes)
+    {
+        int start = 0;
+        while (start < notes.Count)
+        {
+            int end = start;
+            while (end < notes.Count - 1 && notes[end].Lyric.EndsWith("-", StringComparison.Ordinal))
+                end++;
+            if (end > start)
+            {
+                notes[start].Lyric = string.Concat(notes.Skip(start).Take(end - start + 1)
+                    .Select(note => note.Lyric.TrimEnd('-')));
+                for (int index = start + 1; index <= end; index++)
+                    if (notes[index].Lyric != "-")
+                        notes[index].Lyric = "+";
+            }
+            start = end + 1;
+        }
     }
 
     private static void CollectVibrato(XElement note, Note targetNote, VibratoData vibrato,
@@ -289,8 +389,8 @@ public sealed class VsqxConverter : FormatConverter
             CData("version", version),
             new XElement(ns + "vVoiceTable",
                 new XElement(ns + "vVoice",
-                    new XElement(ns + "bs", 0), new XElement(ns + "pc", 0),
-                    CData("id", "BCNHC6KMM5RTC5GB"), CData("name", "singer"))));
+                    new XElement(ns + "bs", (int)DefaultLanguage), new XElement(ns + "pc", 0),
+                    CData("id", DefaultCompId), CData("name", DefaultSingerName))));
 
         var singingTracks = project.TrackList.OfType<SingingTrack>().ToList();
         for (int i = 0; i < singingTracks.Count; i++)
@@ -330,6 +430,14 @@ public sealed class VsqxConverter : FormatConverter
                             new XElement(ns + ccPosName, pos),
                             new XElement(ns + ccValueName, new XAttribute("id", id), value)));
                 }
+                AddParamControls(part, track.EditedParams.Volume, isVsq3 ? "DYN" : "D",
+                    64, 0, 127, false, firstBarLength, ns, ccName, ccPosName, ccValueName);
+                AddParamControls(part, track.EditedParams.Breath, isVsq3 ? "BRE" : "B",
+                    0, 0, 127, false, firstBarLength, ns, ccName, ccPosName, ccValueName);
+                AddParamControls(part, track.EditedParams.Gender, isVsq3 ? "GEN" : "G",
+                    64, 0, 127, true, firstBarLength, ns, ccName, ccPosName, ccValueName);
+                AddParamControls(part, track.EditedParams.Strength, isVsq3 ? "BRI" : "R",
+                    0, 0, 127, false, firstBarLength, ns, ccName, ccPosName, ccValueName);
                 foreach (var note in track.NoteList)
                 {
                     var (lyricOut, phoneme) = VsqxPhonemeGenerator.Generate(note.Lyric, DefaultLanguage);
@@ -353,10 +461,35 @@ public sealed class VsqxConverter : FormatConverter
 
         var doc = new XDocument(new XDeclaration("1.0", "UTF-8", "no"), root);
         using var ms = new MemoryStream();
-        var settings = new XmlWriterSettings { Indent = true, Encoding = new UTF8Encoding(false) };
+        var settings = new XmlWriterSettings { Indent = PrettyXml, Encoding = new UTF8Encoding(false) };
         using (var writer = XmlWriter.Create(ms, settings))
             doc.Save(writer);
         return ms.ToArray();
+    }
+
+    private static void AddParamControls(
+        XElement part,
+        ParamCurve curve,
+        string id,
+        int defaultValue,
+        int minValue,
+        int maxValue,
+        bool reverse,
+        int firstBarLength,
+        XNamespace ns,
+        string ccName,
+        string ccPosName,
+        string ccValueName)
+    {
+        foreach (var point in curve.Points)
+        {
+            if (point.X is Point.StartX or Point.EndX || point.X < firstBarLength)
+                continue;
+            part.Add(new XElement(ns + ccName,
+                new XElement(ns + ccPosName, point.X - firstBarLength),
+                new XElement(ns + ccValueName, new XAttribute("id", id),
+                    MapInternal(point.Y, defaultValue, minValue, maxValue, reverse))));
+        }
     }
 
     private static int ParseInt(string? text, int fallback = 0) =>

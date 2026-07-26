@@ -32,7 +32,7 @@ internal static class TlpFlat
     private static void WriteNumber(Utf8JsonWriter writer, double value)
     {
         if (double.IsNaN(value))
-            writer.WriteRawValue("NaN");
+            writer.WriteNullValue();
         else
             writer.WriteNumberValue(value);
     }

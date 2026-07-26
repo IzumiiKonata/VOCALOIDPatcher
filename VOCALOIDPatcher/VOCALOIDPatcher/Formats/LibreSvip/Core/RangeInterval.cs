@@ -32,5 +32,19 @@ public sealed class RangeInterval
     public RangeInterval Shift(int offset) =>
         new(_ranges.Select(r => (r.Start + offset, r.End + offset)));
 
+    public RangeInterval Intersect(RangeInterval other)
+    {
+        var result = new List<(int Start, int End)>();
+        foreach (var left in _ranges)
+        foreach (var right in other._ranges)
+        {
+            int start = System.Math.Max(left.Start, right.Start);
+            int end = System.Math.Min(left.End, right.End);
+            if (end > start)
+                result.Add((start, end));
+        }
+        return new RangeInterval(result);
+    }
+
     public IReadOnlyList<(int Start, int End)> SubRanges() => _ranges;
 }

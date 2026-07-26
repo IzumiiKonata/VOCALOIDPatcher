@@ -12,8 +12,15 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 public sealed class MusicXmlParser
 {
     private readonly bool _importTempo;
+    private readonly bool _importDynamics;
+    private readonly bool _applyFermataStretch;
 
-    public MusicXmlParser(bool importTempo) => _importTempo = importTempo;
+    public MusicXmlParser(bool importTempo, bool importDynamics, bool applyFermataStretch)
+    {
+        _importTempo = importTempo;
+        _importDynamics = importDynamics;
+        _applyFermataStretch = applyFermataStretch;
+    }
 
     public Project ParseProject(XElement scoreRoot)
     {
@@ -156,9 +163,10 @@ public sealed class MusicXmlParser
         return result;
     }
 
-    private static Track ParseTrack(XElement part, string trackName, decimal rate)
+    private Track ParseTrack(XElement part, string trackName, decimal rate)
     {
         var notes = new List<Note>();
+        var volume = new List<Point>();
         bool isInsideNote = false;
         int tickPosition = 0;
         int previousTickPosition = 0;
@@ -169,6 +177,22 @@ public sealed class MusicXmlParser
             foreach (var node in measure.Elements())
             {
                 string tag = node.Name.LocalName;
+                if (tag == "direction" && _importDynamics)
+                {
+                    int offset = (int)(Dec(node.ChildText("offset")) * rate);
+                    var dynamic = node.Children("direction-type")
+                        .SelectMany(element => element.Children("dynamics"))
+                        .SelectMany(element => element.Elements())
+                        .Select(element => element.Name.LocalName)
+                        .FirstOrDefault();
+                    if (dynamic != null && DynamicVelocity.TryGetValue(dynamic, out int velocity))
+                        volume.Add(new Point(tickPosition + offset, VelocityToVolume(velocity)));
+                    string? soundDynamics = node.Child("sound")?.Attribute("dynamics")?.Value;
+                    if (double.TryParse(soundDynamics, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
+                        volume.Add(new Point(tickPosition + offset,
+                            VelocityToVolume((int)Math.Round(value * 127 / 100))));
+                    continue;
+                }
                 if (tag == "backup")
                 {
                     int dur = (int)(Dec(node.ChildText("duration")) * rate);
@@ -196,6 +220,9 @@ public sealed class MusicXmlParser
                 int duration = (int)(Dec(durText) * rate);
                 if (duration <= 0)
                     continue;
+                if (_applyFermataStretch && node.Children("notations")
+                        .SelectMany(element => element.Children("fermata")).Any())
+                    duration = (int)Math.Round(duration * 1.5);
 
                 if (node.Child("rest") != null)
                 {
@@ -265,8 +292,49 @@ public sealed class MusicXmlParser
         }
 
         notes = notes.OrderBy(n => n.StartPos).ThenBy(n => n.KeyNumber).ToList();
-        return new SingingTrack { Title = trackName, NoteList = notes };
+        return new SingingTrack
+        {
+            Title = trackName,
+            NoteList = notes,
+            EditedParams = new Params
+            {
+                Volume = new ParamCurve { Points = volume.OrderBy(point => point.X).ToList() },
+            },
+        };
     }
+
+    private static int VelocityToVolume(int velocity) =>
+        Math.Clamp((int)Math.Round((Math.Clamp(velocity, 0, 127) - 64) / 63.0 * 1000), -1000, 1000);
+
+    private static readonly Dictionary<string, int> DynamicVelocity = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["ffffff"] = 127,
+        ["fffff"] = 126,
+        ["ffff"] = 124,
+        ["fff"] = 120,
+        ["ff"] = 112,
+        ["f"] = 96,
+        ["mf"] = 80,
+        ["mp"] = 64,
+        ["n"] = 64,
+        ["p"] = 49,
+        ["pp"] = 36,
+        ["ppp"] = 24,
+        ["pppp"] = 16,
+        ["ppppp"] = 12,
+        ["pppppp"] = 8,
+        ["sf"] = 112,
+        ["sfz"] = 112,
+        ["sffz"] = 120,
+        ["fz"] = 112,
+        ["rf"] = 96,
+        ["rfz"] = 96,
+        ["fp"] = 96,
+        ["pf"] = 80,
+        ["sfp"] = 112,
+        ["sfpp"] = 112,
+        ["sfzp"] = 112,
+    };
 
     private static decimal Dec(string? text)
     {

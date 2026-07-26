@@ -16,6 +16,7 @@ $proj            = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher.csproj'
 $patcherCs       = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher\Patcher.cs'
 $translationsDir = Join-Path $root 'translations'
 $hardcodedMap    = Join-Path $root 'HardcodedPropertyMap.xml'
+$thirdParty      = Join-Path $root 'THIRD-PARTY-NOTICES.txt'
 $srcDir          = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher'
 $readmeName      = '请先读我! README.txt'
 
@@ -121,6 +122,7 @@ foreach ($t in $targets) {
     $entries = @(
         @{ Source = $mergedDll;    Entry = 'Microsoft.Xaml.Behaviors.dll' },
         @{ Source = $readmeTmp;    Entry = $readmeName },
+        @{ Source = $thirdParty;   Entry = 'THIRD-PARTY-NOTICES.txt' },
         @{ Source = $hardcodedMap; Entry = 'VOCALOIDPatcher/HardcodedPropertyMap.xml' }
     )
     foreach ($xml in Get-ChildItem $translationsDir -File -Filter *.xml) {

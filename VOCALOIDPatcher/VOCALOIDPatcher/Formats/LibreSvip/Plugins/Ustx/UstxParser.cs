@@ -15,14 +15,23 @@ public sealed class UstxParser
 
     private readonly bool _importInstrumental;
     private readonly bool _importPitch;
-    private string[] _breathLyrics = { "Asp", "AP" };
-    private string[] _silenceLyrics = { "R", "SP" };
+    private readonly UstxPlusHandlingMode _plusHandlingMode;
+    private readonly string[] _breathLyrics;
+    private readonly string[] _silenceLyrics;
     private BasePitchGenerator _basePitchGenerator = null!;
 
-    public UstxParser(bool importInstrumental, bool importPitch = true)
+    public UstxParser(
+        bool importInstrumental,
+        bool importPitch = true,
+        UstxPlusHandlingMode plusHandlingMode = UstxPlusHandlingMode.Auto,
+        string breathLyrics = "Asp AP",
+        string silenceLyrics = "R SP")
     {
         _importInstrumental = importInstrumental;
         _importPitch = importPitch;
+        _plusHandlingMode = plusHandlingMode;
+        _breathLyrics = breathLyrics.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        _silenceLyrics = silenceLyrics.Split(' ', StringSplitOptions.RemoveEmptyEntries);
     }
 
     public Project ParseProject(USTXProject project)
@@ -95,7 +104,9 @@ public sealed class UstxParser
             var singing = trackList[part.TrackNo];
             if (string.IsNullOrEmpty(singing.Title))
                 singing.Title = part.Name;
-            bool monosyllabic = IsMonosyllabic(tracks[part.TrackNo].Phonemizer);
+            bool monosyllabic = _plusHandlingMode == UstxPlusHandlingMode.Monosyllabic
+                || _plusHandlingMode == UstxPlusHandlingMode.Auto
+                && IsMonosyllabic(tracks[part.TrackNo].Phonemizer);
             singing.NoteList.AddRange(ParseNotes(part.Notes, part.Position, monosyllabic));
             if (_importPitch)
                 singing.EditedParams.Pitch.Points.AddRange(ParsePitch(part));

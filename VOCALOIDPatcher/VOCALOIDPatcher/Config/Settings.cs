@@ -166,6 +166,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(AutoSaveEnabledKey, value);
     }
 
+    public static string AutoConvertChineseLyricsToPinyinKey => "AutoConvertChineseLyricsToPinyin";
+
+    public static bool AutoConvertChineseLyricsToPinyin
+    {
+        get => FeatureFlag(AutoConvertChineseLyricsToPinyinKey, true);
+        set => Patcher.ConfigManager.Set(AutoConvertChineseLyricsToPinyinKey, value);
+    }
+
     public static string AutoSaveIntervalMinutesKey => "AutoSaveIntervalMinutes";
 
     public static int AutoSaveIntervalMinutes

@@ -9,6 +9,13 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Ustx;
 
 public sealed class UstxGenerator
 {
+    private readonly UstxEnglishCompatibility _englishCompatibility;
+
+    public UstxGenerator(UstxEnglishCompatibility englishCompatibility = UstxEnglishCompatibility.NonArpa)
+    {
+        _englishCompatibility = englishCompatibility;
+    }
+
     private USTXProject _ustxProject = null!;
     private int _firstBarLength = 1920;
 
@@ -150,6 +157,7 @@ public sealed class UstxGenerator
         var notes = new List<UNote>();
         int lastEnd = -480;
         int lastKey = 60;
+        int lastSyllableIndex = 1;
         for (int i = 0; i < osNotes.Count; i++)
         {
             var osNote = osNotes[i];
@@ -164,7 +172,9 @@ public sealed class UstxGenerator
             }
             else if (lyric == "+")
             {
-                for (int j = i - 1; j > 0; j--)
+                if (_englishCompatibility == UstxEnglishCompatibility.Arpa)
+                    lyric = "+" + (++lastSyllableIndex);
+                else for (int j = i - 1; j > 0; j--)
                 {
                     if (osNotes[j].Lyric == "-")
                         notes[j].Lyric = "+~";
@@ -172,6 +182,8 @@ public sealed class UstxGenerator
                         break;
                 }
             }
+            else if (_englishCompatibility == UstxEnglishCompatibility.Arpa)
+                lastSyllableIndex = 1;
             notes.Add(new UNote
             {
                 Position = osNote.StartPos,

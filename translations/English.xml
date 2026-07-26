@@ -36,6 +36,8 @@
   <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>Failed to upload cover</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>Auto Save</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>Interval</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Header" xml:space="preserve"><value>Convert Chinese Lyrics to Pinyin on Import</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Desc" xml:space="preserve"><value>Detects Chinese lyric tracks, resolves polyphonic characters from phrase context, and preserves valid source pronunciations.</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>Performance</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>Faster Project Loading</value></data>
@@ -77,6 +79,140 @@
   <data name="VOCALOIDPatcher_Format_AllFiles" xml:space="preserve"><value>All Files</value></data>
   <data name="VOCALOIDPatcher_Format_OperationFailed" xml:space="preserve"><value>Operation Failed</value></data>
   <data name="VOCALOIDPatcher_Format_ImportFailed" xml:space="preserve"><value>Import Failed</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTitle" xml:space="preserve"><value>Import {0}</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportTitle" xml:space="preserve"><value>Export {0}</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_InvalidValue" xml:space="preserve"><value>Invalid value for “{0}”.</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportPitch" xml:space="preserve"><value>Import pitch curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumental" xml:space="preserve"><value>Import instrumental tracks</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumentalTrack" xml:space="preserve"><value>Import instrumental tracks</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTempo" xml:space="preserve"><value>Import tempo changes</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportVolume" xml:space="preserve"><value>Import volume curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportBreath" xml:space="preserve"><value>Import breathiness curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportGender" xml:space="preserve"><value>Import gender curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportStrength" xml:space="preserve"><value>Import strength curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTension" xml:space="preserve"><value>Import tension curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportEnergy" xml:space="preserve"><value>Import energy curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_KeepAllPronunciation" xml:space="preserve"><value>Keep all pronunciations</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Tempo" xml:space="preserve"><value>Tempo (BPM)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Breath" xml:space="preserve"><value>Breath handling</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyCoefficient" xml:space="preserve"><value>Energy coefficient</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CurveSampleInterval" xml:space="preserve"><value>Curve sample interval</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalization" xml:space="preserve"><value>Breath normalization</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalization" xml:space="preserve"><value>Tension normalization</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalization" xml:space="preserve"><value>Energy normalization</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Artist" xml:space="preserve"><value>Artist</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Title" xml:space="preserve"><value>Song title</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Album" xml:space="preserve"><value>Album</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_By" xml:space="preserve"><value>Lyric editor</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitBy" xml:space="preserve"><value>New line by</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IgnoreSlurNotes" xml:space="preserve"><value>Ignore slur notes</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Version" xml:space="preserve"><value>File version</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLanguage" xml:space="preserve"><value>Default language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IsAiSinger" xml:space="preserve"><value>Use AI voicebank</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLangId" xml:space="preserve"><value>Default language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultCompId" xml:space="preserve"><value>Default voicebank ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerName" xml:space="preserve"><value>Default singer name</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerId" xml:space="preserve"><value>Default voicebank ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerVersion" xml:space="preserve"><value>Default voicebank version</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TicksPerBeat" xml:space="preserve"><value>Ticks per beat</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Singer" xml:space="preserve"><value>Singer</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MapStrengthInfo" xml:space="preserve"><value>Strength mapping</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitThreshold" xml:space="preserve"><value>Split threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricLanguage" xml:space="preserve"><value>Lyric language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultConsonantLength" xml:space="preserve"><value>Default consonant length</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Serialization" xml:space="preserve"><value>Serialization</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Offset" xml:space="preserve"><value>Offset (ms)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_OffsetPolicy" xml:space="preserve"><value>Offset policy</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Timeline" xml:space="preserve"><value>Write timeline</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Encoding" xml:space="preserve"><value>Text encoding</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TrackIndex" xml:space="preserve"><value>Track index (-1 = auto)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_VersionCompatibility" xml:space="preserve"><value>Synthesizer V version compatibility</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Vibrato" xml:space="preserve"><value>Vibrato handling</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DownSample" xml:space="preserve"><value>Parameter sampling interval (0 = unlimited)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LanguageOverride" xml:space="preserve"><value>Voicebank default language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Instant" xml:space="preserve"><value>Follow instant pitch mode</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PitchMode" xml:space="preserve"><value>Pitch input mode</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Group" xml:space="preserve"><value>Note group handling</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indented" xml:space="preserve"><value>Indented JSON</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SingerName" xml:space="preserve"><value>Singer name</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricEncoding" xml:space="preserve"><value>Lyric text encoding</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PlusHandlingMode" xml:space="preserve"><value>Plus sign handling mode</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLyrics" xml:space="preserve"><value>Breath lyrics</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SilenceLyrics" xml:space="preserve"><value>Silence lyrics</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnglishPhonemizerCompatibility" xml:space="preserve"><value>English phonemizer compatibility</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportDynamics" xml:space="preserve"><value>Import dynamics as volume curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ApplyFermataStretch" xml:space="preserve"><value>Extend fermata notes</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CombineSyllables" xml:space="preserve"><value>Combine syllables</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PrettyXml" xml:space="preserve"><value>Pretty XML</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExtractAudio" xml:space="preserve"><value>Extract embedded audio</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DictName" xml:space="preserve"><value>Dictionary name</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DsSplitThreshold" xml:space="preserve"><value>Split threshold (seconds)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MinInterval" xml:space="preserve"><value>Minimum interval (milliseconds)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Seed" xml:space="preserve"><value>Random seed (-1 = random)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportGender" xml:space="preserve"><value>Export gender parameter</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indent" xml:space="preserve"><value>JSON indentation (-1 = compact)</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationMethod" xml:space="preserve"><value>Breath normalization method</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLowerThreshold" xml:space="preserve"><value>Breath lower threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathUpperThreshold" xml:space="preserve"><value>Breath upper threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationScale" xml:space="preserve"><value>Breath normalization scale</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationBias" xml:space="preserve"><value>Breath normalization bias</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationMethod" xml:space="preserve"><value>Tension normalization method</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionLowerThreshold" xml:space="preserve"><value>Tension lower threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionUpperThreshold" xml:space="preserve"><value>Tension upper threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationScale" xml:space="preserve"><value>Tension normalization scale</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationBias" xml:space="preserve"><value>Tension normalization bias</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationMethod" xml:space="preserve"><value>Energy normalization method</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyLowerThreshold" xml:space="preserve"><value>Energy lower threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyUpperThreshold" xml:space="preserve"><value>Energy upper threshold</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationScale" xml:space="preserve"><value>Energy normalization scale</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationBias" xml:space="preserve"><value>Energy normalization bias</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Timeline" xml:space="preserve"><value>Apply to timeline</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Meta" xml:space="preserve"><value>Write metadata tag</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Below190" xml:space="preserve"><value>Synthesizer V Studio 1.9.0 and below</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Between1100And1112" xml:space="preserve"><value>Synthesizer V Studio 1.10.0–1.11.2</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Above200" xml:space="preserve"><value>Synthesizer V Studio 2.0 and up</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_None" xml:space="preserve"><value>Remove all vibrato</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Always" xml:space="preserve"><value>Keep all vibrato</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Hybrid" xml:space="preserve"><value>Remove vibrato in edited regions</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Mandarin" xml:space="preserve"><value>Mandarin</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cantonese" xml:space="preserve"><value>Cantonese</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_German" xml:space="preserve"><value>German</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Full" xml:space="preserve"><value>Full pitch curve</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vibrato" xml:space="preserve"><value>Edited regions with default vibrato</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Plain" xml:space="preserve"><value>Edited regions without default vibrato</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Convert" xml:space="preserve"><value>Convert to breath mark</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Split" xml:space="preserve"><value>Split all groups to tracks</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Merge" xml:space="preserve"><value>Keep original position</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Monosyllabic" xml:space="preserve"><value>Monosyllabic language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Polysyllabic" xml:space="preserve"><value>Polysyllabic language</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_NonArpa" xml:space="preserve"><value>Not ARPAsing compatible</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Arpa" xml:space="preserve"><value>ARPAsing compatible</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_ZScore" xml:space="preserve"><value>Z-score</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_MinMax" xml:space="preserve"><value>Min-max</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Auto" xml:space="preserve"><value>Automatic</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Ignore" xml:space="preserve"><value>Ignore</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Keep" xml:space="preserve"><value>Keep</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Both" xml:space="preserve"><value>Both</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Gap" xml:space="preserve"><value>Gap</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Symbol" xml:space="preserve"><value>Punctuation</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Energy" xml:space="preserve"><value>Energy</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Tension" xml:space="preserve"><value>Tension</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Chinese" xml:space="preserve"><value>Chinese</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_SimplifiedChinese" xml:space="preserve"><value>Simplified Chinese</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Japanese" xml:space="preserve"><value>Japanese</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_English" xml:space="preserve"><value>English</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Korean" xml:space="preserve"><value>Korean</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Spanish" xml:space="preserve"><value>Spanish</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Portuguese" xml:space="preserve"><value>Portuguese</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_French" xml:space="preserve"><value>French</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Italian" xml:space="preserve"><value>Italian</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Json" xml:space="preserve"><value>JSON</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cbor" xml:space="preserve"><value>CBOR</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq3" xml:space="preserve"><value>VSQX 3</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq4" xml:space="preserve"><value>VSQX 4</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip700" xml:space="preserve"><value>SVIP 7.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip600" xml:space="preserve"><value>SVIP 6.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Compat" xml:space="preserve"><value>Compatibility mode</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ufdata" xml:space="preserve"><value>UtaFormatix Data</value></data>
   <data name="VOCALOIDPatcher_Format_Name_json" xml:space="preserve"><value>OpenSVIP</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ust" xml:space="preserve"><value>UTAU Sequence Text</value></data>

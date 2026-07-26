@@ -39,6 +39,7 @@ public sealed class VprConverter : FormatConverter
     public bool ImportBreath { get; set; } = true;
     public bool ImportGender { get; set; } = true;
     public bool ImportStrength { get; set; } = true;
+    public bool ExtractAudio { get; set; }
 
     public bool IsAiSinger { get; set; } = false;
     public VprLanguage DefaultLangId { get; set; } = VprLanguage.SimplifiedChinese;
@@ -48,9 +49,14 @@ public sealed class VprConverter : FormatConverter
     public override bool CanLoad => true;
     public override bool CanDump => true;
 
-    public override Project Load(byte[] content)
+    public override Project Load(byte[] content) => LoadCore(content, null);
+
+    public override Project LoadFile(string path) => LoadCore(File.ReadAllBytes(path), path);
+
+    private Project LoadCore(byte[] content, string? sourcePath)
     {
         VprProject vpr;
+        var extractedAudio = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         using (var archive = new ZipArchive(new MemoryStream(content), ZipArchiveMode.Read))
         {
             var entry = archive.GetEntry("Project/sequence.json")
@@ -60,6 +66,8 @@ public sealed class VprConverter : FormatConverter
             entryStream.CopyTo(ms);
             vpr = JsonSerializer.Deserialize<VprProject>(ms.ToArray(), JsonOpts)
                 ?? throw new InvalidDataException("Failed to parse sequence.json");
+            if (ExtractAudio && sourcePath != null)
+                extractedAudio = ExtractEmbeddedAudio(archive, vpr, sourcePath);
         }
 
         var compId2Name = new Dictionary<string, string>();
@@ -72,12 +80,46 @@ public sealed class VprConverter : FormatConverter
         var timeSignatures = ParseTimeSignatures(vpr.MasterTrack.TimeSig.Events);
         int firstBarLength = (int)Math.Round(timeSignatures[0].BarLength());
 
+        var tracks = ParseTracks(vpr.Tracks, compId2Name, synchronizer, timeSignatures, firstBarLength);
+        foreach (var instrumental in tracks.OfType<InstrumentalTrack>())
+            if (extractedAudio.TryGetValue(instrumental.AudioFilePath, out string? path)
+                || extractedAudio.TryGetValue(Path.GetFileName(instrumental.AudioFilePath), out path))
+                instrumental.AudioFilePath = path;
         return new Project
         {
             SongTempoList = songTempoList,
             TimeSignatureList = timeSignatures,
-            TrackList = ParseTracks(vpr.Tracks, compId2Name, synchronizer, timeSignatures, firstBarLength),
+            TrackList = tracks,
         };
+    }
+
+    private static Dictionary<string, string> ExtractEmbeddedAudio(
+        ZipArchive archive,
+        VprProject project,
+        string sourcePath)
+    {
+        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        string directory = Path.GetDirectoryName(Path.GetFullPath(sourcePath))!;
+        foreach (var rawTrack in project.Tracks.Where(track => track.Type == 1 && track.Parts != null))
+        {
+            foreach (var partElement in rawTrack.Parts!)
+            {
+                var part = JsonSerializer.Deserialize<VprWavPart>(partElement.GetRawText(), JsonOpts);
+                if (part?.Wav?.Name == null)
+                    continue;
+                string fileName = Path.GetFileName(part.Wav.OriginalName ?? part.Wav.Name);
+                string destination = Path.Combine(directory, fileName);
+                if (!File.Exists(destination))
+                {
+                    var entry = archive.GetEntry($"Project/Audio/{part.Wav.Name}");
+                    if (entry != null)
+                        entry.ExtractToFile(destination, false);
+                }
+                result[part.Wav.Name] = destination;
+                result[fileName] = destination;
+            }
+        }
+        return result;
     }
 
     private static List<SongTempo> ParseTempos(List<VprOutPoint> events)

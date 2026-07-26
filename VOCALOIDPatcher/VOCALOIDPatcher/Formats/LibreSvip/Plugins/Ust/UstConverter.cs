@@ -15,13 +15,16 @@ public sealed class UstConverter : FormatConverter
     private const string LineSeparator = "\r\n";
 
     public bool ImportPitch { get; set; } = true;
+    public string Encoding { get; set; } = "shift_jis";
+    public double Version { get; set; } = 1.2;
+    public int TrackIndex { get; set; } = -1;
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
 
     public override Project Load(byte[] content)
     {
-        var text = TextHelper.DetectAndDecode(content);
+        var text = TextHelper.GetEncoding(Encoding).GetString(content);
         var lines = text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
 
         var tempos = new List<SongTempo>();
@@ -162,8 +165,10 @@ public sealed class UstConverter : FormatConverter
         var tempoList = project.SongTempoList.Count > 0
             ? project.SongTempoList
             : new List<SongTempo> { new(0, Constants.DefaultBpm) };
-        var track = project.TrackList.OfType<SingingTrack>().FirstOrDefault(t => t.NoteList.Count > 0)
-                    ?? project.TrackList.OfType<SingingTrack>().FirstOrDefault();
+        var track = TrackIndex >= 0 && TrackIndex < project.TrackList.Count
+            ? project.TrackList[TrackIndex] as SingingTrack
+            : project.TrackList.OfType<SingingTrack>().FirstOrDefault(t => t.NoteList.Count > 0)
+              ?? project.TrackList.OfType<SingingTrack>().FirstOrDefault();
         if (track == null)
             throw new InvalidOperationException("No singing track found");
 
@@ -181,7 +186,7 @@ public sealed class UstConverter : FormatConverter
 
         double firstBpm = tempoList[0].Bpm;
         Append("[#VERSION]");
-        Append("UST Version1.2");
+        Append("UST Version" + Version.ToString("0.0###", CultureInfo.InvariantCulture));
         Append("[#SETTING]");
         Append("Tempo=" + ToFixed(firstBpm));
         Append("Tracks=1");
@@ -243,7 +248,7 @@ public sealed class UstConverter : FormatConverter
         }
         Append("[#TRACKEND]");
 
-        return TextHelper.ShiftJis().GetBytes(builder.ToString());
+        return TextHelper.GetEncoding(Encoding).GetBytes(builder.ToString());
     }
 
     private static double BpmForPosition(List<SongTempo> tempoList, int position)

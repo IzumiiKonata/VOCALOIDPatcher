@@ -8,6 +8,8 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.JsonSvip;
 
 public sealed class JsonSvipConverter : FormatConverter
 {
+    public bool Indented { get; set; }
+
     public override bool CanLoad => true;
     public override bool CanDump => true;
 
@@ -36,6 +38,9 @@ public sealed class JsonSvipConverter : FormatConverter
     public override Project Load(byte[] content) =>
         JsonSerializer.Deserialize<Project>(TextHelper.DetectAndDecode(content), Outer)!;
 
-    public override byte[] Dump(Project project) =>
-        TextHelper.EncodeUtf8(JsonSerializer.Serialize(project, Outer));
+    public override byte[] Dump(Project project)
+    {
+        var options = new JsonSerializerOptions(Outer) { WriteIndented = Indented };
+        return TextHelper.EncodeUtf8(JsonSerializer.Serialize(project, options));
+    }
 }

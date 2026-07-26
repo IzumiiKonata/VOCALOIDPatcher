@@ -11,6 +11,44 @@ public interface IParamExpression
     double ValueAtTicks(int ticks);
 }
 
+public sealed class SumParamExpression : IParamExpression
+{
+    private readonly IParamExpression _left;
+    private readonly IParamExpression _right;
+
+    public SumParamExpression(IParamExpression left, IParamExpression right)
+    {
+        _left = left;
+        _right = right;
+    }
+
+    public double ValueAtTicks(int ticks) => _left.ValueAtTicks(ticks) + _right.ValueAtTicks(ticks);
+}
+
+public sealed class MaskedParamExpression : IParamExpression
+{
+    private readonly IParamExpression _source;
+    private readonly IReadOnlyList<(int Start, int End)> _ranges;
+
+    public MaskedParamExpression(IParamExpression source, IEnumerable<(int Start, int End)> ranges)
+    {
+        _source = source;
+        _ranges = new RangeInterval(ranges).SubRanges();
+    }
+
+    public double ValueAtTicks(int ticks)
+    {
+        foreach (var (start, end) in _ranges)
+        {
+            if (ticks < start)
+                return 0;
+            if (ticks < end)
+                return _source.ValueAtTicks(ticks);
+        }
+        return 0;
+    }
+}
+
 public sealed class CurveGenerator : IParamExpression
 {
     private readonly List<Point> _pointList = new();

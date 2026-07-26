@@ -110,6 +110,8 @@ public sealed class PitchControlIntervalMap
 
 internal sealed class SigmoidNode
 {
+    private const double EdgeResidualCents = 1.0;
+
     public double Start { get; }
     public double End { get; }
     public double Center { get; }
@@ -122,13 +124,14 @@ internal sealed class SigmoidNode
     public SigmoidNode(double center, double halfLeft, double halfRight, int keyLeft, int keyRight)
     {
         Center = center;
-        Start = center - halfLeft;
-        End = center + halfRight;
         KeyLeft = keyLeft;
         KeyRight = keyRight;
         _h = (keyRight - keyLeft) * 100.0;
         _base = keyLeft * 100.0;
         _k = 3.0 / (halfLeft + halfRight);
+        double margin = Math.Log(Math.Max(Math.Abs(_h) / EdgeResidualCents - 1.0, 1.0)) / _k;
+        Start = center - margin;
+        End = center + margin;
     }
 
     public double ValueAtSecs(double secs)
@@ -205,21 +208,17 @@ internal sealed class BaseLayerGenerator
         }
         if (queryCount == 1)
             return _nodes[leftIndex].ValueAtSecs(secs);
-        if (queryCount <= 3)
-        {
-            var first = _nodes[leftIndex];
-            var last = _nodes[rightIndex - 1];
-            double width = first.End - last.Start;
-            double bottom = first.ValueAtSecs(last.Start);
-            double top = last.ValueAtSecs(first.End);
-            double diff1 = first.SlopeAtSecs(last.Start);
-            double diff2 = last.SlopeAtSecs(first.End);
-            double x = secs - last.Start;
-            double a = (2 * (bottom - top) + (diff1 + diff2) * width) / Math.Pow(width, 3);
-            double b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / Math.Pow(width, 2);
-            return a * Math.Pow(x, 3) + b * Math.Pow(x, 2) + diff1 * x + bottom;
-        }
-        throw new ParamsException("More than three sigmoid nodes overlapped");
+        var first = _nodes[leftIndex];
+        var last = _nodes[rightIndex - 1];
+        double width = first.End - last.Start;
+        double bottom = first.ValueAtSecs(last.Start);
+        double top = last.ValueAtSecs(first.End);
+        double diff1 = first.SlopeAtSecs(last.Start);
+        double diff2 = last.SlopeAtSecs(first.End);
+        double x = secs - last.Start;
+        double a = (2 * (bottom - top) + (diff1 + diff2) * width) / Math.Pow(width, 3);
+        double b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / Math.Pow(width, 2);
+        return a * Math.Pow(x, 3) + b * Math.Pow(x, 2) + diff1 * x + bottom;
     }
 
     private int? FindNoteIndex(double secs)
@@ -324,13 +323,13 @@ internal sealed class GaussianLayerGenerator
             var next = noteList[i + 1];
             double sigmaL = PortamentoSigma(current.PortamentoRight);
             double sigmaR = PortamentoSigma(next.PortamentoLeft);
-            if (next.Start - current.End >= MaxBreak)
+            if (next.Start - current.End > MaxBreak)
             {
                 _nodes.Add(new GaussianNode(current.End - 1.5 * sigmaL, sigmaL, -current.DepthRight * 100));
                 _nodes.Add(new GaussianNode(next.Start + 1.5 * sigmaR, sigmaR, -next.DepthLeft * 100));
                 continue;
             }
-            double center = (current.End + next.Start) / 2 + current.PortamentoOffset;
+            double center = (current.End + next.Start) / 2 + next.PortamentoOffset;
             double depthLeft = current.DepthRight * 100;
             double depthRight = next.DepthLeft * 100;
             if (next.Key <= current.Key)
@@ -369,8 +368,10 @@ internal sealed class GaussianLayerGenerator
     private bool RangeMatches(double secs, int left, int right)
     {
         double leftBoundary = left > 0 ? _ends[left - 1] : double.NegativeInfinity;
-        double rightBoundary = right < _starts.Count ? _starts[right] : double.PositiveInfinity;
-        return leftBoundary < secs && secs <= rightBoundary;
+        double rightBoundary = right > left
+            ? left < _ends.Count ? _ends[left] : double.PositiveInfinity
+            : right < _starts.Count ? _starts[right] : double.PositiveInfinity;
+        return leftBoundary < secs && secs < rightBoundary;
     }
 }
 
@@ -398,19 +399,27 @@ internal sealed class VibratoNode
     public double ValueAtSecs(double secs)
     {
         double zoom;
-        if (End - Start >= FadeLeft + FadeLeft)
+        if (End - Start >= FadeLeft + FadeRight)
         {
-            if (secs < Start + FadeLeft)
+            if (FadeLeft > 0 && secs < Start + FadeLeft)
                 zoom = (secs - Start) / FadeLeft;
-            else if (secs > End - FadeRight)
+            else if (FadeRight > 0 && secs > End - FadeRight)
                 zoom = (End - secs) / FadeRight;
             else
                 zoom = 1.0;
         }
         else
         {
-            double mid = (Start * FadeRight + End * FadeLeft) / (FadeLeft + FadeRight);
-            zoom = secs < mid ? (secs - Start) / FadeLeft : (End - secs) / FadeRight;
+            double fadeSum = FadeLeft + FadeRight;
+            double mid = fadeSum <= 0
+                ? Start
+                : (Start * FadeRight + End * FadeLeft) / fadeSum;
+            if (FadeLeft > 0 && secs < mid)
+                zoom = (secs - Start) / FadeLeft;
+            else if (FadeRight > 0)
+                zoom = (End - secs) / FadeRight;
+            else
+                zoom = 1.0;
         }
         return Amplitude * zoom * 100.0 * Math.Sin(2 * Math.PI * Frequency * (secs - Start) + Phase);
     }
@@ -436,7 +445,7 @@ internal sealed class VibratoLayerGenerator
             if (i < noteList.Count - 1 && noteList[i + 1].Start - end < MaxBreak)
             {
                 end += Math.Min(
-                    noteList[i + 1].PortamentoOffset,
+                    Math.Max(0.0, noteList[i + 1].PortamentoOffset),
                     Math.Min(noteList[i + 1].VibratoStart, noteList[i + 1].End - noteList[i + 1].Start));
             }
             if (start >= end)
@@ -476,8 +485,10 @@ internal sealed class VibratoLayerGenerator
     private bool RangeMatches(double secs, int left, int right)
     {
         double leftBoundary = left > 0 ? _ends[left - 1] : double.NegativeInfinity;
-        double rightBoundary = right < _starts.Count ? _starts[right] : double.PositiveInfinity;
-        return leftBoundary < secs && secs <= rightBoundary;
+        double rightBoundary = right > left
+            ? left < _ends.Count ? _ends[left] : double.PositiveInfinity
+            : right < _starts.Count ? _starts[right] : double.PositiveInfinity;
+        return leftBoundary < secs && secs < rightBoundary;
     }
 }
 

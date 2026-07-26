@@ -1,12 +1,60 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using VOCALOIDPatcher.Formats.LibreSvip.Core;
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Model;
 using VOCALOIDPatcher.Formats.LibreSvip.Serialization;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Svp;
+
+public enum SvpVersionCompatibility
+{
+    Below190 = 100,
+    Between1100And1112 = 135,
+    Above200 = 182,
+}
+
+public enum SvpVibratoMode
+{
+    None,
+    Always,
+    Hybrid,
+}
+
+public enum SvpLanguage
+{
+    Mandarin,
+    Cantonese,
+    Japanese,
+    English,
+    Spanish,
+    Korean,
+    German,
+    French,
+    Portuguese,
+}
+
+public enum SvpPitchMode
+{
+    Full,
+    Vibrato,
+    Plain,
+}
+
+public enum SvpBreathMode
+{
+    Ignore,
+    Keep,
+    Convert,
+}
+
+public enum SvpGroupMode
+{
+    Split,
+    Merge,
+}
 
 public sealed class SvpConverter : FormatConverter
 {
@@ -17,6 +65,18 @@ public sealed class SvpConverter : FormatConverter
 
     public bool ImportInstrumental { get; set; } = true;
     public bool ImportPitch { get; set; } = true;
+    public bool ImportVolume { get; set; } = true;
+    public bool ImportBreath { get; set; } = true;
+    public bool ImportGender { get; set; } = true;
+    public bool ImportStrength { get; set; } = true;
+    public bool Instant { get; set; } = true;
+    public SvpPitchMode PitchMode { get; set; } = SvpPitchMode.Plain;
+    public SvpBreathMode Breath { get; set; } = SvpBreathMode.Convert;
+    public SvpGroupMode Group { get; set; } = SvpGroupMode.Split;
+    public SvpVersionCompatibility VersionCompatibility { get; set; } = SvpVersionCompatibility.Below190;
+    public SvpVibratoMode Vibrato { get; set; } = SvpVibratoMode.None;
+    public int DownSample { get; set; } = 20;
+    public SvpLanguage LanguageOverride { get; set; } = SvpLanguage.Mandarin;
 
     private int _firstBarTick;
 
@@ -77,12 +137,14 @@ public sealed class SvpConverter : FormatConverter
                 Volume = ParseVolume(svTrack.Mixer.GainDecibel),
                 NoteList = ParseNotes(svTrack.MainGroup.Notes, 0, 0),
             };
-            if (ImportPitch && svTrack.MainGroup.Notes.Count > 0)
-            {
-                var pitch = ParsePitch(svTrack.MainGroup.Parameters, svTrack.MainGroup.Notes, timeSignatures, synchronizer);
-                if (pitch != null)
-                    mainSinging.EditedParams.Pitch = pitch;
-            }
+            mainSinging.EditedParams = ParseParams(
+                svTrack.MainGroup.Parameters,
+                svTrack.MainGroup.Notes,
+                synchronizer,
+                svTrack.MainRef.Voice,
+                svTrack.MainGroup.PitchControls,
+                svTrack.MainRef.SystemPitchDelta,
+                null);
             trackList.Add(mainSinging);
 
             foreach (var svRef in svTrack.Groups)
@@ -91,12 +153,27 @@ public sealed class SvpConverter : FormatConverter
                     continue;
                 splitCounts.TryGetValue(svRef.GroupId, out int count);
                 splitCounts[svRef.GroupId] = count + 1;
-                groupTracks.Add(new SingingTrack
+                var groupNotes = ParseNotes(group.Notes, svRef.BlickOffset, svRef.PitchOffset);
+                var groupSinging = new SingingTrack
                 {
                     Title = $"{group.Name} ({count + 1})",
                     AiSingerName = svRef.Database.Name,
-                    NoteList = ParseNotes(group.Notes, svRef.BlickOffset, svRef.PitchOffset),
-                });
+                    NoteList = groupNotes,
+                };
+                groupSinging.EditedParams = ParseParams(
+                    group.Parameters,
+                    group.Notes,
+                    synchronizer,
+                    svRef.Voice,
+                    group.PitchControls,
+                    svRef.SystemPitchDelta,
+                    svTrack.MainGroup.Parameters,
+                    svRef.BlickOffset,
+                    svRef.PitchOffset);
+                if (Group == SvpGroupMode.Merge && !HasOverlap(mainSinging.NoteList, groupNotes))
+                    MergeTrack(mainSinging, groupSinging);
+                else
+                    groupTracks.Add(groupSinging);
             }
         }
         trackList.AddRange(groupTracks);
@@ -109,11 +186,15 @@ public sealed class SvpConverter : FormatConverter
         };
     }
 
-    private static List<Note> ParseNotes(List<SVNote> notes, long blickOffset, int pitchOffset)
+    private List<Note> ParseNotes(List<SVNote> notes, long blickOffset, int pitchOffset)
     {
         var result = new List<Note>();
-        foreach (var svNote in notes)
+        for (int index = 0; index < notes.Count; index++)
         {
+            var svNote = notes[index];
+            bool isBreath = Regex.IsMatch(svNote.Lyrics, @"^\s*\.?\s*br(l?[1-9])?\s*$", RegexOptions.IgnoreCase);
+            if (isBreath && Breath != SvpBreathMode.Keep)
+                continue;
             long onset = svNote.Onset + blickOffset;
             if (onset < 0)
                 continue;
@@ -126,25 +207,112 @@ public sealed class SvpConverter : FormatConverter
                 Lyric = NormalizeLyric(svNote.Lyrics),
                 Pronunciation = string.IsNullOrEmpty(svNote.Phonemes) ? null : svNote.Phonemes,
             });
+            if (Breath == SvpBreathMode.Convert && index > 0)
+            {
+                var previous = notes[index - 1];
+                if (Regex.IsMatch(previous.Lyrics, @"^\s*\.?\s*br(l?[1-9])?\s*$", RegexOptions.IgnoreCase)
+                    && PositionToTicks(svNote.Onset - previous.Onset - previous.Duration) < 120)
+                    result[^1].HeadTag = "V";
+            }
         }
         return result;
     }
 
-    private ParamCurve? ParsePitch(SVParameters parameters, List<SVNote> svNotes,
-        List<TimeSignature> timeSignatures, TimeSynchronizer synchronizer)
+    private ParamCurve? ParsePitch(
+        SVParameters parameters,
+        List<SVNote> svNotes,
+        TimeSynchronizer synchronizer,
+        SVNoteAttributes? voice,
+        List<SVPitchControl>? svPitchControls = null,
+        SVParamCurve? instantPitch = null,
+        SVParameters? masterParameters = null,
+        long blickOffset = 0,
+        int pitchOffset = 0)
     {
-        if (svNotes.Count == 0)
+        var validNotes = svNotes.Where(n => n.Onset + blickOffset >= 0).ToList();
+        if (validNotes.Count == 0)
             return null;
-        var pitchDiff = new CurveGenerator(
-            parameters.PitchDelta.Points.Select(p => new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value))),
+        IParamExpression pitchDiff = new CurveGenerator(
+            parameters.PitchDelta.Points.Select(p =>
+                new Point(PositionToTicks(p.Offset + blickOffset), (int)Math.Round(p.Value))),
             Interp(parameters.PitchDelta.Mode), 0);
-        var vibratoEnv = new CurveGenerator(
-            parameters.VibratoEnv.Points.Select(p => new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value * 1000))),
+        if (masterParameters != null)
+        {
+            pitchDiff = new SumParamExpression(pitchDiff, new CurveGenerator(
+                masterParameters.PitchDelta.Points.Select(p =>
+                    new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value))),
+                Interp(masterParameters.PitchDelta.Mode), 0));
+        }
+        if (Instant && instantPitch is { Points.Count: > 0 })
+        {
+            var instantDiff = new CurveGenerator(
+                instantPitch.Points.Select(p =>
+                    new Point(PositionToTicks(p.Offset + blickOffset), (int)Math.Round(p.Value))),
+                Interp(instantPitch.Mode), 0);
+            pitchDiff = new SumParamExpression(pitchDiff, new MaskedParamExpression(
+                instantDiff,
+                validNotes
+                    .Where(note => note.InstantMode != false)
+                    .Select(note => (
+                        PositionToTicks(note.Onset + blickOffset),
+                        PositionToTicks(note.Onset + blickOffset + note.Duration)))));
+        }
+        IParamExpression vibratoEnv = new CurveGenerator(
+            parameters.VibratoEnv.Points.Select(p =>
+                new Point(PositionToTicks(p.Offset + blickOffset), (int)Math.Round(p.Value * 1000))),
             Interp(parameters.VibratoEnv.Mode), 1000);
-        var noteStructs = svNotes.Select(n => ToNoteStruct(n, synchronizer)).ToList();
-        var generator = new PitchGenerator(synchronizer, noteStructs, pitchDiff, vibratoEnv, null);
+        if (masterParameters != null)
+        {
+            vibratoEnv = new SumParamExpression(vibratoEnv, new CurveGenerator(
+                masterParameters.VibratoEnv.Points.Select(p =>
+                    new Point(PositionToTicks(p.Offset), (int)Math.Round(p.Value * 1000))),
+                Interp(masterParameters.VibratoEnv.Mode), 0));
+        }
+        var noteStructs = validNotes
+            .Select(n => ToNoteStruct(n, synchronizer, voice, blickOffset, pitchOffset))
+            .ToList();
+        var pitchControls = ConvertPitchControls(svPitchControls, blickOffset, pitchOffset);
+        var generator = new PitchGenerator(synchronizer, noteStructs, pitchDiff, vibratoEnv, pitchControls);
         var interval = new RangeInterval(
-            svNotes.Select(n => (PositionToTicks(n.Onset), PositionToTicks(n.Onset + n.Duration)))).Expand(120);
+            validNotes.Select(n => (
+                PositionToTicks(n.Onset + blickOffset),
+                PositionToTicks(n.Onset + blickOffset + n.Duration)))).Expand(120);
+        if (PitchMode != SvpPitchMode.Full)
+        {
+            var edited = new List<(int, int)>();
+            foreach (var note in validNotes)
+            {
+                if (IsPitchEdited(note, voice, PitchMode == SvpPitchMode.Plain, Instant))
+                {
+                    int startTick = PositionToTicks(note.Onset + blickOffset);
+                    int endTick = PositionToTicks(note.Onset + blickOffset + note.Duration);
+                    var attributes = ResolveAttributes(note, voice);
+                    double startSecs = synchronizer.GetActualSecsFromTicks(startTick)
+                        - Math.Max(0, attributes.TransitionOffset) - 0.1;
+                    double endSecs = synchronizer.GetActualSecsFromTicks(endTick) + 0.1;
+                    edited.Add((
+                        (int)Math.Round(synchronizer.GetActualTicksFromSecs(Math.Max(0, startSecs))),
+                        (int)Math.Round(synchronizer.GetActualTicksFromSecs(endSecs))));
+                }
+            }
+            edited.AddRange(CurveEditedRanges(parameters.PitchDelta, 0, blickOffset));
+            edited.AddRange(CurveEditedRanges(parameters.VibratoEnv, 1, blickOffset));
+            if (masterParameters != null)
+            {
+                edited.AddRange(CurveEditedRanges(masterParameters.PitchDelta, 0, 0));
+                edited.AddRange(CurveEditedRanges(masterParameters.VibratoEnv, 1, 0));
+            }
+            if (svPitchControls != null)
+                edited.AddRange(svPitchControls.Select(control =>
+                {
+                    int start = PositionToTicks(control.Pos + blickOffset);
+                    int end = control.Points.Count == 0
+                        ? start + 1
+                        : start + PositionToTicks(control.Points[^1].Offset);
+                    return (start, end);
+                }));
+            interval = interval.Intersect(new RangeInterval(edited));
+        }
 
         var points = new List<Point> { Point.StartPoint() };
         foreach (var (start, end) in interval.Shift(_firstBarTick).SubRanges())
@@ -159,15 +327,245 @@ public sealed class SvpConverter : FormatConverter
         return new ParamCurve { Points = points };
     }
 
-    private static NoteStruct ToNoteStruct(SVNote note, TimeSynchronizer synchronizer)
+    private Params ParseParams(
+        SVParameters parameters,
+        List<SVNote> notes,
+        TimeSynchronizer synchronizer,
+        SVNoteAttributes? voice,
+        List<SVPitchControl>? pitchControls,
+        SVParamCurve? instantPitch,
+        SVParameters? masterParameters,
+        long blickOffset = 0,
+        int pitchOffset = 0)
     {
-        var a = note.Attributes;
+        var result = new Params();
+        if (ImportPitch && notes.Count > 0)
+            result.Pitch = ParsePitch(
+                parameters, notes, synchronizer, voice, pitchControls, instantPitch,
+                masterParameters, blickOffset, pitchOffset)
+                ?? new ParamCurve();
+        if (ImportVolume)
+            result.Volume = ParseParamCurve(parameters.Loudness, masterParameters?.Loudness,
+                blickOffset, voice?.ParamLoudness ?? 0,
+                value => value >= 0
+                    ? (int)Math.Round(value / 12.0 * 1000)
+                    : (int)Math.Round(1000 * MusicMath.DbToFloat(value) - 1000));
+        if (ImportBreath)
+            result.Breath = ParseParamCurve(parameters.Breathiness, masterParameters?.Breathiness,
+                blickOffset, voice?.ParamBreathiness ?? 0,
+                value => (int)Math.Round(value * 1000));
+        if (ImportGender)
+            result.Gender = ParseParamCurve(parameters.Gender, masterParameters?.Gender,
+                blickOffset, voice?.ParamGender ?? 0,
+                value => (int)Math.Round(value * -1000));
+        if (ImportStrength)
+            result.Strength = ParseParamCurve(parameters.Tension, masterParameters?.Tension,
+                blickOffset, voice?.ParamTension ?? 0,
+                value => (int)Math.Round(value * 1000));
+        return result;
+    }
+
+    private ParamCurve ParseParamCurve(
+        SVParamCurve source,
+        SVParamCurve? master,
+        long blickOffset,
+        double baseValue,
+        Func<double, int> mapping)
+    {
+        int baseMapped = Math.Clamp(mapping(baseValue), -1000, 1000);
+        var points = new List<Point> { new(Point.StartX, baseMapped) };
+        if (source.Points.Count > 0 || master is { Points.Count: > 0 })
+        {
+            var groupGenerator = new CurveGenerator(
+                source.Points.Select(point => new Point(
+                    PositionToTicks(point.Offset + blickOffset) + _firstBarTick,
+                    (int)Math.Round(point.Value * 1000))),
+                Interp(source.Mode),
+                0);
+            var masterGenerator = master == null
+                ? null
+                : new CurveGenerator(
+                    master.Points.Select(point => new Point(
+                        PositionToTicks(point.Offset) + _firstBarTick,
+                        (int)Math.Round(point.Value * 1000))),
+                    Interp(master.Mode),
+                    0);
+            var positions = source.Points
+                .Select(point => PositionToTicks(point.Offset + blickOffset) + _firstBarTick)
+                .Concat(master?.Points.Select(point => PositionToTicks(point.Offset) + _firstBarTick)
+                    ?? Enumerable.Empty<int>())
+                .ToList();
+            int start = positions.Min();
+            int end = positions.Max();
+            for (int pos = start; pos < end; pos += 5)
+            {
+                double raw = baseValue + groupGenerator.ValueAtTicks(pos) / 1000.0
+                    + (masterGenerator?.ValueAtTicks(pos) ?? 0) / 1000.0;
+                points.Add(new Point(pos, Math.Clamp(mapping(raw), -1000, 1000)));
+            }
+            double endRaw = baseValue + groupGenerator.ValueAtTicks(end) / 1000.0
+                + (masterGenerator?.ValueAtTicks(end) ?? 0) / 1000.0;
+            points.Add(new Point(end, Math.Clamp(mapping(endRaw), -1000, 1000)));
+        }
+        points.Add(new Point(Point.EndX, baseMapped));
+        return new ParamCurve { Points = points };
+    }
+
+    private static bool IsPitchEdited(
+        SVNote note,
+        SVNoteAttributes? voice,
+        bool regardDefaultVibratoAsUnedited,
+        bool considerInstant)
+    {
+        var sources = new[] { note.Attributes, note.SystemAttributes, voice }
+            .Where(source => source != null)
+            .Cast<SVNoteAttributes>()
+            .ToList();
+        bool transitionEdited = sources.Any(attributes =>
+            attributes.TF0Offset.HasValue
+            || attributes.TF0Left.HasValue
+            || attributes.TF0Right.HasValue
+            || attributes.DF0Left.HasValue
+            || attributes.DF0Right.HasValue);
+        var resolved = ResolveAttributes(note, voice);
+        if (considerInstant && note.InstantMode != false)
+        {
+            transitionEdited &= Math.Abs(resolved.PortamentoLeft - 0.07) >= 0.000001
+                || Math.Abs(resolved.PortamentoRight - 0.07) >= 0.000001
+                || Math.Abs(resolved.DepthLeft - 0.15) >= 0.000001
+                || Math.Abs(resolved.DepthRight - 0.15) >= 0.000001;
+        }
+        bool vibratoEdited = Math.Abs(resolved.VibratoDepth) >= 0.000001;
+        if (regardDefaultVibratoAsUnedited)
+        {
+            vibratoEdited &= sources.Any(attributes =>
+                attributes.TF0VbrStart.HasValue
+                || attributes.TF0VbrLeft.HasValue
+                || attributes.TF0VbrRight.HasValue
+                || attributes.DF0Vbr.HasValue
+                || attributes.FF0Vbr.HasValue
+                || attributes.PF0Vbr.HasValue);
+        }
+        return transitionEdited || vibratoEdited;
+    }
+
+    private static IEnumerable<(int Start, int End)> CurveEditedRanges(
+        SVParamCurve curve,
+        double defaultValue,
+        long blickOffset)
+    {
+        const double tolerance = 0.000001;
+        var points = curve.Points
+            .Select(point => (
+                Position: PositionToTicks(point.Offset + blickOffset),
+                point.Value))
+            .ToList();
+        if (points.Count == 0)
+            return Array.Empty<(int, int)>();
+        if (points.Count == 1)
+            return Math.Abs(points[0].Value - defaultValue) < tolerance
+                ? Array.Empty<(int, int)>()
+                : new[] { (0, int.MaxValue / 2) };
+        var ranges = new List<(int, int)>();
+        if (Math.Abs(points[0].Value - defaultValue) >= tolerance && points[0].Position > 0)
+            ranges.Add((0, points[0].Position));
+        int start = points[0].Position;
+        int end = points[0].Position;
+        for (int index = 1; index < points.Count; index++)
+        {
+            if (Math.Abs(points[index - 1].Value - defaultValue) < tolerance
+                && Math.Abs(points[index].Value - defaultValue) < tolerance)
+            {
+                if (start < end)
+                    ranges.Add((start, end));
+                start = points[index].Position;
+            }
+            else
+                end = points[index].Position;
+        }
+        if (start < end)
+            ranges.Add((start, end));
+        if (Math.Abs(points[^1].Value - defaultValue) >= tolerance)
+            ranges.Add((points[^1].Position, int.MaxValue / 2));
+        return ranges;
+    }
+
+    private static bool HasOverlap(List<Note> left, List<Note> right) =>
+        left.Any(a => right.Any(b => a.StartPos < b.EndPos && b.StartPos < a.EndPos));
+
+    private static void MergeTrack(SingingTrack target, SingingTrack source)
+    {
+        target.NoteList.AddRange(source.NoteList);
+        target.NoteList.Sort((a, b) => a.StartPos.CompareTo(b.StartPos));
+        MergeCurve(target.EditedParams.Pitch, source.EditedParams.Pitch, -100);
+        MergeCurve(target.EditedParams.Volume, source.EditedParams.Volume, 0);
+        MergeCurve(target.EditedParams.Breath, source.EditedParams.Breath, 0);
+        MergeCurve(target.EditedParams.Gender, source.EditedParams.Gender, 0);
+        MergeCurve(target.EditedParams.Strength, source.EditedParams.Strength, 0);
+    }
+
+    private static void MergeCurve(ParamCurve target, ParamCurve source, int termination)
+    {
+        var points = target.Points.Concat(source.Points)
+            .Where(point => point.X != Point.StartX && point.X != Point.EndX)
+            .OrderBy(point => point.X)
+            .ToList();
+        target.Points = new List<Point> { new(Point.StartX, termination) };
+        target.Points.AddRange(points);
+        target.Points.Add(new Point(Point.EndX, termination));
+    }
+
+    private static List<PitchControl>? ConvertPitchControls(
+        List<SVPitchControl>? controls,
+        long blickOffset,
+        int pitchOffset)
+    {
+        if (controls == null || controls.Count == 0)
+            return null;
+        return controls.Select(control => new PitchControl
+        {
+            Pos = PositionToTicks(control.Pos + blickOffset),
+            Pitch = control.Pitch + pitchOffset,
+            Type = control.Type,
+            Points = control.Points.Select(point =>
+                new PitchControlPoint(PositionToTicks(point.Offset), point.Value)).ToList(),
+        }).ToList();
+    }
+
+    private static NoteStruct ToNoteStruct(
+        SVNote note,
+        TimeSynchronizer synchronizer,
+        SVNoteAttributes? voice,
+        long blickOffset,
+        int pitchOffset)
+    {
+        var a = ResolveAttributes(note, voice);
         return new NoteStruct(
-            note.Pitch,
-            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset)),
-            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset + note.Duration)),
+            note.Pitch + pitchOffset,
+            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset + blickOffset)),
+            synchronizer.GetActualSecsFromTicks(PositionToTicks(note.Onset + blickOffset + note.Duration)),
             a.TransitionOffset, a.PortamentoLeft, a.PortamentoRight, a.DepthLeft, a.DepthRight,
             a.VibratoStart, a.VibratoLeft, a.VibratoRight, a.VibratoDepth, a.VibratoFrequency, a.VibratoPhase);
+    }
+
+    private static SVNoteAttributes ResolveAttributes(SVNote note, SVNoteAttributes? voice)
+    {
+        var noteAttributes = note.Attributes ?? new SVNoteAttributes();
+        var systemAttributes = note.SystemAttributes;
+        return new SVNoteAttributes
+        {
+            TF0Offset = noteAttributes.TF0Offset ?? systemAttributes?.TF0Offset ?? voice?.TF0Offset,
+            TF0Left = noteAttributes.TF0Left ?? systemAttributes?.TF0Left ?? voice?.TF0Left,
+            TF0Right = noteAttributes.TF0Right ?? systemAttributes?.TF0Right ?? voice?.TF0Right,
+            DF0Left = noteAttributes.DF0Left ?? systemAttributes?.DF0Left ?? voice?.DF0Left,
+            DF0Right = noteAttributes.DF0Right ?? systemAttributes?.DF0Right ?? voice?.DF0Right,
+            TF0VbrStart = noteAttributes.TF0VbrStart ?? systemAttributes?.TF0VbrStart ?? voice?.TF0VbrStart,
+            TF0VbrLeft = noteAttributes.TF0VbrLeft ?? systemAttributes?.TF0VbrLeft ?? voice?.TF0VbrLeft,
+            TF0VbrRight = noteAttributes.TF0VbrRight ?? systemAttributes?.TF0VbrRight ?? voice?.TF0VbrRight,
+            DF0Vbr = noteAttributes.DF0Vbr ?? systemAttributes?.DF0Vbr ?? voice?.DF0Vbr,
+            FF0Vbr = noteAttributes.FF0Vbr ?? systemAttributes?.FF0Vbr ?? voice?.FF0Vbr,
+            PF0Vbr = noteAttributes.PF0Vbr ?? systemAttributes?.PF0Vbr ?? voice?.PF0Vbr,
+        };
     }
 
     private static InterpolationFunc Interp(string mode) => mode switch
@@ -192,7 +590,11 @@ public sealed class SvpConverter : FormatConverter
     public override byte[] Dump(Project project)
     {
         _firstBarTick = (int)Math.Round(project.TimeSignatureList[0].BarLength());
-        var svp = new SVProject();
+        var svp = new SVProject
+        {
+            Version = (int)VersionCompatibility,
+            InstantModeEnabled = VersionCompatibility == SvpVersionCompatibility.Below190 ? false : null,
+        };
         svp.Time.Meter = TickCounter.SkipBeatList(project.TimeSignatureList, 1)
             .Select(ts => new SVMeter { Index = ts.BarIndex, Numerator = ts.Numerator, Denominator = ts.Denominator })
             .ToList();
@@ -210,24 +612,53 @@ public sealed class SvpConverter : FormatConverter
         {
             if (track is SingingTrack singing)
             {
+                var language = GetLanguagePreset(LanguageOverride);
+                var reducedPitch = singing.EditedParams.Pitch.ReduceSampleRate(Math.Max(DownSample, 0), -100);
+                var hybridIndexes = Vibrato == SvpVibratoMode.Hybrid
+                    ? FindEditedVibratoNotes(reducedPitch, singing.NoteList, synchronizer)
+                    : new HashSet<int>();
+                var group = new SVGroup
+                {
+                    Uuid = Guid.NewGuid().ToString(),
+                    Parameters = GenerateParams(singing.EditedParams, singing.NoteList, synchronizer, project.TimeSignatureList),
+                };
+                if (VersionCompatibility == SvpVersionCompatibility.Above200)
+                {
+                    group.Parameters.PitchDelta = new SVParamCurve();
+                    group.PitchControls = GeneratePitchControls(reducedPitch);
+                }
+                group.Notes = singing.NoteList.Select((n, index) => new SVNote
+                {
+                    Onset = TicksToPosition(n.StartPos),
+                    Duration = TicksToPosition(n.EndPos) - TicksToPosition(n.StartPos),
+                    Lyrics = n.Lyric,
+                    Phonemes = n.Pronunciation ?? "",
+                    Pitch = n.KeyNumber,
+                    InstantMode = VersionCompatibility == SvpVersionCompatibility.Between1100And1112 ? false : null,
+                    Attributes = new SVNoteAttributes
+                    {
+                        DF0Vbr = Vibrato == SvpVibratoMode.None
+                            || Vibrato == SvpVibratoMode.Hybrid && hybridIndexes.Contains(index)
+                            ? 0.0
+                            : null,
+                    },
+                }).ToList();
                 svp.Tracks.Add(new SVTrack
                 {
                     Name = singing.Title,
                     Mixer = new SVMixer { GainDecibel = GenerateVolume(singing.Volume), Pan = singing.Pan, Mute = singing.Mute, Solo = singing.Solo },
-                    MainRef = new SVRef { IsInstrumental = false, Database = new SVDatabase { Name = singing.AiSingerName }, GroupId = Guid.NewGuid().ToString() },
-                    MainGroup = new SVGroup
+                    MainRef = new SVRef
                     {
-                        Uuid = Guid.NewGuid().ToString(),
-                        Notes = singing.NoteList.Select(n => new SVNote
+                        IsInstrumental = false,
+                        Database = new SVDatabase
                         {
-                            Onset = TicksToPosition(n.StartPos),
-                            Duration = TicksToPosition(n.EndPos) - TicksToPosition(n.StartPos),
-                            Lyrics = n.Lyric,
-                            Phonemes = n.Pronunciation ?? "",
-                            Pitch = n.KeyNumber,
-                        }).ToList(),
-                        Parameters = GenerateParams(singing.EditedParams, singing.NoteList, synchronizer, project.TimeSignatureList),
+                            Name = singing.AiSingerName,
+                            LanguageOverride = language.Language,
+                            PhonesetOverride = language.Phoneset,
+                        },
+                        GroupId = Guid.NewGuid().ToString(),
                     },
+                    MainGroup = group,
                 });
             }
             else if (track is InstrumentalTrack instrumental)
@@ -254,22 +685,93 @@ public sealed class SvpConverter : FormatConverter
     private static double GenerateVolume(double volume) =>
         Math.Max(MusicMath.RatioToDb(Math.Max(volume, 0.06)), -24.0);
 
-    private const int DownSample = 20;
+    private static (string Language, string Phoneset) GetLanguagePreset(SvpLanguage language) => language switch
+    {
+        SvpLanguage.Cantonese => ("cantonese", "xsampa"),
+        SvpLanguage.Japanese => ("japanese", "romaji"),
+        SvpLanguage.English => ("english", "arpabet"),
+        SvpLanguage.Spanish => ("spanish", "xsampa"),
+        SvpLanguage.Korean => ("korean", "xsampa"),
+        SvpLanguage.German => ("german", "xsampa"),
+        SvpLanguage.French => ("french", "xsampa"),
+        SvpLanguage.Portuguese => ("portuguese", "xsampa"),
+        _ => ("mandarin", "xsampa"),
+    };
+
+    private HashSet<int> FindEditedVibratoNotes(
+        ParamCurve curve,
+        List<Note> notes,
+        TimeSynchronizer synchronizer)
+    {
+        var result = new HashSet<int>();
+        foreach (var point in curve.Points)
+        {
+            if (point.X < _firstBarTick || point.Y == -100)
+                continue;
+            int pos = point.X - _firstBarTick;
+            int noteIndex = Search.FindLastIndex(notes, note => note.StartPos <= pos);
+            if (noteIndex < 0)
+                continue;
+            var note = notes[noteIndex];
+            if (pos < note.EndPos
+                && synchronizer.GetDurationSecsFromTicks(note.StartPos, pos) > 0.25)
+                result.Add(noteIndex);
+        }
+        return result;
+    }
+
+    private List<SVPitchControl> GeneratePitchControls(ParamCurve curve)
+    {
+        var result = new List<SVPitchControl>();
+        var buffer = new List<Point>();
+        void Flush()
+        {
+            if (buffer.Count == 0)
+                return;
+            long basePosition = TicksToPosition(buffer[0].X);
+            double basePitch = buffer[0].Y / 100.0;
+            result.Add(new SVPitchControl
+            {
+                Pos = basePosition,
+                Pitch = basePitch,
+                Id = (result.Count + 1).ToString(),
+                Points = buffer.Select(point =>
+                    new SvParamPoint(
+                        TicksToPosition(point.X) - basePosition,
+                        point.Y / 100.0 - basePitch)).ToList(),
+            });
+            buffer.Clear();
+        }
+
+        foreach (var point in curve.Points)
+        {
+            if (point.X < _firstBarTick)
+                continue;
+            var shifted = point.WithX(point.X - _firstBarTick);
+            if (shifted.Y == -100)
+                Flush();
+            else
+                buffer.Add(shifted);
+        }
+        Flush();
+        return result;
+    }
 
     private SVParameters GenerateParams(Params parameters, List<Note> noteList, TimeSynchronizer synchronizer,
         List<TimeSignature> timeSignatureList)
     {
+        int downSample = Math.Max(DownSample, 0);
         var result = new SVParameters
         {
-            Loudness = GenerateParamCurve(parameters.Volume.ReduceSampleRate(DownSample), 0, 0.0, val =>
+            Loudness = GenerateParamCurve(parameters.Volume.ReduceSampleRate(downSample), 0, 0.0, val =>
                 val >= 0
                     ? val / 1000.0 * 12.0
                     : Math.Max(MusicMath.RatioToDb(val > -997 ? val / 1000.0 + 1.0 : 0.0039), -48.0)),
-            Tension = GenerateParamCurve(parameters.Strength.ReduceSampleRate(DownSample), 0, 0.0, val => 1000.0 / val),
-            Breathiness = GenerateParamCurve(parameters.Breath.ReduceSampleRate(DownSample), 0, 0.0, val => 1000.0 / val),
-            Gender = GenerateParamCurve(parameters.Gender.ReduceSampleRate(DownSample), 0, 0.0, val => -1000.0 / val),
+            Tension = GenerateParamCurve(parameters.Strength.ReduceSampleRate(downSample), 0, 0.0, val => 1000.0 / val),
+            Breathiness = GenerateParamCurve(parameters.Breath.ReduceSampleRate(downSample), 0, 0.0, val => 1000.0 / val),
+            Gender = GenerateParamCurve(parameters.Gender.ReduceSampleRate(downSample), 0, 0.0, val => -1000.0 / val),
         };
-        result.PitchDelta = GeneratePitchCurve(parameters.Pitch.ReduceSampleRate(DownSample, -100), noteList, synchronizer, timeSignatureList);
+        result.PitchDelta = GeneratePitchCurve(parameters.Pitch.ReduceSampleRate(downSample, -100), noteList, synchronizer, timeSignatureList);
         return result;
     }
 

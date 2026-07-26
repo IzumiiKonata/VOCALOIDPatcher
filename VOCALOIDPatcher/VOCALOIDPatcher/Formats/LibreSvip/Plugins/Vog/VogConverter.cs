@@ -13,6 +13,7 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Vog;
 public sealed class VogConverter : FormatConverter
 {
     public double Tempo { get; set; } = Constants.DefaultBpm;
+    public string SingerName { get; set; } = "Doaz";
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -71,7 +72,7 @@ public sealed class VogConverter : FormatConverter
             Utts = source.TrackList.OfType<SingingTrack>().Select(track => new VogenTrack
             {
                 Name = track.Title,
-                SingerId = track.AiSingerName,
+                SingerId = string.IsNullOrWhiteSpace(SingerName) ? track.AiSingerName : SingerName,
                 Notes = track.NoteList.Select(note => new VogenNote
                 {
                     On = note.StartPos,

@@ -12,6 +12,7 @@ public sealed class Y77Converter : FormatConverter
 {
     public bool ImportPitch { get; set; } = true;
     public double Tempo { get; set; } = Constants.DefaultBpm;
+    public int TrackIndex { get; set; } = -1;
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -63,8 +64,10 @@ public sealed class Y77Converter : FormatConverter
     public override byte[] Dump(Project project)
     {
         var source = project.SongTempoList.Count != 1 ? ResetTimeAxis.Reset(project, Tempo) : project;
-        var track = source.TrackList.OfType<SingingTrack>().FirstOrDefault(t => t.NoteList.Count > 0)
-                    ?? source.TrackList.OfType<SingingTrack>().FirstOrDefault();
+        var track = TrackIndex >= 0 && TrackIndex < source.TrackList.Count
+            ? source.TrackList[TrackIndex] as SingingTrack
+            : source.TrackList.OfType<SingingTrack>().FirstOrDefault(t => t.NoteList.Count > 0)
+              ?? source.TrackList.OfType<SingingTrack>().FirstOrDefault();
         var timeSignature = source.TimeSignatureList.Count > 0 ? source.TimeSignatureList[0] : new TimeSignature();
         int firstBarLength = (int)new TimeSignature(0, timeSignature.Numerator, timeSignature.Denominator).BarLength();
 

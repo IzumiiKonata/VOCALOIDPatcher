@@ -16,6 +16,12 @@ public static class TextHelper
         return _shiftJis;
     }
 
+    public static Encoding GetEncoding(string name)
+    {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        return Encoding.GetEncoding(name);
+    }
+
     public static string DetectAndDecode(byte[] bytes)
     {
         if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)

@@ -12,6 +12,8 @@ namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.MusicXml;
 public sealed class MusicXmlConverter : FormatConverter
 {
     public bool ImportTempo { get; set; } = true;
+    public bool ImportDynamics { get; set; } = true;
+    public bool ApplyFermataStretch { get; set; } = true;
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -24,7 +26,7 @@ public sealed class MusicXmlConverter : FormatConverter
         var root = LoadXml(TextHelper.DetectAndDecode(xmlBytes));
         if (root.Name.LocalName != "score-partwise")
             throw new InvalidDataException("仅支持 score-partwise 的 MusicXML");
-        return new MusicXmlParser(ImportTempo).ParseProject(root);
+        return new MusicXmlParser(ImportTempo, ImportDynamics, ApplyFermataStretch).ParseProject(root);
     }
 
     public override byte[] Dump(Project project)

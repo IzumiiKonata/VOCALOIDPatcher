@@ -4,6 +4,7 @@
         <ItemGroup>
             <InputAssemblies Include="$(TargetDir)Microsoft.Xaml.Behaviors.dll"/>
             <InputAssemblies Include="$(TargetDir)0Harmony.dll"/>
+            <InputAssemblies Include="$(TargetDir)ToolGood.Words.Pinyin.dll"/>
             <InputAssemblies Include="$(TargetDir)YamlDotNet.dll"/>
             <InputAssemblies Include="$(TargetDir)ZstdSharp.dll"/>
         </ItemGroup>

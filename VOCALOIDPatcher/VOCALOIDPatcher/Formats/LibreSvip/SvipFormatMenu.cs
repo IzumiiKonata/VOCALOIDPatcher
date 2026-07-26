@@ -153,13 +153,14 @@ public static class SvipFormatMenu
         var dialog = new OpenFileDialog
         {
             Filter = $"{LocalizedName(info)}|{pattern}|{allFiles}|*.*",
-            Multiselect = false,
+            Multiselect = info.MultipleFile,
         };
         if (dialog.ShowDialog() != true)
             return;
+        if (!FormatOptionDialog.Show(info, FormatOptionDirection.Import))
+            return;
 
-        var bytes = File.ReadAllBytes(dialog.FileName);
-        var project = info.Converter.Load(bytes);
+        var project = SvipProjectLoader.Load(info, dialog.FileNames);
         V6BridgeSvip.Import(project);
     }
 
@@ -167,7 +168,7 @@ public static class SvipFormatMenu
     {
         var raw = V6BridgeSvip.ReadRaw();
 
-        if (!raw.HasNotes)
+        if (!raw.HasExportableContent)
         {
             Debug.ShowMessageBox(TranslationManager.Tr(EmptyProjectKey));
             return;
@@ -179,6 +180,8 @@ public static class SvipFormatMenu
             Filter = $"{LocalizedName(info)}|*.{info.Extension}|{TranslationManager.Tr(AllFilesKey)}|*.*",
         };
         if (save.ShowDialog() != true)
+            return;
+        if (!FormatOptionDialog.Show(info, FormatOptionDirection.Export))
             return;
 
         string path = save.FileName;

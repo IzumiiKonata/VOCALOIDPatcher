@@ -36,6 +36,8 @@
   <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>立ち絵のアップロードに失敗しました</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>自動保存</value></data>
   <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Header" xml:space="preserve"><value>インポート時に中国語歌詞をピンインへ変換</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Desc" xml:space="preserve"><value>中国語歌詞のトラックを検出し、語句の文脈から多音字を判定して有効な発音指定を保持します。</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>パフォーマンス</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>プロジェクト読み込みを高速化</value></data>
@@ -77,6 +79,140 @@
   <data name="VOCALOIDPatcher_Format_AllFiles" xml:space="preserve"><value>すべてのファイル</value></data>
   <data name="VOCALOIDPatcher_Format_OperationFailed" xml:space="preserve"><value>操作に失敗しました</value></data>
   <data name="VOCALOIDPatcher_Format_ImportFailed" xml:space="preserve"><value>インポートに失敗しました</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTitle" xml:space="preserve"><value>{0} をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportTitle" xml:space="preserve"><value>{0} をエクスポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_InvalidValue" xml:space="preserve"><value>「{0}」の値が無効です。</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportPitch" xml:space="preserve"><value>ピッチ曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumental" xml:space="preserve"><value>伴奏トラックをインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportInstrumentalTrack" xml:space="preserve"><value>伴奏トラックをインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTempo" xml:space="preserve"><value>テンポ変更をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportVolume" xml:space="preserve"><value>音量曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportBreath" xml:space="preserve"><value>ブレス曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportGender" xml:space="preserve"><value>ジェンダー曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportStrength" xml:space="preserve"><value>強さ曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportTension" xml:space="preserve"><value>テンション曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportEnergy" xml:space="preserve"><value>エネルギー曲線をインポート</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_KeepAllPronunciation" xml:space="preserve"><value>すべての発音を保持</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Tempo" xml:space="preserve"><value>テンポ（BPM）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Breath" xml:space="preserve"><value>ブレス音符の処理</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyCoefficient" xml:space="preserve"><value>エネルギー係数</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CurveSampleInterval" xml:space="preserve"><value>曲線サンプル間隔</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalization" xml:space="preserve"><value>ブレス正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalization" xml:space="preserve"><value>テンション正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalization" xml:space="preserve"><value>エネルギー正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Artist" xml:space="preserve"><value>アーティスト</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Title" xml:space="preserve"><value>曲名</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Album" xml:space="preserve"><value>アルバム</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_By" xml:space="preserve"><value>歌詞編集者</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitBy" xml:space="preserve"><value>改行条件</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IgnoreSlurNotes" xml:space="preserve"><value>スラー音符を無視</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Version" xml:space="preserve"><value>ファイルバージョン</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLanguage" xml:space="preserve"><value>既定の言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_IsAiSinger" xml:space="preserve"><value>AI ボイスバンクを使用</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultLangId" xml:space="preserve"><value>既定の言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultCompId" xml:space="preserve"><value>既定のボイスバンク ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerName" xml:space="preserve"><value>既定のシンガー名</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerId" xml:space="preserve"><value>既定のボイスバンク ID</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultSingerVersion" xml:space="preserve"><value>既定のボイスバンクバージョン</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TicksPerBeat" xml:space="preserve"><value>1拍あたりの Tick 数</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Singer" xml:space="preserve"><value>シンガー</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MapStrengthInfo" xml:space="preserve"><value>強さのマッピング</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SplitThreshold" xml:space="preserve"><value>分割しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricLanguage" xml:space="preserve"><value>歌詞の言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DefaultConsonantLength" xml:space="preserve"><value>既定の子音長</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Serialization" xml:space="preserve"><value>シリアライズ形式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Offset" xml:space="preserve"><value>オフセット（ミリ秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_OffsetPolicy" xml:space="preserve"><value>オフセット方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Timeline" xml:space="preserve"><value>タイムラインを書き込む</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Encoding" xml:space="preserve"><value>テキストエンコーディング</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TrackIndex" xml:space="preserve"><value>トラック番号（-1 は自動）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_VersionCompatibility" xml:space="preserve"><value>Synthesizer V バージョン互換性</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Vibrato" xml:space="preserve"><value>ビブラートの処理</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DownSample" xml:space="preserve"><value>パラメータのサンプリング間隔（0 は無制限）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LanguageOverride" xml:space="preserve"><value>ボイスデータベースの既定言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Instant" xml:space="preserve"><value>インスタントピッチモードに従う</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PitchMode" xml:space="preserve"><value>ピッチのインポート方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Group" xml:space="preserve"><value>ノートグループの処理</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indented" xml:space="preserve"><value>JSON をインデント</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SingerName" xml:space="preserve"><value>歌手名</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_LyricEncoding" xml:space="preserve"><value>歌詞テキストのエンコーディング</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PlusHandlingMode" xml:space="preserve"><value>プラス記号の処理</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLyrics" xml:space="preserve"><value>ブレス歌詞</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_SilenceLyrics" xml:space="preserve"><value>無音歌詞</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnglishPhonemizerCompatibility" xml:space="preserve"><value>英語フォネマイザ互換性</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ImportDynamics" xml:space="preserve"><value>強弱記号を音量カーブとして読み込む</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ApplyFermataStretch" xml:space="preserve"><value>フェルマータ付きノートを延長</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_CombineSyllables" xml:space="preserve"><value>音節を結合</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_PrettyXml" xml:space="preserve"><value>XML を整形</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExtractAudio" xml:space="preserve"><value>埋め込み音声を抽出</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DictName" xml:space="preserve"><value>辞書名</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_DsSplitThreshold" xml:space="preserve"><value>分割しきい値（秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_MinInterval" xml:space="preserve"><value>最小間隔（ミリ秒）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Seed" xml:space="preserve"><value>乱数シード（-1 はランダム）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_ExportGender" xml:space="preserve"><value>ジェンダーパラメータを出力</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Indent" xml:space="preserve"><value>JSON インデント（-1 は圧縮）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationMethod" xml:space="preserve"><value>ブレス正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathLowerThreshold" xml:space="preserve"><value>ブレス下限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathUpperThreshold" xml:space="preserve"><value>ブレス上限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationScale" xml:space="preserve"><value>ブレス正規化スケール</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_BreathNormalizationBias" xml:space="preserve"><value>ブレス正規化バイアス</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationMethod" xml:space="preserve"><value>テンション正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionLowerThreshold" xml:space="preserve"><value>テンション下限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionUpperThreshold" xml:space="preserve"><value>テンション上限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationScale" xml:space="preserve"><value>テンション正規化スケール</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_TensionNormalizationBias" xml:space="preserve"><value>テンション正規化バイアス</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationMethod" xml:space="preserve"><value>エネルギー正規化方式</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyLowerThreshold" xml:space="preserve"><value>エネルギー下限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyUpperThreshold" xml:space="preserve"><value>エネルギー上限しきい値</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationScale" xml:space="preserve"><value>エネルギー正規化スケール</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_EnergyNormalizationBias" xml:space="preserve"><value>エネルギー正規化バイアス</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Timeline" xml:space="preserve"><value>タイムラインに適用</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Meta" xml:space="preserve"><value>メタデータタグに書き込む</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Below190" xml:space="preserve"><value>Synthesizer V Studio 1.9.0 以下</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Between1100And1112" xml:space="preserve"><value>Synthesizer V Studio 1.10.0～1.11.2</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Above200" xml:space="preserve"><value>Synthesizer V Studio 2.0 以上</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_None" xml:space="preserve"><value>すべてのビブラートを削除</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Always" xml:space="preserve"><value>すべてのビブラートを保持</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Hybrid" xml:space="preserve"><value>編集範囲のビブラートを削除</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Mandarin" xml:space="preserve"><value>中国語（標準語）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cantonese" xml:space="preserve"><value>広東語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_German" xml:space="preserve"><value>ドイツ語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Full" xml:space="preserve"><value>完全なピッチカーブ</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vibrato" xml:space="preserve"><value>編集部分のみ（既定ビブラートあり）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Plain" xml:space="preserve"><value>編集部分のみ（既定ビブラートなし）</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Convert" xml:space="preserve"><value>ブレス記号に変換</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Split" xml:space="preserve"><value>すべてトラックに分割</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Merge" xml:space="preserve"><value>元の位置を維持</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Monosyllabic" xml:space="preserve"><value>単音節言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Polysyllabic" xml:space="preserve"><value>多音節言語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_NonArpa" xml:space="preserve"><value>ARPAsing 非互換</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Arpa" xml:space="preserve"><value>ARPAsing 互換</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_ZScore" xml:space="preserve"><value>Z-score 標準化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_MinMax" xml:space="preserve"><value>最小最大正規化</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Auto" xml:space="preserve"><value>自動</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Ignore" xml:space="preserve"><value>無視</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Keep" xml:space="preserve"><value>保持</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Both" xml:space="preserve"><value>両方</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Gap" xml:space="preserve"><value>間隔</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Symbol" xml:space="preserve"><value>句読点</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Energy" xml:space="preserve"><value>エネルギー</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Tension" xml:space="preserve"><value>テンション</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Chinese" xml:space="preserve"><value>中国語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_SimplifiedChinese" xml:space="preserve"><value>簡体字中国語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Japanese" xml:space="preserve"><value>日本語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_English" xml:space="preserve"><value>英語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Korean" xml:space="preserve"><value>韓国語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Spanish" xml:space="preserve"><value>スペイン語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Portuguese" xml:space="preserve"><value>ポルトガル語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_French" xml:space="preserve"><value>フランス語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Italian" xml:space="preserve"><value>イタリア語</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Json" xml:space="preserve"><value>JSON</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Cbor" xml:space="preserve"><value>CBOR</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq3" xml:space="preserve"><value>VSQX 3</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Vsq4" xml:space="preserve"><value>VSQX 4</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip700" xml:space="preserve"><value>SVIP 7.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Svip600" xml:space="preserve"><value>SVIP 6.0</value></data>
+  <data name="VOCALOIDPatcher_FormatOption_Value_Compat" xml:space="preserve"><value>互換モード</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ufdata" xml:space="preserve"><value>UtaFormatix Data</value></data>
   <data name="VOCALOIDPatcher_Format_Name_json" xml:space="preserve"><value>OpenSVIP</value></data>
   <data name="VOCALOIDPatcher_Format_Name_ust" xml:space="preserve"><value>UTAU シーケンステキスト</value></data>

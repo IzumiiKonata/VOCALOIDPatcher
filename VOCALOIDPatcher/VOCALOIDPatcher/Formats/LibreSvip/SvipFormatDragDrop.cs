@@ -5,6 +5,7 @@ using System.Windows;
 using VOCALOIDPatcher.Formats.LibreSvip.Framework;
 using VOCALOIDPatcher.Formats.LibreSvip.Plugins;
 using VOCALOIDPatcher.Translation;
+using VOCALOIDPatcher.UI;
 using VOCALOIDPatcher.Utils;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip;
@@ -12,9 +13,6 @@ namespace VOCALOIDPatcher.Formats.LibreSvip;
 public static class SvipFormatDragDrop
 {
     private static bool _installed;
-
-    private static readonly System.Collections.Generic.HashSet<string> NativeDropExtensions =
-        new(StringComparer.OrdinalIgnoreCase) { "vsqx", "vpr", "ppsf" };
 
     public static void Install()
     {
@@ -60,8 +58,9 @@ public static class SvipFormatDragDrop
 
         try
         {
-            var bytes = File.ReadAllBytes(paths[0]);
-            var project = info.Converter.Load(bytes);
+            if (!FormatOptionDialog.Show(info, FormatOptionDirection.Import))
+                return;
+            var project = SvipProjectLoader.Load(info, paths);
             V6BridgeSvip.Import(project);
         }
         catch (Exception ex)
@@ -83,13 +82,18 @@ public static class SvipFormatDragDrop
 
     private static SvipFormatInfo? Detect(string[] paths)
     {
-        if (paths.Length != 1)
+        if (paths.Length == 0)
             return null;
 
         string ext = Path.GetExtension(paths[0]).TrimStart('.').ToLowerInvariant();
-        if (string.IsNullOrEmpty(ext) || NativeDropExtensions.Contains(ext))
+        if (string.IsNullOrEmpty(ext))
             return null;
-
-        return SvipFormatRegistry.FindImportableByExtension(ext);
+        var info = SvipFormatRegistry.FindImportableByExtension(ext);
+        if (info == null)
+            return null;
+        if (paths.Length > 1 && (!info.MultipleFile || paths.Any(path =>
+                !info.MatchesExtension(Path.GetExtension(path).TrimStart('.')))))
+            return null;
+        return info;
     }
 }

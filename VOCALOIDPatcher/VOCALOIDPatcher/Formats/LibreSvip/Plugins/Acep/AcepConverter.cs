@@ -20,9 +20,25 @@ public sealed class AcepConverter : FormatConverter
     public bool ImportEnergy { get; set; } = true;
     public double EnergyCoefficient { get; set; } = 0.5;
     public int CurveSampleInterval { get; set; } = 5;
-    public string BreathNormalization { get; set; } = "none,0,10,0,0";
-    public string TensionNormalization { get; set; } = "none,0,10,0,0";
-    public string EnergyNormalization { get; set; } = "none,0,10,0,0";
+    private readonly AcepNormalizationArgument _breathNormalization = new();
+    private readonly AcepNormalizationArgument _tensionNormalization = new();
+    private readonly AcepNormalizationArgument _energyNormalization = new();
+
+    public AcepNormalizationMethod BreathNormalizationMethod { get => _breathNormalization.NormalizeMethod; set => _breathNormalization.NormalizeMethod = value; }
+    public double BreathLowerThreshold { get => _breathNormalization.LowerThreshold; set => _breathNormalization.LowerThreshold = value; }
+    public double BreathUpperThreshold { get => _breathNormalization.UpperThreshold; set => _breathNormalization.UpperThreshold = value; }
+    public double BreathNormalizationScale { get => _breathNormalization.Scale; set => _breathNormalization.Scale = value; }
+    public double BreathNormalizationBias { get => _breathNormalization.Bias; set => _breathNormalization.Bias = value; }
+    public AcepNormalizationMethod TensionNormalizationMethod { get => _tensionNormalization.NormalizeMethod; set => _tensionNormalization.NormalizeMethod = value; }
+    public double TensionLowerThreshold { get => _tensionNormalization.LowerThreshold; set => _tensionNormalization.LowerThreshold = value; }
+    public double TensionUpperThreshold { get => _tensionNormalization.UpperThreshold; set => _tensionNormalization.UpperThreshold = value; }
+    public double TensionNormalizationScale { get => _tensionNormalization.Scale; set => _tensionNormalization.Scale = value; }
+    public double TensionNormalizationBias { get => _tensionNormalization.Bias; set => _tensionNormalization.Bias = value; }
+    public AcepNormalizationMethod EnergyNormalizationMethod { get => _energyNormalization.NormalizeMethod; set => _energyNormalization.NormalizeMethod = value; }
+    public double EnergyLowerThreshold { get => _energyNormalization.LowerThreshold; set => _energyNormalization.LowerThreshold = value; }
+    public double EnergyUpperThreshold { get => _energyNormalization.UpperThreshold; set => _energyNormalization.UpperThreshold = value; }
+    public double EnergyNormalizationScale { get => _energyNormalization.Scale; set => _energyNormalization.Scale = value; }
+    public double EnergyNormalizationBias { get => _energyNormalization.Bias; set => _energyNormalization.Bias = value; }
 
     public string Singer { get; set; } = AcepSingers.DefaultSinger;
     public int Breath { get; set; } = 600;
@@ -102,9 +118,9 @@ public sealed class AcepConverter : FormatConverter
         ImportEnergy = ImportEnergy,
         EnergyCoefficient = EnergyCoefficient,
         CurveSampleInterval = CurveSampleInterval,
-        BreathNormalization = AcepNormalizationArgument.FromStr(BreathNormalization),
-        TensionNormalization = AcepNormalizationArgument.FromStr(TensionNormalization),
-        EnergyNormalization = AcepNormalizationArgument.FromStr(EnergyNormalization),
+        BreathNormalization = _breathNormalization,
+        TensionNormalization = _tensionNormalization,
+        EnergyNormalization = _energyNormalization,
     };
 
     private AcepOutputOptions BuildOutputOptions() => new()

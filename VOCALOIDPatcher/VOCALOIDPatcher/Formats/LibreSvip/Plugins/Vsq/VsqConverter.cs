@@ -21,6 +21,7 @@ public sealed class VsqConverter : FormatConverter
     public bool ImportStrength { get; set; } = true;
     public VsqBreathOption Breath { get; set; } = VsqBreathOption.Ignore;
     public int TicksPerBeat { get; set; } = Constants.TicksInBeat;
+    public string LyricEncoding { get; set; } = "shift_jis";
 
     public override bool CanLoad => true;
     public override bool CanDump => true;
@@ -29,13 +30,13 @@ public sealed class VsqConverter : FormatConverter
     {
         var midi = MidiFile.Parse(content);
         var parser = new VsqParser(ImportPitch, ImportVolume, ImportBreath, ImportGender,
-            ImportStrength, Breath, TextHelper.ShiftJis());
+            ImportStrength, Breath, TextHelper.GetEncoding(LyricEncoding));
         return parser.Parse(midi);
     }
 
     public override byte[] Dump(Project project)
     {
-        var generator = new VsqGenerator(TicksPerBeat, TextHelper.ShiftJis());
+        var generator = new VsqGenerator(TicksPerBeat, TextHelper.GetEncoding(LyricEncoding));
         return generator.Generate(project);
     }
 }

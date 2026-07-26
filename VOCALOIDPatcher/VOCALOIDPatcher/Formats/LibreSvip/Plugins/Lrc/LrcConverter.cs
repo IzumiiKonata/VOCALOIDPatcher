@@ -10,6 +10,12 @@ using VOCALOIDPatcher.Formats.LibreSvip.Serialization;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip.Plugins.Lrc;
 
+public enum LrcOffsetPolicy
+{
+    Timeline,
+    Meta,
+}
+
 public sealed class LrcConverter : FormatConverter
 {
     public string Artist { get; set; } = "";
@@ -18,6 +24,10 @@ public sealed class LrcConverter : FormatConverter
     public string By { get; set; } = "";
     public LyricSplitMode SplitBy { get; set; } = LyricSplitMode.Both;
     public bool IgnoreSlurNotes { get; set; } = true;
+    public int Offset { get; set; }
+    public LrcOffsetPolicy OffsetPolicy { get; set; } = LrcOffsetPolicy.Timeline;
+    public bool Timeline { get; set; } = true;
+    public string Encoding { get; set; } = "utf-8";
 
     public override bool CanDump => true;
 
@@ -35,20 +45,27 @@ public sealed class LrcConverter : FormatConverter
         AppendInfo(builder, "ar", Artist);
         AppendInfo(builder, "al", Album);
         AppendInfo(builder, "by", By);
+        if (OffsetPolicy == LrcOffsetPolicy.Meta && Offset != 0)
+            AppendInfo(builder, "offset", Offset.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
         foreach (var buffer in SubtitleSupport.SplitLines(singingTrack.NoteList, SplitBy))
         {
             string lyric = SubtitleSupport.BuildText(buffer, IgnoreSlurNotes);
-            builder.Append('[').Append(FormatTime(buffer[0].StartPos, synchronizer)).Append(']').Append(lyric).Append('\n');
+            if (Timeline)
+            {
+                int offset = OffsetPolicy == LrcOffsetPolicy.Timeline ? Offset : 0;
+                builder.Append('[').Append(FormatTime(buffer[0].StartPos, synchronizer, offset)).Append(']');
+            }
+            builder.Append(lyric).Append('\n');
         }
 
-        return TextHelper.EncodeUtf8(builder.ToString());
+        return TextHelper.GetEncoding(Encoding).GetBytes(builder.ToString());
     }
 
-    private static string FormatTime(int ticks, TimeSynchronizer synchronizer)
+    private static string FormatTime(int ticks, TimeSynchronizer synchronizer, int offset)
     {
         double secs = synchronizer.GetActualSecsFromTicks(ticks);
-        long totalMs = (long)Math.Round(secs * 1000);
+        long totalMs = Math.Max(0, (long)Math.Round(secs * 1000) - offset);
         long minute = totalMs / 60000;
         long second = totalMs / 1000 % 60;
         long milli = totalMs % 1000;
