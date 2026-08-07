@@ -6,14 +6,14 @@
 VOCALOID Patcher is loaded directly by `VOCALOID 6 Editor` and adds interface translations, piano-roll conveniences, batch tools, and project format conversion.
 
 - Translation data: `6.13.1.1`
-- Tested with: `6.1.0.2 (.NET 6)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1` and `6.13.1.1 (Latest)`
+- Tested with: `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1` and `6.13.1.1 (Latest)`
 
 I do not use VOCALOID 6 heavily enough to encounter every possible project, so translation and conversion edge cases are bound to turn up. When reporting one, please include the editor version, source format, reproduction steps, and a small sample project if possible.
 
 ## Installation
 
 1. Download the latest build from [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases).
-2. Use the `.NET 6` build for older VOCALOID 6 releases and the `.NET 8` build for current releases.
+2. Older versions of VOCALOID 6 (versions `6.3.0` and earlier) are no longer supported starting with version `2.3.1`; if you are using an older version of the editor and it fails to launch after installing the patch, please download the `2.3.0` build with the `_NET6` suffix.
 3. Copy everything except `README.txt` into `C:\Program Files\VOCALOID6\Editor`, replacing the existing files.
 4. Start the editor and open a project. Installation succeeded if `VOCALOID Patcher` appears in the menu bar.
 
