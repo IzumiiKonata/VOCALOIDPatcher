@@ -1146,8 +1146,6 @@ VOCALOID6 將以 Lite 版本啟動。</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID 編輯器版本: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>偵測到正在以 VST 外掛模式執行 VOCALOID6 編輯器</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager 已初始化</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>目前 VOCALOID Patcher 為 .NET 6.0 建置版本，只能在基於 .NET 6.0 的 VOCALOID6 編輯器中使用。&#10;偵測到目前編輯器執行於 .NET {0}.0，請改用對應版本的 VOCALOID Patcher。</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher 版本不符</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>套用 {0}...</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>定時儲存已啟用: 每 {0} 分鐘</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>定時儲存已關閉</value></data>

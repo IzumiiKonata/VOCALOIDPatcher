@@ -119,9 +119,7 @@ public class WaveformRenderPatch : PatchBase
 
     public override Type[] ArgumentTypes => new[] { typeof(DrawingContext) };
 
-#if !NET6_0
     private const double FadeWidth = 24.0;
-#endif
 
     [HarmonyPrefix]
     private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext, out int __state)
@@ -130,7 +128,6 @@ public class WaveformRenderPatch : PatchBase
         if (!Settings.AlwaysShowWaveform || drawingContext == null)
             return true;
 
-#if !NET6_0
         if (Settings.SvEditorStyle && WaveformSvState.HasBaselines)
         {
             try
@@ -142,7 +139,6 @@ public class WaveformRenderPatch : PatchBase
             {
             }
         }
-#endif
 
         if (Settings.SvEditorStyle)
             WaveformSvState.Activate();
@@ -165,7 +161,6 @@ public class WaveformRenderPatch : PatchBase
             drawingContext.Pop();
     }
 
-#if !NET6_0
     private struct Column
     {
         public double X;
@@ -396,7 +391,6 @@ public class WaveformRenderPatch : PatchBase
         ctx.BeginFigure(new Point(x0, y0), false, false);
         ctx.LineTo(new Point(x1, y1), true, false);
     }
-#endif
 }
 
 public class NoteRowRemapPatch : PatchBase
@@ -449,7 +443,6 @@ public class ScoreFrameCaptureFilePatch : PatchBase
     }
 }
 
-#if !NET6_0
 public class ScoreFrameCaptureCombinedPatch : PatchBase
 {
     public override string PatchName        => "ScoreFrameCaptureCombinedPatch";
@@ -465,7 +458,6 @@ public class ScoreFrameCaptureCombinedPatch : PatchBase
             WaveformSvState.CurrentFrame = index;
     }
 }
-#endif
 
 public class WaveformBaselineInvalidatePatch : PatchBase
 {

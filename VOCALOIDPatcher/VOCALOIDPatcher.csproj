@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <OutputType>Library</OutputType>
         <PackageId>Microsoft.Xaml.Behaviors.Wpf</PackageId>
         <Title>Microsoft.Xaml.Behaviors.Wpf</Title>
@@ -34,18 +34,9 @@
         <PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <ItemGroup>
         <Reference Include="VOCALOID6">
             <HintPath>C:\Program Files\VOCALOID6\Editor\VOCALOID6.dll</HintPath>
-            <Private>false</Private>
-            <ExcludeAssets>runtime</ExcludeAssets>
-            <SpecificVersion>False</SpecificVersion>
-        </Reference>
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-        <Reference Include="VOCALOID6Net6">
-            <HintPath>$(ProjectDir)\lib\VOCALOID6Net6.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
             <SpecificVersion>False</SpecificVersion>

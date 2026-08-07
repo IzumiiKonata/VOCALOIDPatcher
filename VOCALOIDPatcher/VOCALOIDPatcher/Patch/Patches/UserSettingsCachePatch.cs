@@ -5,7 +5,6 @@ using Yamaha.VOCALOID;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class UserSettingsJsonOptionsCache
 {
     internal static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
@@ -38,4 +37,3 @@ public class UniqueUserSettingsJsonOptionsPatch : PatchBase
         return false;
     }
 }
-#endif

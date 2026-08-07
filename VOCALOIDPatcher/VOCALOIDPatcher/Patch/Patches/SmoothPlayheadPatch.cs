@@ -1,4 +1,3 @@
-#if !NET6_0
 using System;
 using System.Reflection;
 using System.Windows;
@@ -108,4 +107,3 @@ public class SmoothPlayheadEndPatch : PatchBase
         SmoothPlayhead.End();
     }
 }
-#endif

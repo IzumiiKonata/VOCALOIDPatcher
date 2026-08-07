@@ -14,11 +14,7 @@ public class RendererPreviewThrottlePatch : PatchBase
     public override Type   TargetClass      => typeof(PianorollView);
     public override string TargetMethodName => "OnRendererBlockRendered";
 
-#if NET6_0
-    public override Type[] ArgumentTypes => new[] { typeof(RendererObserverBlockRenderingEventArgs) };
-#else
     public override Type[] ArgumentTypes => new[] { typeof(object), typeof(RendererObserverBlockRenderingEventArgs) };
-#endif
 
     private const int FramesPerSecond = 30;
     private static readonly long IntervalTicks = Math.Max(Stopwatch.Frequency / FramesPerSecond, 1L);

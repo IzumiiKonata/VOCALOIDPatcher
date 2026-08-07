@@ -16,7 +16,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class RenderedWaveCachePatch : PatchBase
 {
     public override string PatchName        => "RenderedWaveCachePatch";
@@ -189,4 +188,3 @@ public class RenderedWaveCacheClearPatch : PatchBase
         RenderedWaveCachePatch.Invalidate(__instance);
     }
 }
-#endif

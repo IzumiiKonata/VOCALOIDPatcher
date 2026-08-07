@@ -75,11 +75,7 @@ internal static class TouchpadHorizontalScroll
         int delta = (short)((wParam.ToInt64() >> 16) & 0xFFFF);
         if (delta == 0) return IntPtr.Zero;
 
-#if NET6_0
-        int sign = 1;
-#else
         int sign = UserSettings.Instance.ReverseHorizontalScrollDirectionWithMouseWheel ? -1 : 1;
-#endif
         sv.ScrollToHorizontalOffset(sv.HorizontalOffset + delta * sign);
         handled = true;
 

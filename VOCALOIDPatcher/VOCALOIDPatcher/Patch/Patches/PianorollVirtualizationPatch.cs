@@ -9,7 +9,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class PianorollVirtualization
 {
     private const int MinimumNotes = 1000;
@@ -265,4 +264,3 @@ public class PianorollVirtualizationViewportPatch : PatchBase
         }
     }
 }
-#endif

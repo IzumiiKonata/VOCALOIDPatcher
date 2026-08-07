@@ -8,7 +8,6 @@ using Yamaha.VOCALOID;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class ShortcutModifierCachePatch : PatchBase
 {
     public override string PatchName        => "ShortcutModifierCachePatch";
@@ -77,4 +76,3 @@ public class ShortcutJsonModifierCachePatch : PatchBase
         return false;
     }
 }
-#endif

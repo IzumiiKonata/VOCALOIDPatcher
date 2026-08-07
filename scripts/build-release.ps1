@@ -2,7 +2,7 @@
 param(
     [string]$Version,
     [string]$OutputDir,
-    [ValidateSet('all', 'net8', 'net6')]
+    [ValidateSet('all', 'net8')]
     [string]$Tfm = 'all',
     [switch]$Build
 )
@@ -88,8 +88,7 @@ if (-not $OutputDir) { $OutputDir = Join-Path $root 'release' }
 if (-not (Test-Path $OutputDir)) { New-Item -ItemType Directory -Path $OutputDir | Out-Null }
 
 $targets = @(
-    [pscustomobject]@{ Key = 'net8'; Dir = 'net8.0-windows'; Suffix = '' },
-    [pscustomobject]@{ Key = 'net6'; Dir = 'net6.0-windows'; Suffix = '_NET6.0' }
+    [pscustomobject]@{ Key = 'net8'; Dir = 'net8.0-windows'; Suffix = '' }
 )
 if ($Tfm -ne 'all') { $targets = $targets | Where-Object Key -eq $Tfm }
 

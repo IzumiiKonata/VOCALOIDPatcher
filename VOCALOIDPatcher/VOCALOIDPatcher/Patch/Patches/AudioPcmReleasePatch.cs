@@ -9,7 +9,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class AudioPcmReleasePatch : PatchBase
 {
     public override string PatchName        => "AudioPcmReleasePatch";
@@ -158,4 +157,3 @@ public class AudioThumbFromCachePatch : PatchBase
         return result;
     }
 }
-#endif

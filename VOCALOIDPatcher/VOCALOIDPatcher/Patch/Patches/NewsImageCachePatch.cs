@@ -7,7 +7,6 @@ using Yamaha.VOCALOID;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class NewsImageCachePatch : PatchBase
 {
     public override string PatchName        => "NewsImageCachePatch";
@@ -71,4 +70,3 @@ public class NewsImageCachePatch : PatchBase
         }
     }
 }
-#endif

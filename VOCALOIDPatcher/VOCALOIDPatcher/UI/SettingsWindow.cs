@@ -714,9 +714,6 @@ public class SettingsWindow : Window
             return;
 
         var text = $"VOCALOID Patcher {Patcher.Version}" + (Patcher.VstPluginMode ? " (VSTi)" : "");
-#if NET6_0
-        text += " (.NET 6.0)";
-#endif
 
         _about.Inlines.Clear();
         _about.Inlines.Add(new Run(text));

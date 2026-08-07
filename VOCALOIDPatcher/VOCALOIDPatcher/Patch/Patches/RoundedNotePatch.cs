@@ -49,13 +49,8 @@ public class RoundedNotePatch : PatchBase
         if (sequence == null)
             return false;
 
-#if NET6_0
-        double x = 0.0;
-        double timeFromTick = sequence.GetTimeFromTick(model.AbsPosition, model.AbsEnd);
-#else
         double x = note.FramePen?.Thickness ?? 1.0;
         double timeFromTick = sequence.GetTimeFromTick(model.AbsPosTick, model.AbsEndTick);
-#endif
 
         double width = note.ActualWidth;
         double height = note.ActualHeight;
@@ -71,12 +66,6 @@ public class RoundedNotePatch : PatchBase
 
         bool invalid = 16.383 < timeFromTick || !model.IsValidPhonemes;
 
-#if NET6_0
-        if (invalid && !model.IsSelected)
-            dc.DrawRoundedRectangle(null, note.BrokenPen, rect, radius, radius);
-        else
-            dc.DrawRoundedRectangle(SolidFill(note, model.IsSelected), null, rect, radius, radius);
-#else
         if (invalid)
         {
             var brokenPen = model.IsSelected ? note.BrokenSelectedPen : note.BrokenPen;
@@ -86,7 +75,6 @@ public class RoundedNotePatch : PatchBase
         {
             dc.DrawRoundedRectangle(SolidFill(note, model.IsSelected), null, rect, radius, radius);
         }
-#endif
 
         if (model.IsProtected && rect.Width > 4.0)
         {

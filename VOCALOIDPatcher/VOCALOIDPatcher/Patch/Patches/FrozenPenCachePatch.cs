@@ -10,7 +10,6 @@ using Yamaha.VOCALOID.TrackEditor;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class FrozenPenCache
 {
     private static readonly ConditionalWeakTable<Brush, Dictionary<long, Pen>> Cache = new();
@@ -88,4 +87,3 @@ public class AudioPartSelectionPenCachePatch : PatchBase
     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) =>
         FrozenPenCache.Replace(instructions);
 }
-#endif

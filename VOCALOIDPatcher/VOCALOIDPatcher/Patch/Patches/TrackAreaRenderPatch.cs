@@ -14,7 +14,6 @@ using UpdateViewTypeFlag = Yamaha.VOCALOID.TrackEditor.UpdateViewTypeFlag;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class TrackAreaRenderState
 {
     public static bool Enabled => Settings.OptimizeTrackRendering;
@@ -349,4 +348,3 @@ public class AudioTrackHeightResizePatch : PatchBase
         return false;
     }
 }
-#endif

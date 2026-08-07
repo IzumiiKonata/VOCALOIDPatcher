@@ -104,11 +104,9 @@ public class FastSelectionSweepPatch : PatchBase
 
             __instance.SelectAllParts(false);
 
-#if !NET6_0
             var activePart = __instance.ActivePart;
             if (activePart != null && !activePart.IsSelected)
                 __instance.ActivePart = null;
-#endif
 
             if (breakPointsDirty)
             {

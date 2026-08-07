@@ -6,7 +6,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class AudioBufferReleaseSafetyPatch : PatchBase
 {
     public override string PatchName        => "AudioBufferReleaseSafetyPatch";
@@ -74,4 +73,3 @@ public class AudioBufferReleaseSafetyPatch : PatchBase
         }
     }
 }
-#endif

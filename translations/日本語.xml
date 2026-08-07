@@ -1150,8 +1150,6 @@ Spliceのリースが完了しました。
   <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID エディターのバージョン: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>VOCALOID6 エディターが VST プラグインモードで実行されていることを検出しました</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager を初期化しました</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>この VOCALOID Patcher は .NET 6.0 ビルドであり, .NET 6.0 ベースの VOCALOID6 エディターでのみ使用できます。&#10;現在のエディターは .NET {0}.0 で実行されています。対応するバージョンの VOCALOID Patcher をご使用ください。</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher バージョン不一致</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>{0} を適用中...</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>自動保存を有効化: {0} 分ごと</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>自動保存を無効化しました</value></data>

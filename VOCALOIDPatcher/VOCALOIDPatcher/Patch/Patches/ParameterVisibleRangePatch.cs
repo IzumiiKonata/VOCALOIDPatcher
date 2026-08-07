@@ -7,7 +7,6 @@ using Yamaha.VOCALOID.MusicalEditor;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class ParameterVisibleRangePatch : PatchBase
 {
     public override string PatchName        => "ParameterVisibleRangePatch";
@@ -139,4 +138,3 @@ public class ParameterVisibleRangePatch : PatchBase
         }
     }
 }
-#endif

@@ -11,7 +11,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class GridLineTextCache
 {
     private const int MaxCacheEntries = 512;
@@ -271,4 +270,3 @@ public class MusicalRulerGridLinePatch : PatchBase
         return false;
     }
 }
-#endif

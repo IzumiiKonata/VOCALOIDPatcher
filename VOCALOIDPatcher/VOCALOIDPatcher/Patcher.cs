@@ -81,8 +81,6 @@ public static class Patcher
 
         TranslationManager.Initialize();
 
-        if (!CheckRuntimeCompatibility()) return;
-
         Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Started"));
         Debug.Print(TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_Version", Version));
         Debug.Print("https://github.com/IzumiiKonata/VOCALOIDPatcher");
@@ -115,22 +113,6 @@ public static class Patcher
         AutoSaveService.UpdateFromSettings();
         WorkingSetTrimmer.Install();
         SpectrumWidget.Install();
-    }
-
-    private static bool CheckRuntimeCompatibility()
-    {
-#if NET6_0
-        var runtimeMajor = Environment.Version.Major;
-        if (runtimeMajor != 6)
-        {
-            Debug.ShowErrorMessage(
-                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch", runtimeMajor),
-                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle"));
-            Environment.Exit(0);
-            return false;
-        }
-#endif
-        return true;
     }
 
     private static bool DetectVstPluginMode()
@@ -174,7 +156,6 @@ public static class Patcher
                 new CursorNoteNameTranslationFixPatch(),
                 new FastCanvasViewportRectPatch(),
                 new FastCanvasViewportRangePatch(),
-#if !NET6_0
                 new AudioBufferReleaseSafetyPatch(),
                 new CommonUserSettingsJsonOptionsPatch(),
                 new UniqueUserSettingsJsonOptionsPatch(),
@@ -182,7 +163,6 @@ public static class Patcher
                 new ShortcutModifierCachePatch(),
                 new ShortcutKeyMapCachePatch(),
                 new ShortcutJsonModifierCachePatch(),
-#endif
                 new WaveformBaselineInvalidatePatch(),
                 new TrackSelectedFillBrushPatch(),
                 new TrackSelectedStrokeBrushPatch(),
@@ -209,17 +189,14 @@ public static class Patcher
             new(Settings.SvEditorStyleKey,
                 new NoteRowRemapPatch(),
                 new ScoreFrameCaptureListPatch(),
-                new ScoreFrameCaptureFilePatch()
-#if !NET6_0
-                , new ScoreFrameCaptureCombinedPatch()
-#endif
+                new ScoreFrameCaptureFilePatch(),
+                new ScoreFrameCaptureCombinedPatch()
             ),
 
             new(Settings.ShowCharacterArtKey, new CharacterArtPatch()),
 
             new(Settings.FastProjectLoadKey,
                 new LazyLyricRenderPatch(),
-#if !NET6_0
                 new DeferAudioBufferLoadPatch(),
                 new CancelDeferredAudioBufferLoadPatch(),
                 new ExcludeRemovedDeferredAudioBufferPatch(),
@@ -227,15 +204,12 @@ public static class Patcher
                 new VisiblePianorollNotesPatch(),
                 new VisiblePianorollLyricsPatch(),
                 new PianorollVirtualizationViewportPatch(),
-#endif
                 new DeferLoadAnalyticsPatch(),
                 new LeanLyricTextPatch()),
 
             new(Settings.SkipUnchangedPartRedrawKey,
-                new SkipUnchangedPartRedrawPatch()
-#if !NET6_0
-                , new PianorollSelectionPenCachePatch()
-#endif
+                new SkipUnchangedPartRedrawPatch(),
+                new PianorollSelectionPenCachePatch()
             ),
 
             new(Settings.ThrottleRendererPreviewKey, new RendererPreviewThrottlePatch()),
@@ -247,13 +221,10 @@ public static class Patcher
                 new FastSelectionSweepPatch()),
 
             new(Settings.DeferParameterViewUpdateKey,
-                new ParameterViewDeferPatch()
-#if !NET6_0
-                , new ParameterVisibleRangePatch()
-#endif
+                new ParameterViewDeferPatch(),
+                new ParameterVisibleRangePatch()
             ),
 
-#if !NET6_0
             new(Settings.SmoothPlayheadKey,
                 new SmoothPlayheadBeginPatch(),
                 new SmoothPlayheadEndPatch()),
@@ -261,13 +232,11 @@ public static class Patcher
             new(Settings.FreeAudioPcmCacheKey,
                 new AudioPcmReleasePatch(),
                 new AudioThumbFromCachePatch()),
-#endif
 
             new(Settings.TrimWorkingSetKey,
                 new WorkingSetTrimPatch(),
                 new RenderCompleteTrimPatch()),
 
-#if !NET6_0
             new(Settings.OptimizeTrackRenderingKey,
                 new TrackNoteInsertPatch(),
                 new TrackNoteRemovePatch(),
@@ -287,7 +256,6 @@ public static class Patcher
             new(Settings.CacheRenderedWavesKey,
                 new RenderedWaveCachePatch(),
                 new RenderedWaveCacheClearPatch()),
-#endif
         };
 
         var disabled = new List<string>();

@@ -10,7 +10,6 @@ using UpdateViewTypeFlag = Yamaha.VOCALOID.TrackEditor.UpdateViewTypeFlag;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 internal static class TrackSelectionRefresh
 {
     internal sealed class State
@@ -123,4 +122,3 @@ public class AudioTrackSelectionRefreshPatch : PatchBase
         return false;
     }
 }
-#endif

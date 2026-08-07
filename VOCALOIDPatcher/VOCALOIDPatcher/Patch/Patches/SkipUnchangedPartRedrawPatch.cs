@@ -80,10 +80,8 @@ public class SkipUnchangedPartRedrawPatch : PatchBase
                 switch (vm.EditorMode.Mode)
                 {
                     case EditModeME.Pitch:
-#if !NET6_0
                     case EditModeME.PitchPencil:
                     case EditModeME.PitchEraser:
-#endif
                     case EditModeME.Vibrato:
                         MDrawVibrato!.Invoke(__instance, null);
                         MDrawPitchBend!.Invoke(__instance, null);

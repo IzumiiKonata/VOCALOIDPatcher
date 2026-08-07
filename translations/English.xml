@@ -1150,8 +1150,6 @@ Please enter your license key to activate the application.</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID editor version: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>Detected VOCALOID6 editor running in VST plugin mode</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager initialized</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatch" xml:space="preserve"><value>This VOCALOID Patcher is a .NET 6.0 build and can only be used with a .NET 6.0 based VOCALOID6 editor.&#10;The current editor is running on .NET {0}.0; please use the matching version of VOCALOID Patcher.</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_RuntimeMismatchTitle" xml:space="preserve"><value>VOCALOID Patcher Version Mismatch</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>Applying {0}...</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>Auto save enabled: every {0} min</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Disabled" xml:space="preserve"><value>Auto save disabled</value></data>

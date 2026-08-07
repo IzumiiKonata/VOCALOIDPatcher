@@ -16,7 +16,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-#if !NET6_0
 public class DeferAudioBufferLoadPatch : PatchBase
 {
     public override string PatchName        => "DeferAudioBufferLoadPatch";
@@ -223,7 +222,6 @@ public class ExcludeReplacedDeferredAudioBufferPatch : PatchBase
             DeferAudioBufferLoadPatch.Exclude(__instance, audioPart);
     }
 }
-#endif
 
 public class DeferLoadAnalyticsPatch : PatchBase
 {
