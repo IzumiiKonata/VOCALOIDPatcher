@@ -3,10 +3,10 @@
 [<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
 [<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
-VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。它为编辑器补充多语言界面、钢琴窗小功能、批处理工具和项目格式转换。
+VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。它为编辑器补充多语言界面、钢琴窗功能、批处理工具和项目格式转换。
 
-- 翻译条目版本：`6.13.0.1`
-- 已测试版本：`6.1.0.2 (.NET 6)`、`6.6.0`、`6.11.0.1`、`6.12.0.1`、`6.13.0.1`
+- 翻译条目版本：`6.13.1.1`
+- 已测试版本：`6.1.0.2 (.NET 6)`、`6.6.0`、`6.11.0.1`、`6.12.0.1`、`6.13.0.1`、`6.13.1.1 (最新版)`
 - 反馈与交流：QQ群 `422827160`
 
 我平时并不重度使用 VOCALOID 6，翻译或格式转换难免会碰到没有覆盖到的地方。发现问题时请附上编辑器版本、源文件格式和复现步骤 (如果需要)，可以的话再提供一份能复现问题的精简工程。
@@ -20,7 +20,7 @@ VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。
 
 如果编辑器不在默认目录，请将文件复制到实际的 Editor 目录。
 
-![VOCALOID Patcher menu](./res/screenshot.png)
+![VOCALOID Patcher Menu](./res/screenshot.png)
 
 ## 功能
 

@@ -5,9 +5,8 @@
 
 VOCALOID Patcher is loaded directly by `VOCALOID 6 Editor` and adds interface translations, piano-roll conveniences, batch tools, and project format conversion.
 
-- Translation data: `6.13.0.1`
-- Tested with: `6.1.0.2 (.NET 6)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1`
-- Feedback and discussion: QQ group `422827160`
+- Translation data: `6.13.1.1`
+- Tested with: `6.1.0.2 (.NET 6)`, `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1` and `6.13.1.1 (Latest)`
 
 I do not use VOCALOID 6 heavily enough to encounter every possible project, so translation and conversion edge cases are bound to turn up. When reporting one, please include the editor version, source format, reproduction steps, and a small sample project if possible.
 
