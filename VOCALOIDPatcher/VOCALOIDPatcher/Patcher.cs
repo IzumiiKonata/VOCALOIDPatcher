@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "2.3.0";
+    public static string Version => "2.3.1";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
@@ -63,13 +63,6 @@ public static class Patcher
 
     private static void PatcherInit()
     {
-        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
-        {
-            var ex = (Exception)args.ExceptionObject;
-            Debug.ShowErrorMessage(ex.Message + Environment.NewLine + ex.StackTrace,
-                TranslationManager.Tr("VOCALOIDPatcher_Debug_Patcher_ErrorTitle"));
-        };
-
         if (!Directory.Exists(ConfigDir)) Directory.CreateDirectory(ConfigDir);
 
         VstPluginMode = DetectVstPluginMode();
@@ -170,6 +163,7 @@ public static class Patcher
         var groups = new List<FeatureGroup>
         {
             new(null,
+                new UnhandledExceptionDialogPatch(),
                 new AppLanguagePatch(),
                 new WpfTranslationPatch(),
                 new ResourceManagerPatch(),
