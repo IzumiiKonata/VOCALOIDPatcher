@@ -267,11 +267,21 @@ public class SettingsWindow : Window
                 CenteredLyricPatch.RefreshLyrics();
             });
 
+        var waveformOpacity = SliderRow("VOCALOIDPatcher_WaveformOpacity_Header",
+            0.1, 1.0, Settings.WaveformOpacity,
+            v => { Settings.WaveformOpacity = v; ShowOtherTracksNotesPatch.RequestRefreshPianoroll(); });
+        waveformOpacity.Margin = new Thickness(28, 0, 0, 10);
+        waveformOpacity.IsEnabled = Settings.SvEditorStyle;
+        waveformOpacity.Opacity = Settings.SvEditorStyle ? 1.0 : 0.4;
+
         var svEditorStyle = Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
-            Settings.SvEditorStyle, new Thickness(0, 18, 0, 0), checkbox =>
+            Settings.SvEditorStyle, new Thickness(0, 18, 0, 8), checkbox =>
             {
-                Settings.SvEditorStyle = checkbox.IsChecked == true;
-                ShowOtherTracksNotesPatch.RefreshPianoroll();
+                var enabled = checkbox.IsChecked == true;
+                Settings.SvEditorStyle = enabled;
+                waveformOpacity.IsEnabled = enabled;
+                waveformOpacity.Opacity = enabled ? 1.0 : 0.4;
+                ShowOtherTracksNotesPatch.RequestRefreshPianoroll();
             });
 
         var artOptions = new StackPanel
@@ -310,6 +320,7 @@ public class SettingsWindow : Window
         panel.Children.Add(roundedNotes);
         panel.Children.Add(centeredLyrics);
         panel.Children.Add(svEditorStyle);
+        panel.Children.Add(waveformOpacity);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
 
@@ -317,7 +328,7 @@ public class SettingsWindow : Window
         HideIfUnsupported(Settings.ShowNotePitchKey, showNotePitch);
         HideIfUnsupported(Settings.RoundedNotesKey, roundedNotes);
         HideIfUnsupported(Settings.CenteredLyricsKey, centeredLyrics);
-        HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle);
+        HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle, waveformOpacity);
         HideIfUnsupported(Settings.ShowCharacterArtKey, showCharacterArt, artOptions);
 
         return panel;

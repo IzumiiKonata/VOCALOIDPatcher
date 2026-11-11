@@ -20,7 +20,8 @@
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>使用圓角音符</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>置中顯示歌詞</value></data>
-  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SV 編輯器樣式</value></data>
+  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>波形顯示使用 SV 編輯器樣式</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫立繪</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>立繪大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>水平位置</value></data>

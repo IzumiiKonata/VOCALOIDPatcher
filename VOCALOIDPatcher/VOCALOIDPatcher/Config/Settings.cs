@@ -142,6 +142,14 @@ public static class Settings
         set => Patcher.ConfigManager.Set(SvEditorStyleKey, value);
     }
 
+    public static string WaveformOpacityKey => "WaveformOpacity";
+
+    public static double WaveformOpacity
+    {
+        get => Patcher.ConfigManager.Get(WaveformOpacityKey, 0.6);
+        set => Patcher.ConfigManager.Set(WaveformOpacityKey, value);
+    }
+
     public static string AutoSaveEnabledKey => "AutoSaveEnabled";
 
     public static bool AutoSaveEnabled

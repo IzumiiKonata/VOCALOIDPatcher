@@ -305,6 +305,11 @@ public class WpfTranslationPatch : PatchBase
         var left = value[..separatorIndex];
         var right = value[(separatorIndex + separatorLength)..];
 
+        // 参数下拉框的格式是 "AIR: Air"：左侧是 ShortName 缩写，必须保持原样，
+        // 否则 "AIR" 会被硬编码映射成"气音"；只翻译右侧的参数名称。
+        if (separatorLength == 2 && TryGetControlParameterName(right, out var parameterName))
+            return left + value.Substring(separatorIndex, separatorLength) + (parameterName ?? right);
+
         var translatedLeft = TryGetTranslatedText(left, preferHardcoded: true);
         var translatedRight = TryGetTranslatedText(right, preferHardcoded: true);
 
@@ -312,6 +317,30 @@ public class WpfTranslationPatch : PatchBase
             return value;
 
         return (translatedLeft ?? left) + value.Substring(separatorIndex, separatorLength) + (translatedRight ?? right);
+    }
+
+    private static bool TryGetControlParameterName(string value, out string? translated)
+    {
+        translated = null;
+
+        if (TranslationManager.HardcodedPropertyMapping.TryGetValue(value, out var key) &&
+            key.StartsWith("Enum_ControlParameterTypeEnum_", StringComparison.Ordinal))
+        {
+            if (Settings.TranslateHardcodedStrings)
+                translated = TranslationManager.Get(key);
+
+            return true;
+        }
+
+        // 已经是翻译后的名称（重复刷新时）同样视为参数名，避免左侧缩写被再次翻译
+        if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var translatedKey) &&
+            translatedKey.StartsWith("Enum_ControlParameterTypeEnum_", StringComparison.Ordinal))
+        {
+            translated = value;
+            return true;
+        }
+
+        return false;
     }
 
     private static bool IsDataBound(DependencyObject obj, DependencyProperty dp)
@@ -525,6 +554,10 @@ public class WpfTranslationPatch : PatchBase
             var converted = _inner != null
                 ? _inner.Convert(value!, targetType, parameter!, culture)
                 : value;
+
+            // 参数下拉框收起时只显示 ShortName（VEL / DYN / AIR ...），缩写不翻译
+            if (_inner is Yamaha.VOCALOID.MusicalEditor.ControlParameterTypeEnumShortToStringConverter)
+                return converted!;
 
             return converted switch
             {

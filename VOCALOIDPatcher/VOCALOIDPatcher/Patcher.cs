@@ -147,6 +147,7 @@ public static class Patcher
                 new UnhandledExceptionDialogPatch(),
                 new AppLanguagePatch(),
                 new WpfTranslationPatch(),
+                new AttackReleaseEffectTabTranslationPatch(),
                 new ComboBoxTranslationPatch(),
                 new ResourceManagerPatch(),
                 new AudioEffectWindowTranslatePatch(),

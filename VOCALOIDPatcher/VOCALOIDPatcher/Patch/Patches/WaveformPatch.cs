@@ -13,11 +13,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-/**
- * 「SV 编辑器样式」的波形基线预计算。
- * 原「始终显示波形」补丁同时负责强制绘制；V7 工具栏已有波形开关后不再需要强制绘制，
- * 但 SV 样式仍需要提前计算音符/波形基线。
- */
 public class SvWaveformBaselinePatch : PatchBase
 {
     public override string PatchName        => "SvWaveformBaselinePatch";
@@ -100,10 +95,18 @@ public class WaveformRenderPatch : PatchBase
     private const double FadeWidth = 24.0;
 
     [HarmonyPrefix]
-    private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext)
+    private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext, out int __state)
     {
+        __state = 0;
         if (!Settings.SvEditorStyle || drawingContext == null)
             return true;
+
+        double opacity = Math.Clamp(Settings.WaveformOpacity, 0.0, 1.0);
+        if (opacity < 1.0)
+        {
+            drawingContext.PushOpacity(opacity);
+            __state = 1;
+        }
 
         if (WaveformSvState.HasBaselines)
         {
@@ -122,9 +125,12 @@ public class WaveformRenderPatch : PatchBase
     }
 
     [HarmonyFinalizer]
-    private static void Finalizer(DrawingContext drawingContext)
+    private static void Finalizer(DrawingContext drawingContext, int __state)
     {
         WaveformSvState.Deactivate();
+
+        if (__state == 1 && drawingContext != null)
+            drawingContext.Pop();
     }
 
     private struct Column
