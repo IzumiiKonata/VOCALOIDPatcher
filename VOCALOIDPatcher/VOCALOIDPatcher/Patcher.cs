@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "2.3.1";
+    public static string Version => "3.0.0";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
@@ -43,9 +43,9 @@ public static class Patcher
     {
         AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
         {
-            if (args.Name.StartsWith("VOCALOID6"))
+            if (args.Name.StartsWith("VOCALOID7"))
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                    if (assembly.GetName().Name?.StartsWith("VOCALOID6") == true)
+                    if (assembly.GetName().Name?.StartsWith("VOCALOID7") == true)
                         return assembly;
 
             return null;
@@ -70,7 +70,7 @@ public static class Patcher
         if (VstPluginMode)
             DataDir = Path.Combine(new[]
             {
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID6", "Editor",
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VOCALOID7", "Editor",
                 "VOCALOIDPatcher"
             });
 
@@ -173,7 +173,9 @@ public static class Patcher
             new(Settings.ShowOtherTracksNotesKey,
                 new ShowOtherTracksNotesPatch(),
                 new TrackMuteRefreshPatch(),
-                new TrackSoloRefreshPatch()),
+                new TrackSoloRefreshPatch(),
+                new TrackSoloDefeatRefreshPatch(),
+                new TrackExclusiveSoloRefreshPatch()),
 
             new(Settings.ShowNotePitchKey, new ShowNotePitchPatch()),
             new(Settings.RoundedNotesKey, new RoundedNotePatch()),

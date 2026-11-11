@@ -1,7 +1,7 @@
 param([Parameter(Mandatory)][string]$Tag, [int]$Seconds = 30)
 
-$proc = Get-Process VOCALOID6 -ErrorAction Stop
-$dir = 'C:\Users\yhc\RiderSnapshots\drag-ab'
+$proc = Get-Process VOCALOID7 -ErrorAction Stop
+$dir = Join-Path $env:USERPROFILE 'RiderSnapshots\drag-ab'
 if (-not (Test-Path $dir)) { New-Item -ItemType Directory $dir | Out-Null }
 $out = Join-Path $dir "drag-$Tag.dtp"
 

@@ -11,7 +11,7 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Formats.LibreSvip;
 
-public static class V6BridgeSvip
+public static class EditorBridgeSvip
 {
     private const int TicksInFullNote = Core.Constants.TicksInBeat * 4;
     private const string DefaultLyric = "あ";
@@ -41,10 +41,6 @@ public static class V6BridgeSvip
 
     private static readonly PropertyInfo? CtrlRelPos =
         typeof(WIVSMMidiController).GetProperty("RelPosTick") ?? typeof(WIVSMMidiController).GetProperty("RelPosition");
-
-    private static readonly MethodInfo? ResetPartPhonemesMethod =
-        typeof(WIVSMNote).Assembly.GetType("Yamaha.VOCALOID.G2PAMultiLingualManager")
-            ?.GetMethod("ResetPhonemes", new[] { typeof(WIVSMMidiPart) });
 
     private static long Unwrap(object? tickStruct) =>
         tickStruct == null || RelTickValue == null ? 0L : Convert.ToInt64(RelTickValue.GetValue(tickStruct));
@@ -165,32 +161,16 @@ public static class V6BridgeSvip
         target.Points.Sort((a, b) => a.X.CompareTo(b.X));
     }
 
-    private static int VoiceBankLangId(WIVSMMidiPart part, bool isAi)
-    {
-        string member = isAi ? "NativeLangIDFromAiVoiceBank" : "NativeLangIDFromVoiceBank";
-        try
-        {
-            var prop = part.GetType().GetProperty(member);
-            if (prop != null)
-                return Convert.ToInt32(prop.GetValue(part));
-
-            var ext = typeof(WIVSMMidiPart).Assembly
-                .GetType("Yamaha.VOCALOID.WIVSMMidiPartExtension")?.GetMethod(member);
-            if (ext != null)
-                return Convert.ToInt32(ext.Invoke(null, new object[] { part }));
-        }
-        catch
-        {
-        }
-
-        return -1;
-    }
+    private static int VoiceBankLangId(WIVSMMidiPart part) =>
+        part.IsAi ? part.NativeLangIDFromAiVoiceBank() : part.NativeLangIDFromVoiceBank();
 
     private static void ResetPartPhonemes(WIVSMMidiPart part)
     {
         try
         {
-            ResetPartPhonemesMethod?.Invoke(null, new object[] { part });
+            // VOCALOID7 中原来的 G2PAMultiLingualManager.ResetPhonemes 已被
+            // Sequence.ComplementMidiPart 取代（它会重新规范化歌词和音素）。
+            Yamaha.VOCALOID.Sequence.ComplementMidiPart(part);
         }
         catch
         {
@@ -227,14 +207,24 @@ public static class V6BridgeSvip
 
         RequireValid(project);
 
-        var trackType = VSMTrackType.Midi;
-        bool isAi = false;
-
         var db = App.DatabaseManager;
-        VoiceBank? voiceBank = db != null && db.NumVoiceBanks > 0 ? db.GetVoiceBankByIndex(0) : null;
-        voiceBank ??= db?.DefaultVoiceBank;
+
+        // VOCALOID7 把声库挂在轨道上，并且区分经典 (Dse) / AI (Dnn) 两种轨道类型。
+        // 优先使用经典声库；只有在没有安装任何经典声库时才退回 AI 轨道。
+        bool useAiTrack = db != null && db.NumVoiceBanks == 0 && db.NumAiVoiceBanks > 0;
+        var trackType = useAiTrack ? VSMTrackType.MidiAi : VSMTrackType.Midi;
+
+        VoiceBank? voiceBank = null;
+        if (db != null)
+        {
+            voiceBank = useAiTrack
+                ? db.NumAiVoiceBanks > 0 ? db.GetVoiceBankByIndex(0, VDMVoiceBankType.Dnn) : null
+                : db.NumVoiceBanks > 0 ? db.GetVoiceBankByIndex(0, VDMVoiceBankType.Dse) : null;
+            voiceBank ??= useAiTrack ? db.DefaultVoiceBankDnn : db.DefaultVoiceBankDse;
+            voiceBank ??= db.DefaultVoiceBank;
+        }
+
         string sourceVoiceBankId = voiceBank?.CompID ?? string.Empty;
-        string sourceAiVoiceBankId = db?.DefaultAiVoiceBank?.CompID ?? string.Empty;
 
         using var transaction = new Transaction(vsm);
         transaction.Result = true;
@@ -278,8 +268,11 @@ public static class V6BridgeSvip
             if (vsm.NumTrack >= vsm.MaxNumTrack)
                 break;
 
-            if (vsm.InsertTrackEx(vsm.NumTrack, trackType, track.Title) is not WIVSMMidiTrack v6Track)
+            if (vsm.InsertTrackEx(vsm.NumTrack, trackType, track.Title) is not WIVSMMidiTrack midiTrack)
                 continue;
+
+            if (!string.IsNullOrEmpty(sourceVoiceBankId))
+                midiTrack.SetVoiceBankID(sourceVoiceBankId);
 
             long span = track.NoteList.Count > 0 ? track.NoteList.Max(n => (long)n.EndPos) : TicksInFullNote;
             var parameterPoints = new[]
@@ -296,24 +289,23 @@ public static class V6BridgeSvip
                 .DefaultIfEmpty(0)
                 .Max();
             span = Math.Max(span, lastParameterPosition);
-            if (v6Track.InsertPart(new VSMAbsTick(0), new VSMRelTick((int)span), track.Title) is not { } part)
+            if (midiTrack.InsertPart(new VSMAbsTick(0), new VSMRelTick((int)span), track.Title) is not { } part)
                 continue;
-
-            if (!string.IsNullOrEmpty(sourceAiVoiceBankId))
-                part.SetAiVoiceBankID(sourceAiVoiceBankId);
-            if (!string.IsNullOrEmpty(sourceVoiceBankId))
-                part.SetVoiceBankID(sourceVoiceBankId);
 
             var noteExpression = part.GetDefaultNoteExpression();
             var aiNoteExpression = part.GetDefaultAiNoteExpression();
 
-            int langId = VoiceBankLangId(part, isAi);
+            int langId = VoiceBankLangId(part);
             if (langId < 0)
-                langId = part.LangID;
+                langId = part.IsAi
+                    ? part.LangIDsFromAiVoiceBank().DefaultIfEmpty(-1).First()
+                    : part.LangIDFromVoiceBank();
 
             string defaultPhoneme = string.Empty;
+            var phonemeService = App.PhonemeService;
             bool hasDefault = langId >= 0
-                && DefaultLyricManager.GetUserSettingDefaultLyric((VSMLanguageID)langId, out _, out defaultPhoneme)
+                && phonemeService != null
+                && phonemeService.GetUserSettingDefaultLyric((VSMLanguageID)langId, out _, out defaultPhoneme)
                 && !string.IsNullOrEmpty(defaultPhoneme);
 
             var importedLyrics = Config.Settings.AutoConvertChineseLyricsToPinyin
@@ -389,13 +381,13 @@ public static class V6BridgeSvip
 
         var rawTracks = new List<RawSingingTrack>();
         int trackIndex = 0;
-        foreach (var v6Track in vsm.MidiTracks)
+        foreach (var midiTrack in vsm.MidiTracks)
         {
             var notes = new List<Note>();
             var editedParams = new Params();
             var pitchDataList = new List<PitchBendData>();
             var partOffsets = new List<int>();
-            foreach (var part in v6Track.MidiParts)
+            foreach (var part in midiTrack.MidiParts)
             {
                 long partAbs = PartAbs(part);
                 foreach (var note in part.Notes)
@@ -427,7 +419,7 @@ public static class V6BridgeSvip
                     ReadParameter(part, VSMControllerType.Brightness, (int)partAbs, firstBarLength));
             }
 
-            string name = TrackNameProp?.GetValue(v6Track) as string ?? $"Track {trackIndex + 1}";
+            string name = TrackNameProp?.GetValue(midiTrack) as string ?? $"Track {trackIndex + 1}";
             rawTracks.Add(new RawSingingTrack
             {
                 Title = name,

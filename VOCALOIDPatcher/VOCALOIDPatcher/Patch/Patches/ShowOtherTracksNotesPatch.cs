@@ -41,7 +41,7 @@ public class ShowOtherTracksNotesPatch : PatchBase
                 if (active != null && track.Equals(active))
                     continue;
 
-                if (skipMuted && AudioPlayer.IsMute(track))
+                if (skipMuted && track.IsChannelMute)
                     continue;
 
                 parts.AddRange(track.MidiParts);

@@ -2,7 +2,7 @@
 param(
     [string]$Version,
     [string]$OutputDir,
-    [ValidateSet('all', 'net8')]
+    [ValidateSet('all', 'net10')]
     [string]$Tfm = 'all',
     [switch]$Build
 )
@@ -22,13 +22,13 @@ $readmeName      = '请先读我! README.txt'
 
 $readmeDefault = @'
 VOCALOIDPatcher
-用于为 Yamaha VOCALOID 6 Editor 提供更多功能的补丁
-理论上支持所有 V6 编辑器
+用于为 Yamaha VOCALOID7 Editor 提供更多功能的补丁
+理论上支持所有 VOCALOID7 编辑器
 
 https://github.com/IzumiiKonata/VOCALOIDPatcher
 https://www.vsqx.top/project/vn15117
 
-将压缩包内所有文件解压并替换到 C:\Program Files\VOCALOID6\Editor\ 中即可
+将压缩包内所有文件解压并替换到 C:\Program Files\VOCALOID7\Editor\ 中即可
 
 Made with <3 by IzumiiKonata
 '@
@@ -43,7 +43,7 @@ function Resolve-Version {
 function Resolve-ReadmeText {
     $candidates = @(
         (Join-Path $root $readmeName),
-        (Join-Path $root "VOCALOIDPatcher\bin\Release\net8.0-windows\out\$readmeName")
+        (Join-Path $root "VOCALOIDPatcher\bin\Release\net10.0-windows\out\$readmeName")
     )
     foreach ($c in $candidates) {
         if (Test-Path $c) { return (Get-Content $c -Raw -Encoding UTF8) }
@@ -88,7 +88,7 @@ if (-not $OutputDir) { $OutputDir = Join-Path $root 'release' }
 if (-not (Test-Path $OutputDir)) { New-Item -ItemType Directory -Path $OutputDir | Out-Null }
 
 $targets = @(
-    [pscustomobject]@{ Key = 'net8'; Dir = 'net8.0-windows'; Suffix = '' }
+    [pscustomobject]@{ Key = 'net10'; Dir = 'net10.0-windows'; Suffix = '' }
 )
 if ($Tfm -ne 'all') { $targets = $targets | Where-Object Key -eq $Tfm }
 
@@ -96,7 +96,7 @@ if ($Build) {
     Write-Host "正在以 Release 构建..." -ForegroundColor Cyan
     & dotnet build $proj -c Release
     if ($LASTEXITCODE -ne 0) {
-        throw "构建失败。若 VOCALOID6 编辑器正在运行会锁定输出 DLL，请先关闭再试。"
+        throw "构建失败。若 VOCALOID7 编辑器正在运行会锁定输出 DLL，请先关闭再试。"
     }
 }
 

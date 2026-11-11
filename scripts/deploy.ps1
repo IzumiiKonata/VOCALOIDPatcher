@@ -1,6 +1,6 @@
 ﻿[CmdletBinding()]
 param(
-    [string]$Editor = 'C:\Program Files\VOCALOID6\Editor'
+    [string]$Editor = 'C:\Program Files\VOCALOID7\Editor'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -40,7 +40,7 @@ function Is-ReparsePoint([string]$path) {
 }
 
 $root     = Split-Path -Parent $PSScriptRoot
-$dllSrc   = Join-Path $root 'VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll'
+$dllSrc   = Join-Path $root 'VOCALOIDPatcher\bin\Release\net10.0-windows\out\Microsoft.Xaml.Behaviors.dll'
 $mapSrc   = Join-Path $root 'HardcodedPropertyMap.xml'
 $transSrc = Join-Path $root 'translations'
 

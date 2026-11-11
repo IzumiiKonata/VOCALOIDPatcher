@@ -1,12 +1,13 @@
 param([ValidateSet('on', 'off', 'status')][string]$Mode = 'status')
 
-$editor = 'C:\Program Files\VOCALOID6\Editor'
+$root = Split-Path -Parent $PSScriptRoot
+$editor = 'C:\Program Files\VOCALOID7\Editor'
 $dll = Join-Path $editor 'Microsoft.Xaml.Behaviors.dll'
 $bak = Join-Path $editor 'Microsoft.Xaml.Behaviors.dll.bak'
-$target = 'D:\RiderProjects\VOCALOIDPatcher\VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll'
+$target = Join-Path $root 'VOCALOIDPatcher\bin\Release\net10.0-windows\out\Microsoft.Xaml.Behaviors.dll'
 
-if ($Mode -ne 'status' -and (Get-Process VOCALOID6 -ErrorAction SilentlyContinue)) {
-    Write-Host 'VOCALOID6 is running, close it first.'
+if ($Mode -ne 'status' -and (Get-Process VOCALOID7 -ErrorAction SilentlyContinue)) {
+    Write-Host 'VOCALOID7 is running, close it first.'
     exit 1
 }
 

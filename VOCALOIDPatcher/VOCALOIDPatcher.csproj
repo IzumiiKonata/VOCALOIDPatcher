@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net10.0-windows</TargetFramework>
         <OutputType>Library</OutputType>
         <PackageId>Microsoft.Xaml.Behaviors.Wpf</PackageId>
         <Title>Microsoft.Xaml.Behaviors.Wpf</Title>
@@ -35,8 +35,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="VOCALOID6">
-            <HintPath>C:\Program Files\VOCALOID6\Editor\VOCALOID6.dll</HintPath>
+        <Reference Include="VOCALOID7">
+            <HintPath>C:\Program Files\VOCALOID7\Editor\VOCALOID7.dll</HintPath>
             <Private>false</Private>
             <ExcludeAssets>runtime</ExcludeAssets>
             <SpecificVersion>False</SpecificVersion>

@@ -1,8 +1,8 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Launch Editor" type="RunExe" factoryName=".NET Executable">
-    <option name="EXE_PATH" value="C:/Program Files/VOCALOID6/Editor/VOCALOID6.exe" />
+    <option name="EXE_PATH" value="C:/Program Files/VOCALOID7/Editor/VOCALOID7.exe" />
     <option name="PROGRAM_PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="C:/Program Files/VOCALOID6/Editor" />
+    <option name="WORKING_DIRECTORY" value="C:/Program Files/VOCALOID7/Editor" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="ENV_FILE_PATHS" value="" />
     <option name="REDIRECT_INPUT_PATH" value="" />

@@ -21,10 +21,10 @@ public static class Program
         var repoRoot = FindRepoRoot();
 
         var dllPath = args.FirstOrDefault(a => a.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
-                      ?? @"C:\Program Files\VOCALOID6\Editor\VOCALOID6.dll";
+                      ?? @"C:\Program Files\VOCALOID7\Editor\VOCALOID7.dll";
         var translationPath = Path.Combine(repoRoot, "translations", "中文 (简体).xml");
         var hardcodedMapPath = Path.Combine(repoRoot, "HardcodedPropertyMap.xml");
-        var v6srcDir = Path.Combine(repoRoot, "V6src");
+        var editorSrcDir = Path.Combine(repoRoot, "v7src");
 
         if (!File.Exists(dllPath))
         {
@@ -35,7 +35,7 @@ public static class Program
         var dll = ExtractFromDll(dllPath);                       // 资源键 -> 英文原文
         var translation = ReadTranslationXml(translationPath);   // 资源键/硬编码键 -> 译文
         var hardcoded = ReadHardcodedMap(hardcodedMapPath);      // 字面量 -> 硬编码键
-        var scan = XamlSourceScanner.Scan(v6srcDir);             // XAML 引用的键 + 字面量
+        var scan = XamlSourceScanner.Scan(editorSrcDir);          // XAML 引用的键 + 字面量
 
         var report = Analyze(dll, translation, hardcoded, scan);
         PrintReport(report, dll, translation, hardcoded, scan);

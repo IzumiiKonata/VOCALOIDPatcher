@@ -161,12 +161,12 @@ public static class SvipFormatMenu
             return;
 
         var project = SvipProjectLoader.Load(info, dialog.FileNames);
-        V6BridgeSvip.Import(project);
+        EditorBridgeSvip.Import(project);
     }
 
     private static void OnExport(SvipFormatInfo info)
     {
-        var raw = V6BridgeSvip.ReadRaw();
+        var raw = EditorBridgeSvip.ReadRaw();
 
         if (!raw.HasExportableContent)
         {
@@ -194,7 +194,7 @@ public static class SvipFormatMenu
             {
                 ExportProgressDialog.Run(progress =>
                 {
-                    var project = V6BridgeSvip.BuildProject(raw, resolveOverlaps, progress);
+                    var project = EditorBridgeSvip.BuildProject(raw, resolveOverlaps, progress);
                     progress.Report(new ExportProgress { Phase = ExportPhase.Generating, Arg = formatName });
                     var bytes = info.Converter.Dump(project);
                     progress.Report(new ExportProgress { Phase = ExportPhase.Writing });

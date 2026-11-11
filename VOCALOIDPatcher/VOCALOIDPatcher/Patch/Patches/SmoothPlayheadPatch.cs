@@ -18,7 +18,7 @@ public static class SmoothPlayhead
         AccessTools.Field(typeof(AudioPlayer), "SongPositionProceeded");
 
     private static readonly MethodInfo? MTimerGetter =
-        AccessTools.PropertyGetter(typeof(AudioPlayer), "songPositionUpdateTimer");
+        AccessTools.PropertyGetter(typeof(AudioPlayer), "SongPositionUpdateTimer");
 
     private static readonly bool Resolved = FEvent != null && MTimerGetter != null;
 

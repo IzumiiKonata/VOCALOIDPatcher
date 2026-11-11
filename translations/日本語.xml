@@ -339,12 +339,10 @@
   <data name="ToolGroup_Line_Caption" xml:space="preserve"><value>ライン</value></data>
   <data name="PreferencesDlg_General_StylePresetChangeMode_Caption" xml:space="preserve"><value>ボイス変更時のスタイル切り替え</value></data>
   <data name="ToolBar_Emotion_ToolTip" xml:space="preserve"><value>エモーション</value></data>
-  <data name="MainMenu_Edit_AddMidiAiTrack_Header" xml:space="preserve"><value>VOCALOID:AIトラック作成</value></data>
   <data name="ContextMenu_SelectAllControlParameters_Header" xml:space="preserve"><value>全てのコントロールパラメーターを選択(_P)</value></data>
   <data name="CustomizeShortcutDlg_CommandPasteNoteProperty" xml:space="preserve"><value>ノート - 形式を選択して貼り付け</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Title" xml:space="preserve"><value>発音記号を言語に合わせて変換</value></data>
   <data name="StyleSaveAsDlg_UserStyleOverwriteInfo" xml:space="preserve"><value>上書きしますか？</value></data>
-  <data name="MsgBox_Wave_VoiceChange_Error" xml:space="preserve"><value>ボイスチェンジに失敗しました。 エラー </value></data>
   <data name="PreferencesDlg_Audio_BufferSize_Caption" xml:space="preserve"><value>バッファサイズ</value></data>
   <data name="SplitNote_SplitMethodMelisuma_Label" xml:space="preserve"><value>- (メリスマ)</value></data>
   <data name="MsgBox_Style_DeleteInfo" xml:space="preserve"><value>{0} を削除しますか？削除すると元には戻せません。</value></data>
@@ -382,13 +380,12 @@
   <data name="VerifyLicene_Ended" xml:space="preserve"><value>終了しました。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_Japanese" xml:space="preserve"><value>日本語</value></data>
   <data name="DownloadContent_Completed" xml:space="preserve"><value>インストールが完了しました。</value></data>
-  <data name="PartPropertyDlg_Breath" xml:space="preserve"><value>ブレス</value></data>
   <data name="CustomizeShortcutDlg_CommandNormalizeNote" xml:space="preserve"><value>オーバーラップを解消</value></data>
   <data name="ToolBar_Scissors_ToolTip" xml:space="preserve"><value>はさみ</value></data>
   <data name="MsgBox_Add_AudioTrack_Error" xml:space="preserve"><value>オーディオトラックを追加できません。</value></data>
   <data name="SplitNote_SplitMethodOptionPhoeneticSymbol_Label" xml:space="preserve"><value>任意の発音記号</value></data>
   <data name="VoiceBanksVersionDlg_SortMark_Desc" xml:space="preserve"><value>▼</value></data>
-  <data name="String_OpenEditorLineupURL" xml:space="preserve"><value>https://www.vocaloid.com/vocaloid6/buy/</value></data>
+  <data name="String_OpenEditorLineupURL" xml:space="preserve"><value>https://www.vocaloid.com/</value></data>
   <data name="MainMenu_Help_CheckInstallStatus_Header" xml:space="preserve"><value>インストール状況の確認...</value></data>
   <data name="DataUseDlg_Decline_Caption" xml:space="preserve"><value>許可しない</value></data>
   <data name="MsgBox_Edit_PhonemeTiming_Error" xml:space="preserve"><value>タイミングを編集できません。</value></data>
@@ -402,14 +399,11 @@
   <data name="EditHandle_AmplitudeStart_DisplayName" xml:space="preserve"><value>前方エクスプレッション</value></data>
   <data name="ContextMenu_AddMidiTrack_Header" xml:space="preserve"><value>VOCALOIDトラック作成(_V)</value></data>
   <data name="ProjectSettingDlg_MainTuning" xml:space="preserve"><value>チューニング</value></data>
-  <data name="MsgBox_LuaManagerInitialization_Error" xml:space="preserve"><value>Lua Manager の初期化に失敗しました！</value></data>
   <data name="ReplaceUnavailableVoiceDlg_ListTitle_OriginalVoice" xml:space="preserve"><value>変更前のボイスバンク</value></data>
   <data name="MainMenu_View_ZoomOutHorizontally_Header" xml:space="preserve"><value>水平方向にズームアウト</value></data>
   <data name="CustomizeShortcutDlg_EnterTheKey" xml:space="preserve"><value>キーを入力:</value></data>
   <data name="VoiceBanksVersionDlg_Languages_English" xml:space="preserve"><value>英語</value></data>
-  <data name="PartPropertyDlg_VoiceBank" xml:space="preserve"><value>ボイス</value></data>
   <data name="ToolBar_Arrow_ToolTip" xml:space="preserve"><value>矢印</value></data>
-  <data name="PreferencesDlg_Advanced_MeasureOffset_Caption" xml:space="preserve"><value>小節数オフセット</value></data>
   <data name="DownloadContent_Title" xml:space="preserve"><value>コンテンツのダウンロード</value></data>
   <data name="MsgBox_Set_LoopRange_Error" xml:space="preserve"><value>リピート再生区間の設定に失敗しました。</value></data>
   <data name="CustomizeShortcutDlg_SaveEditPresetFile" xml:space="preserve"><value>プリセットが編集中です。保存しますか？</value></data>
@@ -421,7 +415,6 @@
   <data name="MsgBox_Add_Track_Error" xml:space="preserve"><value>トラックを追加できません。</value></data>
   <data name="ToolGroup_Pencil_Caption" xml:space="preserve"><value>鉛筆</value></data>
   <data name="MainMenu_Job_LyricInputMode_Letter_Header" xml:space="preserve"><value>歌詞で入力</value></data>
-  <data name="PartPropertyDlg_StylePreset" xml:space="preserve"><value>スタイルプリセット</value></data>
   <data name="NotePropertyDlg_Parameter" xml:space="preserve"><value>パラメーター</value></data>
   <data name="CustomizeShortcutDlg_CommandTogglePhonemeLock" xml:space="preserve"><value>発音記号のプロテクト</value></data>
   <data name="MainMenu_Transport_SetEndMarkerToSongPosition_Header" xml:space="preserve"><value>エンドマーカーをソングポジション位置に設定</value></data>
@@ -432,15 +425,14 @@
   <data name="MsgBox_ExpiredLeaseFile_Warning" xml:space="preserve"><value>Spliceでのアクティベーションエラー
 
 Spliceアプリが正しく起動していることを確認して、再度お試しください。
-VOCALOID6はLite版として起動します。</value></data>
+VOCALOID7はLite版として起動します。</value></data>
   <data name="ToolBar_Repeat_ToolTip" xml:space="preserve"><value>リピート</value></data>
-  <data name="VerifyLicense_FailedLaunchAuthorizer" xml:space="preserve"><value>VOCALOID Authorizerの起動に失敗しました。</value></data>
+  <data name="VerifyLicense_FailedLaunchAuthorizer" xml:space="preserve"><value>VOCALOID7 Authorizerの起動に失敗しました。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_Spanish" xml:space="preserve"><value>スペイン語</value></data>
   <data name="PreferencesDlg_General_ControlParametersV2Compatible_Caption" xml:space="preserve"><value>操作終了時に元の値まで戻す</value></data>
   <data name="CustomizeShortcutDlg_MessageCreatePresetFilePath" xml:space="preserve"><value>プリセットのファイルパス作成に失敗しました。</value></data>
   <data name="MsgBox_Open_Sequence_Error" xml:space="preserve"><value>ファイルの読み込みに失敗しました。</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Japanese" xml:space="preserve"><value>日本語</value></data>
-  <data name="PartPropertyDlg_RobotVoice" xml:space="preserve"><value>ロボットボイス</value></data>
   <data name="AudioMixdownDlg_MultiTrack" xml:space="preserve"><value>マルチトラック</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Chinese" xml:space="preserve"><value>中国語</value></data>
   <data name="MsgBox_Delete_Panpot_Error" xml:space="preserve"><value>パンポットの削除に失敗しました。</value></data>
@@ -473,7 +465,7 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="TrackType_AI" xml:space="preserve"><value>VOCALOID:AI</value></data>
   <data name="CustomizeShortcutDlg_MessageDeletePresetFile" xml:space="preserve"><value>現在のプリセットを削除しますか？</value></data>
   <data name="CustomizeShortcutDlg_PresetFileOverWrite" xml:space="preserve"><value>その名前のファイルは既に存在します。上書きしますか？</value></data>
-  <data name="MainMenu_File_Export_Header" xml:space="preserve"><value>エクスポート (VPR)...</value></data>
+  <data name="MainMenu_File_Export_Header" xml:space="preserve"><value>エクスポート (VPRX)...</value></data>
   <data name="CustomizeShortcutDlg_Reset" xml:space="preserve"><value>リセット</value></data>
   <data name="MsgBox_Duplicate_MasterVolume_Error" xml:space="preserve"><value>メインボリュームの複製に失敗しました。</value></data>
   <data name="AudioMixdownDlg_BypassEffectPlugins" xml:space="preserve"><value>オーディオエフェクトをバイパス</value></data>
@@ -485,22 +477,20 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="MainMenu_Transport_StartMode_BeginLoop_Header" xml:space="preserve"><value>リピート区間の先頭から開始</value></data>
   <data name="ContextMenu_StyleSearch_DeleteStylePreset" xml:space="preserve"><value>スタイルプリセットを削除(_D)</value></data>
   <data name="AudioMixdownDlg_AudioEngineOutput" xml:space="preserve"><value>オーディオエンジン出力</value></data>
-  <data name="PreferencesDlg_Audio_BufferSize_ConnectingToReWire" xml:space="preserve"><value>-</value></data>
   <data name="CustomizeShortcutDlg_CommandsSearchTextBoxPlaceholder" xml:space="preserve"><value>コマンドを検索</value></data>
   <data name="FileDlg_VPR_Filter" xml:space="preserve"><value>VOCALOID5/6 プロジェクト|*.vpr|すべてのファイル|*.*</value></data>
   <data name="CustomizeShortcutDlg_MessageClosingError" xml:space="preserve"><value>ダイアログ終了中にエラーが発生しました。 編集情報を削除してダイアログを終了します。</value></data>
-  <data name="PreferencesDlg_Advanced_LanguagPriority_Caption" xml:space="preserve"><value>優先する言語</value></data>
+  <data name="PreferencesDlg_Advanced_LanguagPriority_Caption" xml:space="preserve"><value>発音記号変換時の優先言語</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Languages_Chinese" xml:space="preserve"><value>中国語</value></data>
   <data name="ImportSettingsDlg_ImportTempoAndTimeSig" xml:space="preserve"><value>テンポと拍子をインポート</value></data>
   <data name="SplitNote_SplitPositionForward_Label" xml:space="preserve"><value>ノートの始端を分割</value></data>
-  <data name="PartPropertyDlg_SingingSkill" xml:space="preserve"><value>シンギングスキル</value></data>
   <data name="CustomizeShortcutsDlg_Title" xml:space="preserve"><value>キーボードショートカット</value></data>
   <data name="StyleSaveAsDlg_NewStylePresetName" xml:space="preserve"><value>スタイルプリセット名</value></data>
   <data name="CustomizeShortcutDlg_CommandTransposeNote" xml:space="preserve"><value>トランスポーズ</value></data>
   <data name="MsgBox_Paste_Error" xml:space="preserve"><value>貼り付けに失敗しました。</value></data>
   <data name="PreferencesDlg_Advanced_CultureKind_USEnglish" xml:space="preserve"><value>英語</value></data>
   <data name="InsertRest_Position_Label" xml:space="preserve"><value>挿入する位置:</value></data>
-  <data name="MainMenu_File_AppExit_Header" xml:space="preserve"><value>VOCALOID6 Editor を終了</value></data>
+  <data name="MainMenu_File_AppExit_Header" xml:space="preserve"><value>VOCALOID7 Editor を終了</value></data>
   <data name="StyleSaveAsDlg_SystemStyleCannotOverwrite" xml:space="preserve"><value>同じ名前のスタイルプリセットが既に存在するため、上書きできません。</value></data>
   <data name="ContextMenu_ExtractLyrics_Header" xml:space="preserve"><value>歌詞の抽出(_X)</value></data>
   <data name="MsgBox_Move_TimeSig_Error" xml:space="preserve"><value>拍子の移動に失敗しました。</value></data>
@@ -508,8 +498,10 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="MsgBox_VSMInitialization_Error" xml:space="preserve"><value>VSMの初期化に失敗しました！</value></data>
   <data name="TextBox_ContextMenu_Paste_Gesture" xml:space="preserve"><value>Ctrl+V</value></data>
   <data name="DataUseDlg_Message" xml:space="preserve"><value>本ソフトウェア・サービスの品質向上のため、本ソフトウェアは個人を特定しない一定の情報を第三者に送信します。ヤマハおよび当該第三者は、お客様のアクセス状況、デバイス、OSバージョン、ユーザー数等を含めた本ソフトウェアの利用に関する情報を収集保存します。
+
+未成年のお客様は、本ソフトウェアの利用および本情報送信への同意について、保護者等の法定代理人の同意を得た上で選択してください。
+
 ソフトウェア使用状況の送信を許可しますか?</value></data>
-  <data name="ContextMenu_AddMidiAiTrack_Header" xml:space="preserve"><value>VOCALOID:AIトラック作成(_A)</value></data>
   <data name="ToolBar_Line_ToolTip" xml:space="preserve"><value>ライン</value></data>
   <data name="MainMenu_Job_LyricInputMode_Header" xml:space="preserve"><value>歌詞入力モード</value></data>
   <data name="PrivacyPolicy_URL" xml:space="preserve"><value>https://www.yamaha.com/ja/cookies_policy/</value></data>
@@ -521,7 +513,6 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="CheckUpdate_Button_Yes" xml:space="preserve"><value>はい (Web ブラウザを起動)</value></data>
   <data name="MsgBox_Open_Sequence_UnsupportedVersion" xml:space="preserve"><value>ファイルの読み込みに失敗しました。このバージョンのファイルはサポートされていません。</value></data>
   <data name="ToolBar_PhonemeTiming_ToolTip" xml:space="preserve"><value>タイミング</value></data>
-  <data name="AddPartToMediaDlg_CannotSave" xml:space="preserve"><value>その名前のメディアは既に存在するため、保存出来ません。</value></data>
   <data name="MsgBox_Add_ControlParameter_Error" xml:space="preserve"><value>コントロールパラメーターを追加できません。</value></data>
   <data name="StyleSaveAsDlg_SaveTargetListLabel" xml:space="preserve"><value>保存対象</value></data>
   <data name="PreferencesDlg_General_CheckForUpdates_Caption" xml:space="preserve"><value>更新を自動的にチェック</value></data>
@@ -530,16 +521,12 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="NotePropertyDlg_AIParameter" xml:space="preserve"><value>AIパラメーター</value></data>
   <data name="PreferencesDlg_Advanced_ARAClientEnabled_Caption" xml:space="preserve"><value>VOCALOID Bridge プラグインとの接続を許可する
 (VOCALOID Editor プラグインのリロードが必要です)</value></data>
-  <data name="PartPropertyDlg_Title" xml:space="preserve"><value>形式を選択して貼り付け</value></data>
   <data name="CustomizeShortcutDlg_MessageOverWrite" xml:space="preserve"><value>ショートカットキーを上書きしますか？</value></data>
-  <data name="PartPropertyDlg_Style" xml:space="preserve"><value>スタイル</value></data>
   <data name="MainMenu_Transport_AutoScroll_Header" xml:space="preserve"><value>オートスクロール</value></data>
   <data name="MainMenu_Job_PartAudioMixDown_Header" xml:space="preserve"><value>パートをオーディオ書き出し...</value></data>
   <data name="MainMenu_Transport_Header" xml:space="preserve"><value>トランスポート</value></data>
   <data name="MsgBox_Duplicate_Tempo_Error" xml:space="preserve"><value>テンポの複製に失敗しました。</value></data>
   <data name="String_OpenTutorialURL" xml:space="preserve"><value>https://www.vocaloid.com/learn</value></data>
-  <data name="MidiPartPropertyDlg_PartName_Caption" xml:space="preserve"><value>パート名</value></data>
-  <data name="MsgBox_MediaManagerInitialization_Error" xml:space="preserve"><value>Media Manager の初期化に失敗しました！</value></data>
   <data name="MsgBox_TooManyCharacters_Warning" xml:space="preserve"><value>入力文字数が多すぎます。{0}文字に切詰めて入力されました。</value></data>
   <data name="MainMenu_Edit_Header" xml:space="preserve"><value>編集</value></data>
   <data name="PreferencesDlg_General_AutoSave_Enable_Caption" xml:space="preserve"><value>有効</value></data>
@@ -555,22 +542,19 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="CustomizeShortcutDlg_CommandToggleMute" xml:space="preserve"><value>ミュート</value></data>
   <data name="MainMenu_View_ZoomInHorizontally_Header" xml:space="preserve"><value>水平方向にズームイン</value></data>
   <data name="MsgBox_HalfTempo_Error" xml:space="preserve"><value>ハーフテンポに失敗しました。</value></data>
-  <data name="MainMenu_Help_About_Header" xml:space="preserve"><value>VOCALOID6 Editor について...</value></data>
+  <data name="MainMenu_Help_About_Header" xml:space="preserve"><value>VOCALOID7 Editor について...</value></data>
   <data name="ContentList_Waiting" xml:space="preserve"><value>コンテンツ情報取得中。</value></data>
   <data name="ToolBar_Amplitude_ToolTip" xml:space="preserve"><value>エクスプレッション</value></data>
   <data name="AudioMixdownDlg_Channel_Stereo" xml:space="preserve"><value>ステレオ</value></data>
   <data name="MsgBox_Edit_Pitch_Error" xml:space="preserve"><value>ピッチを編集できません。</value></data>
   <data name="MainMenu_View_ZoomOutVertically_Header" xml:space="preserve"><value>垂直方向にズームアウト</value></data>
   <data name="ContextMenu_DuplicateTrack_Header" xml:space="preserve"><value>トラックの複製</value></data>
-  <data name="MainMenu_File_ImportAudio_Header" xml:space="preserve"><value>オーディオファイル...</value></data>
   <data name="MsgBox_Divide_AudioPart_Error" xml:space="preserve"><value>オーディオパートを分割できません。</value></data>
   <data name="PreferencesDlg_Advanced_ClearCache_Caption" xml:space="preserve"><value>キャッシュクリア</value></data>
-  <data name="AddPartToMediaDlg_AddNewTagDlg_TagName" xml:space="preserve"><value>タグ名</value></data>
   <data name="MsgBox_Add_MidiAiTrack_Error" xml:space="preserve"><value>VOCALOID:AIトラックを追加できません。</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Languages_Korean" xml:space="preserve"><value>韓国語</value></data>
   <data name="MsgBox_RobotVoice_RobotVoicesNull" xml:space="preserve"><value>ロボットボイスが存在しません。</value></data>
   <data name="StaccatoNote_Strong" xml:space="preserve"><value>強い</value></data>
-  <data name="PartPropertyDlg_PitchShift" xml:space="preserve"><value>チェンジピッチ</value></data>
   <data name="VerifyLicene_TrialPeriod" xml:space="preserve"><value>試用期間</value></data>
   <data name="MainMenu_File_ProjectSetting_Header" xml:space="preserve"><value>プロジェクト設定...</value></data>
   <data name="ToolBar_Mixer_ToolTip" xml:space="preserve"><value>ミキサー</value></data>
@@ -595,25 +579,20 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="MainMenu_File_OpenRecent_Header" xml:space="preserve"><value>最近使った項目を開く</value></data>
   <data name="PreferencesDlg_Advanced_DataUse_Caption" xml:space="preserve"><value>プライバシー</value></data>
   <data name="ToolBar_Metronome_ToolTip" xml:space="preserve"><value>メトロノーム</value></data>
-  <data name="NotePropertyDlg_AiVibratoAssist" xml:space="preserve"><value>アシスト</value></data>
   <data name="MsgBox_ChangeStyleButton" xml:space="preserve"><value>スタイルを変更する</value></data>
   <data name="PreferencesDlg_General_AutoSave_Caption" xml:space="preserve"><value>自動バックアップ</value></data>
   <data name="MsgBox_ImportAudioOnOne" xml:space="preserve"><value>1つのトラック</value></data>
   <data name="InsertLyricsDlg_Title" xml:space="preserve"><value>歌詞の流し込み</value></data>
-  <data name="MainMenu_Help_DownloadContents_Header" xml:space="preserve"><value>コンテンツをダウンロード...</value></data>
   <data name="SplitNote_NoteTranspose_Label" xml:space="preserve"><value>分割ノートのトランスポーズ:</value></data>
   <data name="ContextMenu_ChangePhoneticSymbolProtect_Header" xml:space="preserve"><value>発音記号のプロテクト(_P)</value></data>
-  <data name="MidiPartPropertyDlg_Title" xml:space="preserve"><value>MIDIパートプロパティ</value></data>
   <data name="MainMenu_File_SaveAs_Header" xml:space="preserve"><value>名前を付けて保存...</value></data>
   <data name="CustomizeShortcutDlg_CommandDoubleTempo" xml:space="preserve"><value>ダブルテンポ</value></data>
   <data name="ContextMenu_StartMarker_Move_Header" xml:space="preserve"><value>スタートマーカーをソングポジション位置に設定(_S)</value></data>
   <data name="CustomizeShortcutDlg_CommandTogglePlayback" xml:space="preserve"><value>再生/停止切り替え</value></data>
   <data name="Button_Close" xml:space="preserve"><value>閉じる</value></data>
-  <data name="AddPartToMediaDlg_MediaName" xml:space="preserve"><value>メディア名</value></data>
   <data name="ToolBar_Play_ToolTip" xml:space="preserve"><value>再生</value></data>
   <data name="ContextMenu_NormalizeWave_Header" xml:space="preserve"><value>オーディオパートのゲインノーマライズ(_N)</value></data>
   <data name="AudioMixdownDlg_SamplingRate" xml:space="preserve"><value>サンプリングレート</value></data>
-  <data name="PartPropertyDlg_AudioEffect" xml:space="preserve"><value>オーディオエフェクト</value></data>
   <data name="PreferencesDlg_General_SoundPreview_Caption" xml:space="preserve"><value>合成音のサンプル出力</value></data>
   <data name="CustomizeShortcutDlg_CommandExtractLyrics" xml:space="preserve"><value>歌詞の抽出</value></data>
   <data name="StyleSaveAsDlg_Title" xml:space="preserve"><value>スタイルの保存</value></data>
@@ -624,7 +603,6 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="StyleSaveAsDlg_AddNewTagDlg_Title" xml:space="preserve"><value>追加</value></data>
   <data name="StaccatoNote_Weak" xml:space="preserve"><value>弱い</value></data>
   <data name="TransposeNote_Title" xml:space="preserve"><value>トランスポーズ</value></data>
-  <data name="MediaTag_ComboBox_DefaultString" xml:space="preserve"><value>---</value></data>
   <data name="TransposeNote_Label" xml:space="preserve"><value>トランスポーズ:</value></data>
   <data name="Button_OK" xml:space="preserve"><value>OK</value></data>
   <data name="AddTrackDlg_Creation_Caption" xml:space="preserve"><value>作成</value></data>
@@ -633,7 +611,7 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="CustomizeShortcutDlg_CommandBeginEditSongPosition" xml:space="preserve"><value>ソングポジションの編集</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Spanish" xml:space="preserve"><value>スペイン語</value></data>
   <data name="PreferencesDlg_Audio_Bit_Caption" xml:space="preserve"><value>量子化ビット数</value></data>
-  <data name="FileDlg_Openable_Filter" xml:space="preserve"><value>VOCALOID5/6 プロジェクト|*.vpr|VOCALOID3/4 シーケンス|*.vsqx|Piapro Studio ソング|*.ppsf|すべてのファイル|*.vpr;*.vsqx;*.ppsf|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_Openable_Filter" xml:space="preserve"><value>VOCALOID7 プロジェクト|*.vprx|VOCALOID5/6 プロジェクト|*.vpr|VOCALOID3/4 シーケンス|*.vsqx|Piapro Studio ソング|*.ppsf|SVP ファイル|*.svp|UST ファイル|*.ust|CCS ファイル|*.ccs|TSSLN ファイル|*.tssln|MusicXML ファイル|*.musicxml|MXL ファイル|*.mxl|すべてのファイル|*.vprx;*.vpr;*.vsqx;*.ppsf;*.svp;*.ust;*.ccs;*.tssln;*.musicxml;*.mxl|すべてのファイル|*.*</value></data>
   <data name="MainMenu_View_ShowTempoTrack_Header" xml:space="preserve"><value>テンポトラック</value></data>
   <data name="ContextMenu_DivideNote_Header" xml:space="preserve"><value>ノートの均等分割(_D)</value></data>
   <data name="VerifyLicense_PurchaseLicense" xml:space="preserve"><value>VOCALOID SHOP で購入する</value></data>
@@ -641,14 +619,13 @@ VOCALOID6はLite版として起動します。</value></data>
   <data name="ContextMenu_EditDuplicate_Header" xml:space="preserve"><value>複製(_D)</value></data>
   <data name="VerifyLicense_NoVoice" xml:space="preserve"><value>Voiceが1つもインストールされていません。
 
-VOCALOID6 Editor を起動するには、1つ以上のVoiceがインストールされている必要があります。
+VOCALOID7 Editor を起動するには、1つ以上のVoiceがインストールされている必要があります。
 
 別途、インストールしてください。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyricLanguage_English" xml:space="preserve"><value>英語</value></data>
   <data name="FileDlg_VSQX_Filter" xml:space="preserve"><value>VOCALOID3/4 シーケンス|*.vsqx|すべてのファイル|*.*</value></data>
   <data name="PreferencesDlg_SettingsChangedMsg" xml:space="preserve"><value>設定を反映させるためにVOCALOID Editorを再起動してください。</value></data>
   <data name="MsgBox_ImportFile_Load_Error" xml:space="preserve"><value>ファイルのインポートに失敗しました。</value></data>
-  <data name="MsgBox_Media_FailedToDeleteMedia" xml:space="preserve"><value>メディアの削除に失敗しました。</value></data>
   <data name="ContextMenu_AudioEffect_DelEffect" xml:space="preserve"><value>オーディオエフェクトの削除(_D)</value></data>
   <data name="PreferencesDlg_General_HorizontalScroll_Caption" xml:space="preserve"><value>水平スクロール</value></data>
   <data name="MsgBox_ImportAudioPerTrack" xml:space="preserve"><value>異なるトラック</value></data>
@@ -667,7 +644,7 @@ VOCALOID6 Editor を起動するには、1つ以上のVoiceがインストール
 
 Spliceアプリが正しく起動していることを確認して、再度お試しください。</value></data>
   <data name="SplitNote_SplitMethodVowel_Label" xml:space="preserve"><value>母音 (日本語のみ)</value></data>
-  <data name="MsgBox_DoubleStart_Error" xml:space="preserve"><value>VOCALOID6 スタンドアローン版 / VSTi版 / AU版 のいずれかがすでに起動しているため、VOCALOID6 Editor が起動できません。</value></data>
+  <data name="MsgBox_DoubleStart_Error" xml:space="preserve"><value>VOCALOID7 スタンドアローン版 / VSTi版 / AU版 のいずれかがすでに起動しているため、VOCALOID7 Editor が起動できません。</value></data>
   <data name="MsgBox_KeepStyleButton" xml:space="preserve"><value>スタイルを維持する</value></data>
   <data name="CustomizeShortcutDlg_Export" xml:space="preserve"><value>エクスポート</value></data>
   <data name="CustomizeShortcutDlg_Delete" xml:space="preserve"><value>削除</value></data>
@@ -678,24 +655,21 @@ Spliceアプリが正しく起動していることを確認して、再度お�
   <data name="MsgBox_AudioMixdown_TheFileNameContainsInvalidCharacters" xml:space="preserve"><value>ファイル名に不正な文字が含まれています。</value></data>
   <data name="MsgBox_Move_Track_Error" xml:space="preserve"><value>トラックを移動できません。</value></data>
   <data name="MainMenu_Help_OpenManual_Header" xml:space="preserve"><value>リファレンスマニュアル</value></data>
-  <data name="ContextMenu_AddPartToMedia" xml:space="preserve"><value>パートをメディアに追加(_M)...</value></data>
   <data name="EditHandle_PitchTransitionEnd_DisplayName" xml:space="preserve"><value>後方トランジション</value></data>
   <data name="ContextMenu_Double_Tempo" xml:space="preserve"><value>ダブルテンポ</value></data>
   <data name="SplitNote_SplitMethod_Label" xml:space="preserve"><value>発音記号の分割:</value></data>
   <data name="AddTrackDlg_TrackName_Caption" xml:space="preserve"><value>トラック名</value></data>
   <data name="ContextMenu_PitchToolGroup_Header" xml:space="preserve"><value>ピッチツールグループ(_P)</value></data>
-  <data name="AddVocaloidPartToMediaDlg_Title" xml:space="preserve"><value>VOCALOIDパートをメディアに追加</value></data>
   <data name="MsgBox_Add_TimeSig_Error" xml:space="preserve"><value>拍子の追加に失敗しました。</value></data>
-  <data name="VerifyLicense_EditorTrial" xml:space="preserve"><value>VOCALOID6 Editor が認証されていません。
+  <data name="VerifyLicense_EditorTrial" xml:space="preserve"><value>VOCALOID7 Editor が認証されていません。
 
-VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認証してください。
+VOCALOID7 Authorizer にて VOCALOID7 のシリアルコードを入力して認証してください。
 
 今すぐ認証しますか？
 
-([すぐに認証する] をクリックすると VOCALOID Authorizer が起動します。)</value></data>
+([すぐに認証する] をクリックすると VOCALOID7 Authorizer が起動します。)</value></data>
   <data name="MainMenu_Transport_Stop_Header" xml:space="preserve"><value>停止</value></data>
   <data name="MsgBox_Open_Sequence_BackupFileHasBeenFound" xml:space="preserve"><value>バックアップファイルが見つかりました。バックアップファイルから復元しますか？</value></data>
-  <data name="AddAudioPartToMediaDlg_Title" xml:space="preserve"><value>オーディオパートをメディアに追加</value></data>
   <data name="CustomizeShortcutDlg_Import" xml:space="preserve"><value>インポート</value></data>
   <data name="PreferencesDlg_Advanced_CacheCapacity_Caption" xml:space="preserve"><value>キャッシュ容量</value></data>
   <data name="CustomizeShortcutDlg_TitleRenamePreset" xml:space="preserve"><value>プリセット名の変更</value></data>
@@ -717,10 +691,8 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="CustomizeShortcutDlg_CommandHalfTempo" xml:space="preserve"><value>ハーフテンポ</value></data>
   <data name="CustomizeShortcutDlg_CommandRewindByBar" xml:space="preserve"><value>小節単位で巻き戻し</value></data>
   <data name="MsgBox_Duplicate_TimeSig_Error" xml:space="preserve"><value>拍子の複製に失敗しました。</value></data>
-  <data name="PartPropertyDlg_VoiceChanger" xml:space="preserve"><value>ボカロチェンジャー</value></data>
   <data name="CustomizeShortcutDlg_CommandHalfQuantizeNotes" xml:space="preserve"><value>クオンタイズ 50%</value></data>
   <data name="PreferencesDlg_General_Tab_Header" xml:space="preserve"><value>一般</value></data>
-  <data name="PreferencesDlg_Advanced_CacheSize_Caption" xml:space="preserve"><value>キャッシュ使用量</value></data>
   <data name="MsgBox_Move_TrackVolume_Error" xml:space="preserve"><value>トラックボリュームの移動に失敗しました。</value></data>
   <data name="NormalizeNote_NumberOfNotes_Label" xml:space="preserve"><value>ノート数:</value></data>
   <data name="MainMenu_Help_OpenTutorial_Header" xml:space="preserve"><value>チュートリアル</value></data>
@@ -732,12 +704,9 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="VoiceBanksVersionDlg_Languages_Header" xml:space="preserve"><value>言語</value></data>
   <data name="MainMenu_View_Inspector_Header" xml:space="preserve"><value>インスペクター</value></data>
   <data name="CustomizeShortcutDlg_CommandRewindByGrid" xml:space="preserve"><value>グリッド単位で巻き戻し</value></data>
-  <data name="MsgBox_Save_Media_Error" xml:space="preserve"><value>メディアの保存に失敗しました。</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Korean" xml:space="preserve"><value>韓国語</value></data>
   <data name="FileDlg_ShortcutKey_Filter" xml:space="preserve"><value>VOCALOID Preset Files | *.vkeys</value></data>
-  <data name="PreferencesDlg_Audio_StereoOutL_ConnectingToReWire" xml:space="preserve"><value>-</value></data>
   <data name="MsgBox_DatabaseManagerInitialization_Error" xml:space="preserve"><value>Database Manager の初期化に失敗しました！</value></data>
-  <data name="CustomizeShortcutDlg_CommandPastePartProperty" xml:space="preserve"><value>パート - 形式を選択して貼り付け</value></data>
   <data name="VoiceBanksVersionDlg_Title" xml:space="preserve"><value>ボイスバンクのバージョン</value></data>
   <data name="CustomizeShortcutDlg_MessageRenamePreset" xml:space="preserve"><value>プリセット名を入力してください。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Midi_Caption" xml:space="preserve"><value>VOCALOID</value></data>
@@ -774,7 +743,6 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="PreferencesDlg_Title" xml:space="preserve"><value>環境設定</value></data>
   <data name="CustomizeShortcutDlg_CommandShiftLyricsLeft" xml:space="preserve"><value>歌詞を一文字前にずらす</value></data>
   <data name="ContextMenu_Emotion_Header" xml:space="preserve"><value>エモーション(_E)</value></data>
-  <data name="Button_ResetMainTuning" xml:space="preserve"><value>リセット</value></data>
   <data name="MainMenu_View_Zoom_Header" xml:space="preserve"><value>ズーム</value></data>
   <data name="ExtractLyrics_Label" xml:space="preserve"><value>歌詞:</value></data>
   <data name="MsgBox_Add_MidiPart_Error" xml:space="preserve"><value>VOCALOIDパートを追加できません。</value></data>
@@ -784,8 +752,6 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="ExtractLyrics_Title" xml:space="preserve"><value>歌詞の抽出</value></data>
   <data name="StaccatoNote_Title" xml:space="preserve"><value>スタッカート</value></data>
   <data name="PreferencesDlg_Audio_StereoOutR_Caption" xml:space="preserve"><value>ステレオ出力 Right</value></data>
-  <data name="ContextMenu_PastePartProperty_Header" xml:space="preserve"><value>形式を選択して貼り付け</value></data>
-  <data name="FileDlg_V6Proj_Filter" xml:space="preserve"><value>VOCALOID6 シーケンス|*.vpr</value></data>
   <data name="MainMenu_Edit_Delete_Header" xml:space="preserve"><value>削除</value></data>
   <data name="StaccatoNote_Label" xml:space="preserve"><value>スタッカートの種類:</value></data>
   <data name="MsgBox_StyleManagerInitialization_Error" xml:space="preserve"><value>Style Manager の初期化に失敗しました！</value></data>
@@ -796,7 +762,7 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="AudioMixdownDlg_Title" xml:space="preserve"><value>オーディオミックスダウン</value></data>
   <data name="ContextMenu_MusicalEditorJob_Header" xml:space="preserve"><value>ジョブ(_J)</value></data>
   <data name="VerifyLicense_VoiceNotAuthorizedOrExpiredLeaseFile" xml:space="preserve"><value>下記のVoiceが認証されていない、またはリース期限が切れています。</value></data>
-  <data name="Window_Title" xml:space="preserve"><value>VOCALOID6 Editor</value></data>
+  <data name="Window_Title" xml:space="preserve"><value>VOCALOID7 Editor</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Audio_Caption" xml:space="preserve"><value>オーディオ</value></data>
   <data name="EditHandle_VibratoLeadingDepth_DisplayName" xml:space="preserve"><value>前方深さ</value></data>
   <data name="ContextMenu_Cut_Header" xml:space="preserve"><value>切り取り(_T)</value></data>
@@ -812,7 +778,6 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="MsgBox_Edit_Vibrato_Error" xml:space="preserve"><value>ビブラートを編集できません。</value></data>
   <data name="MsgBox_Duplicate_MidiPart_Error" xml:space="preserve"><value>VOCALOIDパートを複製できません。</value></data>
   <data name="MsgBox_Resize_AudioPart_Error" xml:space="preserve"><value>オーディオパートをリサイズできません。</value></data>
-  <data name="ContextMenu_Media_EditClip" xml:space="preserve"><value>メディア情報を編集(_E)</value></data>
   <data name="MsgBox_Cut_Error" xml:space="preserve"><value>切り取りに失敗しました。</value></data>
   <data name="NotePropertyDlg_DirectPitch" xml:space="preserve"><value>編集したピッチ</value></data>
   <data name="ContextMenu_PasteNoteProperty_Header" xml:space="preserve"><value>形式を選択して貼り付け</value></data>
@@ -823,25 +788,21 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="CustomizeShortcutDlg_CommandQuantize4" xml:space="preserve"><value>グリッド - 1/4</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize2" xml:space="preserve"><value>グリッド - 1/2</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize1" xml:space="preserve"><value>グリッド - 1/1</value></data>
-  <data name="CustomizeShortcutDlg_CommandToggleGlobalSolo" xml:space="preserve"><value>グローバルソロ</value></data>
-  <data name="CustomizeShortcutDlg_CommandToggleGlobalMute" xml:space="preserve"><value>グローバルミュート</value></data>
   <data name="FileDlg_Encoding_Utf8" xml:space="preserve"><value>UTF-8</value></data>
-  <data name="MediaTag_ComboBox_Unset" xml:space="preserve"><value>(未設定)</value></data>
   <data name="MsgBox_FailedToOpenRenderingFile" xml:space="preserve"><value>致命的なエラー: 合成オーディオファイルの書き出しに失敗しました。
 
 プロジェクトを別名で保存し、アプリケーションを再起動して下さい。</value></data>
   <data name="MsgBox_VoiceBank_Update_Remaining" xml:space="preserve"><value>(その他 {0} 個のVoice)</value></data>
   <data name="MainMenu_Edit_Cut_Header" xml:space="preserve"><value>切り取り</value></data>
   <data name="MainMenu_View_Mixer_Header" xml:space="preserve"><value>ミキサー</value></data>
-  <data name="MainMenu_View_Media_Header" xml:space="preserve"><value>メディア</value></data>
   <data name="TextBox_ContextMenu_Paste_Header" xml:space="preserve"><value>貼り付け</value></data>
   <data name="ReplaceUnavailableVoiceDlg_Title" xml:space="preserve"><value>ボイスバンクが使用できません</value></data>
   <data name="VSGFailReason_Server" xml:space="preserve"><value>サーバーエラー</value></data>
   <data name="EditHandle_VibratoDuration_DisplayName" xml:space="preserve"><value>開始位置</value></data>
   <data name="CheckUpdate_UpToDate" xml:space="preserve"><value>最新です。</value></data>
-  <data name="PreferencesDlg_General_ControlParameters_Caption" xml:space="preserve"><value>コントロールパラメーター:</value></data>
+  <data name="PreferencesDlg_General_ControlParameters_Caption" xml:space="preserve"><value>コントロールパラメーター</value></data>
   <data name="MainMenu_Edit_SelectAll_Header" xml:space="preserve"><value>全てを選択</value></data>
-  <data name="MsgBox_Activate_Products" xml:space="preserve"><value>VOCALOID6製品を認証して下さい。</value></data>
+  <data name="MsgBox_Activate_Products" xml:space="preserve"><value>VOCALOID7製品を認証して下さい。</value></data>
   <data name="PreferencesDlg_Advanced_Plugin_Caption" xml:space="preserve"><value>プラグイン</value></data>
   <data name="EditHandle_AmplitudeWhole_DisplayName" xml:space="preserve"><value>中間エクスプレッション</value></data>
   <data name="CustomizeShortcutDlg_DeletePreset" xml:space="preserve"><value>削除</value></data>
@@ -855,21 +816,16 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="StyleSaveAsDlg_Button_AddNewColor" xml:space="preserve"><value>Color 追加</value></data>
   <data name="MainMenu_View_ZoomInVertically_Header" xml:space="preserve"><value>垂直方向にズームイン</value></data>
   <data name="ToolBar_PitchEraser_ToolTip" xml:space="preserve"><value>ピッチ消しゴム</value></data>
-  <data name="Media_KeySetting_Tooltip" xml:space="preserve"><value>メディア貼り付け時の移調設定</value></data>
   <data name="MsgBox_Delete_ControlParameter_Error" xml:space="preserve"><value>コントロールパラメーターの削除に失敗しました。</value></data>
   <data name="CheckUpdate_Button_No" xml:space="preserve"><value>いいえ</value></data>
-  <data name="PartPropertyDlg_Note" xml:space="preserve"><value>ノート</value></data>
-  <data name="PartPropertyDlg_Take" xml:space="preserve"><value>テイク</value></data>
-  <data name="MsgBox_Media_DeleteInfo" xml:space="preserve"><value>{0} を削除しますか？削除すると元には戻せません。</value></data>
   <data name="MainMenu_Help_CheckUpdate_Header" xml:space="preserve"><value>アップデート確認...</value></data>
   <data name="CustomizeShortcutDlg_CommandResetControlParametersToDefault" xml:space="preserve"><value>コントロールパラメーターを初期値に戻す</value></data>
-  <data name="MainMenu_Job_AddPartToMedia_Header" xml:space="preserve"><value>パートをメディアに追加...</value></data>
-  <data name="VerifyLicense_EnterSerialNumberOrStartSplice" xml:space="preserve"><value>VOCALOID Authorizer にて、該当のVoiceのシリアルコードを入力して認証するか、Splice を起動してインターネットに接続してください。
+  <data name="VerifyLicense_EnterSerialNumberOrStartSplice" xml:space="preserve"><value>VOCALOID7 Authorizer にて、該当のVoiceのシリアルコードを入力して認証するか、Splice を起動してインターネットに接続してください。
 (認証猶予期間を過ぎたVoice、またはリース期限が切れたVoiceは出音されません)
 
 今すぐ認証しますか？
 
-( [はい] をクリックすると VOCALOID Authorizer が起動します。)</value></data>
+( [はい] をクリックすると VOCALOID7 Authorizer が起動します。)</value></data>
   <data name="MsgBox_Duplicate_Error" xml:space="preserve"><value>複製に失敗しました。</value></data>
   <data name="MsgBox_AudioEngineInitialization_Error" xml:space="preserve"><value>Audio Engine の初期化に失敗しました！</value></data>
   <data name="CustomizeShortcutDlg_MessageShortcutKeyDelete" xml:space="preserve"><value>ショートカットキーを削除しますか？</value></data>
@@ -881,15 +837,13 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="MainMenu_Edit_AddMidiTrack_Header" xml:space="preserve"><value>VOCALOIDトラック作成</value></data>
   <data name="MsgBox_HowToImportAudio" xml:space="preserve"><value>オーディオファイルをまとめて1つのトラックに挿入しますか？
 1つ1つを別々のトラックに挿入しますか？</value></data>
-  <data name="PreferencesDlg_Audio_AudioDevice_ConnectingToReWire" xml:space="preserve"><value>ReWire 接続中</value></data>
-  <data name="MediaEditDlg_Header" xml:space="preserve"><value>メディア情報を編集</value></data>
   <data name="FileDlg_PPSF_Filter" xml:space="preserve"><value>Piapro Studio ソング|*.ppsf|すべてのファイル|*.*</value></data>
   <data name="NormalizeNote_Alert_Label" xml:space="preserve"><value>重なっているノートが有りません。</value></data>
   <data name="CheckUpdate_GettingInfomation_Error" xml:space="preserve"><value>アップデートの確認に失敗しました。</value></data>
   <data name="DownloadContent_Stopped" xml:space="preserve"><value>インストールが中断されました。</value></data>
-  <data name="VerifyLicense_EditorNotAuthorized" xml:space="preserve"><value>VOCALOID6 Editor が認証されていません。
+  <data name="VerifyLicense_EditorNotAuthorized" xml:space="preserve"><value>VOCALOID7 Editor が認証されていません。
 
-VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認証してください。</value></data>
+VOCALOID7 Authorizer にて VOCALOID7 のシリアルコードを入力して認証してください。</value></data>
   <data name="MainMenu_Help_VoiceBanksVersion_Header" xml:space="preserve"><value>ボイスバンクのバージョン...</value></data>
   <data name="FreezeProgressDlg_Title" xml:space="preserve"><value>フリーズ</value></data>
   <data name="CustomizeShortcutDlg_CommandNameHeader" xml:space="preserve"><value>コマンド</value></data>
@@ -924,7 +878,6 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="CustomizeShortcutDlg_CommandForwardByBar" xml:space="preserve"><value>小節単位で先へ進む</value></data>
   <data name="MainMenu_Job_NormalizeWave_Header" xml:space="preserve"><value>オーディオパートのゲインノーマライズ</value></data>
   <data name="AddTrackDlg_VoiceBank_Caption" xml:space="preserve"><value>ボイス</value></data>
-  <data name="PartPropertyDlg_VoiceColor" xml:space="preserve"><value>ボイスカラー</value></data>
   <data name="MainMenu_View_ShowMasterTrack_Header" xml:space="preserve"><value>メイントラック</value></data>
   <data name="MsgBox_Delete_Error" xml:space="preserve"><value>削除に失敗しました。</value></data>
   <data name="PreferencesDlg_Audio_StereoOutL_Caption" xml:space="preserve"><value>ステレオ出力 Left</value></data>
@@ -935,7 +888,6 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="MsgBox_ClearCache" xml:space="preserve"><value>現在のプロジェクトを閉じる際に、キャッシュのクリア処理が行われます。</value></data>
   <data name="PreferencesDlg_Audio_AudioDevice_Caption" xml:space="preserve"><value>オーディオデバイス</value></data>
   <data name="PreferencesDlg_General_SongPosition_Caption" xml:space="preserve"><value>ソングポジション</value></data>
-  <data name="PreferencesDlg_Audio_StereoOutR_ConnectingToReWire" xml:space="preserve"><value>-</value></data>
   <data name="ToolBar_Pitch_ToolTip" xml:space="preserve"><value>ピッチ</value></data>
   <data name="AddTrackDlg_Title" xml:space="preserve"><value>トラックを追加</value></data>
   <data name="VerifyLicene_DayRemaining" xml:space="preserve"><value>残り{0}日</value></data>
@@ -962,33 +914,26 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="StyleSaveAsDlg_NewStyle" xml:space="preserve"><value>(新規)</value></data>
   <data name="ContextMenu_New_Header" xml:space="preserve"><value>ソングポジション位置に拍子イベントを新規作成(_N)</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Languages_English" xml:space="preserve"><value>英語</value></data>
-  <data name="PreferencesDlg_General_DefaultAiVoice_Caption" xml:space="preserve"><value>VOCALOID:AI デフォルトボイス</value></data>
   <data name="ReplaceUnavailableVoiceDlg_Msg1" xml:space="preserve"><value>使用できないボイスバンクがプロジェクト内のパートに設定されています。</value></data>
   <data name="ReplaceUnavailableVoiceDlg_Msg2" xml:space="preserve"><value>これらは使用可能なボイスバンクへ置き換えられます。</value></data>
   <data name="MainMenu_Help_OpenNews_Header" xml:space="preserve"><value>ニュース...</value></data>
   <data name="DownloadContent_Description" xml:space="preserve"><value>VOCALOID の追加コンテンツをダウンロードすることができます。</value></data>
-  <data name="AddPartToMediaDlg_Button_AddNewGenre" xml:space="preserve"><value>Color 追加</value></data>
   <data name="ContextMenu_Repeat_Playback_Header" xml:space="preserve"><value>リピート(_R)</value></data>
   <data name="AudioMixdownDlg_MasterTrack" xml:space="preserve"><value>メイントラック</value></data>
   <data name="PreferencesDlg_General_APIServerTimeOut_Caption" xml:space="preserve"><value>サーバ接続のタイムアウト時間 (秒)</value></data>
-  <data name="AddPartToMediaDlg_Button_AddNewType" xml:space="preserve"><value>Type 追加</value></data>
   <data name="ContextMenu_SelectAll_Header" xml:space="preserve"><value>全てを選択(_A)</value></data>
   <data name="ContextMenu_SplitNote_Header" xml:space="preserve"><value>ノートの分割(_P)</value></data>
   <data name="PreferencesDlg_General_PrerollPlayEnabled_Caption" xml:space="preserve"><value>プリロール再生 (0.5秒)</value></data>
-  <data name="Media_PartKey_None" xml:space="preserve"><value>なし</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize64" xml:space="preserve"><value>グリッド - 1/64</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize32" xml:space="preserve"><value>グリッド - 1/32</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantize16" xml:space="preserve"><value>グリッド - 1/16</value></data>
   <data name="MainMenu_File_ImportPpsf_Header" xml:space="preserve"><value>PPSF ファイル...</value></data>
   <data name="ContextMenu_Paste_Header" xml:space="preserve"><value>貼り付け(_P)</value></data>
   <data name="MainMenu_File_ImportMidi_Header" xml:space="preserve"><value>MIDI ファイル...</value></data>
-  <data name="ContextMenu_Media_DeleteClip" xml:space="preserve"><value>メディアを削除(_D)</value></data>
   <data name="ContextMenu_PaintToolGroup_Header" xml:space="preserve"><value>ペイントツールグループ(_P)</value></data>
   <data name="SplitNote_SplitLength_Label" xml:space="preserve"><value>分割長:</value></data>
   <data name="MsgBox_AudioMixdown_ThePathNameIsTooLong" xml:space="preserve"><value>パス名が長すぎます。</value></data>
-  <data name="PreferencesDlg_General_Media_Caption" xml:space="preserve"><value>メディア</value></data>
   <data name="MainMenu_File_New_Header" xml:space="preserve"><value>新規</value></data>
-  <data name="CustomizeShortcutDlg_CommandImportAudio" xml:space="preserve"><value>インポート - オーディオファイル</value></data>
   <data name="VSGFailReason_Network" xml:space="preserve"><value>ネットワークエラー</value></data>
   <data name="NotePropertyDlg_VibratoParameters" xml:space="preserve"><value>パラメーター</value></data>
   <data name="MsgBox_Revert_Confirm" xml:space="preserve"><value>最後に保存した状態に戻しますか？</value></data>
@@ -996,12 +941,12 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="CustomizeShortcutDlg_CommandImportVsqx" xml:space="preserve"><value>インポート - VSQX ファイル</value></data>
   <data name="CustomizeShortcutDlg_CommandImportPpsf" xml:space="preserve"><value>インポート - PPSF ファイル</value></data>
   <data name="CustomizeShortcutDlg_CommandImportMidi" xml:space="preserve"><value>インポート - MIDI ファイル</value></data>
-  <data name="VerifyLicense_EnterSerialNumber" xml:space="preserve"><value>VOCALOID Authorizer にて、該当のVoiceのシリアルコードを入力して認証してください。
+  <data name="VerifyLicense_EnterSerialNumber" xml:space="preserve"><value>VOCALOID7 Authorizer にて、該当のVoiceのシリアルコードを入力して認証してください。
 (認証猶予期間を過ぎたVoiceは出音されません)
 
 今すぐ認証しますか？
 
-( [はい] をクリックすると VOCALOID Authorizer が起動します。)</value></data>
+( [はい] をクリックすると VOCALOID7 Authorizer が起動します。)</value></data>
   <data name="MsgBox_Edit_ControlParameter_Error" xml:space="preserve"><value>コントロールパラメータを編集できません。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Midi_Ai_Caption" xml:space="preserve"><value>VOCALOID:AI</value></data>
   <data name="FileDlg_SMF_Filter" xml:space="preserve"><value>SMF|*.mid;*.midi</value></data>
@@ -1013,15 +958,13 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="MsgBox_Style_FailedToDeleteStyle" xml:space="preserve"><value>スタイルプリセットの削除に失敗しました。</value></data>
   <data name="MainMenu_Help_OpenOfficialSite_Header" xml:space="preserve"><value>vocaloid.com</value></data>
   <data name="EditHandle_VibratoRate_DisplayName" xml:space="preserve"><value>速度</value></data>
-  <data name="DataUseDlg_Title" xml:space="preserve"><value>VOCALOID6 Editor</value></data>
+  <data name="DataUseDlg_Title" xml:space="preserve"><value>VOCALOID7 Editor</value></data>
   <data name="ToolGroup_Pitch_Caption" xml:space="preserve"><value>ピッチ</value></data>
   <data name="MsgBox_Duplicate_TrackVolume_Error" xml:space="preserve"><value>トラックボリュームの複製に失敗しました。</value></data>
   <data name="ImportSettingsDlg_Encoding" xml:space="preserve"><value>歌詞の文字コード</value></data>
   <data name="ToolBar_Pencil_ToolTip" xml:space="preserve"><value>鉛筆</value></data>
-  <data name="VSGFailReason_Other" xml:space="preserve"><value>インストールエラー</value></data>
-  <data name="AboutDlg_Title" xml:space="preserve"><value>VOCALOID6 Editor について</value></data>
-  <data name="PartPropertyDlg_Reverse" xml:space="preserve"><value>リバース</value></data>
-  <data name="AiVibrato_Label" xml:space="preserve"><value>アシスト</value></data>
+  <data name="VSGFailReason_Other" xml:space="preserve"><value>その他エラー</value></data>
+  <data name="AboutDlg_Title" xml:space="preserve"><value>VOCALOID7 Editor について</value></data>
   <data name="MsgBox_Delete_MasterVolume_Error" xml:space="preserve"><value>メインボリュームの削除に失敗しました。</value></data>
   <data name="CustomizeShortcutDlg_CommandForwardByGrid" xml:space="preserve"><value>グリッド単位で先へ進む</value></data>
   <data name="EditHandle_VibratoDepth_DisplayName" xml:space="preserve"><value>深さ</value></data>
@@ -1029,9 +972,8 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="MsgBox_Add_Panpot_Error" xml:space="preserve"><value>パンポットの追加に失敗しました。</value></data>
   <data name="NormalizeNote_NumberOfOverlappingNotes_Label" xml:space="preserve"><value>重なっているノート数:</value></data>
   <data name="ToolBar_Vibrato_ToolTip" xml:space="preserve"><value>ビブラート</value></data>
-  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/bb/VOCALOID_Reference_Manual_JPN.pdf</value></data>
+  <data name="String_OpenManualURL" xml:space="preserve"><value>https://rsc-net.vocaloid.com/assets/pdf_files/cc/VOCALOID_Reference_Manual_JPN.pdf</value></data>
   <data name="VerifyLicene_FreeTrial" xml:space="preserve"><value>試用する</value></data>
-  <data name="MsgBox_Wave_Reverse_Error" xml:space="preserve"><value>リバースに失敗しました。 エラー </value></data>
   <data name="MsgBox_Resize_MidiPart_Error" xml:space="preserve"><value>VOCALOIDパートをリサイズできません。</value></data>
   <data name="PreferencesDlg_Advanced_CacheCapacityOption_8GB" xml:space="preserve"><value>8GB</value></data>
   <data name="PreferencesDlg_Advanced_CacheCapacityOption_1GB" xml:space="preserve"><value>1GB</value></data>
@@ -1044,14 +986,11 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="VerifyLicense_AuthorizeNow" xml:space="preserve"><value>すぐに認証する</value></data>
   <data name="FileDlg_Encoding" xml:space="preserve"><value>歌詞の文字コード</value></data>
   <data name="InsertLyricsDlg_NumNote_Caption" xml:space="preserve"><value>最大:</value></data>
-  <data name="ToolBar_Media_ToolTip" xml:space="preserve"><value>メディア</value></data>
   <data name="MsgBox_OpenUrl_Error" xml:space="preserve"><value>URL を開くことができませんでした。</value></data>
-  <data name="PreferencesDlg_General_GetCacheSize_Caption" xml:space="preserve"><value>キャッシュサイズを取得</value></data>
   <data name="MainMenu_Edit_InsertSilence_Header" xml:space="preserve"><value>無音部分を挿入</value></data>
   <data name="CustomizeShortcutDlg_CommandTogglePlaybackGuideSound" xml:space="preserve"><value>試聴モード</value></data>
   <data name="CustomizeShortcutDlg_CommandImportVpr" xml:space="preserve"><value>インポート - VPR ファイル</value></data>
   <data name="MsgBox_Duplicate_Track_Error" xml:space="preserve"><value>トラックの複製に失敗しました。</value></data>
-  <data name="PreferencesDlg_General_LoadSystemMediaFile_Caption" xml:space="preserve"><value>プリインストールされているメディアをロード</value></data>
   <data name="MainMenu_Edit_AddAudioTrack_Header" xml:space="preserve"><value>オーディオトラック作成</value></data>
   <data name="MainMenu_Edit_Paste_Header" xml:space="preserve"><value>貼り付け</value></data>
   <data name="CustomizeShortcutDlg_CommandImportTempoAndTimeSig" xml:space="preserve"><value>インポート - テンポと拍子</value></data>
@@ -1061,16 +1000,13 @@ VOCALOID Authorizer にて VOCALOID6 のシリアルコードを入力して認�
   <data name="ContextMenu_JoinSelectedParts_Header" xml:space="preserve"><value>パートの結合(_J)</value></data>
   <data name="PreferencesDlg_Advanced_DefaultLyric_Caption" xml:space="preserve"><value>デフォルト歌詞</value></data>
   <data name="MsgBox_Save_Style_Error" xml:space="preserve"><value>スタイルプリセットファイルの保存に失敗しました。</value></data>
-  <data name="MsgBox_ResetVoiceForVoiceChanger" xml:space="preserve"><value>ボカロチェンジャーのターゲットに使用できないボイスバンクがプロジェクト内のオーディオパートに存在します。これらのパートはターゲットがリセットされます。</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizeOff" xml:space="preserve"><value>グリッド - Off</value></data>
   <data name="ContextMenu_RenamePart_Header" xml:space="preserve"><value>パート名を変更</value></data>
   <data name="CustomizeShortcutDlg_CommandShiftLyricsRight" xml:space="preserve"><value>歌詞を一文字後ろにずらす</value></data>
   <data name="ContextMenu_HalfQuantizeNotes_Header" xml:space="preserve"><value>クオンタイズ 50%</value></data>
   <data name="CustomizeShortcutDlg_CommandChangeInputtingMode" xml:space="preserve"><value>歌詞入力モードを変更</value></data>
-  <data name="AddPartToMediaDlg_AddNewTagDlg_Title" xml:space="preserve"><value>追加</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Languages_Spanish" xml:space="preserve"><value>スペイン語</value></data>
   <data name="ContextMenu_SelectAllTempos_Header" xml:space="preserve"><value>全てのテンポイベントを選択(_T)</value></data>
-  <data name="MsgBox_Wave_CopyAudioPartProperty_Error" xml:space="preserve"><value>形式を選択して貼り付けに失敗しました。 エラー</value></data>
   <data name="MsgBox_Save_Sequence_Error" xml:space="preserve"><value>プロジェクトファイルの書き込みに失敗しました。</value></data>
   <data name="DivideNote_Alert_Label" xml:space="preserve"><value>ノート長さが小さくなりすぎます。</value></data>
   <data name="MainMenu_File_Save_Header" xml:space="preserve"><value>保存</value></data>
@@ -1148,7 +1084,7 @@ Spliceのリースが完了しました。
   <data name="VOCALOIDPatcher_Debug_Patcher_Started" xml:space="preserve"><value>VOCALOID Patcher を起動しました</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_Version" xml:space="preserve"><value>バージョン: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_EditorVersion" xml:space="preserve"><value>VOCALOID エディターのバージョン: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>VOCALOID6 エディターが VST プラグインモードで実行されていることを検出しました</value></data>
+  <data name="VOCALOIDPatcher_Debug_Patcher_VstMode" xml:space="preserve"><value>VOCALOID7 エディターが VST プラグインモードで実行されていることを検出しました</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_TranslationInitialized" xml:space="preserve"><value>TranslationManager を初期化しました</value></data>
   <data name="VOCALOIDPatcher_Debug_Patcher_ApplyingPatch" xml:space="preserve"><value>{0} を適用中...</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Enabled" xml:space="preserve"><value>自動保存を有効化: {0} 分ごと</value></data>

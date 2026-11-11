@@ -34,14 +34,14 @@ public static class XamlSourceScanner
     private static readonly Regex PathGeometryRegex =
         new(@"^[MmLlHhVvCcSsQqTtAaZz][\sMmLlHhVvCcSsQqTtAaZz0-9.,+-]*$", RegexOptions.Compiled);
 
-    public static ScanResult Scan(string v6srcDir)
+    public static ScanResult Scan(string editorSrcDir)
     {
         var result = new ScanResult();
 
-        if (!Directory.Exists(v6srcDir))
-            throw new DirectoryNotFoundException($"V6 源码目录不存在: {v6srcDir}");
+        if (!Directory.Exists(editorSrcDir))
+            throw new DirectoryNotFoundException($"编辑器源码目录不存在: {editorSrcDir}");
 
-        foreach (var file in Directory.EnumerateFiles(v6srcDir, "*.xaml", SearchOption.AllDirectories))
+        foreach (var file in Directory.EnumerateFiles(editorSrcDir, "*.xaml", SearchOption.AllDirectories))
         {
             result.XamlFileCount++;
             var text = File.ReadAllText(file);

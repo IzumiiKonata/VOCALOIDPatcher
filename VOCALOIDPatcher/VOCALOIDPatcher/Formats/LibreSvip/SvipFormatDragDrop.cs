@@ -61,7 +61,7 @@ public static class SvipFormatDragDrop
             if (!FormatOptionDialog.Show(info, FormatOptionDirection.Import))
                 return;
             var project = SvipProjectLoader.Load(info, paths);
-            V6BridgeSvip.Import(project);
+            EditorBridgeSvip.Import(project);
         }
         catch (Exception ex)
         {

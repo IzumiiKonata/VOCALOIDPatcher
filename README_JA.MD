@@ -3,21 +3,22 @@
 [<img src="./res/lang_zh.svg" alt="阅读中文版" height="28">](./README.MD)
 [<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
 
-VOCALOID Patcher は `VOCALOID 6 Editor` に直接読み込まれ、画面の翻訳、ピアノロールの補助機能、一括処理ツール、プロジェクト形式の変換を追加するパッチです。
+VOCALOID Patcher は `VOCALOID7 Editor` に直接読み込まれ、画面の翻訳、ピアノロールの補助機能、一括処理ツール、プロジェクト形式の変換を追加するパッチです。
 
-- 翻訳データ：`6.13.1.1`
-- 動作確認済み：`6.6.0`、`6.11.0.1`、`6.12.0.1`、`6.13.0.1`、`6.13.1.1 (Latest)`
+- 翻訳データ：`7.0.0.1`
+- 動作確認済み：`7.0.0.1`
 
-作者自身が VOCALOID 6 を常用しているわけではないため、すべてのプロジェクトを網羅できているわけではありません。翻訳や変換の問題を報告する際は、エディターのバージョン、元の形式、再現手順、可能であれば最小構成のサンプルプロジェクトを添えてください。
+> `3.0.0` 以降、このパッチは VOCALOID7 のみをサポートします。VOCALOID 6 をお使いの方は引き続き `2.3.x` をご利用ください。
+
+作者自身が VOCALOID7 を常用しているわけではないため、すべてのプロジェクトを網羅できているわけではありません。翻訳や変換の問題を報告する際は、エディターのバージョン、元の形式、再現手順、可能であれば最小構成のサンプルプロジェクトを添えてください。
 
 ## インストール
 
 1. [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) から最新版をダウンロードします。
-2. 旧バージョンのVOCALOID 6（`6.3.0` 以前のバージョン）は、バージョン `2.3.1` 以降ではサポートされません。旧バージョンのエディタを使用しており、パッチを適用した後に起動できない場合は、`_NET6` という拡張子が付いた `2.3.0` バージョンのビルドをダウンロードしてください。
-3. `README.txt` を除くファイルを `C:\Program Files\VOCALOID6\Editor` にコピーし、既存のファイルを上書きします。
-4. エディターを起動してプロジェクトを開きます。メニューバーに `VOCALOID Patcher` が表示されれば導入完了です。
+2. `README.txt` を除くファイルを `C:\Program Files\VOCALOID7\Editor` にコピーし、既存のファイルを上書きします。
+3. エディターを起動してプロジェクトを開きます。メニューバーに `VOCALOID Patcher` が表示されれば導入完了です。
 
-VOCALOID 6 を別の場所にインストールしている場合は、実際の Editor ディレクトリへコピーしてください。
+VOCALOID7 を別の場所にインストールしている場合は、実際の Editor ディレクトリへコピーしてください。
 
 ![VOCALOID Patcher menu](./res/screenshot.png)
 
@@ -57,7 +58,7 @@ VOCALOID 6 を別の場所にインストールしている場合は、実際の
 
 歌詞は `LRC`、`SRT`、`ASS` として書き出すこともできます。
 
-変換処理は [LibreSVIP](https://github.com/SoulMelody/LibreSVIP) から移植し、VOCALOID 6 のプロジェクトモデルに合わせて調整しています。
+変換処理は [LibreSVIP](https://github.com/SoulMelody/LibreSVIP) から移植し、VOCALOID7 のプロジェクトモデルに合わせて調整しています。
 
 - ファイル選択後、その形式で利用できる変換設定を表示します。ドラッグ＆ドロップでも同じ設定を使用します。
 - ピッチ、音量、ブレシネス、ジェンダー、強さのカーブを VOCALOID のコントローラーと相互変換します。
@@ -74,11 +75,11 @@ VOCALOID 6 を別の場所にインストールしている場合は、実際の
 
 ## デバッグ
 
-VOCALOID 6 の起動中に左 `Shift` を押し続けると、パッチのログを表示するコンソールが開きます。起動失敗、変換エラー、互換性問題を報告する際は、関連するログも添えてください。
+VOCALOID7 の起動中に左 `Shift` を押し続けると、パッチのログを表示するコンソールが開きます。起動失敗、変換エラー、互換性問題を報告する際は、関連するログも添えてください。
 
 ## 開発
 
-`C:\Program Files\VOCALOID6\Editor` に比較的新しい VOCALOID 6 がインストールされている必要があります。プロジェクトは `.NET 6` と `.NET 8` の両方をビルドします。
+`C:\Program Files\VOCALOID7\Editor` に VOCALOID7 がインストールされている必要があります。プロジェクトは `.NET 10` をビルドします。
 
 ```powershell
 dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
@@ -87,7 +88,7 @@ dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
 Release ビルドでは依存関係を次の DLL に統合します。
 
 ```text
-VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll
+VOCALOIDPatcher\bin\Release\net10.0-windows\out\Microsoft.Xaml.Behaviors.dll
 ```
 
 開発中は `mklink` でこの DLL をエディターのディレクトリへリンクすると、ビルドのたびにコピーする必要がありません。

@@ -241,8 +241,8 @@ internal sealed class PitchLabelLayer : FrameworkElement
             try
             {
                 var type = AccessTools.TypeByName("Yamaha.VOCALOID.Design.UI.Note");
-                var field = type != null ? AccessTools.Field(type, "lyricFontSize") : null;
-                _lyricFontSize = (field?.GetValue(null) as double? ?? 12.0) - 1.5;
+                var f = type != null ? AccessTools.Field(type, "lyricFontSize") : null;
+                _lyricFontSize = (f?.GetValue(null) as double? ?? 12.0) - 1.5;
             }
             catch
             {

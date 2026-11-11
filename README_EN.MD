@@ -3,21 +3,22 @@
 [<img src="./res/lang_zh.svg" alt="阅读中文版" height="28">](./README.MD)
 [<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
-VOCALOID Patcher is loaded directly by `VOCALOID 6 Editor` and adds interface translations, piano-roll conveniences, batch tools, and project format conversion.
+VOCALOID Patcher is loaded directly by `VOCALOID7 Editor` and adds interface translations, piano-roll conveniences, batch tools, and project format conversion.
 
-- Translation data: `6.13.1.1`
-- Tested with: `6.6.0`, `6.11.0.1`, `6.12.0.1`, `6.13.0.1` and `6.13.1.1 (Latest)`
+- Translation data: `7.0.0.1`
+- Tested with: `7.0.0.1`
 
-I do not use VOCALOID 6 heavily enough to encounter every possible project, so translation and conversion edge cases are bound to turn up. When reporting one, please include the editor version, source format, reproduction steps, and a small sample project if possible.
+> Starting with `3.0.0`, the patch supports VOCALOID7 only. Users still on VOCALOID 6 should stay on the `2.3.x` releases.
+
+I do not use VOCALOID7 heavily enough to encounter every possible project, so translation and conversion edge cases are bound to turn up. When reporting one, please include the editor version, source format, reproduction steps, and a small sample project if possible.
 
 ## Installation
 
 1. Download the latest build from [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases).
-2. Older versions of VOCALOID 6 (versions `6.3.0` and earlier) are no longer supported starting with version `2.3.1`; if you are using an older version of the editor and it fails to launch after installing the patch, please download the `2.3.0` build with the `_NET6` suffix.
-3. Copy everything except `README.txt` into `C:\Program Files\VOCALOID6\Editor`, replacing the existing files.
-4. Start the editor and open a project. Installation succeeded if `VOCALOID Patcher` appears in the menu bar.
+2. Copy everything except `README.txt` into `C:\Program Files\VOCALOID7\Editor`, replacing the existing files.
+3. Start the editor and open a project. Installation succeeded if `VOCALOID Patcher` appears in the menu bar.
 
-If VOCALOID 6 is installed elsewhere, use its actual Editor directory instead.
+If VOCALOID7 is installed elsewhere, use its actual Editor directory instead.
 
 ![VOCALOID Patcher menu](./res/screenshot.png)
 
@@ -57,7 +58,7 @@ In addition to the formats supported by the editor itself, the patch can import 
 
 Lyrics can also be exported as `LRC`, `SRT`, or `ASS`.
 
-This converter is ported from [LibreSVIP](https://github.com/SoulMelody/LibreSVIP) and adapted to VOCALOID 6's project model:
+This converter is ported from [LibreSVIP](https://github.com/SoulMelody/LibreSVIP) and adapted to VOCALOID7's project model:
 
 - A format-specific options window appears after selecting a file. Drag-and-drop import uses the same settings.
 - Pitch, volume, breathiness, gender, and strength curves are mapped both ways between the neutral model and VOCALOID controllers.
@@ -74,11 +75,11 @@ The source and target editors do not share an identical data model. Check pitch 
 
 ## Debugging
 
-Hold left `Shift` while starting VOCALOID 6 to open an additional console with patch logs. Please include the relevant output when reporting startup, conversion, or compatibility problems.
+Hold left `Shift` while starting VOCALOID7 to open an additional console with patch logs. Please include the relevant output when reporting startup, conversion, or compatibility problems.
 
 ## Development
 
-A recent VOCALOID 6 installation is required at `C:\Program Files\VOCALOID6\Editor`. The project builds both `.NET 6` and `.NET 8` targets:
+VOCALOID7 is required at `C:\Program Files\VOCALOID7\Editor`. The project builds a `.NET 10` target:
 
 ```powershell
 dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
@@ -87,7 +88,7 @@ dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
 The Release build merges dependencies into:
 
 ```text
-VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll
+VOCALOIDPatcher\bin\Release\net10.0-windows\out\Microsoft.Xaml.Behaviors.dll
 ```
 
 During development, `mklink` can be used to link this DLL into the editor directory instead of copying it after every build.

@@ -3,20 +3,21 @@
 [<img src="./res/lang_en.svg" alt="Read this in English" height="28">](./README_EN.MD)
 [<img src="./res/lang_ja.svg" alt="日本語で読む" height="28">](./README_JA.MD)
 
-VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。它为编辑器补充多语言界面、钢琴窗功能、批处理工具和项目格式转换。
+VOCALOID Patcher 是一个直接加载进 `VOCALOID7 Editor` 的功能补丁。它为编辑器补充多语言界面、钢琴窗功能、批处理工具和项目格式转换。
 
-- 翻译条目版本：`6.13.1.1`
-- 已测试版本：`6.6.0`、`6.11.0.1`、`6.12.0.1`、`6.13.0.1`、`6.13.1.1 (最新版)`
+- 翻译条目版本：`7.0.0.1`
+- 已测试版本：`7.0.0.1`
 - 反馈与交流：QQ群 `422827160`
 
-我平时并不重度使用 VOCALOID 6，翻译或格式转换难免会碰到没有覆盖到的地方。发现问题时请附上编辑器版本、源文件格式和复现步骤 (如果需要)，可以的话再提供一份能复现问题的精简工程。
+> 从 `3.0.0` 开始本补丁仅支持 VOCALOID7。仍在使用 VOCALOID 6 的用户请继续使用 `2.3.x` 版本。
+
+我平时并不重度使用 VOCALOID7，翻译或格式转换难免会碰到没有覆盖到的地方。发现问题时请附上编辑器版本、源文件格式和复现步骤 (如果需要)，可以的话再提供一份能复现问题的精简工程。
 
 ## 安装
 
 1. 从 [Releases](https://github.com/IzumiiKonata/VOCALOIDPatcher/releases) 下载最新版。
-2. 较老的 VOCALOID 6 (`6.3.0` 及之前的版本) 从 `2.3.1` 版本开始不受支持；如果您是老版本编辑器并且安装补丁之后无法启动请下载 `2.3.0` 版本的带有 `_NET6` 后缀的构建。
-3. 将压缩包中的文件 (`README.txt` 除外) 复制到 `C:\Program Files\VOCALOID6\Editor` 并覆盖原文件。
-4. 启动编辑器并打开任意工程。菜单栏出现 `VOCALOID Patcher` 即表示加载成功。
+2. 将压缩包中的文件 (`README.txt` 除外) 复制到 `C:\Program Files\VOCALOID7\Editor` 并覆盖原文件。
+3. 启动编辑器并打开任意工程。菜单栏出现 `VOCALOID Patcher` 即表示加载成功。
 
 * 如果编辑器不在默认目录，请将文件复制到实际的 Editor 目录。
 
@@ -71,11 +72,11 @@ VOCALOID Patcher 是一个直接加载进 `VOCALOID 6 Editor` 的功能补丁。
 
 ## 调试
 
-启动 VOCALOID 6 时按住左 `Shift`，补丁会额外打开一个控制台并输出调试日志。反馈启动失败、转换异常或兼容性问题时，请一并附上相关日志。
+启动 VOCALOID7 时按住左 `Shift`，补丁会额外打开一个控制台并输出调试日志。反馈启动失败、转换异常或兼容性问题时，请一并附上相关日志。
 
 ## 开发
 
-需要在默认目录 `C:\Program Files\VOCALOID6\Editor` 安装一份较新的 VOCALOID 6。项目会同时构建 `.NET 6` 和 `.NET 8` 两个目标：
+需要在默认目录 `C:\Program Files\VOCALOID7\Editor` 安装一份 VOCALOID7。项目构建 `.NET 10` 目标：
 
 ```powershell
 dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
@@ -84,7 +85,7 @@ dotnet build VOCALOIDPatcher\VOCALOIDPatcher.csproj -c Release
 Release 构建会将依赖合并到：
 
 ```text
-VOCALOIDPatcher\bin\Release\net8.0-windows\out\Microsoft.Xaml.Behaviors.dll
+VOCALOIDPatcher\bin\Release\net10.0-windows\out\Microsoft.Xaml.Behaviors.dll
 ```
 
 开发时可以用 `mklink` 把该 DLL 链接到编辑器目录，省去每次构建后手动复制。
