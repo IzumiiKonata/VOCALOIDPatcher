@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace VOCALOIDPatcher.Config;
 
@@ -134,28 +134,12 @@ public static class Settings
         set => Patcher.ConfigManager.Set(CenteredLyricsKey, value);
     }
 
-    public static string AlwaysShowWaveformKey => "AlwaysShowWaveform";
-
-    public static bool AlwaysShowWaveform
-    {
-        get => FeatureFlag(AlwaysShowWaveformKey, false);
-        set => Patcher.ConfigManager.Set(AlwaysShowWaveformKey, value);
-    }
-
     public static string SvEditorStyleKey => "SvEditorStyle";
 
     public static bool SvEditorStyle
     {
         get => FeatureFlag(SvEditorStyleKey, false);
         set => Patcher.ConfigManager.Set(SvEditorStyleKey, value);
-    }
-
-    public static string WaveformOpacityKey => "WaveformOpacity";
-
-    public static double WaveformOpacity
-    {
-        get => Patcher.ConfigManager.Get(WaveformOpacityKey, 0.6);
-        set => Patcher.ConfigManager.Set(WaveformOpacityKey, value);
     }
 
     public static string AutoSaveEnabledKey => "AutoSaveEnabled";

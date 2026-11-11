@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
     <data name="NEW PROJECT" xml:space="preserve"><value>HomeWindow_PushButton_NEW_PROJECT_Header</value></data>
     <data name="OPEN" xml:space="preserve"><value>HomeWindow_PushButton_OPEN_Header</value></data>
@@ -50,6 +50,7 @@
     <data name="CUTE" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Character_Cute_Header</value></data>
     <data name="EXPRESSION" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Expression_Header</value></data>
     <data name="POWERFUL" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Powerful_Header</value></data>
+    <data name="ATTACK" xml:space="preserve"><value>PartPropertiesView_Style_VoiceColor_Attack_Header</value></data>
     
     <data name="PROCESSES" xml:space="preserve"><value>AudioPropertiesView_Processes_Header</value></data>
     <data name="CHANGE PITCH" xml:space="preserve"><value>AudioPropertiesView_Processes_ChangePitch_Header</value></data>
@@ -123,5 +124,36 @@
     <data name="_Cancel" xml:space="preserve"><value>MessageBox_Cancel_Header</value></data>
     <data name="_Yes" xml:space="preserve"><value>MessageBox_Yes_Header</value></data>
     <data name="_No" xml:space="preserve"><value>MessageBox_No_Header</value></data>
+
+    <!-- 下拉框 / 枚举显示值 -->
+    <data name="Hard" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Hard</value></data>
+    <data name="Normal" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Normal</value></data>
+    <data name="Soft" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Soft</value></data>
+
+    <data name="Female" xml:space="preserve"><value>Enum_VSMBreathType_Female</value></data>
+    <data name="Male" xml:space="preserve"><value>Enum_VSMBreathType_Male</value></data>
+    <data name="Often" xml:space="preserve"><value>Enum_VSMBreathMode_Often</value></data>
+    <data name="Sometimes" xml:space="preserve"><value>Enum_VSMBreathMode_Sometimes</value></data>
+    <data name="Rarely" xml:space="preserve"><value>Enum_VSMBreathMode_Rarely</value></data>
+
+    <data name="Velocity" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Velocity</value></data>
+    <data name="Dynamics" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Dynamics</value></data>
+    <data name="Pitch Bend" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_PitchBend</value></data>
+    <data name="Pitch Bend Sensitivity" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_PitchBendSensitivity</value></data>
+    <data name="Exciter" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Exciter</value></data>
+    <data name="Growl" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Growl</value></data>
+    <data name="Breathiness" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Breathiness</value></data>
+    <data name="Air" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Air</value></data>
+    <data name="Mouth" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Mouth</value></data>
+    <data name="Character" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Character</value></data>
+    <data name="Brightness" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Brightness</value></data>
+    <data name="Clearness" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Clearness</value></data>
+    <data name="Portamento Timing" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_PortamentoTiming</value></data>
+    <data name="Cross Synthesis" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_CrossSynthesis</value></data>
+    <data name="Expression" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Expression</value></data>
+    <data name="Attack" xml:space="preserve"><value>Enum_ControlParameterTypeEnum_Attack</value></data>
+
+    <data name="check" xml:space="preserve"><value>Enum_StylePresetChangeMode_Confirm</value></data>
+    <data name="keep" xml:space="preserve"><value>Enum_StylePresetChangeMode_Keep</value></data>
 
 </root>

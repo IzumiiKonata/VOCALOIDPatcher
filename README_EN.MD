@@ -32,7 +32,7 @@ Both editor resources and a number of hardcoded labels can be translated. Transl
 
 - Show notes from other tracks in the current piano roll, with an option to skip muted tracks.
 - Display note names such as `C4` and `F#3`.
-- Rounded notes, vertically centered lyrics, and an always-visible waveform.
+- Rounded notes and vertically centered lyrics.
 - Show the current voicebank cover in the lower-right corner. Each voicebank can have its own art, size, and opacity.
 - Static images, animated `GIF` files, and videos such as `MP4` are supported.
 - Horizontal touchpad scrolling for the piano roll.
@@ -41,7 +41,6 @@ Both editor resources and a number of hardcoded labels can be translated. Transl
 ![Show note pitch](./res/show_note_pitch.png)
 ![Rounded notes](./res/rounded_notes.png)
 ![Centered lyrics](./res/centered_notes_b.png)
-![Always show waveform](./res/always_show_wave.png)
 
 ### Batch tools
 

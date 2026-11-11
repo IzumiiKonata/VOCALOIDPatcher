@@ -5,9 +5,6 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-// VOCALOID7 不再提供 WIVSMTrack.SetSolo(bool)：独奏状态通过 ToggleSolo /
-// ToggleSoloDefeat / SetExclusiveSolo 修改。三者都会影响其它轨道的实际静音状态，
-// 因此都需要在修改后刷新钢琴窗。
 public class TrackSoloRefreshPatch : PatchBase
 {
     public override string PatchName       => "TrackSoloRefreshPatch";

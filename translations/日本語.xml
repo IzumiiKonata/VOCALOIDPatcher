@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Hardcoded -->
   <data name="HomeWindow_PushButton_NEW_PROJECT_Header" xml:space="preserve"><value>新規プロジェクト</value></data>
@@ -20,9 +20,7 @@
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>ノートの音高を表示</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>角丸ノート</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>歌詞を中央に表示</value></data>
-  <data name="VOCALOIDPatcher_AlwaysShowWaveform_Header" xml:space="preserve"><value>常にノートの波形を表示</value></data>
   <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SVエディタースタイル</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>ボイスバンクのカバーを表示</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>カバーのサイズ</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>横位置</value></data>
@@ -41,24 +39,24 @@
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>パフォーマンス</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>プロジェクト読み込みを高速化</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>画面外のコンテンツの読み込みを遅延し、プロジェクトを開く速度を向上させます。</value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>メモリ最適化</value></data>
-  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>アイドル時に未使用メモリを解放し、メモリ使用量を抑えます。</value></data>
   <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>トラックエリアの描画を最適化</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>トラック領域の再描画を減らし、スクロールや編集を滑らかにします。</value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>パート切り替えを高速化</value></data>
-  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>パート切替時に変更のない領域の再描画を省略します。</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形キャッシュ</value></data>
   <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>オーディオPCMキャッシュの解放</value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>描画済みの波形をキャッシュし、重複描画を避けます。</value></data>
   <data name="VOCALOIDPatcher_ThrottleRendererPreview_Header" xml:space="preserve"><value>合成プレビュー更新の最適化</value></data>
-  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value>レンダープレビューの更新頻度を制限し、CPU 使用率を抑えます。</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>選択解除を高速化</value></data>
-  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>選択解除を最適化し、大量のノートでも素早く反応します。</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>パラメータパネルの遅延更新</value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>パラメーターパネルの更新を遅延し、編集時の引っかかりを減らします。</value></data>
   <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>再生位置ラインをスムーズに</value></data>
-  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>再生位置ラインの動きを滑らかにします。</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8分スイング</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8分シャッフル</value></data>
@@ -1069,6 +1067,331 @@ Spliceのリースが完了しました。
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>キャンセル(_C)</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>はい(_Y)</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>いいえ(_N)</value></data>
+  <!-- ComboBox / Enum display values -->
+  <data name="Enum_VSMRobotVoiceMode_Hard" xml:space="preserve"><value>ハード</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Normal" xml:space="preserve"><value>ノーマル</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Soft" xml:space="preserve"><value>ソフト</value></data>
+
+  <data name="Enum_VSMBreathType_Female" xml:space="preserve"><value>女性</value></data>
+  <data name="Enum_VSMBreathType_Male" xml:space="preserve"><value>男性</value></data>
+  <data name="Enum_VSMBreathMode_Often" xml:space="preserve"><value>頻繁</value></data>
+  <data name="Enum_VSMBreathMode_Sometimes" xml:space="preserve"><value>ときどき</value></data>
+  <data name="Enum_VSMBreathMode_Rarely" xml:space="preserve"><value>まれに</value></data>
+
+  <data name="Enum_ControlParameterTypeEnum_Velocity" xml:space="preserve"><value>ベロシティ</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Dynamics" xml:space="preserve"><value>ダイナミクス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBend" xml:space="preserve"><value>ピッチベンド</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBendSensitivity" xml:space="preserve"><value>ピッチベンド感度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Exciter" xml:space="preserve"><value>エキサイター</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Growl" xml:space="preserve"><value>グロウル</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Breathiness" xml:space="preserve"><value>ブレシネス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Air" xml:space="preserve"><value>エア</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Mouth" xml:space="preserve"><value>マウス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Character" xml:space="preserve"><value>キャラクター</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Brightness" xml:space="preserve"><value>ブライトネス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Clearness" xml:space="preserve"><value>クリアネス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PortamentoTiming" xml:space="preserve"><value>ポルタメントタイミング</value></data>
+  <data name="Enum_ControlParameterTypeEnum_CrossSynthesis" xml:space="preserve"><value>クロスシンセシス</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Expression" xml:space="preserve"><value>エクスプレッション</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Attack" xml:space="preserve"><value>アタック</value></data>
+
+  <data name="Enum_StylePresetChangeMode_Confirm" xml:space="preserve"><value>確認</value></data>
+  <data name="Enum_StylePresetChangeMode_Keep" xml:space="preserve"><value>保持</value></data>
+
+  <!-- Filled from editor resources / ComboBox values -->
+  <data name="AudioMixdownDlg_BitRate" xml:space="preserve"><value>ビットレート</value></data>
+  <data name="AudioMixdownDlg_RenderingOptions" xml:space="preserve"><value>書き出し設定</value></data>
+  <data name="Button_Reset" xml:space="preserve"><value>リセット</value></data>
+  <data name="ContextMenu_ClearNoteDirectPitches_Header" xml:space="preserve"><value>ノートピッチ固定解除</value></data>
+  <data name="ContextMenu_Disable_Selected_Tracks" xml:space="preserve"><value>選択したトラックをオフ</value></data>
+  <data name="ContextMenu_Enable_Selected_Tracks" xml:space="preserve"><value>選択したトラックをオン</value></data>
+  <data name="ContextMenu_Mute_Header" xml:space="preserve"><value>ミュート</value></data>
+  <data name="ContextMenu_SetDirectPitchesFromRenderedPitches_Header" xml:space="preserve"><value>ノートピッチ固定</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToBreath" xml:space="preserve"><value>ブレス挿入</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToSilence" xml:space="preserve"><value>無音化</value></data>
+  <data name="CustomizeShortcutDlg_EmotionToolTemporarySwitch" xml:space="preserve"><value>エモーションツール一時切り替えキー</value></data>
+  <data name="CustomizeShortcutDlg_GridTemporarySwitch" xml:space="preserve"><value>グリッド一時切り替えキー</value></data>
+  <data name="CustomizeShortcutDlg_PencilToolTemporarySwitch" xml:space="preserve"><value>鉛筆ツール一時切り替えキー</value></data>
+  <data name="HomeWindow_NewProject_Caption" xml:space="preserve"><value>新規作成</value></data>
+  <data name="HomeWindow_OpenDemoSong_Caption" xml:space="preserve"><value>デモソングを開く</value></data>
+  <data name="HomeWindow_Open_Caption" xml:space="preserve"><value>開く</value></data>
+  <data name="MainMenu_Edit_MuteSelectedEvents_Header" xml:space="preserve"><value>イベントのミュート</value></data>
+  <data name="MainMenu_Edit_UnmuteSelectedEvents_Header" xml:space="preserve"><value>イベントのミュートを解除</value></data>
+  <data name="MainMenu_File_ImportCcs_Header" xml:space="preserve"><value>CCS ファイル...</value></data>
+  <data name="MainMenu_File_ImportMp3_Header" xml:space="preserve"><value>MP3 ファイル...</value></data>
+  <data name="MainMenu_File_ImportMusicXml_Header" xml:space="preserve"><value>MusicXML ファイル...</value></data>
+  <data name="MainMenu_File_ImportMxl_Header" xml:space="preserve"><value>MXL ファイル...</value></data>
+  <data name="MainMenu_File_ImportSvp_Header" xml:space="preserve"><value>SVP ファイル...</value></data>
+  <data name="MainMenu_File_ImportTssln_Header" xml:space="preserve"><value>TSSLN ファイル...</value></data>
+  <data name="MainMenu_File_ImportUst_Header" xml:space="preserve"><value>UST ファイル...</value></data>
+  <data name="MainMenu_File_ImportVprx_Header" xml:space="preserve"><value>VPRX ファイル...</value></data>
+  <data name="MainMenu_File_ImportWave_Header" xml:space="preserve"><value>Wave ファイル...</value></data>
+  <data name="MainMenu_Transport_MetronomeSettings_Header" xml:space="preserve"><value>メトロノーム設定...</value></data>
+  <data name="MainMenu_Transport_Metronome_Header" xml:space="preserve"><value>メトロノーム</value></data>
+  <data name="MainMenu_View_Browser_Header" xml:space="preserve"><value>ブラウザ</value></data>
+  <data name="MainMenu_View_InspectorHelp_Header" xml:space="preserve"><value>コンテキストヘルプ</value></data>
+  <data name="ManualVibrato_Label" xml:space="preserve"><value>マニュアル</value></data>
+  <data name="MetronomeSettingsDlg_ClickLabel" xml:space="preserve"><value>クリック設定</value></data>
+  <data name="MetronomeSettingsDlg_HiLabel" xml:space="preserve"><value>Hi</value></data>
+  <data name="MetronomeSettingsDlg_LoLabel" xml:space="preserve"><value>Lo</value></data>
+  <data name="MetronomeSettingsDlg_Title" xml:space="preserve"><value>メトロノーム設定</value></data>
+  <data name="MusicalEditor_ActionComboBox_DisplayText" xml:space="preserve"><value>アクション</value></data>
+  <data name="NoteInspectorTitle_AttackEffect" xml:space="preserve"><value>アタックエフェクト</value></data>
+  <data name="NoteInspectorTitle_Letter" xml:space="preserve"><value>歌詞</value></data>
+  <data name="NoteInspectorTitle_Lyric" xml:space="preserve"><value>歌詞と発音記号</value></data>
+  <data name="NoteInspectorTitle_Parameter" xml:space="preserve"><value>パラメーター</value></data>
+  <data name="NoteInspectorTitle_PhoneticSymbol" xml:space="preserve"><value>発音記号</value></data>
+  <data name="NoteInspectorTitle_ReleaseEffect" xml:space="preserve"><value>リリースエフェクト</value></data>
+  <data name="NotePropertyDlg_ManualVibrato" xml:space="preserve"><value>マニュアル</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Caption" xml:space="preserve"><value>ボイスバンクアイコン表示</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Enable_Caption" xml:space="preserve"><value>有効</value></data>
+  <data name="ProjectSettingDlg_MeasureOffset" xml:space="preserve"><value>小節数オフセット</value></data>
+  <data name="ToolBar_Browser_ToolTip" xml:space="preserve"><value>ブラウザ</value></data>
+  <data name="ToolBar_InspectorHelp_ToolTip" xml:space="preserve"><value>コンテキストヘルプ</value></data>
+  <data name="ToolBar_MetronomeSettings_ToolTip" xml:space="preserve"><value>メトロノーム設定</value></data>
+  <data name="ToolBar_Mute_ToolTip" xml:space="preserve"><value>ミュート</value></data>
+  <data name="ToolBar_PitchCurveView_ToolTip" xml:space="preserve"><value>ピッチカーブ表示</value></data>
+  <data name="ToolBar_Timing_ToolTip" xml:space="preserve"><value>タイミング</value></data>
+  <data name="ToolBar_VoiceBankImageViewSetting_ToolTip" xml:space="preserve"><value>ボイスバンク画像設定</value></data>
+  <data name="ToolBar_VoiceBankImageView_ToolTip" xml:space="preserve"><value>ボイスバンク画像表示</value></data>
+  <data name="ToolBar_WaveformImageView_ToolTip" xml:space="preserve"><value>波形表示</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDropText" xml:space="preserve"><value>ここに画像をドロップ</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageUnsetText" xml:space="preserve"><value>カスタム画像未設定</value></data>
+  <data name="VoiceBankImageSettingDlg_OpacityLabel" xml:space="preserve"><value>画像の不透明度</value></data>
+  <data name="VoiceBankImageSettingDlg_ResetButtonText" xml:space="preserve"><value>リセット</value></data>
+  <data name="VoiceBankImageSettingDlg_Title" xml:space="preserve"><value>ボイスバンク画像設定</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Export" xml:space="preserve"><value>MP3をエクスポート</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Import" xml:space="preserve"><value>MP3をインポート</value></data>
+  <data name="CustomizeShortcutDlg_CommandAddTimeSig" xml:space="preserve"><value>ソングポジション位置に拍子イベントを新規作成</value></data>
+  <data name="CustomizeShortcutDlg_CommandClearNoteDirectPitches" xml:space="preserve"><value>ノートピッチ固定解除</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllMuteStates" xml:space="preserve"><value>全トラックのミュート状態を解除</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllSoloStates" xml:space="preserve"><value>全トラックのソロ状態を解除</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportCcs" xml:space="preserve"><value>インポート - CCS ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMp3" xml:space="preserve"><value>インポート - MP3 ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMusicXml" xml:space="preserve"><value>インポート - MusicXML ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMxl" xml:space="preserve"><value>インポート - MXL ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportSvp" xml:space="preserve"><value>インポート - SVP ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportTssln" xml:space="preserve"><value>インポート - TSSLN ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportUst" xml:space="preserve"><value>インポート - UST ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportVprx" xml:space="preserve"><value>インポート - VPRX ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportWave" xml:space="preserve"><value>インポート - Wave ファイル</value></data>
+  <data name="CustomizeShortcutDlg_CommandMidiTrackAddMidiPart" xml:space="preserve"><value>ソングポジション位置にパートを新規作成</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllMainVolumes" xml:space="preserve"><value>全てのメインボリュームイベントを選択</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllNotes" xml:space="preserve"><value>全てのノートを選択</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTempos" xml:space="preserve"><value>全てのテンポイベントを選択</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTimeSigs" xml:space="preserve"><value>全ての拍子イベントを選択</value></data>
+  <data name="CustomizeShortcutDlg_CommandSetDirectPitchesFromRenderedPitches" xml:space="preserve"><value>ノートピッチ固定</value></data>
+  <data name="FileDlg_CCS_Filter" xml:space="preserve"><value>CCS ファイル|*.ccs|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_MP3_Filter" xml:space="preserve"><value>MP3 ファイル|*.mp3|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_MXL_Filter" xml:space="preserve"><value>MXL ファイル|*.mxl|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_MusicXML_Filter" xml:space="preserve"><value>MusicXML ファイル|*.musicxml|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_SVP_Filter" xml:space="preserve"><value>SVP ファイル|*.svp|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_TSSLN_Filter" xml:space="preserve"><value>TSSLN ファイル|*.tssln|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_UST_Filter" xml:space="preserve"><value>UST ファイル|*.ust|すべてのファイル|*.*</value></data>
+  <data name="FileDlg_V7Proj_Filter" xml:space="preserve"><value>VOCALOID7 シーケンス|*.vprx</value></data>
+  <data name="FileDlg_VPRX_Filter" xml:space="preserve"><value>VOCALOID7 プロジェクト|*.vprx|すべてのファイル|*.*</value></data>
+  <data name="Help_AmplitudeEndControl" xml:space="preserve"><value>後方エクスプレッション;ノートの後半の音量を調整します。</value></data>
+  <data name="Help_AmplitudeStartControl" xml:space="preserve"><value>前方エクスプレッション;ノートの前半の音量を調整します。</value></data>
+  <data name="Help_AmplitudeWholeControl" xml:space="preserve"><value>中間エクスプレッション;ノートの中間の音量を調整します。</value></data>
+  <data name="Help_AttackReleaseEffectArea" xml:space="preserve"><value>アタック・リリースエフェクト;ノートのアタックやリリース部分にエフェクトをかけることができます。
+適用するには、アイコンをクリックします。
+適用を解除するには、アイコンを再度クリックします。</value></data>
+  <data name="Help_AttackReleaseEffectControl" xml:space="preserve"><value>エフェクト調整;エフェクトの強さを調整できます。値の範囲は、SOFT(0.0)〜HARD(1.0)です。</value></data>
+  <data name="Help_AudioPartArea" xml:space="preserve"><value>オーディオパート;音の波形データを持つパートです。オーディオトラックで利用できます。</value></data>
+  <data name="Help_BreakPointControl" xml:space="preserve"><value>ブレークポイント;ブレークポイントとは、コントロールパラメーターの値を特定のタイミングで変更するために設定する目印(ポイント)です。時間や位置ごとに異なる値を割り当てることで、パラメーターの変化を細かく調整できます。</value></data>
+  <data name="Help_ChangePitchControl" xml:space="preserve"><value>チェンジピッチ;オーディオのピッチを-12 (-1200cent) から 12 (+1200cent) の範囲で上下させます。</value></data>
+  <data name="Help_ControlParameterGraphBodyArea" xml:space="preserve"><value>コントロールパラメーター;コントロールパラメーターを表示・編集する領域です。</value></data>
+  <data name="Help_ControlParameterGraphButton" xml:space="preserve"><value>コントロールパラメーターの開閉;コントロールパラメーターエリアを開閉することができます。</value></data>
+  <data name="Help_ControlParameterHeaderSelectorCombo" xml:space="preserve"><value>コントロールパラメーター種類;プルダウン表示されたリストから、表示・編集するコントロールパラメーター種類を選ぶことができます。</value></data>
+  <data name="Help_ControlParameterHeaderTextBox" xml:space="preserve"><value>コントロールパラメーター情報;選択されたコントロールパラメーターの情報を表示・編集する領域です。</value></data>
+  <data name="Help_EditorRulerArea" xml:space="preserve"><value>編集ルーラー;編集エディタのルーラです。スタートマーカー、エンドマーカーの位置やパートの開始、終了位置をドラッグで調整できます。</value></data>
+  <data name="Help_EffectButton" xml:space="preserve"><value>エフェクト;選択したトラックのオーディオエフェクト ウインドウを表示します。</value></data>
+  <data name="Help_EndMarkerControl" xml:space="preserve"><value>エンドマーカー;エンドマーカーがリピート終了地点になります。</value></data>
+  <data name="Help_GlobalMuteButton" xml:space="preserve"><value>全ミュート状態をオフ;いずれかのトラックでミュートが設定されている場合点灯します。押すとすべてのトラックのミュートが解除されます。</value></data>
+  <data name="Help_GlobalSoloButton" xml:space="preserve"><value>全ソロ状態をオフ;いずれかのトラックでソロが設定されている場合点灯します。押すとすべてのトラックのソロが解除されます。</value></data>
+  <data name="Help_InspectorDisclosureButton" xml:space="preserve"><value>インスペクター情報開閉ボタン;インスペクターの情報を折りたたんで非表示にするボタンです。クリックすると表示中の詳細情報が隠れ、もう一度クリックすると再び表示されます。</value></data>
+  <data name="Help_LyricTextBox" xml:space="preserve"><value>歌詞;歌詞を表示・編集する領域です。</value></data>
+  <data name="Help_MainVolumeTrackBodyArea" xml:space="preserve"><value>メイントラック編集エリア;メインボリュームを表示・編集する領域です。「鉛筆ツール」「ラインツール」を使用することでボリューム情報を入力、「矢印ツール」で編集できます。</value></data>
+  <data name="Help_MainVolumeTrackButton" xml:space="preserve"><value>メイントラック表示・非表示;トラックエディターに、メイントラックを表示します。</value></data>
+  <data name="Help_MainVolumeTrackHeaderArea" xml:space="preserve"><value>メイントラック;メインボリューム情報を表示・編集するトラックです。</value></data>
+  <data name="Help_MidiPartArea" xml:space="preserve"><value>VOCALOIDパート;楽譜のノート情報（音符）を持つパートで、主にボーカル合成に使用されます。</value></data>
+  <data name="Help_MuteButton" xml:space="preserve"><value>ミュート;選択したトラックからの出力をミュート(遮断)します。</value></data>
+  <data name="Help_NewTrackAddButton" xml:space="preserve"><value>トラック作成;新しくトラックを作成します。表示されるダイアログで作成するトラックの情報を設定し、［作成］をクリックします。</value></data>
+  <data name="Help_NoteArea" xml:space="preserve"><value>ノート;ノートは、楽譜上で音の高さや長さなどを示す要素です。</value></data>
+  <data name="Help_NoteParameterAllReset" xml:space="preserve"><value>全パラメーターリセット;全てのパラメーターの値をデフォルト値へ戻します。</value></data>
+  <data name="Help_NoteParameterReset" xml:space="preserve"><value>パラメーターリセット;グループに含まれるパラメーターの値をデフォルト値へ戻します。</value></data>
+  <data name="Help_OutputControl" xml:space="preserve"><value>オーディオアウトプットルーティン設定;トラックの出力先を設定します。
+スタンドアローン版の場合：メイントラックにはオーディオデバイスの名前が、それ以外のトラックには「Main」が表示されます。
+VST/AU版の場合：プルダウンから出力先バスを選択できます。</value></data>
+  <data name="Help_PartNameText" xml:space="preserve"><value>パートネーム;パートネームを表示・編集する領域です。</value></data>
+  <data name="Help_PhoneticSymbolLanguage" xml:space="preserve"><value>ノート言語;ノートの発音記号がどの言語として処理されるかを示す項目です。ノート言語設定は発音記号を入力する際に設定されるので、この項目は表示専用です。</value></data>
+  <data name="Help_PhoneticSymbolLockButton" xml:space="preserve"><value>発音記号プロテクト;ボタンを押すと発音記号をプロテクトできます。</value></data>
+  <data name="Help_PhoneticSymbolTextBox" xml:space="preserve"><value>発音記号;発音記号を表示・編集する領域です。</value></data>
+  <data name="Help_PianorollBodyArea" xml:space="preserve"><value>ピアノロール;ノートを表示・編集する領域です。</value></data>
+  <data name="Help_PianorollHeaderArea" xml:space="preserve"><value>ピアノロールヘッダ;試聴ボタンがONの場合、ピアノロール左側の鍵盤を押すことで、パートのボイスのその音程の音が鳴ります。ピアノロール上部にはトラックの種類やトラック番号が表示されます。</value></data>
+  <data name="Help_PitchDriftEndControl" xml:space="preserve"><value>後方ドリフト;ノートの後半ピッチをピッチ方向に伸縮させます。</value></data>
+  <data name="Help_PitchDriftStartControl" xml:space="preserve"><value>前方ドリフト;ノートの前半ピッチをピッチ方向に伸縮させます。</value></data>
+  <data name="Help_PitchFineControl" xml:space="preserve"><value>ファインピッチ;ノートのピッチを全体的に上下して調整します。</value></data>
+  <data name="Help_PitchScalingOriginControl" xml:space="preserve"><value>全体ドリフト;ノートの全体ピッチをノートのピッチに向かって伸縮させます。</value></data>
+  <data name="Help_PitchTransitionEndControl" xml:space="preserve"><value>後方トランジション;ノートの後半ピッチを時間方向に伸縮させます。</value></data>
+  <data name="Help_PitchTransitionStartControl" xml:space="preserve"><value>前方トランジション;ノートの前半ピッチを時間方向に伸縮させます。</value></data>
+  <data name="Help_ProcessTitle" xml:space="preserve"><value>プロセス;オーディオ処理に関する設定をする領域です。</value></data>
+  <data name="Help_RecordButton" xml:space="preserve"><value>トラックの録音設定;トラックを録音状態にします。VOCALOIDトラックの機能です。スタンドアローン版では、Recordingボタンがオン のトラックが存在する場合、MIDI信号を受信するとピアノ音が出力されます。</value></data>
+  <data name="Help_SoloButton" xml:space="preserve"><value>ソロ;選択したトラックのみを出力させます。ボタンを長押しすると、ソロディフィートモードに設定できます。ソロディフィートモードが有効な場合、他のトラックがソロになってもミュートされません。</value></data>
+  <data name="Help_StartMarkerControl" xml:space="preserve"><value>スタートマーカー;スタートマーカーがリピート開始地点になります。</value></data>
+  <data name="Help_StyleAirControl" xml:space="preserve"><value>エアー;発音に混ぜる息の量を調節します。
+値の範囲は、VOCALOID:AIボイスバンクの使用時は息の少ない(-100)～息の多い(+100)、VOCALOIDボイスバンク使用時は息の少ない(0)～息の多い(127)です。</value></data>
+  <data name="Help_StyleAmountControl" xml:space="preserve"><value>アマウント;“いかに大きな抑揚で歌うか？”を調整します。</value></data>
+  <data name="Help_StyleBreathCombo" xml:space="preserve"><value>ブレス;シーケンスを解析し、最適な場所にブレスを自動で挿入する機能です。ブレスを挿入する頻度も設定できます。</value></data>
+  <data name="Help_StyleBreathinessControl" xml:space="preserve"><value>ブレシネス;発音に混ぜる息の量と母音の音色を調整します。
+値の範囲は、息成分が少なく澄んだ(0)～息成分が増え明るい(127)です。</value></data>
+  <data name="Help_StyleCharacterControl" xml:space="preserve"><value>キャラクター;発音のフォルマントを調節します。
+値を高くすることで、女性的な発音になります。値を低くすることで、男性的な発音になります。
+値の範囲は、落ち着いた(-64)～可愛らしい(+63)です。</value></data>
+  <data name="Help_StyleCombo" xml:space="preserve"><value>スタイル設定;スタイルを選択する領域です。プルダウンでメインのボイスバンクに連動したスタイルが優先して表示されます。</value></data>
+  <data name="Help_StyleExciterControl" xml:space="preserve"><value>エキサイター;声の張り具合を調節します。
+値の範囲は、こもった(-64)～明るい(+63)です。</value></data>
+  <data name="Help_StyleExhalationControl" xml:space="preserve"><value>エクザレーション;挿入されるブレスの音量を設定します。</value></data>
+  <data name="Help_StyleGrowlControl" xml:space="preserve"><value>グロウル;うなり声の度合いを調節します。
+値の範囲は、うなりの少ない(0)～強いうなり(127)です。</value></data>
+  <data name="Help_StyleMouthControl" xml:space="preserve"><value>マウス;発音の明瞭さ(口の開け具合)を調節します。
+値の範囲は、口を閉じた(-127)～口を開いた(0)です。</value></data>
+  <data name="Help_StylePowerButton" xml:space="preserve"><value>エフェクトのオン・オフ;ボタンがオフの場合、エフェクトをバイパスします。</value></data>
+  <data name="Help_StyleRobotVoiceCombo" xml:space="preserve"><value>ロボットボイス;声色をロボットボイスに変化させます。
+HARD/NORMAL/SOFT の3つのモードから選択できます。</value></data>
+  <data name="Help_StyleS5AirControl" xml:space="preserve"><value>エアー;発音に混ぜる息の量を調節します。
+値の範囲は、VOCALOID:AIボイスバンクの使用時は息の少ない(-100)～息の多い(+100)、VOCALOIDボイスバンク使用時は息の少ない(0)～息の多い(127)です。</value></data>
+  <data name="Help_StyleS5AttackControl" xml:space="preserve"><value>アタック;発音の立ち上がりのはっきり具合を調整します。
+値の範囲は、ゆっくり(-100)～速い(100)です。</value></data>
+  <data name="Help_StyleS5CharacterControl" xml:space="preserve"><value>キャラクター;発音のフォルマントを調節します。
+値を高くすることで、女性的な発音になります。値を低くすることで、男性的な発音になります。
+値の範囲は、落ち着いた(-64)～可愛らしい(+63)です。。</value></data>
+  <data name="Help_StyleS5ExpressionControl" xml:space="preserve"><value>エクスプレッション;合成時にエンジンに渡す音量の変化を設定します。
+値の範囲は、穏やか(0)～力強い(100)です。</value></data>
+  <data name="Help_StyleSaveButton" xml:space="preserve"><value>スタイルプリセット保存;現在の設定をスタイルプリセットとして保存できます。</value></data>
+  <data name="Help_StyleSingingSkillCombo" xml:space="preserve"><value>シンギングスキル;シーケンスに応じて適切なピッチベンドや音量などを自動適用するMIDIエフェクトです。VOCALOIDボイスバンク使用時のみの機能です。</value></data>
+  <data name="Help_StyleSkillControl" xml:space="preserve"><value>スキル;“いかにうまく歌うか？”を調整します。</value></data>
+  <data name="Help_StyleTitle" xml:space="preserve"><value>スタイル設定;スタイルを設定する領域です。</value></data>
+  <data name="Help_StyleVoiceColorTitle" xml:space="preserve"><value>ボイスカラー;ボイスバンクの声色を決定します。
+ミュージカルエディターで編集できるコントロールパラメーターにオフセットを与えます。</value></data>
+  <data name="Help_TakeCombo" xml:space="preserve"><value>テイク;パート内のノートの発音タイミングを変更します。</value></data>
+  <data name="Help_TempoSyncButton" xml:space="preserve"><value>テンポ同期;VSTやARA接続の際にDAWとテンポを同期するかどうかを設定することができます。オンの場合はローカルテンポモードです。</value></data>
+  <data name="Help_TempoTextBox" xml:space="preserve"><value>テンポ情報;ソングポインタ位置に応じたテンポを表示・編集する領域です。</value></data>
+  <data name="Help_TempoTrackBodyArea" xml:space="preserve"><value>テンポトラック編集エリア;テンポ情報を表示・編集する領域です。「鉛筆ツール」「ラインツール」を使用することでテンポ情報を入力、「矢印ツール」で編集できます。</value></data>
+  <data name="Help_TempoTrackButton" xml:space="preserve"><value>テンポトラック表示・非表示;トラックエディターに、テンポトラックを表示します。</value></data>
+  <data name="Help_TempoTrackHeaderArea" xml:space="preserve"><value>テンポトラック;テンポを表示・編集するトラックです。</value></data>
+  <data name="Help_TimeDisplayLoad" xml:space="preserve"><value>負荷状況;コンピューターの負荷の状況を表示する領域です。</value></data>
+  <data name="Help_TimeDisplaySongPosition" xml:space="preserve"><value>ソングポジション;現在のソングポジションを表示します。ダブルクリックで直接編集可能です。</value></data>
+  <data name="Help_TimeDisplayTempo" xml:space="preserve"><value>テンポ;現在のソングポジションにおけるテンポを表示します。ダブルクリックで直接編集可能です。</value></data>
+  <data name="Help_TimeDisplayTimeSig" xml:space="preserve"><value>拍子;現在のソングポジションにおける拍子を表示します。ダブルクリックで直接編集可能です。</value></data>
+  <data name="Help_TimeSigTrackBodyArea" xml:space="preserve"><value>拍子トラック編集エリア;拍子を表示・編集する領域です。拍子情報はダブルクリックで編集ができ、鉛筆ツールでクリック、あるいはコンテキストメニューから「ソングポジション位置に拍子イベントを新規作成」を選択することで追加もできます。</value></data>
+  <data name="Help_TimeSigTrackButton" xml:space="preserve"><value>拍子トラック表示・非表示;トラックエディターの上部にあるルーラーに、拍子トラックを表示します。</value></data>
+  <data name="Help_TimeSigTrackHeaderArea" xml:space="preserve"><value>拍子トラック;拍子を表示・編集するトラックです。</value></data>
+  <data name="Help_ToolbarAction" xml:space="preserve"><value>アクション;ノートに対する操作メニューを開きます。</value></data>
+  <data name="Help_ToolbarAmp" xml:space="preserve"><value>エクスプレッションツール;ノートの強弱が調整できます。</value></data>
+  <data name="Help_ToolbarArrow" xml:space="preserve"><value>矢印ツール;主に選択／編集の操作をします。</value></data>
+  <data name="Help_ToolbarAutoScroll" xml:space="preserve"><value>オートスクロール;オートスクロールのオン／オフを切り替えます。オートスクロールがオンの場合はソングポジションに画面が追従していくため、常に再生位置を確認できます。</value></data>
+  <data name="Help_ToolbarBrowser" xml:space="preserve"><value>ブラウザ;ブラウザ ウインドウを開きます。</value></data>
+  <data name="Help_ToolbarEditor" xml:space="preserve"><value>エディター;VOCALOIDパート選択時はミュージカルエディター、オーディオパート選択時は波形エディターを開きます。</value></data>
+  <data name="Help_ToolbarEmotionMode" xml:space="preserve"><value>エモーションツール;ノートの歌い方の“抑揚”を調整できます。
+ノートに対してシンギングスキルを適用していて、アタックリリースエフェクトを適用していない場合、オレンジ色の帯の部分をクリックすることでスライダーが表示され、”抑揚”を調整することが可能です</value></data>
+  <data name="Help_ToolbarGrid" xml:space="preserve"><value>グリッドツール;プルダウン表示されたリストから選択した値（オフ以外）の整列位置に、入力位置を自動補正します。入力および移動したパートやテンポ、マーカーなどの先頭が、設定値の位置に整列されます。</value></data>
+  <data name="Help_ToolbarInspector" xml:space="preserve"><value>インスペクター;メイン ウインドウの左側に、インスペクター ウインドウを開きます。</value></data>
+  <data name="Help_ToolbarInspectorHelp" xml:space="preserve"><value>コンテキストヘルプ;インスペクターの下部にコンテキストヘルプ ウインドウを表示します。</value></data>
+  <data name="Help_ToolbarLine" xml:space="preserve"><value>ラインツール;新しくパートやオートメーションの入力 および テンポや拍子の編集など、主に入力／編集の操作をします。
+ラインツールは、コントロールパラメーターエリアやボリューム/パンポットオートメーションエリアに移動すると、直線でパラメーターが入力できます。</value></data>
+  <data name="Help_ToolbarMetronome" xml:space="preserve"><value>メトロノーム;再生・録音時にメトロノームサウンドを発音します。</value></data>
+  <data name="Help_ToolbarMetronomeSettings" xml:space="preserve"><value>メトロノーム設定;メトロノームの設定ダイアログを表示します。</value></data>
+  <data name="Help_ToolbarMixer" xml:space="preserve"><value>ミキサー;ミキサー ウインドウを開きます。</value></data>
+  <data name="Help_ToolbarMute" xml:space="preserve"><value>ミュートツール;パートやノートのミュート/ミュート解除を切り替えます。</value></data>
+  <data name="Help_ToolbarPencil" xml:space="preserve"><value>鉛筆ツール;新しくパートやオートメーションの入力 および テンポや拍子の編集など、主に入力／編集の操作をします。
+鉛筆ツールは、ルーラーやメニューバー、ツールバーに移動すると、自動的に矢印ツールに切り替わります。</value></data>
+  <data name="Help_ToolbarPitch" xml:space="preserve"><value>ピッチツール;ノートのピッチを調整できます。</value></data>
+  <data name="Help_ToolbarPitchCurveView" xml:space="preserve"><value>ピッチカーブ表示;ミュージカルエディターへのピッチカーブ表示のON/OFFを切替えます。</value></data>
+  <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>ピッチ消しゴムツール;ピッチ鉛筆ツール、ピッチ消しゴムツールでVOCALOID:AIトラック、およびVOCALOIDトラックのピッチの軌跡を直接編集できます。</value></data>
+  <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>ピッチ鉛筆ツール;ピッチ鉛筆ツール、ピッチ消しゴムツールでVOCALOID:AIトラック、およびVOCALOIDトラックのピッチの軌跡を直接編集できます。</value></data>
+  <data name="Help_ToolbarPlayback" xml:space="preserve"><value>停止/先頭に戻る;再生を停止します。
+停止中にボタンをクリックするか、再生中にボタンをダブルクリックすることで、先頭に戻ります。</value></data>
+  <data name="Help_ToolbarRecord" xml:space="preserve"><value>録音;入力されたMIDI信号を録音します。録音するには、録音するトラックの録音設定ボタンをオンにしておく必要があります。録音時は常に新規パートが作られます。</value></data>
+  <data name="Help_ToolbarRepeat" xml:space="preserve"><value>リピート;オンにするとトラック内のスタートマーカーとエンドマーカーの間を繰り返し再生します。</value></data>
+  <data name="Help_ToolbarScissors" xml:space="preserve"><value>はさみツール;パートやノートを分割します。</value></data>
+  <data name="Help_ToolbarSoundPlayback" xml:space="preserve"><value>試聴;ノート入力時や、ノート、ピアノロールのクリック時の試聴用発音のON/OFFを切替えます。</value></data>
+  <data name="Help_ToolbarStop" xml:space="preserve"><value>再生;再生を開始します。</value></data>
+  <data name="Help_ToolbarTiming" xml:space="preserve"><value>タイミングツール;ノートの音素タイミングを調整できます。</value></data>
+  <data name="Help_ToolbarVibrato" xml:space="preserve"><value>ビブラートツール;ノートのビブラートが調整できます。</value></data>
+  <data name="Help_ToolbarVoiceBankImageOptionTriangle" xml:space="preserve"><value>ボイスバンク画像設定;ボイスバンク画像表示の設定ダイアログを表示します。</value></data>
+  <data name="Help_ToolbarVoiceBankImageView" xml:space="preserve"><value>ボイスバンク画像表示;ミュージカルエディターへのボイスバンク画像表示のON/OFFを切替えます。</value></data>
+  <data name="Help_ToolbarWaveformImageView" xml:space="preserve"><value>波形表示;ミュージカルエディターへの波形画像表示のON/OFFを切替えます。</value></data>
+  <data name="Help_TrackBodyArea" xml:space="preserve"><value>トラックエディタ;パートやオートメーションデータを表示・編集する領域です。</value></data>
+  <data name="Help_TrackColor" xml:space="preserve"><value>トラックカラー;トラックの設定色の表示・編集を行う領域です。</value></data>
+  <data name="Help_TrackHeaderArea" xml:space="preserve"><value>トラック;トラックは、複数のパート（音のかたまり）をまとめて管理する単位です。
+トラックごとに音量や左右の広がり（パン）などを設定できます。</value></data>
+  <data name="Help_TrackNameTextBox" xml:space="preserve"><value>トラックネーム;トラックネームを表示・編集する領域です。</value></data>
+  <data name="Help_TrackPanpotAutomationButton" xml:space="preserve"><value>パンポットオートメーション開閉;トラックパンポットのオートメーションエリアを開閉することができます。</value></data>
+  <data name="Help_TrackPanpotControl" xml:space="preserve"><value>トラックパンポット;トラックの定位を操作します。</value></data>
+  <data name="Help_TrackRulerArea" xml:space="preserve"><value>トラックルーラー;トラックエディタのルーラです。スタートマーカー、エンドマーカーの位置をドラッグで調整できます。</value></data>
+  <data name="Help_TrackVolumeAutomationButton" xml:space="preserve"><value>ボリュームオートメーション開閉;トラックボリュームのオートメーションエリアを開閉することができます。</value></data>
+  <data name="Help_TrackVolumeControl" xml:space="preserve"><value>トラックボリューム;トラックの出力レベルを操作します。</value></data>
+  <data name="Help_VibratoDepthControl" xml:space="preserve"><value>深さ;ビブラートの深さを調整します。</value></data>
+  <data name="Help_VibratoDurationControl" xml:space="preserve"><value>開始位置;ビブラートの開始位置を調整します。</value></data>
+  <data name="Help_VibratoFollowingDepthControl" xml:space="preserve"><value>後方深さ;ビブラートの後半の深さを調整します。</value></data>
+  <data name="Help_VibratoLeadingDepthControl" xml:space="preserve"><value>前方深さ;ビブラートの前半の深さを調整します。</value></data>
+  <data name="Help_VibratoManualButton" xml:space="preserve"><value>マニュアル;VOCALOID4で使用していたビブラートカーブを用いてビブラートを合成します。</value></data>
+  <data name="Help_VibratoRateControl" xml:space="preserve"><value>速度;ビブラートの周期を調整します。</value></data>
+  <data name="Help_VoiceBankBrowserArea" xml:space="preserve"><value>ボイスバンクブラウザ;ボイスバンクを表示するウインドウです。インストールされているボイスバンクがカタログ表示されます。</value></data>
+  <data name="Help_VoiceBankBrowserFoldStateButton" xml:space="preserve"><value>表示展開・折りたたみ;ボイスバンク表示を展開・折りたたみします</value></data>
+  <data name="Help_VoiceBankBrowserListControl" xml:space="preserve"><value>ボイスバンクリスト;インストールされているボイスバンクがカタログ表示されます。トラックヘッダまたはトラックにドラッグ・アンド・ドロップすることで、トラックにボイスバンクを設定できます。</value></data>
+  <data name="Help_VoiceBankBrowserSearchControl" xml:space="preserve"><value>テキスト検索;ボイスバンク名をテキストで検索します。</value></data>
+  <data name="Help_VoiceBankBrowserSortOrderButton" xml:space="preserve"><value>ソート;ボイスバンクの並び順を変更します。</value></data>
+  <data name="Help_VoiceBankBrowserToggleImageButton" xml:space="preserve"><value>画像表示・非表示;ボイスバンクの画像を表示・非表示にします。</value></data>
+  <data name="Help_VoiceCombo" xml:space="preserve"><value>ボイスバンク選択;ボイスバンクを選択する領域です。</value></data>
+  <data name="Help_VoiceEngineVersionCombo" xml:space="preserve"><value>エンジンバージョン;ボイスバンクのエンジンバージョンを設定する領域です。</value></data>
+  <data name="Help_VoiceTitle" xml:space="preserve"><value>ボイスバンク設定;ボイスバンクを設定する領域です。</value></data>
+  <data name="Help_VoiceTypeCombo" xml:space="preserve"><value>ボイスタイプ選択;ボイスタイプを選択する領域です。</value></data>
+  <data name="Help_VoiceXSYCombo" xml:space="preserve"><value>クロスシンセシスボイスバンク;異なるボイスバンクの歌声をブレンドするクロスシンセシス機能のためのセカンダリボイスバンク設定をする領域です。メインのボイスバンク選択に連動して、クロスシンセシス可能なボイスバンクのみが表示されます。</value></data>
+  <data name="Help_WebBrowserArea" xml:space="preserve"><value>ウェブブラウザ;ウェブページを表示するウインドウです。FAQへのリンクや体験版をダウンロードするページが表示できます。</value></data>
+  <data name="Help_WebBrowserBackButton" xml:space="preserve"><value>戻る;可能な場合、前に表示していたウェブページを表示します。</value></data>
+  <data name="Help_WebBrowserForwardButton" xml:space="preserve"><value>進む;可能な場合、戻る前に表示していたウェブページを表示します。</value></data>
+  <data name="Help_WebBrowserHomeButton" xml:space="preserve"><value>ホーム表示;ウェブページの初期ページを表示するボタンです。</value></data>
+  <data name="Help_WebBrowserReloadButton" xml:space="preserve"><value>再読み込み;現在表示しているウェブページを再読み込みして表示します。</value></data>
+  <data name="MsgBox_AudioMixdown_FailedToExportMp3" xml:space="preserve"><value>MP3の出力に失敗しました。</value></data>
+  <data name="MsgBox_AudioTranscoderInitialization_Error" xml:space="preserve"><value>Audio Transcoder の初期化に失敗しました！</value></data>
+  <data name="MsgBox_AudioTranscoder_FailedTranscode" xml:space="preserve"><value>オーディオ変換に失敗しました。</value></data>
+  <data name="MsgBox_MidiEffectManagerInitialization_Error" xml:space="preserve"><value>MIDI Effect Manager の初期化に失敗しました！</value></data>
+  <data name="MsgBox_MixedAudioFormat_Error" xml:space="preserve"><value>WavファイルとMP3ファイルを同時にインポートすることはできません。</value></data>
+  <data name="MsgBox_OpenDemoSong_Error" xml:space="preserve"><value>デモソングを開くことができませんでした。</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToBreath" xml:space="preserve"><value>ブレス挿入</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToSilence" xml:space="preserve"><value>無音化</value></data>
+  <data name="NoteInspectorTimingLabel_Edited" xml:space="preserve"><value>編集あり</value></data>
+  <data name="NoteInspectorTimingLabel_NotEdited" xml:space="preserve"><value>編集なし</value></data>
+  <data name="StyleManager_Menu" xml:space="preserve"><value>スタイルマネージャー...</value></data>
+  <data name="StyleManager_Title" xml:space="preserve"><value>スタイルマネージャー</value></data>
+  <data name="StyleOther_Menu" xml:space="preserve"><value>その他</value></data>
+  <data name="StyleUserStyle_Menu" xml:space="preserve"><value>ユーザースタイル</value></data>
+  <data name="UnhandledExceptionMessage" xml:space="preserve"><value>予期しないエラーが発生しました。VOCALOID7 Editor を終了します。</value></data>
+  <data name="UnhandledExceptionTitle" xml:space="preserve"><value>未処理の例外</value></data>
+  <data name="VoiceBankImageSettingDlg_CopyFailed" xml:space="preserve"><value>ファイルのコピーに失敗しました。</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageConditionNotMet" xml:space="preserve"><value>カスタム画像条件不一致</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteConfirm" xml:space="preserve"><value>カスタム画像フォルダの中のファイルを削除します。よろしいですか？</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteFailed" xml:space="preserve"><value>削除に失敗しました: {0}</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteTitle" xml:space="preserve"><value>カスタム画像の削除確認</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageLabel" xml:space="preserve"><value>カスタム画像</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageSetText" xml:space="preserve"><value>カスタム画像設定済み</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageStatusError" xml:space="preserve"><value>カスタム画像状態取得エラー</value></data>
+  <data name="VoiceBankImageSettingDlg_ErrorTitle" xml:space="preserve"><value>エラー</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageLoadFailed" xml:space="preserve"><value>画像ファイルの読み込みに失敗しました。</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageSizeLimit" xml:space="preserve"><value>画像の幅または高さは1024以内にしてください。</value></data>
+  <data name="VoiceBankImageSettingDlg_OnlyPngSupported" xml:space="preserve"><value>PNGファイルのみ対応しています。</value></data>
+  <data name="VoiceBankImageSettingDlg_VoiceBankLabel" xml:space="preserve"><value>ボイスバンク名</value></data>
+  <data name="VoiceChangedDlg_VersionNotFoundSuffix" xml:space="preserve"><value> が見つかりませんでした。</value></data>
+  <data name="VoiceSelectionPopup_NoSearchResult" xml:space="preserve"><value>該当するボイスバンクが見つかりません。</value></data>
+  <data name="VoiceSelectionPopup_NoVoiceBank" xml:space="preserve"><value>ボイスバンクがインストールされていません。</value></data>
+  <data name="WebBrowser_InitialUrl" xml:space="preserve"><value>https://www.vocaloid.com/bksdlajnl/</value></data>
+  <data name="WebBrowser_InitializationError" xml:space="preserve"><value>ウェブブラウザの初期化に失敗しました。</value></data>
+  <data name="WebBrowser_InvalidUrlError" xml:space="preserve"><value>不正なURLです。</value></data>
+  <data name="WebBrowser_NavigationError" xml:space="preserve"><value>ページのロードに失敗しました。 ({0})</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Attack_Header" xml:space="preserve"><value>アタック</value></data>
+
   <!-- Debug / Diagnostic messages -->
   <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>翻訳フォルダーが見つかりません! "VOCALOIDPatcher" フォルダーもエディターのディレクトリにコピーしたか確認してください</value></data>
   <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>翻訳が一つも見つかりません! "VOCALOIDPatcher" フォルダーもエディターのディレクトリにコピーしたか確認してください</value></data>

@@ -2,7 +2,7 @@
 <root>
   <!-- Hardcoded -->
   <data name="HomeWindow_PushButton_NEW_PROJECT_Header" xml:space="preserve"><value>新建專案</value></data>
-  <data name="HomeWindow_PushButton_OPEN_Header" xml:space="preserve"><value>打開</value></data>
+  <data name="HomeWindow_PushButton_OPEN_Header" xml:space="preserve"><value>開啟</value></data>
   <data name="VOCALOIDPatcher_Language_Header" xml:space="preserve"><value>語言</value></data>
   <data name="VOCALOIDPatcher_TranslateHardcodedStrings_Header" xml:space="preserve"><value>翻譯硬編碼字串</value></data>
   <data name="VOCALOIDPatcher_TranslateHardcodedStringsRestart" xml:space="preserve"><value>重新啟動編輯器以套用變更。</value></data>
@@ -11,20 +11,18 @@
   <data name="VOCALOIDPatcher_Update_VersionSuffix" xml:space="preserve"><value> (有新版本: {0})</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_General" xml:space="preserve"><value>常規</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>鋼琴窗</value></data>
-  <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其它</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其他</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>小工具</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>頻譜視覺化</value></data>
-  <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>使用 ASIO 時將不會正常運作</value></data>
+  <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>使用 ASIO 時無法正常運作</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>顯示其他軌道的音符</value></data>
   <data name="VOCALOIDPatcher_SkipMutedTracks_Header" xml:space="preserve"><value>跳過靜音軌道</value></data>
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>顯示音符音高</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>使用圓角音符</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>置中顯示歌詞</value></data>
-  <data name="VOCALOIDPatcher_AlwaysShowWaveform_Header" xml:space="preserve"><value>始終顯示音符波形</value></data>
-  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SV編輯器樣式</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
-  <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫封面</value></data>
-  <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>封面大小</value></data>
+  <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SV 編輯器樣式</value></data>
+  <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫立繪</value></data>
+  <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>立繪大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>水平位置</value></data>
   <data name="VOCALOIDPatcher_CharacterArtVerticalPosition_Header" xml:space="preserve"><value>垂直位置</value></data>
   <data name="VOCALOIDPatcher_CharacterArtOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
@@ -34,31 +32,31 @@
   <data name="VOCALOIDPatcher_CharacterArtNoBank" xml:space="preserve"><value>請先在編輯器中選擇一個聲庫</value></data>
   <data name="VOCALOIDPatcher_CharacterArtImageFilter" xml:space="preserve"><value>圖片 / 影片檔案</value></data>
   <data name="VOCALOIDPatcher_CharacterArtUploadFailed" xml:space="preserve"><value>立繪上傳失敗</value></data>
-  <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>定時保存</value></data>
-  <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>保存間隔</value></data>
+  <data name="VOCALOIDPatcher_AutoSave_Header" xml:space="preserve"><value>自動儲存</value></data>
+  <data name="VOCALOIDPatcher_AutoSave_Interval_Header" xml:space="preserve"><value>儲存間隔</value></data>
   <data name="VOCALOIDPatcher_AutoPinyin_Header" xml:space="preserve"><value>匯入時自動將中文歌詞轉換為拼音</value></data>
-  <data name="VOCALOIDPatcher_AutoPinyin_Desc" xml:space="preserve"><value>自動識別中文歌詞軌道，結合詞組上下文處理多音字，並保留來源工程中的有效拼音。</value></data>
+  <data name="VOCALOIDPatcher_AutoPinyin_Desc" xml:space="preserve"><value>自動識別中文歌詞軌道，結合詞組上下文處理多音字，並保留來源專案中的有效拼音。</value></data>
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>分鐘</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>效能</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快工程載入</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>加快專案載入</value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>延遲載入畫面外的內容，加快專案開啟速度。</value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>記憶體優化</value></data>
-  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>閒置時釋放多餘記憶體，降低記憶體佔用。</value></data>
   <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>最佳化音軌區域渲染</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>減少軌道區域重繪，提升捲動與編輯流暢度。</value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>加快樂段切換</value></data>
-  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value></value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>合成波形快取</value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>切換樂段時跳過未變更區域的重繪。</value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>已渲染波形快取</value></data>
   <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>釋放音訊 PCM 快取</value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>快取已繪製的波形，避免重複繪製。</value></data>
   <data name="VOCALOIDPatcher_ThrottleRendererPreview_Header" xml:space="preserve"><value>最佳化合成預覽更新</value></data>
-  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value>限制渲染預覽的更新頻率，降低 CPU 使用率。</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>加快選取清除</value></data>
-  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value></value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>延後參數面板刷新</value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>最佳化框選取消流程，提升大量音符時的回應速度。</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>延後參數面板重新整理</value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>延後參數面板重新整理，減少編輯時的卡頓。</value></data>
   <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>平滑播放指示條</value></data>
-  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>讓播放指示條移動更平滑。</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8 分搖擺</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8 分 Shuffle</value></data>
@@ -239,13 +237,13 @@
   <data name="VOCALOIDPatcher_Format_Name_dv" xml:space="preserve"><value>DeepVocal</value></data>
   <data name="VOCALOIDPatcher_Format_Name_tssln" xml:space="preserve"><value>VoiSona</value></data>
   <data name="VOCALOIDPatcher_Format_Name_svip" xml:space="preserve"><value>X Studio (svip)</value></data>
-  <data name="VOCALOIDPatcher_Export_EmptyProject" xml:space="preserve"><value>目前工程為空, 沒有可匯出的音符。</value></data>
+  <data name="VOCALOIDPatcher_Export_EmptyProject" xml:space="preserve"><value>目前專案為空，沒有可匯出的音符。</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapTitle" xml:space="preserve"><value>音符重疊</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapMessage" xml:space="preserve"><value>在以下小節附近發現音符重疊: {0}。請選擇如何處理。</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapAutoFix" xml:space="preserve"><value>自動處理</value></data>
   <data name="VOCALOIDPatcher_Export_OverlapStop" xml:space="preserve"><value>停止匯出</value></data>
   <data name="VOCALOIDPatcher_Export_ProgressTitle" xml:space="preserve"><value>正在匯出</value></data>
-  <data name="VOCALOIDPatcher_Export_ProgressReading" xml:space="preserve"><value>正在讀取工程…</value></data>
+  <data name="VOCALOIDPatcher_Export_ProgressReading" xml:space="preserve"><value>正在讀取專案…</value></data>
   <data name="VOCALOIDPatcher_Export_ProgressPitch" xml:space="preserve"><value>正在處理音高 ({0}/{1})…</value></data>
   <data name="VOCALOIDPatcher_Export_ProgressGenerating" xml:space="preserve"><value>正在生成 {0}…</value></data>
   <data name="VOCALOIDPatcher_Export_ProgressWriting" xml:space="preserve"><value>正在寫入檔案…</value></data>
@@ -258,14 +256,14 @@
   <data name="VOCALOIDPatcher_Job_Harmony_OctaveDown" xml:space="preserve"><value>下八度</value></data>
   <data name="VOCALOIDPatcher_Job_Apply" xml:space="preserve"><value>套用</value></data>
 
-  <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主軌道</value></data>
+  <data name="MixerView_MainTrack_Header" xml:space="preserve"><value>主控軌道</value></data>
   <data name="MixerView_Effect_Header" xml:space="preserve"><value>效果器</value></data>
   <data name="NotePropertiesView_Header" xml:space="preserve"><value>音符</value></data>
   <data name="NotePropertiesView_Lyric_Header" xml:space="preserve"><value>歌詞</value></data>
   <data name="NotePropertiesView_Lyric_Letter_Header" xml:space="preserve"><value>字母</value></data>
   <data name="NotePropertiesView_Lyric_PhoneticSymbol_Header" xml:space="preserve"><value>音標</value></data>
   <data name="NotePropertiesView_AttackEffect_Header" xml:space="preserve"><value>起音效果 (Attack)</value></data>
-  <data name="NotePropertiesView_ReleaseEffect_Header" xml:space="preserve"><value>釋放效果 (Release)</value></data>
+  <data name="NotePropertiesView_ReleaseEffect_Header" xml:space="preserve"><value>釋音效果 (Release)</value></data>
   <data name="NotePropertiesView_Pitch_Header" xml:space="preserve"><value>音高</value></data>
   <data name="NotePropertiesView_Dynamic_Header" xml:space="preserve"><value>力度</value></data>
   <data name="NotePropertiesView_Tone_Header" xml:space="preserve"><value>語調</value></data>
@@ -277,7 +275,7 @@
   <data name="PartPropertiesView_Voice_Language_Header" xml:space="preserve"><value>語言</value></data>
   <data name="PartPropertiesView_Style_Header" xml:space="preserve"><value>風格</value></data>
   <data name="PartPropertiesView_Style_StylePreset_Header" xml:space="preserve"><value>風格預設</value></data>
-  <data name="PartPropertiesView_Style_StylePresetName_Header" xml:space="preserve"><value>預設名稱</value></data>
+  <data name="PartPropertiesView_Style_StylePresetName_Header" xml:space="preserve"><value>風格預設名稱</value></data>
   <data name="PartPropertiesView_Style_RobotVoice_Header" xml:space="preserve"><value>機械音</value></data>
   <data name="PartPropertiesView_Style_Breath_Header" xml:space="preserve"><value>呼吸</value></data>
   <data name="PartPropertiesView_Style_Breath_Exhalation_Header" xml:space="preserve"><value>呼氣</value></data>
@@ -286,21 +284,21 @@
   <data name="PartPropertiesView_Style_SingingSkill_Header" xml:space="preserve"><value>歌唱技巧</value></data>
   <data name="PartPropertiesView_Style_SingingSkill_Skill_Header" xml:space="preserve"><value>技巧</value></data>
   <data name="PartPropertiesView_Style_SingingSkill_Amount_Header" xml:space="preserve"><value>程度</value></data>
-  <data name="PartPropertiesView_Style_Take_Header" xml:space="preserve"><value>重錄</value></data>
+  <data name="PartPropertiesView_Style_Take_Header" xml:space="preserve"><value>發音版本</value></data>
 
   <data name="PartPropertiesView_Style_VoiceColor_Header" xml:space="preserve"><value>音色</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Exciter_Header" xml:space="preserve"><value>激勵</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Exciter_Muffled_Header" xml:space="preserve"><value>悶音</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Exciter_Bright_Header" xml:space="preserve"><value>明亮</value></data>
-  <data name="PartPropertiesView_Style_VoiceColor_Growl_Header" xml:space="preserve"><value>嘶吼音</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Growl_Header" xml:space="preserve"><value>怒音</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Growl_Clear_Header" xml:space="preserve"><value>清晰</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Breathiness_Header" xml:space="preserve"><value>氣聲</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Breathiness_Breathy_Header" xml:space="preserve"><value>氣音</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Air_Header" xml:space="preserve"><value>空氣感</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Air_Airy_Header" xml:space="preserve"><value>輕盈</value></data>
-  <data name="PartPropertiesView_Style_VoiceColor_Mouth_Header" xml:space="preserve"><value>口型開合</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Mouth_Header" xml:space="preserve"><value>開口度</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Mouth_Close_Header" xml:space="preserve"><value>閉合</value></data>
-  <data name="PartPropertiesView_Style_VoiceColor_Character_Header" xml:space="preserve"><value>性別參數</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Character_Header" xml:space="preserve"><value>性別值</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Character_Cool_Header" xml:space="preserve"><value>冷酷</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Character_Cute_Header" xml:space="preserve"><value>可愛</value></data>
   <data name="PartPropertiesView_Style_VoiceColor_Expression_Header" xml:space="preserve"><value>表情</value></data>
@@ -467,15 +465,15 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="CustomizeShortcutDlg_PresetFileOverWrite" xml:space="preserve"><value>同名檔案已存在，是否覆蓋？</value></data>
   <data name="MainMenu_File_Export_Header" xml:space="preserve"><value>匯出 VPRX...</value></data>
   <data name="CustomizeShortcutDlg_Reset" xml:space="preserve"><value>重設</value></data>
-  <data name="MsgBox_Duplicate_MasterVolume_Error" xml:space="preserve"><value>複製主音軌音量控制點失敗。</value></data>
-  <data name="AudioMixdownDlg_BypassEffectPlugins" xml:space="preserve"><value>旁路效果外掛程式</value></data>
+  <data name="MsgBox_Duplicate_MasterVolume_Error" xml:space="preserve"><value>複製主控軌道音量控制點失敗。</value></data>
+  <data name="AudioMixdownDlg_BypassEffectPlugins" xml:space="preserve"><value>旁通效果外掛程式</value></data>
   <data name="MsgBox_AudioMixdown_FailedMixdownMulti" xml:space="preserve"><value>多軌音訊混縮失敗。</value></data>
   <data name="MainMenu_Settings_Preferences_Header" xml:space="preserve"><value>偏好設定...</value></data>
   <data name="CustomizeShortcutDlg_DisplayShortcutKeyHeader" xml:space="preserve"><value>快速鍵</value></data>
   <data name="MainMenu_File_ExportSMF_Header" xml:space="preserve"><value>匯出 SMF...</value></data>
   <data name="CustomizeShortcutDlg_MessageResetShortcutKey" xml:space="preserve"><value>您要還原此指令的預設快速鍵嗎？</value></data>
   <data name="MainMenu_Transport_StartMode_BeginLoop_Header" xml:space="preserve"><value>從循環區間的開頭開始</value></data>
-  <data name="ContextMenu_StyleSearch_DeleteStylePreset" xml:space="preserve"><value>移除預設風格(_D)</value></data>
+  <data name="ContextMenu_StyleSearch_DeleteStylePreset" xml:space="preserve"><value>刪除風格預設(_D)</value></data>
   <data name="AudioMixdownDlg_AudioEngineOutput" xml:space="preserve"><value>音訊引擎輸出</value></data>
   <data name="CustomizeShortcutDlg_CommandsSearchTextBoxPlaceholder" xml:space="preserve"><value>搜尋指令</value></data>
   <data name="FileDlg_VPR_Filter" xml:space="preserve"><value>VOCALOID5/6 專案|*.vpr|所有檔案|*.*</value></data>
@@ -571,7 +569,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="MsgBox_SingingSkill_DefaultSingingSkillNull" xml:space="preserve"><value>找不到預設演唱技巧。</value></data>
   <data name="ContextMenu_SetRepeatToSelectionRange_Header" xml:space="preserve"><value>將選取樂段設為重複區間</value></data>
   <data name="MainMenu_View_ZoomFull_Header" xml:space="preserve"><value>顯示完整的音軌檢視</value></data>
-  <data name="ContextMenu_StyleSearch_EditStylePreset" xml:space="preserve"><value>編輯預設風格屬性(_E)</value></data>
+  <data name="ContextMenu_StyleSearch_EditStylePreset" xml:space="preserve"><value>編輯風格預設屬性(_E)</value></data>
   <data name="PreferencesDlg_Advanced_Lyrics_GroupHeader" xml:space="preserve"><value>歌詞</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizeNext" xml:space="preserve"><value>下一個格線</value></data>
   <data name="CustomizeShortcutDlg_CommandQuantizePrevious" xml:space="preserve"><value>上一個格線</value></data>
@@ -605,7 +603,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="TransposeNote_Label" xml:space="preserve"><value>移調：</value></data>
   <data name="Button_OK" xml:space="preserve"><value>確定</value></data>
   <data name="AddTrackDlg_Creation_Caption" xml:space="preserve"><value>建立</value></data>
-  <data name="StyleEditDlg_Title" xml:space="preserve"><value>編輯預設風格屬性</value></data>
+  <data name="StyleEditDlg_Title" xml:space="preserve"><value>編輯風格預設屬性</value></data>
   <data name="MainMenu_Job_Header" xml:space="preserve"><value>工作</value></data>
   <data name="CustomizeShortcutDlg_CommandBeginEditSongPosition" xml:space="preserve"><value>編輯歌曲位置</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Spanish" xml:space="preserve"><value>西班牙語</value></data>
@@ -650,7 +648,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="SplitNote_PhoneticSymbolProtect_Label" xml:space="preserve"><value>保護音標：</value></data>
   <data name="StyleSaveAsDlg_StyleIsNotSelected" xml:space="preserve"><value>未指定風格。</value></data>
   <data name="ToolBar_Inspector_ToolTip" xml:space="preserve"><value>屬性面板</value></data>
-  <data name="CustomizeShortcutDlg_Register" xml:space="preserve"><value>登錄</value></data>
+  <data name="CustomizeShortcutDlg_Register" xml:space="preserve"><value>登入</value></data>
   <data name="MsgBox_AudioMixdown_TheFileNameContainsInvalidCharacters" xml:space="preserve"><value>檔案名稱包含無效字元。</value></data>
   <data name="MsgBox_Move_Track_Error" xml:space="preserve"><value>移動音軌失敗。</value></data>
   <data name="MainMenu_Help_OpenManual_Header" xml:space="preserve"><value>參考手冊</value></data>
@@ -875,7 +873,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="CustomizeShortcutDlg_CommandForwardByBar" xml:space="preserve"><value>按小節向前移動</value></data>
   <data name="MainMenu_Job_NormalizeWave_Header" xml:space="preserve"><value>標準化音訊波形</value></data>
   <data name="AddTrackDlg_VoiceBank_Caption" xml:space="preserve"><value>聲庫</value></data>
-  <data name="MainMenu_View_ShowMasterTrack_Header" xml:space="preserve"><value>主音軌</value></data>
+  <data name="MainMenu_View_ShowMasterTrack_Header" xml:space="preserve"><value>主控軌道</value></data>
   <data name="MsgBox_Delete_Error" xml:space="preserve"><value>無法刪除。</value></data>
   <data name="PreferencesDlg_Audio_StereoOutL_Caption" xml:space="preserve"><value>立體聲輸出 L</value></data>
   <data name="ContextMenu_ResetLyrics_Header" xml:space="preserve"><value>重設歌詞(_R)</value></data>
@@ -916,7 +914,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="MainMenu_Help_OpenNews_Header" xml:space="preserve"><value>最新消息...</value></data>
   <data name="DownloadContent_Description" xml:space="preserve"><value>其他 VOCALOID 內容可供下載。</value></data>
   <data name="ContextMenu_Repeat_Playback_Header" xml:space="preserve"><value>重複(_R)</value></data>
-  <data name="AudioMixdownDlg_MasterTrack" xml:space="preserve"><value>主音軌</value></data>
+  <data name="AudioMixdownDlg_MasterTrack" xml:space="preserve"><value>主控軌道</value></data>
   <data name="PreferencesDlg_General_APIServerTimeOut_Caption" xml:space="preserve"><value>逾時等待時間（秒）</value></data>
   <data name="ContextMenu_SelectAll_Header" xml:space="preserve"><value>全選(_A)</value></data>
   <data name="ContextMenu_SplitNote_Header" xml:space="preserve"><value>分割音符(_P)</value></data>
@@ -952,7 +950,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="NotFoundAudioFilesDlg_Title" xml:space="preserve"><value>找不到音訊檔案。</value></data>
   <data name="ToolBar_TogglePlaybackGuideSound_ToolTip" xml:space="preserve"><value>試聽</value></data>
   <data name="MsgBox_AudioMixdown_FailedToExportAudioFileThisPlace" xml:space="preserve"><value>無法在此匯出音訊檔案。錯誤 </value></data>
-  <data name="MsgBox_Style_FailedToDeleteStyle" xml:space="preserve"><value>無法刪除預設風格。</value></data>
+  <data name="MsgBox_Style_FailedToDeleteStyle" xml:space="preserve"><value>無法刪除風格預設。</value></data>
   <data name="MainMenu_Help_OpenOfficialSite_Header" xml:space="preserve"><value>vocaloid.com</value></data>
   <data name="EditHandle_VibratoRate_DisplayName" xml:space="preserve"><value>速度</value></data>
   <data name="DataUseDlg_Title" xml:space="preserve"><value>VOCALOID7 編輯器</value></data>
@@ -1019,7 +1017,7 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="MainMenu_Settings_CustomizeShortcuts_Header" xml:space="preserve"><value>快速鍵...</value></data>
   <data name="PreferencesDlg_General_ReturntoStart_Caption" xml:space="preserve"><value>停止時返回起始位置</value></data>
   <data name="MsgBox_VoiceBank_Update_Prompt" xml:space="preserve"><value>請查看聲庫發行公司的官方網站。</value></data>
-  <data name="ContextMenu_PhonemeTiming_Header" xml:space="preserve"><value>時值(_H)</value></data>
+  <data name="ContextMenu_PhonemeTiming_Header" xml:space="preserve"><value>音素時序(_H)</value></data>
   <data name="CustomizeShortcutDlg_CommandSetPaintToolGroup" xml:space="preserve"><value>音高鉛筆</value></data>
   <data name="FileDlg_Wave_Filter" xml:space="preserve"><value>波形檔案|*.wav|所有檔案|*.*</value></data>
   <data name="MsgBox_Duplicate_AudioPart_Error" xml:space="preserve"><value>無法複製音訊片段。</value></data>
@@ -1066,6 +1064,322 @@ VOCALOID7 將以 Lite 版本啟動。</value></data>
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>取消</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>是</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>否</value></data>
+  <!-- ComboBox / Enum display values -->
+  <data name="Enum_VSMRobotVoiceMode_Hard" xml:space="preserve"><value>硬</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Normal" xml:space="preserve"><value>標準</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Soft" xml:space="preserve"><value>柔和</value></data>
+
+  <data name="Enum_VSMBreathType_Female" xml:space="preserve"><value>女聲</value></data>
+  <data name="Enum_VSMBreathType_Male" xml:space="preserve"><value>男聲</value></data>
+  <data name="Enum_VSMBreathMode_Often" xml:space="preserve"><value>頻繁</value></data>
+  <data name="Enum_VSMBreathMode_Sometimes" xml:space="preserve"><value>有時</value></data>
+  <data name="Enum_VSMBreathMode_Rarely" xml:space="preserve"><value>很少</value></data>
+
+  <data name="Enum_ControlParameterTypeEnum_Velocity" xml:space="preserve"><value>力度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Dynamics" xml:space="preserve"><value>動態</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBend" xml:space="preserve"><value>音高彎曲</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBendSensitivity" xml:space="preserve"><value>音高彎曲靈敏度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Exciter" xml:space="preserve"><value>激勵</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Growl" xml:space="preserve"><value>怒音</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Breathiness" xml:space="preserve"><value>氣聲</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Air" xml:space="preserve"><value>空氣感</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Mouth" xml:space="preserve"><value>開口度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Character" xml:space="preserve"><value>音色</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Brightness" xml:space="preserve"><value>明亮度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Clearness" xml:space="preserve"><value>清晰度</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PortamentoTiming" xml:space="preserve"><value>滑音時間</value></data>
+  <data name="Enum_ControlParameterTypeEnum_CrossSynthesis" xml:space="preserve"><value>交叉合成</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Expression" xml:space="preserve"><value>表情</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Attack" xml:space="preserve"><value>起音</value></data>
+
+  <data name="Enum_StylePresetChangeMode_Confirm" xml:space="preserve"><value>確認</value></data>
+  <data name="Enum_StylePresetChangeMode_Keep" xml:space="preserve"><value>保持</value></data>
+
+  <!-- Filled from editor resources / ComboBox values -->
+  <data name="AudioMixdownDlg_BitRate" xml:space="preserve"><value>位元率</value></data>
+  <data name="AudioMixdownDlg_RenderingOptions" xml:space="preserve"><value>輸出設定</value></data>
+  <data name="Button_Reset" xml:space="preserve"><value>重置</value></data>
+  <data name="ContextMenu_ClearNoteDirectPitches_Header" xml:space="preserve"><value>從音符解除音高固定</value></data>
+  <data name="ContextMenu_Disable_Selected_Tracks" xml:space="preserve"><value>禁用所選軌道</value></data>
+  <data name="ContextMenu_Enable_Selected_Tracks" xml:space="preserve"><value>啟用所選軌道</value></data>
+  <data name="ContextMenu_Mute_Header" xml:space="preserve"><value>靜音</value></data>
+  <data name="ContextMenu_SetDirectPitchesFromRenderedPitches_Header" xml:space="preserve"><value>將音高固定到音符</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToBreath" xml:space="preserve"><value>轉換為呼吸</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToSilence" xml:space="preserve"><value>轉換為休止</value></data>
+  <data name="CustomizeShortcutDlg_EmotionToolTemporarySwitch" xml:space="preserve"><value>臨時切換情感工具</value></data>
+  <data name="CustomizeShortcutDlg_GridTemporarySwitch" xml:space="preserve"><value>臨時切換網格</value></data>
+  <data name="CustomizeShortcutDlg_PencilToolTemporarySwitch" xml:space="preserve"><value>臨時切換鉛筆工具</value></data>
+  <data name="HomeWindow_NewProject_Caption" xml:space="preserve"><value>新建專案</value></data>
+  <data name="HomeWindow_OpenDemoSong_Caption" xml:space="preserve"><value>開啟範例歌曲</value></data>
+  <data name="HomeWindow_Open_Caption" xml:space="preserve"><value>開啟</value></data>
+  <data name="MainMenu_Edit_MuteSelectedEvents_Header" xml:space="preserve"><value>靜音所選事件</value></data>
+  <data name="MainMenu_Edit_UnmuteSelectedEvents_Header" xml:space="preserve"><value>取消靜音所選事件</value></data>
+  <data name="MainMenu_File_ImportCcs_Header" xml:space="preserve"><value>CCS 檔案...</value></data>
+  <data name="MainMenu_File_ImportMp3_Header" xml:space="preserve"><value>MP3 檔案...</value></data>
+  <data name="MainMenu_File_ImportMusicXml_Header" xml:space="preserve"><value>MusicXML 檔案...</value></data>
+  <data name="MainMenu_File_ImportMxl_Header" xml:space="preserve"><value>MXL 檔案...</value></data>
+  <data name="MainMenu_File_ImportSvp_Header" xml:space="preserve"><value>SVP 檔案...</value></data>
+  <data name="MainMenu_File_ImportTssln_Header" xml:space="preserve"><value>TSSLN 檔案...</value></data>
+  <data name="MainMenu_File_ImportUst_Header" xml:space="preserve"><value>UST 檔案...</value></data>
+  <data name="MainMenu_File_ImportVprx_Header" xml:space="preserve"><value>VPRX 檔案...</value></data>
+  <data name="MainMenu_File_ImportWave_Header" xml:space="preserve"><value>波形檔案...</value></data>
+  <data name="MainMenu_Transport_MetronomeSettings_Header" xml:space="preserve"><value>節拍器設定...</value></data>
+  <data name="MainMenu_Transport_Metronome_Header" xml:space="preserve"><value>節拍器</value></data>
+  <data name="MainMenu_View_Browser_Header" xml:space="preserve"><value>瀏覽器</value></data>
+  <data name="MainMenu_View_InspectorHelp_Header" xml:space="preserve"><value>上下文幫助</value></data>
+  <data name="ManualVibrato_Label" xml:space="preserve"><value>手動</value></data>
+  <data name="MetronomeSettingsDlg_ClickLabel" xml:space="preserve"><value>節拍聲設定</value></data>
+  <data name="MetronomeSettingsDlg_HiLabel" xml:space="preserve"><value>高</value></data>
+  <data name="MetronomeSettingsDlg_LoLabel" xml:space="preserve"><value>低</value></data>
+  <data name="MetronomeSettingsDlg_Title" xml:space="preserve"><value>節拍器設定</value></data>
+  <data name="MusicalEditor_ActionComboBox_DisplayText" xml:space="preserve"><value>操作</value></data>
+  <data name="NoteInspectorTitle_AttackEffect" xml:space="preserve"><value>起音效果</value></data>
+  <data name="NoteInspectorTitle_Letter" xml:space="preserve"><value>歌詞</value></data>
+  <data name="NoteInspectorTitle_Lyric" xml:space="preserve"><value>歌詞與音素</value></data>
+  <data name="NoteInspectorTitle_Parameter" xml:space="preserve"><value>參數</value></data>
+  <data name="NoteInspectorTitle_PhoneticSymbol" xml:space="preserve"><value>音素符號</value></data>
+  <data name="NoteInspectorTitle_ReleaseEffect" xml:space="preserve"><value>釋音效果</value></data>
+  <data name="NotePropertyDlg_ManualVibrato" xml:space="preserve"><value>手動</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Caption" xml:space="preserve"><value>顯示聲庫圖標</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Enable_Caption" xml:space="preserve"><value>啟用</value></data>
+  <data name="ProjectSettingDlg_MeasureOffset" xml:space="preserve"><value>小節偏移</value></data>
+  <data name="ToolBar_Browser_ToolTip" xml:space="preserve"><value>瀏覽器</value></data>
+  <data name="ToolBar_InspectorHelp_ToolTip" xml:space="preserve"><value>上下文幫助</value></data>
+  <data name="ToolBar_MetronomeSettings_ToolTip" xml:space="preserve"><value>節拍器設定</value></data>
+  <data name="ToolBar_Mute_ToolTip" xml:space="preserve"><value>靜音</value></data>
+  <data name="ToolBar_PitchCurveView_ToolTip" xml:space="preserve"><value>音高曲線顯示</value></data>
+  <data name="ToolBar_Timing_ToolTip" xml:space="preserve"><value>音素時序</value></data>
+  <data name="ToolBar_VoiceBankImageViewSetting_ToolTip" xml:space="preserve"><value>聲庫圖片顯示設定</value></data>
+  <data name="ToolBar_VoiceBankImageView_ToolTip" xml:space="preserve"><value>聲庫圖片顯示</value></data>
+  <data name="ToolBar_WaveformImageView_ToolTip" xml:space="preserve"><value>波形顯示</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDropText" xml:space="preserve"><value>將圖片拖放到此處</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageUnsetText" xml:space="preserve"><value>未設定自定義圖片</value></data>
+  <data name="VoiceBankImageSettingDlg_OpacityLabel" xml:space="preserve"><value>圖片不透明度</value></data>
+  <data name="VoiceBankImageSettingDlg_ResetButtonText" xml:space="preserve"><value>重置</value></data>
+  <data name="VoiceBankImageSettingDlg_Title" xml:space="preserve"><value>聲庫圖片設定</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Export" xml:space="preserve"><value>匯出 MP3</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Import" xml:space="preserve"><value>匯入 MP3</value></data>
+  <data name="CustomizeShortcutDlg_CommandAddTimeSig" xml:space="preserve"><value>在目前歌曲位置建立拍號</value></data>
+  <data name="CustomizeShortcutDlg_CommandClearNoteDirectPitches" xml:space="preserve"><value>從音符解除音高固定</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllMuteStates" xml:space="preserve"><value>取消所有靜音狀態</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllSoloStates" xml:space="preserve"><value>取消所有獨奏狀態</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportCcs" xml:space="preserve"><value>匯入 - CCS 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMp3" xml:space="preserve"><value>匯入 - MP3 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMusicXml" xml:space="preserve"><value>匯入 - MusicXML 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMxl" xml:space="preserve"><value>匯入 - MXL 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportSvp" xml:space="preserve"><value>匯入 - SVP 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportTssln" xml:space="preserve"><value>匯入 - TSSLN 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportUst" xml:space="preserve"><value>匯入 - UST 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportVprx" xml:space="preserve"><value>匯入 - VPRX 檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportWave" xml:space="preserve"><value>匯入 - 波形檔案</value></data>
+  <data name="CustomizeShortcutDlg_CommandMidiTrackAddMidiPart" xml:space="preserve"><value>在目前歌曲位置建立樂段</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllMainVolumes" xml:space="preserve"><value>全選主音量</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllNotes" xml:space="preserve"><value>全選音符</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTempos" xml:space="preserve"><value>全選速度</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTimeSigs" xml:space="preserve"><value>全選拍號</value></data>
+  <data name="CustomizeShortcutDlg_CommandSetDirectPitchesFromRenderedPitches" xml:space="preserve"><value>將音高固定到音符</value></data>
+  <data name="FileDlg_CCS_Filter" xml:space="preserve"><value>CCS 檔案|*.ccs|所有檔案|*.*</value></data>
+  <data name="FileDlg_MP3_Filter" xml:space="preserve"><value>MP3 檔案|*.mp3|所有檔案|*.*</value></data>
+  <data name="FileDlg_MXL_Filter" xml:space="preserve"><value>MXL 檔案|*.mxl|所有檔案|*.*</value></data>
+  <data name="FileDlg_MusicXML_Filter" xml:space="preserve"><value>MusicXML 檔案|*.musicxml|所有檔案|*.*</value></data>
+  <data name="FileDlg_SVP_Filter" xml:space="preserve"><value>SVP 檔案|*.svp|所有檔案|*.*</value></data>
+  <data name="FileDlg_TSSLN_Filter" xml:space="preserve"><value>TSSLN 檔案|*.tssln|所有檔案|*.*</value></data>
+  <data name="FileDlg_UST_Filter" xml:space="preserve"><value>UST 檔案|*.ust|所有檔案|*.*</value></data>
+  <data name="FileDlg_V7Proj_Filter" xml:space="preserve"><value>VOCALOID7 序列|*.vprx</value></data>
+  <data name="FileDlg_VPRX_Filter" xml:space="preserve"><value>VOCALOID7 專案|*.vprx|所有檔案|*.*</value></data>
+  <data name="Help_AmplitudeEndControl" xml:space="preserve"><value>後段表情;調整音符後半段的音量。</value></data>
+  <data name="Help_AmplitudeStartControl" xml:space="preserve"><value>前段表情;調整音符前半段的音量。</value></data>
+  <data name="Help_AmplitudeWholeControl" xml:space="preserve"><value>中段表情;調整音符中段的音量。</value></data>
+  <data name="Help_AttackReleaseEffectArea" xml:space="preserve"><value>起音/釋音效果;可以為音符的起音或釋音添加效果。
+點擊圖標應用效果，再次點擊取消。</value></data>
+  <data name="Help_AttackReleaseEffectControl" xml:space="preserve"><value>效果強度;調整效果的強度。設定範圍為 SOFT (0.0) 至 HARD (1.0)。</value></data>
+  <data name="Help_AudioPartArea" xml:space="preserve"><value>音訊樂段;包含音訊波形資料的樂段，可用於音訊軌道。</value></data>
+  <data name="Help_BreakPointControl" xml:space="preserve"><value>斷點;斷點是在特定時間點改變控制參數值的標記。在不同位置設定斷點可以對參數變化進行精細調整。</value></data>
+  <data name="Help_ChangePitchControl" xml:space="preserve"><value>改變音高;將音訊的音高升高或降低 -12 (-1200 音分) 至 12 (+1200 音分)。</value></data>
+  <data name="Help_ControlParameterGraphBodyArea" xml:space="preserve"><value>控制參數;此區域用於顯示和編輯控制參數。</value></data>
+  <data name="Help_ControlParameterGraphButton" xml:space="preserve"><value>顯示控制參數;可以顯示或隱藏控制參數區域。</value></data>
+  <data name="Help_ControlParameterHeaderSelectorCombo" xml:space="preserve"><value>控制參數類型;從下拉列表中選擇要查看或編輯的控制參數類型。</value></data>
+  <data name="Help_ControlParameterHeaderTextBox" xml:space="preserve"><value>控制參數資訊;此區域用於顯示和編輯所選控制參數的資訊。</value></data>
+  <data name="Help_EditorRulerArea" xml:space="preserve"><value>編輯器標尺;編輯器中的標尺。可以拖動調整起始/結束標記以及樂段的起點和終點。</value></data>
+  <data name="Help_EffectButton" xml:space="preserve"><value>效果;顯示指定軌道的音訊效果介面。</value></data>
+  <data name="Help_EndMarkerControl" xml:space="preserve"><value>結束標記;結束標記是循環播放的結束點。</value></data>
+  <data name="Help_GlobalMuteButton" xml:space="preserve"><value>關閉所有靜音狀態;當任意軌道被設為“靜音”時此按鈕會亮起。</value></data>
+  <data name="Help_GlobalSoloButton" xml:space="preserve"><value>關閉所有獨奏狀態;當任意軌道被設為“獨奏”時此按鈕會亮起。</value></data>
+  <data name="Help_InspectorDisclosureButton" xml:space="preserve"><value>屬性資訊開關;此按鈕用於折疊並隱藏屬性資訊。點擊隱藏目前顯示的詳細資訊，再次點擊顯示。</value></data>
+  <data name="Help_LyricTextBox" xml:space="preserve"><value>歌詞;此區域用於顯示和編輯歌詞。</value></data>
+  <data name="Help_MainVolumeTrackBodyArea" xml:space="preserve"><value>主控軌道;顯示和編輯主音量；使用鉛筆或直線工具輸入，使用箭頭工具編輯。</value></data>
+  <data name="Help_MainVolumeTrackButton" xml:space="preserve"><value>主控軌道;在軌道編輯器中顯示主控軌道。</value></data>
+  <data name="Help_MainVolumeTrackHeaderArea" xml:space="preserve"><value>主控軌道;此軌道用於顯示和編輯主音量資訊。</value></data>
+  <data name="Help_MidiPartArea" xml:space="preserve"><value>VOCALOID 樂段;包含音符的樂段，主要用於歌聲合成。</value></data>
+  <data name="Help_MuteButton" xml:space="preserve"><value>靜音;將指定軌道的輸出靜音。</value></data>
+  <data name="Help_NewTrackAddButton" xml:space="preserve"><value>添加軌道;建立新軌道。在彈出的對話框中設定要建立的軌道資訊，然後點擊“建立”。</value></data>
+  <data name="Help_NoteArea" xml:space="preserve"><value>音符;音符表示樂譜上聲音的音高和長度。</value></data>
+  <data name="Help_NoteParameterAllReset" xml:space="preserve"><value>重置所有參數;將所有參數值恢復為預設值。</value></data>
+  <data name="Help_NoteParameterReset" xml:space="preserve"><value>重置參數;將組內包含的參數值恢復為預設值。</value></data>
+  <data name="Help_OutputControl" xml:space="preserve"><value>音訊輸出路由;為每個軌道設定輸出目標。在 VST/AU 模式下，從下拉列表中選擇輸出總線。</value></data>
+  <data name="Help_PartNameText" xml:space="preserve"><value>樂段名;此區域用於顯示和編輯樂段名。</value></data>
+  <data name="Help_PhoneticSymbolLanguage" xml:space="preserve"><value>音符語言;表示使用哪種語言處理音符的發音符號。音符語言在輸入發音符號時設定，因此此項僅供顯示。</value></data>
+  <data name="Help_PhoneticSymbolLockButton" xml:space="preserve"><value>音素保護;點擊該按鈕可啟用音素保護。</value></data>
+  <data name="Help_PhoneticSymbolTextBox" xml:space="preserve"><value>音素符號;此區域用於顯示和編輯音素符號。</value></data>
+  <data name="Help_PianorollBodyArea" xml:space="preserve"><value>鋼琴窗;此區域用於顯示和編輯音符。</value></data>
+  <data name="Help_PianorollHeaderArea" xml:space="preserve"><value>鋼琴窗標題欄;試聽開啟時，按下鋼琴窗左側鍵盤會用樂段的聲音播放音符。頂部顯示軌道類型和編號。</value></data>
+  <data name="Help_PitchDriftEndControl" xml:space="preserve"><value>後段漂移;延長或壓縮音符後半段的音高。</value></data>
+  <data name="Help_PitchDriftStartControl" xml:space="preserve"><value>前段漂移;延長或壓縮音符前半段的音高。</value></data>
+  <data name="Help_PitchFineControl" xml:space="preserve"><value>微調;整體升高或降低音符的音高。</value></data>
+  <data name="Help_PitchScalingOriginControl" xml:space="preserve"><value>整體漂移;以音符音高為中心，整體延長或壓縮音符的音高。</value></data>
+  <data name="Help_PitchTransitionEndControl" xml:space="preserve"><value>後段過渡;沿時間軸延長或壓縮音符後半段的音高。</value></data>
+  <data name="Help_PitchTransitionStartControl" xml:space="preserve"><value>前段過渡;沿時間軸延長或壓縮音符前半段的音高。</value></data>
+  <data name="Help_ProcessTitle" xml:space="preserve"><value>處理;這是設定音訊處理的區域。</value></data>
+  <data name="Help_RecordButton" xml:space="preserve"><value>錄音;使軌道進入錄音狀態。這是 VOCALOID 軌道的功能。獨立版中，錄音按鈕開啟時會在收到 MIDI 輸入時輸出鋼琴音。</value></data>
+  <data name="Help_SoloButton" xml:space="preserve"><value>獨奏;只輸出所需軌道。按住按鈕可啟用獨奏豁免模式。啟用後，即使其他軌道被獨奏，該軌道也不會被靜音。</value></data>
+  <data name="Help_StartMarkerControl" xml:space="preserve"><value>起始標記;起始標記是循環播放的起點。</value></data>
+  <data name="Help_StyleAirControl" xml:space="preserve"><value>空氣感;調整混入發音的呼吸量。使用 VOCALOID: AI 聲庫時，取值範圍為氣聲較弱 (-100) 至氣聲較強 (+100)；使用 VOCALOID 聲庫時為氣聲較弱 (0) 至氣聲較強 (127)。</value></data>
+  <data name="Help_StyleAmountControl" xml:space="preserve"><value>量;調整抑揚程度。</value></data>
+  <data name="Help_StyleBreathCombo" xml:space="preserve"><value>呼吸;此功能會分析序列並在合適的位置自動插入呼吸。也可以設定呼吸插入的頻率。</value></data>
+  <data name="Help_StyleBreathinessControl" xml:space="preserve"><value>氣聲;調整混入發音的呼吸量以及元音的音色。
+設定範圍為清晰 (0) 至明亮 (127)。</value></data>
+  <data name="Help_StyleCharacterControl" xml:space="preserve"><value>性別值;調整發音的共振峰。
+數值越高越偏向女性化，越低越偏向男性化。
+設定範圍為冷酷 (-64) 至可愛 (+63)。</value></data>
+  <data name="Help_StyleCombo" xml:space="preserve"><value>風格設定;此區域用於選擇風格。下拉列表會優先顯示與主聲庫關聯的風格。</value></data>
+  <data name="Help_StyleExciterControl" xml:space="preserve"><value>激勵;調整聲音的音色。
+設定範圍為沉悶 (-64) 至明亮 (+63)。</value></data>
+  <data name="Help_StyleExhalationControl" xml:space="preserve"><value>呼氣;設定插入的呼吸音量。</value></data>
+  <data name="Help_StyleGrowlControl" xml:space="preserve"><value>怒音;調整怒音的程度。
+設定範圍為清晰 (0) 至強烈 (127)。</value></data>
+  <data name="Help_StyleMouthControl" xml:space="preserve"><value>開口度;調整發音的咬字（張口程度）。
+設定範圍為閉合 (-127) 至張開 (0)。</value></data>
+  <data name="Help_StylePowerButton" xml:space="preserve"><value>效果開關;按鈕關閉時，效果將被旁通。</value></data>
+  <data name="Help_StyleRobotVoiceCombo" xml:space="preserve"><value>機械音;將聲音變為機械音。
+可選擇 HARD/NORMAL/SOFT 三種模式。</value></data>
+  <data name="Help_StyleS5AirControl" xml:space="preserve"><value>空氣感;調整混入發音的呼吸量。使用 VOCALOID: AI 聲庫時，取值範圍為氣聲較弱 (-100) 至氣聲較強 (+100)；使用 VOCALOID 聲庫時為氣聲較弱 (0) 至氣聲較強 (127)。</value></data>
+  <data name="Help_StyleS5AttackControl" xml:space="preserve"><value>發音起始清晰度;調整發音起始的清晰度。取值範圍為 SLOW (-100) 至 FAST (100)。</value></data>
+  <data name="Help_StyleS5CharacterControl" xml:space="preserve"><value>性別值;調整發音的共振峰。
+數值越高越偏向女性化，越低越偏向男性化。
+設定範圍為冷酷 (-64) 至可愛 (+63)。</value></data>
+  <data name="Help_StyleS5ExpressionControl" xml:space="preserve"><value>表情;設定傳遞給合成引擎的音量變化過渡。
+設定範圍為柔和 (0) 至強勁 (100)。</value></data>
+  <data name="Help_StyleSaveButton" xml:space="preserve"><value>儲存風格預設;可以將目前設定儲存為風格預設。</value></data>
+  <data name="Help_StyleSingingSkillCombo" xml:space="preserve"><value>歌唱技巧;此 MIDI 效果會根據序列自動應用合適的音高彎曲和音量。此功能僅在使用 VOCALOID 聲庫時可用。</value></data>
+  <data name="Help_StyleSkillControl" xml:space="preserve"><value>技巧;調整歌唱技巧的程度。</value></data>
+  <data name="Help_StyleTitle" xml:space="preserve"><value>風格設定;此區域用於設定風格。</value></data>
+  <data name="Help_StyleVoiceColorTitle" xml:space="preserve"><value>音色;決定音色，並為音樂編輯器中可編輯的控制參數提供偏移。</value></data>
+  <data name="Help_TakeCombo" xml:space="preserve"><value>發音版本;調整樂段內音符的發音時機（Take）。</value></data>
+  <data name="Help_TempoSyncButton" xml:space="preserve"><value>速度同步;在使用 VST 或 ARA 連接時，可以設定是否與 DAW 同步速度。關閉時使用本地速度模式。</value></data>
+  <data name="Help_TempoTextBox" xml:space="preserve"><value>速度;此區域根據歌曲指針位置顯示和編輯速度。</value></data>
+  <data name="Help_TempoTrackBodyArea" xml:space="preserve"><value>速度軌道;顯示和編輯速度；使用鉛筆或直線工具輸入，使用箭頭工具編輯。</value></data>
+  <data name="Help_TempoTrackButton" xml:space="preserve"><value>速度軌道;在軌道編輯器中顯示速度軌道。</value></data>
+  <data name="Help_TempoTrackHeaderArea" xml:space="preserve"><value>速度軌道;此軌道用於顯示和編輯速度。</value></data>
+  <data name="Help_TimeDisplayLoad" xml:space="preserve"><value>負載狀態;此區域顯示計算機的負載狀態。</value></data>
+  <data name="Help_TimeDisplaySongPosition" xml:space="preserve"><value>目前歌曲位置;顯示目前歌曲位置。雙擊可直接編輯。</value></data>
+  <data name="Help_TimeDisplayTempo" xml:space="preserve"><value>目前速度;顯示目前歌曲位置的速度。雙擊可直接編輯。</value></data>
+  <data name="Help_TimeDisplayTimeSig" xml:space="preserve"><value>目前拍號;顯示目前歌曲位置的拍號。雙擊可直接編輯。</value></data>
+  <data name="Help_TimeSigTrackBodyArea" xml:space="preserve"><value>拍號軌道;此區域顯示和編輯拍號事件。雙擊編輯，使用鉛筆工具或右鍵選單添加事件。</value></data>
+  <data name="Help_TimeSigTrackButton" xml:space="preserve"><value>拍號軌道;在軌道編輯器頂部的標尺中顯示拍號軌道。</value></data>
+  <data name="Help_TimeSigTrackHeaderArea" xml:space="preserve"><value>拍號軌道;此軌道用於顯示和編輯拍號。</value></data>
+  <data name="Help_ToolbarAction" xml:space="preserve"><value>操作;開啟所選音符的可用操作。</value></data>
+  <data name="Help_ToolbarAmp" xml:space="preserve"><value>表情工具;啟用音符表情調整。</value></data>
+  <data name="Help_ToolbarArrow" xml:space="preserve"><value>箭頭工具;主要用於選擇或編輯樂段和自動化。</value></data>
+  <data name="Help_ToolbarAutoScroll" xml:space="preserve"><value>自動捲動;開啟或關閉自動捲動。開啟後，編輯器會跟隨歌曲位置，可以隨時查看播放位置。</value></data>
+  <data name="Help_ToolbarBrowser" xml:space="preserve"><value>瀏覽器;開啟瀏覽器。</value></data>
+  <data name="Help_ToolbarEditor" xml:space="preserve"><value>編輯器;選中 VOCALOID 樂段時開啟音樂編輯器，選中音訊樂段時開啟波形編輯器。</value></data>
+  <data name="Help_ToolbarEmotionMode" xml:space="preserve"><value>情感工具;調整每個音符演唱時的“重音”。
+如果應用了歌唱技巧且未應用起音/釋音效果，點擊橙色條會在下方顯示重音滑塊。</value></data>
+  <data name="Help_ToolbarGrid" xml:space="preserve"><value>網格工具;將輸入位置的時機自動校正為下拉列表中選定的值（OFF 除外）。</value></data>
+  <data name="Help_ToolbarInspector" xml:space="preserve"><value>屬性面板;在主視窗左側顯示屬性面板。</value></data>
+  <data name="Help_ToolbarInspectorHelp" xml:space="preserve"><value>上下文幫助;在屬性面板底部顯示上下文幫助視窗。</value></data>
+  <data name="Help_ToolbarLine" xml:space="preserve"><value>直線工具;主要用於輸入樂段、自動化，或編輯速度/拍號。直線工具可以在控制參數或音量/聲像自動化區域中以直線輸入參數。</value></data>
+  <data name="Help_ToolbarMetronome" xml:space="preserve"><value>節拍器;在播放和錄音時播放節拍聲。</value></data>
+  <data name="Help_ToolbarMetronomeSettings" xml:space="preserve"><value>節拍器設定;顯示節拍器設定對話框。</value></data>
+  <data name="Help_ToolbarMixer" xml:space="preserve"><value>混音器;開啟混音器。</value></data>
+  <data name="Help_ToolbarMute" xml:space="preserve"><value>靜音工具;在靜音/取消靜音樂段或音符之間切換。</value></data>
+  <data name="Help_ToolbarPencil" xml:space="preserve"><value>鉛筆工具;主要用於輸入樂段、自動化，或編輯速度/拍號。鉛筆工具移到標尺、選單欄或工具欄時會切換為箭頭工具。</value></data>
+  <data name="Help_ToolbarPitch" xml:space="preserve"><value>音高工具;啟用音符音高調整。</value></data>
+  <data name="Help_ToolbarPitchCurveView" xml:space="preserve"><value>音高曲線顯示;開啟/關閉音樂編輯器中的音高曲線顯示。</value></data>
+  <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>音高橡皮工具;可以使用音高鉛筆工具和音高橡皮工具直接編輯 VOCALOID 樂段的音高軌跡。</value></data>
+  <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>音高鉛筆工具;可以使用音高鉛筆工具和音高橡皮工具直接編輯 VOCALOID 樂段的音高軌跡。</value></data>
+  <data name="Help_ToolbarPlayback" xml:space="preserve"><value>停止/回到開頭;停止播放。
+停止時點擊此按鈕，或播放中雙擊，可回到開頭。</value></data>
+  <data name="Help_ToolbarRecord" xml:space="preserve"><value>錄音;錄制輸入的 MIDI 事件。需要先開啟要錄制軌道的軌道視圖標題欄上的錄音按鈕。</value></data>
+  <data name="Help_ToolbarRepeat" xml:space="preserve"><value>循環;按鈕開啟時，循環播放軌道內起始標記與結束標記之間的區間。</value></data>
+  <data name="Help_ToolbarScissors" xml:space="preserve"><value>剪刀工具;分割樂段或音符。</value></data>
+  <data name="Help_ToolbarSoundPlayback" xml:space="preserve"><value>聲音反饋;開啟或關閉音符輸入、點擊音符和點擊鋼琴窗時的反饋音。</value></data>
+  <data name="Help_ToolbarStop" xml:space="preserve"><value>播放;開始播放。</value></data>
+  <data name="Help_ToolbarTiming" xml:space="preserve"><value>時序工具;啟用音符音素時機調整。</value></data>
+  <data name="Help_ToolbarVibrato" xml:space="preserve"><value>顫音工具;啟用音符顫音調整。</value></data>
+  <data name="Help_ToolbarVoiceBankImageOptionTriangle" xml:space="preserve"><value>聲庫圖片設定;顯示聲庫圖片顯示設定對話框。</value></data>
+  <data name="Help_ToolbarVoiceBankImageView" xml:space="preserve"><value>聲庫圖片顯示;開啟/關閉音樂編輯器中的聲庫圖片顯示。</value></data>
+  <data name="Help_ToolbarWaveformImageView" xml:space="preserve"><value>波形顯示;開啟/關閉音樂編輯器中的波形圖像顯示。</value></data>
+  <data name="Help_TrackBodyArea" xml:space="preserve"><value>軌道編輯器;這是查看和編輯樂段及自動化資料的區域。</value></data>
+  <data name="Help_TrackColor" xml:space="preserve"><value>軌道顏色;此區域用於顯示和編輯軌道設定的顏色。</value></data>
+  <data name="Help_TrackHeaderArea" xml:space="preserve"><value>軌道;軌道是管理多個樂段（聲音塊）的單元。
+可以為每個軌道設定音量、左右分布（聲像）等。</value></data>
+  <data name="Help_TrackNameTextBox" xml:space="preserve"><value>軌道名;此區域用於顯示和編輯軌道名。</value></data>
+  <data name="Help_TrackPanpotAutomationButton" xml:space="preserve"><value>顯示軌道聲像自動化;可以顯示或隱藏軌道聲像自動化區域。</value></data>
+  <data name="Help_TrackPanpotControl" xml:space="preserve"><value>軌道聲像;移動軌道的聲像位置。</value></data>
+  <data name="Help_TrackRulerArea" xml:space="preserve"><value>軌道標尺;軌道編輯器中的標尺。可以拖動調整起始和結束標記的位置。</value></data>
+  <data name="Help_TrackVolumeAutomationButton" xml:space="preserve"><value>顯示軌道音量自動化;可以顯示或隱藏軌道音量自動化區域。</value></data>
+  <data name="Help_TrackVolumeControl" xml:space="preserve"><value>軌道音量;改變軌道的輸出電平。</value></data>
+  <data name="Help_VibratoDepthControl" xml:space="preserve"><value>深度;調整顫音深度。</value></data>
+  <data name="Help_VibratoDurationControl" xml:space="preserve"><value>顫音起點;調整顫音開始位置。</value></data>
+  <data name="Help_VibratoFollowingDepthControl" xml:space="preserve"><value>後段深度;調整後半段的顫音深度。</value></data>
+  <data name="Help_VibratoLeadingDepthControl" xml:space="preserve"><value>前段深度;調整前半段的顫音深度。</value></data>
+  <data name="Help_VibratoManualButton" xml:space="preserve"><value>手動;使用 VOCALOID4 的顫音曲線生成顫音。</value></data>
+  <data name="Help_VibratoRateControl" xml:space="preserve"><value>速率;調整顫音訊率。</value></data>
+  <data name="Help_VoiceBankBrowserArea" xml:space="preserve"><value>聲庫瀏覽器;顯示聲庫的視窗。已安裝的聲庫以目錄形式顯示。</value></data>
+  <data name="Help_VoiceBankBrowserFoldStateButton" xml:space="preserve"><value>展開/折疊;展開或折疊聲庫顯示。</value></data>
+  <data name="Help_VoiceBankBrowserListControl" xml:space="preserve"><value>聲庫列表;以目錄形式顯示已安裝的聲庫。拖放可將聲庫設定到軌道或軌道標題欄。</value></data>
+  <data name="Help_VoiceBankBrowserSearchControl" xml:space="preserve"><value>文本搜索;按文本搜索聲庫名稱。</value></data>
+  <data name="Help_VoiceBankBrowserSortOrderButton" xml:space="preserve"><value>排序;更改聲庫的排列順序。</value></data>
+  <data name="Help_VoiceBankBrowserToggleImageButton" xml:space="preserve"><value>顯示/隱藏圖片;顯示或隱藏聲庫圖片。</value></data>
+  <data name="Help_VoiceCombo" xml:space="preserve"><value>聲庫設定;此區域用於選擇聲庫。</value></data>
+  <data name="Help_VoiceEngineVersionCombo" xml:space="preserve"><value>引擎版本;此區域用於設定聲庫的引擎版本。</value></data>
+  <data name="Help_VoiceTitle" xml:space="preserve"><value>聲庫設定;此區域用於設定聲庫。</value></data>
+  <data name="Help_VoiceTypeCombo" xml:space="preserve"><value>音色類型設定;此區域用於選擇音色類型。</value></data>
+  <data name="Help_VoiceXSYCombo" xml:space="preserve"><value>XSY 聲庫;此區域設定用於交叉合成 (XSY) 的副聲庫。根據主聲庫的選擇，只顯示支援 XSY 的聲庫。</value></data>
+  <data name="Help_WebBrowserArea" xml:space="preserve"><value>網頁瀏覽器;這是顯示網頁的視窗。可以看到常見問題鏈接和試用版下載頁面。</value></data>
+  <data name="Help_WebBrowserBackButton" xml:space="preserve"><value>後退;如果可能，顯示之前瀏覽的網頁。</value></data>
+  <data name="Help_WebBrowserForwardButton" xml:space="preserve"><value>前進;如果可能，顯示後退之前瀏覽的網頁。</value></data>
+  <data name="Help_WebBrowserHomeButton" xml:space="preserve"><value>主頁;顯示網頁初始頁面的按鈕。</value></data>
+  <data name="Help_WebBrowserReloadButton" xml:space="preserve"><value>重新載入;重新載入並顯示目前瀏覽的網頁。</value></data>
+  <data name="MsgBox_AudioMixdown_FailedToExportMp3" xml:space="preserve"><value>匯出 MP3 失敗。</value></data>
+  <data name="MsgBox_AudioTranscoderInitialization_Error" xml:space="preserve"><value>初始化音訊轉碼器失敗。</value></data>
+  <data name="MsgBox_AudioTranscoder_FailedTranscode" xml:space="preserve"><value>音訊轉碼失敗。</value></data>
+  <data name="MsgBox_MidiEffectManagerInitialization_Error" xml:space="preserve"><value>初始化 MIDI 效果管理器失敗。</value></data>
+  <data name="MsgBox_MixedAudioFormat_Error" xml:space="preserve"><value>無法同時匯入 Wav 檔案和 MP3 檔案。</value></data>
+  <data name="MsgBox_OpenDemoSong_Error" xml:space="preserve"><value>開啟範例歌曲失敗。</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToBreath" xml:space="preserve"><value>轉換為呼吸</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToSilence" xml:space="preserve"><value>轉換為休止</value></data>
+  <data name="NoteInspectorTimingLabel_Edited" xml:space="preserve"><value>已編輯</value></data>
+  <data name="NoteInspectorTimingLabel_NotEdited" xml:space="preserve"><value>未編輯</value></data>
+  <data name="StyleManager_Menu" xml:space="preserve"><value>風格管理器...</value></data>
+  <data name="StyleManager_Title" xml:space="preserve"><value>風格管理器</value></data>
+  <data name="StyleOther_Menu" xml:space="preserve"><value>其他</value></data>
+  <data name="StyleUserStyle_Menu" xml:space="preserve"><value>使用者風格</value></data>
+  <data name="UnhandledExceptionMessage" xml:space="preserve"><value>發生意外錯誤。VOCALOID7 編輯器即將關閉。</value></data>
+  <data name="UnhandledExceptionTitle" xml:space="preserve"><value>未處理的異常</value></data>
+  <data name="VoiceBankImageSettingDlg_CopyFailed" xml:space="preserve"><value>複製檔案失敗。</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageConditionNotMet" xml:space="preserve"><value>不滿足自定義圖片條件</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteConfirm" xml:space="preserve"><value>確定要刪除自定義圖片資料夾中的檔案嗎？</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteFailed" xml:space="preserve"><value>刪除失敗：{0}</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteTitle" xml:space="preserve"><value>確認刪除自定義圖片</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageLabel" xml:space="preserve"><value>自定義圖片</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageSetText" xml:space="preserve"><value>已設定自定義圖片</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageStatusError" xml:space="preserve"><value>自定義圖片狀態錯誤</value></data>
+  <data name="VoiceBankImageSettingDlg_ErrorTitle" xml:space="preserve"><value>錯誤</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageLoadFailed" xml:space="preserve"><value>載入圖片檔案失敗。</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageSizeLimit" xml:space="preserve"><value>請確保圖片的寬度或高度不超過 1024。</value></data>
+  <data name="VoiceBankImageSettingDlg_OnlyPngSupported" xml:space="preserve"><value>僅支援 PNG 檔案。</value></data>
+  <data name="VoiceBankImageSettingDlg_VoiceBankLabel" xml:space="preserve"><value>聲庫名稱</value></data>
+  <data name="VoiceChangedDlg_VersionNotFoundSuffix" xml:space="preserve"><value>未找到。</value></data>
+  <data name="VoiceSelectionPopup_NoSearchResult" xml:space="preserve"><value>未找到可用的聲庫。</value></data>
+  <data name="VoiceSelectionPopup_NoVoiceBank" xml:space="preserve"><value>未安裝任何聲庫。</value></data>
+  <data name="WebBrowser_InitialUrl" xml:space="preserve"><value>https://www.vocaloid.com/en/bksdlajnl/</value></data>
+  <data name="WebBrowser_InitializationError" xml:space="preserve"><value>初始化網頁瀏覽器失敗。</value></data>
+  <data name="WebBrowser_InvalidUrlError" xml:space="preserve"><value>請輸入有效的 URL。</value></data>
+  <data name="WebBrowser_NavigationError" xml:space="preserve"><value>網頁載入失敗。({0})</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Attack_Header" xml:space="preserve"><value>發音起始清晰度</value></data>
+
   <!-- Debug / Diagnostic messages -->
   <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>未找到翻譯資料夾! 請確保您將 "VOCALOIDPatcher" 資料夾也複製到了編輯器目錄中</value></data>
   <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>未找到任何翻譯! 請確保您將 "VOCALOIDPatcher" 資料夾也複製到了編輯器目錄中</value></data>

@@ -267,31 +267,11 @@ public class SettingsWindow : Window
                 CenteredLyricPatch.RefreshLyrics();
             });
 
-        var waveformOptions = new StackPanel
-        {
-            Margin = new Thickness(28, 6, 0, 0),
-            IsEnabled = Settings.AlwaysShowWaveform,
-            Opacity = Settings.AlwaysShowWaveform ? 1.0 : 0.4
-        };
         var svEditorStyle = Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
-            Settings.SvEditorStyle, new Thickness(0, 0, 0, 8), checkbox =>
+            Settings.SvEditorStyle, new Thickness(0, 18, 0, 0), checkbox =>
             {
                 Settings.SvEditorStyle = checkbox.IsChecked == true;
-                AlwaysShowWaveformPatch.RefreshWaveform();
-            });
-        waveformOptions.Children.Add(svEditorStyle);
-        waveformOptions.Children.Add(SliderRow("VOCALOIDPatcher_WaveformOpacity_Header",
-            0.1, 1.0, Settings.WaveformOpacity,
-            v => { Settings.WaveformOpacity = v; AlwaysShowWaveformPatch.RefreshWaveform(); }));
-
-        var alwaysShowWaveform = Toggle("VOCALOIDPatcher_AlwaysShowWaveform_Header",
-            Settings.AlwaysShowWaveform, new Thickness(0, 18, 0, 0), checkbox =>
-            {
-                var enabled = checkbox.IsChecked == true;
-                Settings.AlwaysShowWaveform = enabled;
-                waveformOptions.IsEnabled = enabled;
-                waveformOptions.Opacity = enabled ? 1.0 : 0.4;
-                AlwaysShowWaveformPatch.RefreshWaveform();
+                ShowOtherTracksNotesPatch.RefreshPianoroll();
             });
 
         var artOptions = new StackPanel
@@ -329,8 +309,7 @@ public class SettingsWindow : Window
         panel.Children.Add(showNotePitch);
         panel.Children.Add(roundedNotes);
         panel.Children.Add(centeredLyrics);
-        panel.Children.Add(alwaysShowWaveform);
-        panel.Children.Add(waveformOptions);
+        panel.Children.Add(svEditorStyle);
         panel.Children.Add(showCharacterArt);
         panel.Children.Add(artOptions);
 
@@ -338,7 +317,6 @@ public class SettingsWindow : Window
         HideIfUnsupported(Settings.ShowNotePitchKey, showNotePitch);
         HideIfUnsupported(Settings.RoundedNotesKey, roundedNotes);
         HideIfUnsupported(Settings.CenteredLyricsKey, centeredLyrics);
-        HideIfUnsupported(Settings.AlwaysShowWaveformKey, alwaysShowWaveform, waveformOptions);
         HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle);
         HideIfUnsupported(Settings.ShowCharacterArtKey, showCharacterArt, artOptions);
 

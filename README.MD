@@ -33,7 +33,7 @@ VOCALOID Patcher 是一个直接加载进 `VOCALOID7 Editor` 的功能补丁。�
 
 - 在当前钢琴窗中显示其它轨道的音符，并可跳过静音轨道。
 - 在音符上显示 `C4`、`F#3` 这样的音高名。
-- 圆角音符、歌词垂直居中和始终显示波形。
+- 圆角音符、歌词垂直居中。
 - 在右下角显示当前声库封面；每个声库都可以单独设置立绘、大小和透明度。
 - 立绘支持静态图片、`GIF` 和 `MP4` 等视频。
 - 为触控板补充钢琴窗横向滚动。
@@ -42,7 +42,6 @@ VOCALOID Patcher 是一个直接加载进 `VOCALOID7 Editor` 的功能补丁。�
 ![Show note pitch](./res/show_note_pitch.png)
 ![Rounded notes](./res/rounded_notes.png)
 ![Centered lyrics](./res/centered_notes_b.png)
-![Always show waveform](./res/always_show_wave.png)
 
 ### 批处理工具
 

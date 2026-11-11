@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,6 +147,7 @@ public static class Patcher
                 new UnhandledExceptionDialogPatch(),
                 new AppLanguagePatch(),
                 new WpfTranslationPatch(),
+                new ComboBoxTranslationPatch(),
                 new ResourceManagerPatch(),
                 new AudioEffectWindowTranslatePatch(),
                 new SwingMenuPatch(),
@@ -183,11 +184,9 @@ public static class Patcher
                 new CenteredLyricPatch(),
                 new CenteredLyricPlainPatch()),
 
-            new(Settings.AlwaysShowWaveformKey,
-                new AlwaysShowWaveformPatch(),
-                new WaveformRenderPatch()),
-
             new(Settings.SvEditorStyleKey,
+                new SvWaveformBaselinePatch(),
+                new WaveformRenderPatch(),
                 new NoteRowRemapPatch(),
                 new ScoreFrameCaptureListPatch(),
                 new ScoreFrameCaptureFilePatch(),

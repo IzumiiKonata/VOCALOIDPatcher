@@ -32,7 +32,7 @@ VOCALOID7 を別の場所にインストールしている場合は、実際の 
 
 - 現在のピアノロールに他トラックのノートを表示します。ミュート中のトラックは除外できます。
 - ノート上に `C4`、`F#3` などの音名を表示します。
-- 角丸ノート、歌詞の垂直中央揃え、波形の常時表示。
+- 角丸ノート、歌詞の垂直中央揃え。
 - 右下に現在のボイスバンクのカバーを表示します。ボイスバンクごとに立ち絵、サイズ、不透明度を設定できます。
 - 静止画、アニメーション `GIF`、`MP4` などの動画に対応します。
 - タッチパッドによるピアノロールの横スクロール。
@@ -41,7 +41,6 @@ VOCALOID7 を別の場所にインストールしている場合は、実際の 
 ![Show note pitch](./res/show_note_pitch.png)
 ![Rounded notes](./res/rounded_notes.png)
 ![Centered lyrics](./res/centered_notes_b.png)
-![Always show waveform](./res/always_show_wave.png)
 
 ### 一括処理ツール
 

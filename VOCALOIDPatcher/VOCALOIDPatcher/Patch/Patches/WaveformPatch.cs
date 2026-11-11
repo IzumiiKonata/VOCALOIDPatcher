@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,45 +13,26 @@ using Yamaha.VOCALOID.VSM;
 
 namespace VOCALOIDPatcher.Patch.Patches;
 
-public class AlwaysShowWaveformPatch : PatchBase
+/**
+ * 「SV 编辑器样式」的波形基线预计算。
+ * 原「始终显示波形」补丁同时负责强制绘制；V7 工具栏已有波形开关后不再需要强制绘制，
+ * 但 SV 样式仍需要提前计算音符/波形基线。
+ */
+public class SvWaveformBaselinePatch : PatchBase
 {
-    public override string PatchName        => "AlwaysShowWaveformPatch";
+    public override string PatchName        => "SvWaveformBaselinePatch";
     public override Type   TargetClass      => typeof(PianorollView);
     public override string TargetMethodName => "DrawRenderedWaveCanvas";
 
     public override Type[] ArgumentTypes => new[] { typeof(MusicalEditorViewModel) };
 
-    private static readonly FieldInfo? WaveCanvasField =
-        AccessTools.Field(typeof(PianorollView), "xRenderedWaveCanvas");
-
-    private static readonly MethodInfo? InsertMethod =
-        AccessTools.Method(typeof(PianorollView), "InsertRenderedWave", new[] { typeof(MusicalEditorViewModel) });
-
     [HarmonyPrefix]
-    private static bool Prefix(PianorollView __instance, MusicalEditorViewModel vm)
+    private static void Prefix(MusicalEditorViewModel vm)
     {
-        if (!Settings.AlwaysShowWaveform)
-            return true;
+        if (!Settings.SvEditorStyle)
+            return;
 
-        if (Settings.SvEditorStyle)
-            PrecomputeBaselines(vm);
-
-        try
-        {
-            if (vm == null || WaveCanvasField == null || InsertMethod == null)
-                return true;
-
-            if (WaveCanvasField.GetValue(__instance) is not FastCanvas canvas)
-                return true;
-
-            canvas.ClearElement();
-            InsertMethod.Invoke(__instance, new object[] { vm });
-            return false;
-        }
-        catch
-        {
-            return true;
-        }
+        PrecomputeBaselines(vm);
     }
 
     private static void PrecomputeBaselines(MusicalEditorViewModel vm)
@@ -107,8 +87,6 @@ public class AlwaysShowWaveformPatch : PatchBase
             WaveformSvState.Clear();
         }
     }
-
-    public static void RefreshWaveform() => ShowOtherTracksNotesPatch.RequestRefreshPianoroll();
 }
 
 public class WaveformRenderPatch : PatchBase
@@ -122,13 +100,12 @@ public class WaveformRenderPatch : PatchBase
     private const double FadeWidth = 24.0;
 
     [HarmonyPrefix]
-    private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext, out int __state)
+    private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext)
     {
-        __state = 0;
-        if (!Settings.AlwaysShowWaveform || drawingContext == null)
+        if (!Settings.SvEditorStyle || drawingContext == null)
             return true;
 
-        if (Settings.SvEditorStyle && WaveformSvState.HasBaselines)
+        if (WaveformSvState.HasBaselines)
         {
             try
             {
@@ -140,25 +117,14 @@ public class WaveformRenderPatch : PatchBase
             }
         }
 
-        if (Settings.SvEditorStyle)
-            WaveformSvState.Activate();
-
-        double opacity = Settings.WaveformOpacity;
-        if (opacity < 1.0)
-        {
-            drawingContext.PushOpacity(opacity);
-            __state = 1;
-        }
+        WaveformSvState.Activate();
         return true;
     }
 
     [HarmonyFinalizer]
-    private static void Finalizer(DrawingContext drawingContext, int __state)
+    private static void Finalizer(DrawingContext drawingContext)
     {
         WaveformSvState.Deactivate();
-
-        if (__state == 1 && drawingContext != null)
-            drawingContext.Pop();
     }
 
     private struct Column
@@ -245,33 +211,20 @@ public class WaveformRenderPatch : PatchBase
         var bg = wave.Background;
         var pen = wave.MainPen;
 
-        double globalOpacity = Settings.WaveformOpacity;
-        bool pushedOpacity = globalOpacity < 1.0;
-        if (pushedOpacity)
-            dc.PushOpacity(globalOpacity);
+        var main = new List<(double X, double Top, double Bottom, int Key)>(cols.Count);
+        foreach (var c in cols)
+            main.Add((c.X, c.Center + c.DeltaTop, c.Center + c.DeltaBottom, c.Baseline));
+        dc.DrawGeometry(bg, pen, BuildGeometry(main));
 
-        try
+        for (int i = 1; i < cols.Count; i++)
         {
-            var main = new List<(double X, double Top, double Bottom, int Key)>(cols.Count);
-            foreach (var c in cols)
-                main.Add((c.X, c.Center + c.DeltaTop, c.Center + c.DeltaBottom, c.Baseline));
-            dc.DrawGeometry(bg, pen, BuildGeometry(main));
+            var a = cols[i - 1];
+            var b = cols[i];
+            if (b.X != a.X + 1.0 || a.Baseline == b.Baseline)
+                continue;
 
-            for (int i = 1; i < cols.Count; i++)
-            {
-                var a = cols[i - 1];
-                var b = cols[i];
-                if (b.X != a.X + 1.0 || a.Baseline == b.Baseline)
-                    continue;
-
-                DrawGhost(dc, bg, pen, cols, i, a.Center, true);
-                DrawGhost(dc, bg, pen, cols, i, b.Center, false);
-            }
-        }
-        finally
-        {
-            if (pushedOpacity)
-                dc.Pop();
+            DrawGhost(dc, bg, pen, cols, i, a.Center, true);
+            DrawGhost(dc, bg, pen, cols, i, b.Center, false);
         }
 
         return true;

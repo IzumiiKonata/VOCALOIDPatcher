@@ -168,8 +168,6 @@ public static class EditorBridgeSvip
     {
         try
         {
-            // VOCALOID7 中原来的 G2PAMultiLingualManager.ResetPhonemes 已被
-            // Sequence.ComplementMidiPart 取代（它会重新规范化歌词和音素）。
             Yamaha.VOCALOID.Sequence.ComplementMidiPart(part);
         }
         catch
@@ -209,8 +207,6 @@ public static class EditorBridgeSvip
 
         var db = App.DatabaseManager;
 
-        // VOCALOID7 把声库挂在轨道上，并且区分经典 (Dse) / AI (Dnn) 两种轨道类型。
-        // 优先使用经典声库；只有在没有安装任何经典声库时才退回 AI 轨道。
         bool useAiTrack = db != null && db.NumVoiceBanks == 0 && db.NumAiVoiceBanks > 0;
         var trackType = useAiTrack ? VSMTrackType.MidiAi : VSMTrackType.Midi;
 

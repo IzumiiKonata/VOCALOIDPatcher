@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Hardcoded -->
   <data name="HomeWindow_PushButton_NEW_PROJECT_Header" xml:space="preserve"><value>NEW PROJECT</value></data>
@@ -20,9 +20,7 @@
   <data name="VOCALOIDPatcher_ShowNotePitch_Header" xml:space="preserve"><value>Show Note Pitch</value></data>
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>Rounded Notes</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>Center Lyrics</value></data>
-  <data name="VOCALOIDPatcher_AlwaysShowWaveform_Header" xml:space="preserve"><value>Always Show Note Waveform</value></data>
   <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>SynthV Editor Style</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>Horizontal</value></data>
@@ -41,24 +39,24 @@
   <data name="VOCALOIDPatcher_Minutes_Suffix" xml:space="preserve"><value>min</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Performance" xml:space="preserve"><value>Performance</value></data>
   <data name="VOCALOIDPatcher_FastProjectLoad_Header" xml:space="preserve"><value>Faster Project Loading</value></data>
-  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastProjectLoad_Desc" xml:space="preserve"><value>Defers loading of off-screen content to speed up project opening.</value></data>
   <data name="VOCALOIDPatcher_TrimWorkingSet_Header" xml:space="preserve"><value>Memory Optimization</value></data>
-  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_TrimWorkingSet_Desc" xml:space="preserve"><value>Releases unused memory when idle to lower memory usage.</value></data>
   <data name="VOCALOIDPatcher_OptimizeTrackRendering_Header" xml:space="preserve"><value>Optimize Track Area Rendering</value></data>
-  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_OptimizeTrackRendering_Desc" xml:space="preserve"><value>Reduces track area redraws for smoother scrolling and editing.</value></data>
   <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Header" xml:space="preserve"><value>Faster Part Switching</value></data>
-  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_SkipUnchangedPartRedraw_Desc" xml:space="preserve"><value>Skips redrawing unchanged areas when switching parts.</value></data>
   <data name="VOCALOIDPatcher_CacheRenderedWaves_Header" xml:space="preserve"><value>Rendered Waveform Cache</value></data>
   <data name="VOCALOIDPatcher_FreeAudioPcmCache_Header" xml:space="preserve"><value>Release Audio PCM Cache</value></data>
-  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_CacheRenderedWaves_Desc" xml:space="preserve"><value>Caches rendered waveforms to avoid repeated drawing.</value></data>
   <data name="VOCALOIDPatcher_ThrottleRendererPreview_Header" xml:space="preserve"><value>Optimize Rendering Preview</value></data>
-  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_ThrottleRendererPreview_Desc" xml:space="preserve"><value>Throttles render preview updates to reduce CPU usage.</value></data>
   <data name="VOCALOIDPatcher_FastSelectionSweep_Header" xml:space="preserve"><value>Faster Selection Clearing</value></data>
-  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_FastSelectionSweep_Desc" xml:space="preserve"><value>Optimizes selection clearing for faster response with many notes.</value></data>
   <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Header" xml:space="preserve"><value>Deferred Parameter Panel Refresh</value></data>
-  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_DeferParameterViewUpdate_Desc" xml:space="preserve"><value>Defers parameter panel refreshes to reduce editing stutter.</value></data>
   <data name="VOCALOIDPatcher_SmoothPlayhead_Header" xml:space="preserve"><value>Smooth Playhead</value></data>
-  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value></value></data>
+  <data name="VOCALOIDPatcher_SmoothPlayhead_Desc" xml:space="preserve"><value>Smooths the movement of the playhead.</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_Header" xml:space="preserve"><value>Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8" xml:space="preserve"><value>8th Swing</value></data>
   <data name="VOCALOIDPatcher_Job_Swing_8_Shuffle" xml:space="preserve"><value>8th Shuffle</value></data>
@@ -1069,6 +1067,323 @@ Please enter your license key to activate the application.</value></data>
   <data name="MessageBox_Cancel_Header" xml:space="preserve"><value>_Cancel</value></data>
   <data name="MessageBox_Yes_Header" xml:space="preserve"><value>_Yes</value></data>
   <data name="MessageBox_No_Header" xml:space="preserve"><value>_No</value></data>
+  <!-- ComboBox / Enum display values -->
+  <data name="Enum_VSMRobotVoiceMode_Hard" xml:space="preserve"><value>Hard</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Normal" xml:space="preserve"><value>Normal</value></data>
+  <data name="Enum_VSMRobotVoiceMode_Soft" xml:space="preserve"><value>Soft</value></data>
+
+  <data name="Enum_VSMBreathType_Female" xml:space="preserve"><value>Female</value></data>
+  <data name="Enum_VSMBreathType_Male" xml:space="preserve"><value>Male</value></data>
+  <data name="Enum_VSMBreathMode_Often" xml:space="preserve"><value>Often</value></data>
+  <data name="Enum_VSMBreathMode_Sometimes" xml:space="preserve"><value>Sometimes</value></data>
+  <data name="Enum_VSMBreathMode_Rarely" xml:space="preserve"><value>Rarely</value></data>
+
+  <data name="Enum_ControlParameterTypeEnum_Velocity" xml:space="preserve"><value>Velocity</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Dynamics" xml:space="preserve"><value>Dynamics</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBend" xml:space="preserve"><value>Pitch Bend</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PitchBendSensitivity" xml:space="preserve"><value>Pitch Bend Sensitivity</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Exciter" xml:space="preserve"><value>Exciter</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Growl" xml:space="preserve"><value>Growl</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Breathiness" xml:space="preserve"><value>Breathiness</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Air" xml:space="preserve"><value>Air</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Mouth" xml:space="preserve"><value>Mouth</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Character" xml:space="preserve"><value>Character</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Brightness" xml:space="preserve"><value>Brightness</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Clearness" xml:space="preserve"><value>Clearness</value></data>
+  <data name="Enum_ControlParameterTypeEnum_PortamentoTiming" xml:space="preserve"><value>Portamento Timing</value></data>
+  <data name="Enum_ControlParameterTypeEnum_CrossSynthesis" xml:space="preserve"><value>Cross Synthesis</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Expression" xml:space="preserve"><value>Expression</value></data>
+  <data name="Enum_ControlParameterTypeEnum_Attack" xml:space="preserve"><value>Attack</value></data>
+
+  <data name="Enum_StylePresetChangeMode_Confirm" xml:space="preserve"><value>Check</value></data>
+  <data name="Enum_StylePresetChangeMode_Keep" xml:space="preserve"><value>Keep</value></data>
+
+  <!-- Filled from editor resources / ComboBox values -->
+  <data name="AudioMixdownDlg_BitRate" xml:space="preserve"><value>Bit Rate</value></data>
+  <data name="AudioMixdownDlg_RenderingOptions" xml:space="preserve"><value>Rendering Options</value></data>
+  <data name="Button_Reset" xml:space="preserve"><value>Reset</value></data>
+  <data name="ContextMenu_ClearNoteDirectPitches_Header" xml:space="preserve"><value>Unfix Pitch from Notes</value></data>
+  <data name="ContextMenu_Disable_Selected_Tracks" xml:space="preserve"><value>Disable Selected Tracks</value></data>
+  <data name="ContextMenu_Enable_Selected_Tracks" xml:space="preserve"><value>Enable Selected Tracks</value></data>
+  <data name="ContextMenu_Mute_Header" xml:space="preserve"><value>Mute</value></data>
+  <data name="ContextMenu_SetDirectPitchesFromRenderedPitches_Header" xml:space="preserve"><value>Fix Pitch to Notes</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToBreath" xml:space="preserve"><value>Convert to Breath</value></data>
+  <data name="CustomizeShortcutDlg_CommandConvertToSilence" xml:space="preserve"><value>Convert to Silence</value></data>
+  <data name="CustomizeShortcutDlg_EmotionToolTemporarySwitch" xml:space="preserve"><value>Temporary Switching of Emotion Tool</value></data>
+  <data name="CustomizeShortcutDlg_GridTemporarySwitch" xml:space="preserve"><value>Temporary Switching of Grid</value></data>
+  <data name="CustomizeShortcutDlg_PencilToolTemporarySwitch" xml:space="preserve"><value>Temporary Switching of Pencil Tool</value></data>
+  <data name="HomeWindow_NewProject_Caption" xml:space="preserve"><value>NEW PROJECT</value></data>
+  <data name="HomeWindow_OpenDemoSong_Caption" xml:space="preserve"><value>OPEN DEMO SONG</value></data>
+  <data name="HomeWindow_Open_Caption" xml:space="preserve"><value>OPEN</value></data>
+  <data name="MainMenu_Edit_MuteSelectedEvents_Header" xml:space="preserve"><value>Mute Selected Events</value></data>
+  <data name="MainMenu_Edit_UnmuteSelectedEvents_Header" xml:space="preserve"><value>Unmute Selected Events</value></data>
+  <data name="MainMenu_File_ImportCcs_Header" xml:space="preserve"><value>CCS File...</value></data>
+  <data name="MainMenu_File_ImportMp3_Header" xml:space="preserve"><value>MP3 File...</value></data>
+  <data name="MainMenu_File_ImportMusicXml_Header" xml:space="preserve"><value>MusicXML File...</value></data>
+  <data name="MainMenu_File_ImportMxl_Header" xml:space="preserve"><value>MXL File...</value></data>
+  <data name="MainMenu_File_ImportSvp_Header" xml:space="preserve"><value>SVP File...</value></data>
+  <data name="MainMenu_File_ImportTssln_Header" xml:space="preserve"><value>TSSLN File...</value></data>
+  <data name="MainMenu_File_ImportUst_Header" xml:space="preserve"><value>UST File...</value></data>
+  <data name="MainMenu_File_ImportVprx_Header" xml:space="preserve"><value>VPRX File...</value></data>
+  <data name="MainMenu_File_ImportWave_Header" xml:space="preserve"><value>Wave File...</value></data>
+  <data name="MainMenu_Transport_MetronomeSettings_Header" xml:space="preserve"><value>Metronome Settings...</value></data>
+  <data name="MainMenu_Transport_Metronome_Header" xml:space="preserve"><value>Metronome</value></data>
+  <data name="MainMenu_View_Browser_Header" xml:space="preserve"><value>Browser</value></data>
+  <data name="MainMenu_View_InspectorHelp_Header" xml:space="preserve"><value>Context Help</value></data>
+  <data name="ManualVibrato_Label" xml:space="preserve"><value>Manual</value></data>
+  <data name="MetronomeSettingsDlg_ClickLabel" xml:space="preserve"><value>Click Settings</value></data>
+  <data name="MetronomeSettingsDlg_HiLabel" xml:space="preserve"><value>Hi</value></data>
+  <data name="MetronomeSettingsDlg_LoLabel" xml:space="preserve"><value>Lo</value></data>
+  <data name="MetronomeSettingsDlg_Title" xml:space="preserve"><value>Metronome Settings</value></data>
+  <data name="MusicalEditor_ActionComboBox_DisplayText" xml:space="preserve"><value>Action</value></data>
+  <data name="NoteInspectorTitle_AttackEffect" xml:space="preserve"><value>ATTACK EFFECT</value></data>
+  <data name="NoteInspectorTitle_Letter" xml:space="preserve"><value>LYRIC</value></data>
+  <data name="NoteInspectorTitle_Lyric" xml:space="preserve"><value>LYRIC AND PHONETIC SYMBOL</value></data>
+  <data name="NoteInspectorTitle_Parameter" xml:space="preserve"><value>PARAMETER</value></data>
+  <data name="NoteInspectorTitle_PhoneticSymbol" xml:space="preserve"><value>PHONETIC SYMBOL</value></data>
+  <data name="NoteInspectorTitle_ReleaseEffect" xml:space="preserve"><value>RELEASE EFFECT</value></data>
+  <data name="NotePropertyDlg_ManualVibrato" xml:space="preserve"><value>Manual</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Caption" xml:space="preserve"><value>Show Voice Bank Icons</value></data>
+  <data name="PreferencesDlg_General_ShowVoicebankIcon_Enable_Caption" xml:space="preserve"><value>Enable</value></data>
+  <data name="ProjectSettingDlg_MeasureOffset" xml:space="preserve"><value>Measure Offset</value></data>
+  <data name="ToolBar_Browser_ToolTip" xml:space="preserve"><value>Browser</value></data>
+  <data name="ToolBar_InspectorHelp_ToolTip" xml:space="preserve"><value>Context Help</value></data>
+  <data name="ToolBar_MetronomeSettings_ToolTip" xml:space="preserve"><value>Metronome Settings</value></data>
+  <data name="ToolBar_Mute_ToolTip" xml:space="preserve"><value>Mute</value></data>
+  <data name="ToolBar_PitchCurveView_ToolTip" xml:space="preserve"><value>Pitch Curve Display</value></data>
+  <data name="ToolBar_Timing_ToolTip" xml:space="preserve"><value>Timing</value></data>
+  <data name="ToolBar_VoiceBankImageViewSetting_ToolTip" xml:space="preserve"><value>Voice Bank Image View Setting</value></data>
+  <data name="ToolBar_VoiceBankImageView_ToolTip" xml:space="preserve"><value>Voice Bank Image View Display</value></data>
+  <data name="ToolBar_WaveformImageView_ToolTip" xml:space="preserve"><value>Waveform Display</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDropText" xml:space="preserve"><value>Drop image here</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageUnsetText" xml:space="preserve"><value>No custom image set</value></data>
+  <data name="VoiceBankImageSettingDlg_OpacityLabel" xml:space="preserve"><value>Image Opacity</value></data>
+  <data name="VoiceBankImageSettingDlg_ResetButtonText" xml:space="preserve"><value>Reset</value></data>
+  <data name="VoiceBankImageSettingDlg_Title" xml:space="preserve"><value>Voice Bank Image Setting</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Export" xml:space="preserve"><value>Export MP3</value></data>
+  <data name="AudioTranscodeProgressDlg_Title_Import" xml:space="preserve"><value>Import MP3</value></data>
+  <data name="CustomizeShortcutDlg_CommandAddTimeSig" xml:space="preserve"><value>Create Time Signature on Song Position</value></data>
+  <data name="CustomizeShortcutDlg_CommandClearNoteDirectPitches" xml:space="preserve"><value>Unfix Pitch from Notes</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllMuteStates" xml:space="preserve"><value>Deactivate All Mute States</value></data>
+  <data name="CustomizeShortcutDlg_CommandDeactivateAllSoloStates" xml:space="preserve"><value>Deactivate All Solo States</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportCcs" xml:space="preserve"><value>Import - CCS File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMp3" xml:space="preserve"><value>Import - MP3 File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMusicXml" xml:space="preserve"><value>Import - MusicXML File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportMxl" xml:space="preserve"><value>Import - MXL File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportSvp" xml:space="preserve"><value>Import - SVP File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportTssln" xml:space="preserve"><value>Import - TSSLN File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportUst" xml:space="preserve"><value>Import - UST File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportVprx" xml:space="preserve"><value>Import - VPRX File</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportWave" xml:space="preserve"><value>Import - Wave File</value></data>
+  <data name="CustomizeShortcutDlg_CommandMidiTrackAddMidiPart" xml:space="preserve"><value>Create Part on Song Position</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllMainVolumes" xml:space="preserve"><value>Select All Main Volumes</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllNotes" xml:space="preserve"><value>Select All Notes</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTempos" xml:space="preserve"><value>Select All Tempos</value></data>
+  <data name="CustomizeShortcutDlg_CommandSelectAllTimeSigs" xml:space="preserve"><value>Select All Time Signatures</value></data>
+  <data name="CustomizeShortcutDlg_CommandSetDirectPitchesFromRenderedPitches" xml:space="preserve"><value>Fix Pitch to Notes</value></data>
+  <data name="FileDlg_CCS_Filter" xml:space="preserve"><value>CCS File|*.ccs|All Files|*.*</value></data>
+  <data name="FileDlg_MP3_Filter" xml:space="preserve"><value>MP3 File|*.mp3|All Files|*.*</value></data>
+  <data name="FileDlg_MXL_Filter" xml:space="preserve"><value>MXL File|*.mxl|All Files|*.*</value></data>
+  <data name="FileDlg_MusicXML_Filter" xml:space="preserve"><value>MusicXML File|*.musicxml|All Files|*.*</value></data>
+  <data name="FileDlg_SVP_Filter" xml:space="preserve"><value>SVP File|*.svp|All Files|*.*</value></data>
+  <data name="FileDlg_TSSLN_Filter" xml:space="preserve"><value>TSSLN File|*.tssln|All Files|*.*</value></data>
+  <data name="FileDlg_UST_Filter" xml:space="preserve"><value>UST File|*.ust|All Files|*.*</value></data>
+  <data name="FileDlg_V7Proj_Filter" xml:space="preserve"><value>VOCALOID7 Sequence|*.vprx</value></data>
+  <data name="FileDlg_VPRX_Filter" xml:space="preserve"><value>VOCALOID7 Project|*.vprx|All Files|*.*</value></data>
+  <data name="Help_AmplitudeEndControl" xml:space="preserve"><value>Follwing Expression;Adjusts the volume in the second half of the note.</value></data>
+  <data name="Help_AmplitudeStartControl" xml:space="preserve"><value>Leading Expression;Adjusts the volume in the first half of the note.</value></data>
+  <data name="Help_AmplitudeWholeControl" xml:space="preserve"><value>Middle Expression;Adjusts the volume in the middle of the note.</value></data>
+  <data name="Help_AttackReleaseEffectArea" xml:space="preserve"><value>Attack/Release Effect;You can apply effects to the attack or release of the note.
+Click the icon to apply, and click again to remove.</value></data>
+  <data name="Help_AttackReleaseEffectControl" xml:space="preserve"><value>Effect Intensity;Adjusts the strength of the effect.Settings range from SOFT (0.0) to HARD (1.0).</value></data>
+  <data name="Help_AudioPartArea" xml:space="preserve"><value>Audio Part;A part that contains audio waveform data. It can be used in audio tracks.</value></data>
+  <data name="Help_BreakPointControl" xml:space="preserve"><value>Breakpoint;A breakpoint is a marker that changes a control parameter value at a specific timing. Setting breakpoints at different positions allows fine adjustment of parameter changes.</value></data>
+  <data name="Help_ChangePitchControl" xml:space="preserve"><value>Change Pitch;Raises or lowers the pitch of the audio from -12 (-1200 cent) to 12 (+1200 cent).</value></data>
+  <data name="Help_ControlParameterGraphBodyArea" xml:space="preserve"><value>Control Parameter;This area is used to display and edit the control parameter</value></data>
+  <data name="Help_ControlParameterGraphButton" xml:space="preserve"><value>Show Control Parameter;You can show or hide the control parameter area.</value></data>
+  <data name="Help_ControlParameterHeaderSelectorCombo" xml:space="preserve"><value>Control Parameter Type;Select the type of control parameter to view or edit from the dropdown list.</value></data>
+  <data name="Help_ControlParameterHeaderTextBox" xml:space="preserve"><value>Control Parameter Info;This area is used to display and edit information for the selected control parameter.</value></data>
+  <data name="Help_EditorRulerArea" xml:space="preserve"><value>Editor Ruler;This is the ruler in the editor. You can adjust the positions of the start and end markers and the start and end points of parts by dragging.</value></data>
+  <data name="Help_EffectButton" xml:space="preserve"><value>Effect;Displays the Audio Effect screen for the specified track.</value></data>
+  <data name="Help_EndMarkerControl" xml:space="preserve"><value>End Marker;The end marker is the ending point for repeats.</value></data>
+  <data name="Help_GlobalMuteButton" xml:space="preserve"><value>Turn off all mute states;This illuminates if "Mute" is specified for any track.</value></data>
+  <data name="Help_GlobalSoloButton" xml:space="preserve"><value>Turn off all solo states;This illuminates if "Solo" is specified for any track.</value></data>
+  <data name="Help_InspectorDisclosureButton" xml:space="preserve"><value>Inspector Info Toggle Button;This button collapses and hides the inspector information. Click to hide the details currently displayed, and click again to show them.</value></data>
+  <data name="Help_LyricTextBox" xml:space="preserve"><value>Lyric;This area is used to display and edit the lyric.</value></data>
+  <data name="Help_MainVolumeTrackBodyArea" xml:space="preserve"><value>Main Track;Displays and edits main volume; input with the pencil or line tool, edit with the arrow tool.</value></data>
+  <data name="Help_MainVolumeTrackButton" xml:space="preserve"><value>Main Track;Displays the main track in the Track Editor.</value></data>
+  <data name="Help_MainVolumeTrackHeaderArea" xml:space="preserve"><value>Main Track;This track displays and edits the main volume information.</value></data>
+  <data name="Help_MidiPartArea" xml:space="preserve"><value>VOCALOID Part;A part that contains musical notes, mainly used for vocal synthesis.</value></data>
+  <data name="Help_MuteButton" xml:space="preserve"><value>Mute;Mutes the output from specified track.</value></data>
+  <data name="Help_NewTrackAddButton" xml:space="preserve"><value>Add Track;Create a new track. In the dialog box that appears, set the information for the track you want to create and click "Create".</value></data>
+  <data name="Help_NoteArea" xml:space="preserve"><value>Note;A note represents the pitch and length of a sound on the musical score.</value></data>
+  <data name="Help_NoteParameterAllReset" xml:space="preserve"><value>All Parameter Reset;Reverts all parameter values to their default values.</value></data>
+  <data name="Help_NoteParameterReset" xml:space="preserve"><value>Parameter Reset;Reverts the values of the parameters contained in the group to their default values.</value></data>
+  <data name="Help_OutputControl" xml:space="preserve"><value>Audio Output Routing;Set the output destination for each track. In VST/AU mode, select the output bus from a dropdown.</value></data>
+  <data name="Help_PartNameText" xml:space="preserve"><value>Part Name;This area is used to display and edit the part name.</value></data>
+  <data name="Help_PhoneticSymbolLanguage" xml:space="preserve"><value>Note Language;Indicates which language is used to process the pronunciation symbols of the note. The note language is set when entering pronunciation symbols, so this item is for display only.</value></data>
+  <data name="Help_PhoneticSymbolLockButton" xml:space="preserve"><value>Phonetic Symbols Protect;Clicking the   button enables the phonetic symbols to be protected.</value></data>
+  <data name="Help_PhoneticSymbolTextBox" xml:space="preserve"><value>Phonetic Symbols;This area is used to display and edit the phonetic symbol.</value></data>
+  <data name="Help_PianorollBodyArea" xml:space="preserve"><value>Piano Roll;This area is used to display and edit the note.</value></data>
+  <data name="Help_PianorollHeaderArea" xml:space="preserve"><value>Piano Roll Header;When audition is ON, pressing the piano roll's left keyboard plays the note with the part's voice. Track type and number are shown at the top.</value></data>
+  <data name="Help_PitchDriftEndControl" xml:space="preserve"><value>Following Drift;Stretches or compresses the pitch in the second half of the note.</value></data>
+  <data name="Help_PitchDriftStartControl" xml:space="preserve"><value>Leading Drift;Stretches or compresses the pitch in the first half of the note.</value></data>
+  <data name="Help_PitchFineControl" xml:space="preserve"><value>Fine Tune;Adjusts the overall pitch of the note up or down.</value></data>
+  <data name="Help_PitchScalingOriginControl" xml:space="preserve"><value>Overall Drift;Stretches or compresses the entire note's pitch toward the note pitch.</value></data>
+  <data name="Help_PitchTransitionEndControl" xml:space="preserve"><value>Following Transition;Stretches or compresses the pitch in the second half of the note along the time axis.</value></data>
+  <data name="Help_PitchTransitionStartControl" xml:space="preserve"><value>Leading Transition;Stretches or compresses the pitch in the first half of the note along the time axis.</value></data>
+  <data name="Help_ProcessTitle" xml:space="preserve"><value>Process;This is the area where you set up audio processing.</value></data>
+  <data name="Help_RecordButton" xml:space="preserve"><value>Recording;Put the track in the recording state. This is a feature of VOCALOID tracks. In the standalone edition, enables piano sound output on MIDI input when the Recording button is on.</value></data>
+  <data name="Help_SoloButton" xml:space="preserve"><value>Solo;Outputs only the desired track.Press and hold the button to enable Solo Defeat mode. When enabled, the track will not be muted even if another track is soloed.</value></data>
+  <data name="Help_StartMarkerControl" xml:space="preserve"><value>Start Marker;The start marker is the beginning point for repeats.</value></data>
+  <data name="Help_StyleAirControl" xml:space="preserve"><value>Air;Adjust the amount of breath you mix with your pronunciation. The range of values is low breath (-100) ~ breathy (+100) when using VOCALOID: AI Voice Bank, and low breath (0) ~ heavy breath (127) when using VOCALOID Voice Bank.</value></data>
+  <data name="Help_StyleAmountControl" xml:space="preserve"><value>Amount;Adjusts the inflection level.</value></data>
+  <data name="Help_StyleBreathCombo" xml:space="preserve"><value>Breath;This function analyzes a sequence and automatically inserts a breath at the appropriate location. You can also set the breath insertion frequency.</value></data>
+  <data name="Help_StyleBreathinessControl" xml:space="preserve"><value>Breathiness;Adjusts the amount of breath mixed into pronunciation and the tone of vowels.
+Settings range from clear (0) to bright (127).</value></data>
+  <data name="Help_StyleCharacterControl" xml:space="preserve"><value>Character;Adjusts the formant of pronunciation.
+Higher values sound more feminine, lower values more masculine.
+Settings range from cool (-64) to cute (+63).</value></data>
+  <data name="Help_StyleCombo" xml:space="preserve"><value>Style Setting;This area is used to select a style. The dropdown shows styles linked to the main voice bank with priority.</value></data>
+  <data name="Help_StyleExciterControl" xml:space="preserve"><value>Exciter;Adjusts the tone of the voice.
+Settings range from muffled (-64) to bright (+63).</value></data>
+  <data name="Help_StyleExhalationControl" xml:space="preserve"><value>Exhalation;Sets the volume of the breath to insert.</value></data>
+  <data name="Help_StyleGrowlControl" xml:space="preserve"><value>Growl;Adjusts the level of growl.
+Settings range from clear (0) to hard (127).</value></data>
+  <data name="Help_StyleMouthControl" xml:space="preserve"><value>Mouth;Adjusts the diction (mouth opening level) of the pronunciation.
+Settings range from closed (-127) to open (0).</value></data>
+  <data name="Help_StylePowerButton" xml:space="preserve"><value>Effect On/Off;When the button is off, the effect is bypassed.</value></data>
+  <data name="Help_StyleRobotVoiceCombo" xml:space="preserve"><value>Robot Voice;Changes the voice to a robot voice.
+3 modes, HARD/NORMAL/SOFT, can be selected.</value></data>
+  <data name="Help_StyleS5AirControl" xml:space="preserve"><value>Air;Adjust the amount of breath you mix with your pronunciation. The range of values is low breath (-100) ~ breathy (+100) when using VOCALOID: AI Voice Bank, and low breath (0) ~ heavy breath (127) when using VOCALOID Voice Bank.</value></data>
+  <data name="Help_StyleS5AttackControl" xml:space="preserve"><value>Attack;Adjusts the clarity of the pronunciation. The values range from SLOW (-100) to FAST (100).</value></data>
+  <data name="Help_StyleS5CharacterControl" xml:space="preserve"><value>Character;Adjusts the formant of pronunciation.
+Higher values sound more feminine, lower values more masculine.
+Settings range from cool (-64) to cute (+63).</value></data>
+  <data name="Help_StyleS5ExpressionControl" xml:space="preserve"><value>Expression;Sets the transition of volume changes passed to the engine for synthesis.
+Settings range from soft (0) to powerful (100).</value></data>
+  <data name="Help_StyleSaveButton" xml:space="preserve"><value>Save Style Preset;You can save the current settings as a style.</value></data>
+  <data name="Help_StyleSingingSkillCombo" xml:space="preserve"><value>Singing Skill;This MIDI effect automatically applies the appropriate pitch bend and volume depending on the sequence. This feature is only available when using VOCALOID Voice Bank.</value></data>
+  <data name="Help_StyleSkillControl" xml:space="preserve"><value>Skill;Adjusts the singing skill level.</value></data>
+  <data name="Help_StyleTitle" xml:space="preserve"><value>Style Setting;This is the area to be set for the style.</value></data>
+  <data name="Help_StyleVoiceColorTitle" xml:space="preserve"><value>Voice Color;Determines the voice color.
+Provides an offset to a control parameter that can be edited with the musical editor.</value></data>
+  <data name="Help_TakeCombo" xml:space="preserve"><value>Take;Changes the timing for pronouncing notes within parts.</value></data>
+  <data name="Help_TempoSyncButton" xml:space="preserve"><value>Tempo Sync;You can set whether to synchronize the tempo with the DAW when using VST or ARA connections. When off, the local tempo mode is used.</value></data>
+  <data name="Help_TempoTextBox" xml:space="preserve"><value>Tempo;This area displays and edits the tempo according to the song pointer position.</value></data>
+  <data name="Help_TempoTrackBodyArea" xml:space="preserve"><value>Tempo Track;Displays and edits tempo; use the pencil or line tool to input, and the arrow tool to edit.</value></data>
+  <data name="Help_TempoTrackButton" xml:space="preserve"><value>Tempo Track;Displays the tempo track in the Track Editor.</value></data>
+  <data name="Help_TempoTrackHeaderArea" xml:space="preserve"><value>Tempo Track;This track displays and edits the tempo.</value></data>
+  <data name="Help_TimeDisplayLoad" xml:space="preserve"><value>Load Status;This is the area that displays the load status of the computer.</value></data>
+  <data name="Help_TimeDisplaySongPosition" xml:space="preserve"><value>Current song position;Displays the current song position.You can edit it directly with a double click.</value></data>
+  <data name="Help_TimeDisplayTempo" xml:space="preserve"><value>Current tempo;Displays the tempo in the current song position position.You can edit it directly with a double click.</value></data>
+  <data name="Help_TimeDisplayTimeSig" xml:space="preserve"><value>Current time signature;Displays the time signature in the current song position position.You can edit it directly with a double click.</value></data>
+  <data name="Help_TimeSigTrackBodyArea" xml:space="preserve"><value>Time Signature Track;This area displays and edits time signature events. Double-click to edit, use the pencil tool or context menu to add events.</value></data>
+  <data name="Help_TimeSigTrackButton" xml:space="preserve"><value>TimeSig Track;Displays the time signature track in the ruler at the top of the Track Editor.</value></data>
+  <data name="Help_TimeSigTrackHeaderArea" xml:space="preserve"><value>Time Signature Track;This track displays and edits the time signature.</value></data>
+  <data name="Help_ToolbarAction" xml:space="preserve"><value>Action;Open actions for the selected note.</value></data>
+  <data name="Help_ToolbarAmp" xml:space="preserve"><value>Expression Tool;Enables note expression adjustment.</value></data>
+  <data name="Help_ToolbarArrow" xml:space="preserve"><value>Arrow Tool;Mainly used to select or edit parts and automation.</value></data>
+  <data name="Help_ToolbarAutoScroll" xml:space="preserve"><value>Auto-Scroll;Turns the auto-scroll on and off. When auto-scroll is on, The playback position can be checked constantly as the editors will follow the song position.</value></data>
+  <data name="Help_ToolbarBrowser" xml:space="preserve"><value>Browser;Opens the Browser.</value></data>
+  <data name="Help_ToolbarEditor" xml:space="preserve"><value>Editor;Open the Musical Editor when selecting the VOCALOID part and the Waveform Editor when selecting the audio part.</value></data>
+  <data name="Help_ToolbarEmotionMode" xml:space="preserve"><value>Emotion Tool;Adjusts the "Accent" on how each note is sung.
+If Singing Skill is applied and Attack Release Effect is not, click the orange belt to show the Accent slider below.</value></data>
+  <data name="Help_ToolbarGrid" xml:space="preserve"><value>Grid Tool;Automatically corrects the timing of the input position to the value (except OFF) selected from the pull-down display list.</value></data>
+  <data name="Help_ToolbarInspector" xml:space="preserve"><value>Inspector;Displays the Inspector window on the left side of the main window.</value></data>
+  <data name="Help_ToolbarInspectorHelp" xml:space="preserve"><value>Context Help;Displays the Context Help window at the bottom of the inspector.</value></data>
+  <data name="Help_ToolbarLine" xml:space="preserve"><value>Line Tool;Mainly used to input parts, automation, or edit tempo/time signature. The line tool lets you enter parameters as straight lines in the control parameter or volume/panpot automation area.</value></data>
+  <data name="Help_ToolbarMetronome" xml:space="preserve"><value>Metronome;Plays a metronome sound during playback and recording.</value></data>
+  <data name="Help_ToolbarMetronomeSettings" xml:space="preserve"><value>Metronome Settings;Displays the Metronome Settings dialog.</value></data>
+  <data name="Help_ToolbarMixer" xml:space="preserve"><value>Mixer;Opens the Mixer.</value></data>
+  <data name="Help_ToolbarMute" xml:space="preserve"><value>Mute Tool;Toggle between muting and unmuting parts or notes.</value></data>
+  <data name="Help_ToolbarPencil" xml:space="preserve"><value>Pencil Tool;Mainly used to input parts, automation, or edit tempo/time signature. The pencil tool switches to the arrow tool when moved to the ruler, menu bar, or toolbar.</value></data>
+  <data name="Help_ToolbarPitch" xml:space="preserve"><value>Pitch Tool;Enables the adjustment of note pitch.</value></data>
+  <data name="Help_ToolbarPitchCurveView" xml:space="preserve"><value>Pitch Curve Display;Toggle the pitch curve display to the Musical Editor ON/OFF.</value></data>
+  <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>Pitch Eraser Tool;You can directly edit the pitch trajectory of the VOCALOID part with the Pitch Pencil tool and the Pitch Eraser tool.</value></data>
+  <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>Pitch Pencil Tool;You can directly edit the pitch trajectory of the VOCALOID part with the Pitch Pencil tool and the Pitch Eraser tool.</value></data>
+  <data name="Help_ToolbarPlayback" xml:space="preserve"><value>Stop/Go to Zero;Stops playback.
+Clicking this button while stopped or double-clicking playing to return to the start.</value></data>
+  <data name="Help_ToolbarRecord" xml:space="preserve"><value>Record;Records the input MIDI events. It is necessary to turn on the Recording button on the Track View Header of the track you want to record.</value></data>
+  <data name="Help_ToolbarRepeat" xml:space="preserve"><value>Repeat;When the button is on,  plays the section between the start marker and end marker inside the track repeatedly.</value></data>
+  <data name="Help_ToolbarScissors" xml:space="preserve"><value>Scissors Tool;Divides parts or notes.</value></data>
+  <data name="Help_ToolbarSoundPlayback" xml:space="preserve"><value>Acoustic Feedback;Toggles feedback sounds for note input, note clicks, and piano roll clicks on and off.</value></data>
+  <data name="Help_ToolbarStop" xml:space="preserve"><value>Play;Starts playback.</value></data>
+  <data name="Help_ToolbarTiming" xml:space="preserve"><value>Timing Tool;Enables the adjustment of note phoneme timing.</value></data>
+  <data name="Help_ToolbarVibrato" xml:space="preserve"><value>Vibrato Tool;Enables the adjustment of note vibrato.</value></data>
+  <data name="Help_ToolbarVoiceBankImageOptionTriangle" xml:space="preserve"><value>Voice Bank Image Setting;Displays the Voice Bank Image Display Settings dialog.</value></data>
+  <data name="Help_ToolbarVoiceBankImageView" xml:space="preserve"><value>Voice Bank Image Display;Toggle the display of voice bank image in Musical Editor ON/OFF.</value></data>
+  <data name="Help_ToolbarWaveformImageView" xml:space="preserve"><value>Waveform Display;Toggle the display of waveform image in Musical Editor ON/OFF.</value></data>
+  <data name="Help_TrackBodyArea" xml:space="preserve"><value>Track Editor;This is the area where you view and edit parts and automation data.</value></data>
+  <data name="Help_TrackColor" xml:space="preserve"><value>Track Color;This is the area where you can display and edit the track's set color.</value></data>
+  <data name="Help_TrackHeaderArea" xml:space="preserve"><value>Track;A track is a unit that manages multiple parts (clumps of sound) together.
+You can set the volume, left and right spread (panpot), etc. for each track.</value></data>
+  <data name="Help_TrackNameTextBox" xml:space="preserve"><value>Track Name;This area is used to display and edit the track name.</value></data>
+  <data name="Help_TrackPanpotAutomationButton" xml:space="preserve"><value>Show Track Panpot Automation;You can show or hide the track panpot automation area.</value></data>
+  <data name="Help_TrackPanpotControl" xml:space="preserve"><value>Track Panpot;Moves the pan position of the track.</value></data>
+  <data name="Help_TrackRulerArea" xml:space="preserve"><value>Track Ruler;This is the ruler in the track editor. You can adjust the positions of the start and end markers by dragging.</value></data>
+  <data name="Help_TrackVolumeAutomationButton" xml:space="preserve"><value>Show Track Volume Automation;You can show or hide the track volume automation area.</value></data>
+  <data name="Help_TrackVolumeControl" xml:space="preserve"><value>Track Volume;Changes the output level of the track.</value></data>
+  <data name="Help_VibratoDepthControl" xml:space="preserve"><value>Depth;Adjusts the vibrato depth.</value></data>
+  <data name="Help_VibratoDurationControl" xml:space="preserve"><value>Vibrato Start;Adjusts the vibrato start position.</value></data>
+  <data name="Help_VibratoFollowingDepthControl" xml:space="preserve"><value>Following Depth;Adjusts the vibrato depth in the second half.</value></data>
+  <data name="Help_VibratoLeadingDepthControl" xml:space="preserve"><value>Leading Depth;Adjusts the vibrato depth in the first half.</value></data>
+  <data name="Help_VibratoManualButton" xml:space="preserve"><value>Manual;Generates vibrato using the vibrato curve from VOCALOID4.</value></data>
+  <data name="Help_VibratoRateControl" xml:space="preserve"><value>Rate;Adjusts the vibrato frequency.</value></data>
+  <data name="Help_VoiceBankBrowserArea" xml:space="preserve"><value>Voice Bank Browser;A window that displays voice banks. Installed voice banks are shown in a catalog format.</value></data>
+  <data name="Help_VoiceBankBrowserFoldStateButton" xml:space="preserve"><value>Expand/Collapse;Expands or collapses the voice bank display.</value></data>
+  <data name="Help_VoiceBankBrowserListControl" xml:space="preserve"><value>Voice Bank List;Shows installed voice banks in a catalog. Drag and drop to set a voice bank to a track or track header.</value></data>
+  <data name="Help_VoiceBankBrowserSearchControl" xml:space="preserve"><value>Text Search;Searches for voice bank names by text.</value></data>
+  <data name="Help_VoiceBankBrowserSortOrderButton" xml:space="preserve"><value>Sort;Changes the order of the voice banks.</value></data>
+  <data name="Help_VoiceBankBrowserToggleImageButton" xml:space="preserve"><value>Show/Hide Images;Displays or hides voice bank images.</value></data>
+  <data name="Help_VoiceCombo" xml:space="preserve"><value>Voice Bank Setting;This area is used to select a voice bank.</value></data>
+  <data name="Help_VoiceEngineVersionCombo" xml:space="preserve"><value>Engine Version;This area is used to set the engine version for the voice bank.</value></data>
+  <data name="Help_VoiceTitle" xml:space="preserve"><value>Voice Bank Setting;This is the area to be set for the voice bank.</value></data>
+  <data name="Help_VoiceTypeCombo" xml:space="preserve"><value>Voice Type Setting;This area is used to select a voice type.</value></data>
+  <data name="Help_VoiceXSYCombo" xml:space="preserve"><value>XSY Voice Bank;This area sets the secondary voice bank for cross-synthesis (XSY). Only XSY-compatible voice banks are shown, based on the main voice bank selection.</value></data>
+  <data name="Help_WebBrowserArea" xml:space="preserve"><value>Web Browser;This is the window that displays the web page. You can see a link to the FAQ and a page to download the trial version.</value></data>
+  <data name="Help_WebBrowserBackButton" xml:space="preserve"><value>Back;If possible, display the webpage you were viewing before.</value></data>
+  <data name="Help_WebBrowserForwardButton" xml:space="preserve"><value>Forward;If possible, display the webpage you were viewing before returning.</value></data>
+  <data name="Help_WebBrowserHomeButton" xml:space="preserve"><value>Home;This is the button to display the initial page of the web page.</value></data>
+  <data name="Help_WebBrowserReloadButton" xml:space="preserve"><value>Reload;Reloads and displays the currently viewed webpage.</value></data>
+  <data name="MsgBox_AudioMixdown_FailedToExportMp3" xml:space="preserve"><value>Failed to export MP3.</value></data>
+  <data name="MsgBox_AudioTranscoderInitialization_Error" xml:space="preserve"><value>Failed to initialize Audio Transcoder.</value></data>
+  <data name="MsgBox_AudioTranscoder_FailedTranscode" xml:space="preserve"><value>Failed to transcode audio.</value></data>
+  <data name="MsgBox_MidiEffectManagerInitialization_Error" xml:space="preserve"><value>Failed to initialize MIDI Effect Manager.</value></data>
+  <data name="MsgBox_MixedAudioFormat_Error" xml:space="preserve"><value>You cannot import Wav files and MP3 files at the same time.</value></data>
+  <data name="MsgBox_OpenDemoSong_Error" xml:space="preserve"><value>Failed to open Demo Song.</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToBreath" xml:space="preserve"><value>Convert to Breath</value></data>
+  <data name="MusicalEditor_ActionComboBox_ConvertToSilence" xml:space="preserve"><value>Convert to Silence</value></data>
+  <data name="NoteInspectorTimingLabel_Edited" xml:space="preserve"><value>Edited</value></data>
+  <data name="NoteInspectorTimingLabel_NotEdited" xml:space="preserve"><value>Not Edited</value></data>
+  <data name="StyleManager_Menu" xml:space="preserve"><value>Style Manager...</value></data>
+  <data name="StyleManager_Title" xml:space="preserve"><value>Style Manager</value></data>
+  <data name="StyleOther_Menu" xml:space="preserve"><value>Other</value></data>
+  <data name="StyleUserStyle_Menu" xml:space="preserve"><value>User Style</value></data>
+  <data name="UnhandledExceptionMessage" xml:space="preserve"><value>An unexpected error has occurred. VOCALOID7 Editor will close.</value></data>
+  <data name="UnhandledExceptionTitle" xml:space="preserve"><value>UnhandledException</value></data>
+  <data name="VoiceBankImageSettingDlg_CopyFailed" xml:space="preserve"><value>Failed to copy file.</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageConditionNotMet" xml:space="preserve"><value>Custom image condition not met</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteConfirm" xml:space="preserve"><value>Are you sure you want to delete the files inside the custom image folder?</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteFailed" xml:space="preserve"><value>Failed to delete: {0}</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageDeleteTitle" xml:space="preserve"><value>Confirm custom image deletion</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageLabel" xml:space="preserve"><value>Custom image</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageSetText" xml:space="preserve"><value>Custom image set</value></data>
+  <data name="VoiceBankImageSettingDlg_CustomImageStatusError" xml:space="preserve"><value>Custom image status error</value></data>
+  <data name="VoiceBankImageSettingDlg_ErrorTitle" xml:space="preserve"><value>Error</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageLoadFailed" xml:space="preserve"><value>Failed to load image file.</value></data>
+  <data name="VoiceBankImageSettingDlg_ImageSizeLimit" xml:space="preserve"><value>Please make sure the image width or height does not exceed 1024.</value></data>
+  <data name="VoiceBankImageSettingDlg_OnlyPngSupported" xml:space="preserve"><value>Only PNG files are supported.</value></data>
+  <data name="VoiceBankImageSettingDlg_VoiceBankLabel" xml:space="preserve"><value>Voice Bank Name</value></data>
+  <data name="VoiceChangedDlg_VersionNotFoundSuffix" xml:space="preserve"><value> was not found.</value></data>
+  <data name="VoiceSelectionPopup_NoSearchResult" xml:space="preserve"><value>No available voice banks were found.</value></data>
+  <data name="VoiceSelectionPopup_NoVoiceBank" xml:space="preserve"><value>No voice banks are installed.</value></data>
+  <data name="WebBrowser_InitialUrl" xml:space="preserve"><value>https://www.vocaloid.com/en/bksdlajnl/</value></data>
+  <data name="WebBrowser_InitializationError" xml:space="preserve"><value>Failed to initialize the web browser.</value></data>
+  <data name="WebBrowser_InvalidUrlError" xml:space="preserve"><value>Please enter a valid URL.</value></data>
+  <data name="WebBrowser_NavigationError" xml:space="preserve"><value>Failed to load the page. ({0})</value></data>
+  <data name="PartPropertiesView_Style_VoiceColor_Attack_Header" xml:space="preserve"><value>ATTACK</value></data>
+
   <!-- Debug / Diagnostic messages -->
   <data name="VOCALOIDPatcher_Debug_Translation_FolderNotFound" xml:space="preserve"><value>Translation folder not found! Make sure you also copied the "VOCALOIDPatcher" folder into the editor directory.</value></data>
   <data name="VOCALOIDPatcher_Debug_Translation_NoTranslations" xml:space="preserve"><value>No translations found! Make sure you also copied the "VOCALOIDPatcher" folder into the editor directory.</value></data>
