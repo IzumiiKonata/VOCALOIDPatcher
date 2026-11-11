@@ -111,7 +111,6 @@ public static class Patcher
         Formats.LibreSvip.SvipFormatMenu.Install();
         Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
-        WorkingSetTrimmer.Install();
         SpectrumWidget.Install();
     }
 
@@ -234,10 +233,6 @@ public static class Patcher
             new(Settings.FreeAudioPcmCacheKey,
                 new AudioPcmReleasePatch(),
                 new AudioThumbFromCachePatch()),
-
-            new(Settings.TrimWorkingSetKey,
-                new WorkingSetTrimPatch(),
-                new RenderCompleteTrimPatch()),
 
             new(Settings.OptimizeTrackRenderingKey,
                 new TrackNoteInsertPatch(),

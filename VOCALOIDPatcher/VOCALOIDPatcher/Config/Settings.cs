@@ -198,14 +198,6 @@ public static class Settings
         set => Patcher.ConfigManager.Set(FreeAudioPcmCacheKey, value);
     }
 
-    public static string TrimWorkingSetKey => "TrimWorkingSet";
-
-    public static bool TrimWorkingSet
-    {
-        get => FeatureFlag(TrimWorkingSetKey, true);
-        set => Patcher.ConfigManager.Set(TrimWorkingSetKey, value);
-    }
-
     public static string OptimizeTrackRenderingKey => "OptimizeTrackRendering";
 
     public static bool OptimizeTrackRendering

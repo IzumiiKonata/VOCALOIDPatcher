@@ -585,11 +585,6 @@ public class SettingsWindow : Window
             Settings.FastProjectLoad, new Thickness(0, 6, 0, 0),
             checkbox => Settings.FastProjectLoad = checkbox.IsChecked == true);
 
-        Add(Settings.TrimWorkingSetKey, "VOCALOIDPatcher_TrimWorkingSet_Header",
-            "VOCALOIDPatcher_TrimWorkingSet_Desc",
-            Settings.TrimWorkingSet, new Thickness(0, 16, 0, 0),
-            checkbox => Settings.TrimWorkingSet = checkbox.IsChecked == true);
-
         Add(Settings.OptimizeTrackRenderingKey, "VOCALOIDPatcher_OptimizeTrackRendering_Header",
             "VOCALOIDPatcher_OptimizeTrackRendering_Desc",
             Settings.OptimizeTrackRendering, new Thickness(0, 16, 0, 0),
