@@ -381,8 +381,6 @@ public class WpfTranslationPatch : PatchBase
         var left = value[..separatorIndex];
         var right = value[(separatorIndex + separatorLength)..];
 
-        // 参数下拉框的格式是 "AIR: Air"：左侧是 ShortName 缩写，必须保持原样，
-        // 否则 "AIR" 会被硬编码映射成"气音"；只翻译右侧的参数名称。
         if (separatorLength == 2 && TryGetControlParameterName(right, out var parameterName))
             return left + value.Substring(separatorIndex, separatorLength) + (parameterName ?? right);
 
@@ -408,7 +406,6 @@ public class WpfTranslationPatch : PatchBase
             return true;
         }
 
-        // 已经是翻译后的名称（重复刷新时）同样视为参数名，避免左侧缩写被再次翻译
         if (TranslationManager.TranslatedToTranslationKeyMap.TryGetValue(value, out var translatedKey) &&
             translatedKey.StartsWith("Enum_ControlParameterTypeEnum_", StringComparison.Ordinal))
         {
