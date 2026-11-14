@@ -24,6 +24,8 @@ public sealed class WasapiLoopbackCapture : IDisposable
 
     private const long RestartStallMs = 1500;
 
+    private static readonly long[] ProcessLoopbackBufferDurations = { 10_000, 0, 20_000 };
+
     private static readonly Guid ClsidMmDeviceEnumerator = new("BCDE0395-E52F-467C-8E3D-C4579291692E");
     private static readonly Guid IidAudioClient = new("1CB9AD4C-DBFA-4C32-B178-C2F568A703B2");
     private static readonly Guid IidAudioCaptureClient = new("C8ADBD64-E71E-48A0-A4DE-185C395CD317");
@@ -31,6 +33,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
 
     private readonly object _lock = new();
     private readonly float[] _ring;
+    private readonly AutoResetEvent _dataAvailable = new(false);
     private int _writeIndex;
     private long _lastBufferTick;
 
@@ -53,6 +56,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
     {
         if (_running) return;
 
+        _dataAvailable.Reset();
         _running = true;
         _thread = new Thread(CaptureLoop)
         {
@@ -66,6 +70,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
     public void Stop()
     {
         _running = false;
+        _dataAvailable.Set();
         var thread = _thread;
         _thread = null;
         if (thread != null && thread.IsAlive && thread != Thread.CurrentThread)
@@ -77,6 +82,8 @@ public sealed class WasapiLoopbackCapture : IDisposable
             _writeIndex = 0;
         }
     }
+
+    public bool WaitForData(int millisecondsTimeout) => _dataAvailable.WaitOne(millisecondsTimeout);
 
     public void ReadLatest(float[] destination)
     {
@@ -159,7 +166,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
             var format = ParseFormat(formatPtr);
             SampleRate = format.SampleRate;
 
-            foreach (var bufferDuration in new long[] { 200_000, 0 })
+            foreach (var bufferDuration in ProcessLoopbackBufferDurations)
             {
                 var client = ActivateProcessLoopbackClient();
                 if (client == null)
@@ -202,7 +209,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
 
             while (_running)
             {
-                WaitForSingleObject(eventHandle, 20);
+                WaitForSingleObject(eventHandle, 5);
                 if (!_running) break;
 
                 DrainPackets(captureClient, format);
@@ -210,7 +217,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
                 if (Environment.TickCount64 - _lastBufferTick > RestartStallMs)
                     return SessionResult.Stalled;
 
-                FeedSilenceIfStalled(60);
+                FeedSilenceIfStalled(50);
             }
 
             return SessionResult.Stopped;
@@ -323,7 +330,7 @@ public sealed class WasapiLoopbackCapture : IDisposable
             SampleRate = format.SampleRate;
 
             if (audioClient.Initialize(AudclntSharemodeShared, AudclntStreamflagsLoopback,
-                    1_000_000, 0, formatPtr, IntPtr.Zero) != 0) return;
+                    0, 0, formatPtr, IntPtr.Zero) != 0) return;
 
             var captureIid = IidAudioCaptureClient;
             if (audioClient.GetService(ref captureIid, out var captureObj) != 0) return;
@@ -338,8 +345,8 @@ public sealed class WasapiLoopbackCapture : IDisposable
 
                 if (packetFrames == 0)
                 {
-                    FeedSilenceIfStalled(40);
-                    Thread.Sleep(2);
+                    FeedSilenceIfStalled(20);
+                    Thread.Sleep(1);
                     continue;
                 }
 
@@ -391,6 +398,8 @@ public sealed class WasapiLoopbackCapture : IDisposable
                 if (_writeIndex >= _ring.Length) _writeIndex = 0;
             }
         }
+
+        _dataAvailable.Set();
     }
 
     private unsafe void Append(IntPtr dataPtr, int frames, AudioFormat format, bool silent)
@@ -422,6 +431,8 @@ public sealed class WasapiLoopbackCapture : IDisposable
                 if (_writeIndex >= _ring.Length) _writeIndex = 0;
             }
         }
+
+        _dataAvailable.Set();
     }
 
     private static unsafe float ReadSample(byte* p, AudioFormat format)

@@ -23,7 +23,13 @@ public class WpfTranslationPatch : PatchBase
 {
     private static bool _globalHandlersInstalled;
 
-    private static readonly ConditionalWeakTable<object, string> OriginalMapping = new();
+    private sealed class TranslationState
+    {
+        public string? Original;
+        public string? LastTranslated;
+    }
+
+    private static readonly ConditionalWeakTable<object, TranslationState> OriginalMapping = new();
 
     public static readonly ConditionalWeakTable<object, object> Untranslatable = new();
 
@@ -122,7 +128,26 @@ public class WpfTranslationPatch : PatchBase
         _refreshComboBoxDepth++;
         try
         {
-            ScheduleComboBoxRefresh(combo);
+            EnsureComboBoxHandlers(combo);
+
+            if (combo.Dispatcher.HasShutdownStarted)
+                return;
+
+            combo.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    ScheduleComboBoxRefresh(combo);
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($"WPF combo box refresh failed: {e.Message}");
+                }
+            }), DispatcherPriority.Loaded);
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"WPF combo box refresh failed: {e.Message}");
         }
         finally
         {
@@ -182,34 +207,66 @@ public class WpfTranslationPatch : PatchBase
 
     private static void ScheduleComboBoxRefresh(DependencyObject obj)
     {
-        if (obj is ComboBox combo)
+        try
         {
-            EnsureComboBoxHandlers(combo);
-
-            var state = ComboBoxRefreshStates.GetValue(combo, _ => new ComboBoxRefreshState());
-            state.LayoutPassesLeft = 6;
-
-            if (!state.LayoutHookInstalled)
+            if (obj is ComboBox combo)
             {
-                state.LayoutHookInstalled = true;
-                combo.LayoutUpdated += (_, _) =>
+                EnsureComboBoxHandlers(combo);
+
+                var state = ComboBoxRefreshStates.GetValue(combo, _ => new ComboBoxRefreshState());
+                state.LayoutPassesLeft = 6;
+
+                if (!state.LayoutHookInstalled)
                 {
-                    if (state.LayoutPassesLeft <= 0)
-                        return;
+                    state.LayoutHookInstalled = true;
+                    combo.LayoutUpdated += (_, _) =>
+                    {
+                        if (state.LayoutPassesLeft <= 0)
+                            return;
 
-                    state.LayoutPassesLeft--;
-                    RefreshAll(combo);
-                };
+                        state.LayoutPassesLeft--;
+                        try
+                        {
+                            RefreshAll(combo);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print($"WPF combo box layout refresh failed: {e.Message}");
+                        }
+                    };
+                }
             }
+
+            if (obj is not FrameworkElement fe || fe.Dispatcher.HasShutdownStarted)
+                return;
+
+            fe.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    RefreshAll(fe);
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($"WPF combo box refresh failed: {e.Message}");
+                }
+            }), DispatcherPriority.Loaded);
+            fe.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    RefreshAll(fe);
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($"WPF combo box refresh failed: {e.Message}");
+                }
+            }), DispatcherPriority.ApplicationIdle);
         }
-
-        RefreshAll(obj);
-
-        if (obj is not FrameworkElement fe || fe.Dispatcher.HasShutdownStarted)
-            return;
-
-        fe.Dispatcher.BeginInvoke(new Action(() => RefreshAll(fe)), DispatcherPriority.Loaded);
-        fe.Dispatcher.BeginInvoke(new Action(() => RefreshAll(fe)), DispatcherPriority.ApplicationIdle);
+        catch (Exception e)
+        {
+            Debug.Print($"WPF combo box refresh failed: {e.Message}");
+        }
     }
 
     public static void MarkUntranslatable(DependencyObject obj)
@@ -222,15 +279,31 @@ public class WpfTranslationPatch : PatchBase
         if (Untranslatable.TryGetValue(obj, out _))
             return translated ?? "";
 
-        if (translated is not null)
-        {
-            if (TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var res))
-                OriginalMapping.AddOrUpdate(obj, res);
-            else if (!OriginalMapping.TryGetValue(obj, out _))
-                OriginalMapping.AddOrUpdate(obj, translated);
-        }
+        var state = OriginalMapping.GetValue(obj, _ => new TranslationState());
 
-        return OriginalMapping.TryGetValue(obj, out var original) ? original : translated ?? "";
+        if (string.IsNullOrEmpty(translated))
+            return state.Original ?? translated ?? "";
+
+        if (state.Original != null
+            && (translated == state.Original || translated == state.LastTranslated))
+            return state.Original;
+
+        state.Original =
+            TranslationManager.TranslatedToOriginalMap.TryGetValue(translated, out var original)
+            && !string.IsNullOrEmpty(original)
+                ? original
+                : translated;
+        state.LastTranslated = null;
+        return state.Original;
+    }
+
+    private static void RememberTranslated(object obj, string translated)
+    {
+        if (Untranslatable.TryGetValue(obj, out _))
+            return;
+
+        var state = OriginalMapping.GetValue(obj, _ => new TranslationState());
+        state.LastTranslated = translated;
     }
 
     private static string? TryGetTranslatedText(string value, bool preferHardcoded = false)
@@ -285,6 +358,9 @@ public class WpfTranslationPatch : PatchBase
 
     private static string TranslateDisplayText(string value)
     {
+        if (string.IsNullOrEmpty(value))
+            return value ?? "";
+
         var translated = TryGetTranslatedText(value, preferHardcoded: true);
         if (translated != null)
             return translated;
@@ -415,7 +491,8 @@ public class WpfTranslationPatch : PatchBase
         return clone;
     }
 
-    private static void TranslateElement(object element, bool inComboBox = false)
+    private static void TranslateElement(object element, bool inComboBox = false,
+        ContentPresenter? selectionPresenter = null)
     {
         if (element is ComboBox combo)
             EnsureComboBoxHandlers(combo);
@@ -430,33 +507,84 @@ public class WpfTranslationPatch : PatchBase
         {
             case HeaderedItemsControl hic:
                 if (hic.Header is string hicHeader)
-                    hic.Header = GetTranslatedText(GetOriginal(hic, hicHeader));
+                {
+                    var translated = GetTranslatedText(GetOriginal(hic, hicHeader));
+                    hic.Header = translated;
+                    RememberTranslated(hic, translated);
+                }
                 break;
 
             case HeaderedContentControl hcc:
                 if (hcc.Header is string hccHeader)
-                    hcc.Header = GetTranslatedText(GetOriginal(hcc, hccHeader));
+                {
+                    var translated = GetTranslatedText(GetOriginal(hcc, hccHeader));
+                    hcc.Header = translated;
+                    RememberTranslated(hcc, translated);
+                }
                 break;
 
             case ContentControl cc:
                 if (cc.Content is string text)
-                    cc.Content = inComboBox
-                        ? TranslateDisplayText(GetOriginal(cc, text))
-                        : GetTranslatedText(GetOriginal(cc, text));
+                {
+                    var original = GetOriginal(cc, text);
+                    var translated = inComboBox
+                        ? TranslateDisplayText(original)
+                        : GetTranslatedText(original);
+                    cc.Content = translated;
+                    RememberTranslated(cc, translated);
+                }
                 break;
 
             case TextBlock tb:
                 if (!IsDataBound(tb, TextBlock.TextProperty))
-                    tb.Text = inComboBox
-                        ? TranslateDisplayText(GetOriginal(tb, tb.Text))
-                        : GetTranslatedText(GetOriginal(tb, tb.Text));
+                {
+                    if (selectionPresenter != null)
+                    {
+                        BindSelectionText(tb, selectionPresenter);
+                    }
+                    else
+                    {
+                        var original = GetOriginal(tb, tb.Text);
+                        var translated = inComboBox
+                            ? TranslateDisplayText(original)
+                            : GetTranslatedText(original);
+                        tb.Text = translated;
+                        RememberTranslated(tb, translated);
+                    }
+                }
                 else if (inComboBox)
+                {
                     TranslateBoundText(tb);
+                }
                 break;
         }
 
         if (element is FrameworkElement { ToolTip: string tip } fe)
-            fe.ToolTip = GetTranslatedText(GetOriginal(fe, tip));
+        {
+            var translated = GetTranslatedText(GetOriginal(fe, tip));
+            fe.ToolTip = translated;
+            RememberTranslated(fe, translated);
+        }
+    }
+
+    private static void BindSelectionText(TextBlock textBlock, ContentPresenter selectionPresenter)
+    {
+        try
+        {
+            var binding = new Binding
+            {
+                Source = selectionPresenter,
+                Path = new PropertyPath(ContentPresenter.ContentProperty),
+                Mode = BindingMode.OneWay,
+                Converter = new TranslatingConverter(null)
+            };
+
+            BindingOperations.SetBinding(textBlock, TextBlock.TextProperty, binding);
+        }
+        catch (Exception e)
+        {
+            Debug.Print($"WPF combo box selection text binding failed: {e.Message}");
+        }
     }
 
     public static void RefreshAll(DependencyObject obj)
@@ -477,7 +605,8 @@ public class WpfTranslationPatch : PatchBase
         fe.Loaded += handler;
     }
 
-    private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited, bool inComboBox = false)
+    private static void _RefreshAll(DependencyObject? root, HashSet<DependencyObject> visited,
+        bool inComboBox = false, ContentPresenter? selectionPresenter = null)
     {
         if (root == null || !visited.Add(root)) return;
 
@@ -489,7 +618,13 @@ public class WpfTranslationPatch : PatchBase
         else if (root is ComboBoxItem)
             inComboBox = true;
 
-        TranslateElement(root, inComboBox);
+        if (root is ContentPresenter presenter
+            && presenter.TemplatedParent is ComboBox owner
+            && owner.SelectionBoxItem != null
+            && ReferenceEquals(presenter.Content, owner.SelectionBoxItem))
+            selectionPresenter = presenter;
+
+        TranslateElement(root, inComboBox, selectionPresenter);
 
         if (root is AccessText)
             return;
@@ -500,43 +635,43 @@ public class WpfTranslationPatch : PatchBase
             for (var i = 0; i < count; i++)
             {
                 var child = VisualTreeHelper.GetChild(root, i);
-                _RefreshAll(child, visited, inComboBox);
+                _RefreshAll(child, visited, inComboBox, selectionPresenter);
             }
         }
 
         foreach (var child in LogicalTreeHelper.GetChildren(root))
             if (child is DependencyObject dep)
-                _RefreshAll(dep, visited, inComboBox);
+                _RefreshAll(dep, visited, inComboBox, selectionPresenter);
 
         if (root is ItemsControl ic)
             foreach (var item in ic.Items)
             {
                 var container = ic.ItemContainerGenerator.ContainerFromItem(item);
                 if (container is not null)
-                    _RefreshAll(container, visited, inComboBox);
+                    _RefreshAll(container, visited, inComboBox, selectionPresenter);
             }
 
         switch (root)
         {
             case PushButton pb:
-                _RefreshAll(pb.NormalIcon as DependencyObject, visited, inComboBox);
-                _RefreshAll(pb.PressedIcon as DependencyObject, visited, inComboBox);
-                _RefreshAll(pb.DisabledIcon as DependencyObject, visited, inComboBox);
+                _RefreshAll(pb.NormalIcon as DependencyObject, visited, inComboBox, selectionPresenter);
+                _RefreshAll(pb.PressedIcon as DependencyObject, visited, inComboBox, selectionPresenter);
+                _RefreshAll(pb.DisabledIcon as DependencyObject, visited, inComboBox, selectionPresenter);
                 break;
             case PushToggleButton ptb:
-                _RefreshAll(ptb.NormalIcon as DependencyObject, visited, inComboBox);
-                _RefreshAll(ptb.PressedIcon as DependencyObject, visited, inComboBox);
-                _RefreshAll(ptb.DisabledIcon as DependencyObject, visited, inComboBox);
+                _RefreshAll(ptb.NormalIcon as DependencyObject, visited, inComboBox, selectionPresenter);
+                _RefreshAll(ptb.PressedIcon as DependencyObject, visited, inComboBox, selectionPresenter);
+                _RefreshAll(ptb.DisabledIcon as DependencyObject, visited, inComboBox, selectionPresenter);
                 break;
         }
 
         if (root is FrameworkElement fe)
         {
             if (fe.ContextMenu != null)
-                _RefreshAll(fe.ContextMenu, visited, inComboBox);
+                _RefreshAll(fe.ContextMenu, visited, inComboBox, selectionPresenter);
 
             if (fe.ToolTip is DependencyObject tip)
-                _RefreshAll(tip, visited, inComboBox);
+                _RefreshAll(tip, visited, inComboBox, selectionPresenter);
         }
     }
 
@@ -551,13 +686,34 @@ public class WpfTranslationPatch : PatchBase
 
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var converted = _inner != null
-                ? _inner.Convert(value!, targetType, parameter!, culture)
-                : value;
-
-            // 参数下拉框收起时只显示 ShortName（VEL / DYN / AIR ...），缩写不翻译
             if (_inner is Yamaha.VOCALOID.MusicalEditor.ControlParameterTypeEnumShortToStringConverter)
-                return converted!;
+            {
+                if (value is not ControlParameterTypeEnum)
+                    return string.Empty;
+
+                try
+                {
+                    return _inner.Convert(value, targetType, parameter!, culture)!;
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($"WPF converter failed: {e.Message}");
+                    return string.Empty;
+                }
+            }
+
+            object? converted;
+            try
+            {
+                converted = _inner != null
+                    ? _inner.Convert(value!, targetType, parameter!, culture)
+                    : value;
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"WPF converter failed: {e.Message}");
+                converted = value;
+            }
 
             return converted switch
             {
@@ -569,10 +725,18 @@ public class WpfTranslationPatch : PatchBase
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (_inner != null)
-                return _inner.ConvertBack(value!, targetType, parameter!, culture)!;
+            if (_inner == null)
+                return value!;
 
-            return value!;
+            try
+            {
+                return _inner.ConvertBack(value!, targetType, parameter!, culture)!;
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"WPF converter failed: {e.Message}");
+                return value!;
+            }
         }
     }
 

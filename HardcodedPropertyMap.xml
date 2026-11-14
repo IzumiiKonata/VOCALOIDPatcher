@@ -6,6 +6,7 @@
     <data name="Main" xml:space="preserve"><value>MixerView_MainTrack_Header</value></data>
     <data name="EFFECT" xml:space="preserve"><value>MixerView_Effect_Header</value></data>
     <data name="NOTE" xml:space="preserve"><value>NotePropertiesView_Header</value></data>
+    <data name="TRACK" xml:space="preserve"><value>TrackPropertiesView_Header</value></data>
     <data name="LYRIC" xml:space="preserve"><value>NotePropertiesView_Lyric_Header</value></data>
     <data name="LETTER" xml:space="preserve"><value>NotePropertiesView_Lyric_Letter_Header</value></data>
     <data name="PHONETIC SYMBOL" xml:space="preserve"><value>NotePropertiesView_Lyric_PhoneticSymbol_Header</value></data>
@@ -129,6 +130,7 @@
     <data name="Hard" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Hard</value></data>
     <data name="Normal" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Normal</value></data>
     <data name="Soft" xml:space="preserve"><value>Enum_VSMRobotVoiceMode_Soft</value></data>
+    <data name="Power" xml:space="preserve"><value>Enum_VoiceType_Power</value></data>
 
     <data name="Female" xml:space="preserve"><value>Enum_VSMBreathType_Female</value></data>
     <data name="Male" xml:space="preserve"><value>Enum_VSMBreathType_Male</value></data>

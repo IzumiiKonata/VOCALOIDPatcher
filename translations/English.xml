@@ -13,6 +13,13 @@
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>Piano Roll</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>Other</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>Widgets</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Layout" xml:space="preserve"><value>Layout</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Header" xml:space="preserve"><value>Use V6 Toolbar Colors</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Desc" xml:space="preserve"><value>Restore the menu bar, toolbar, and title bar to the VOCALOID6 dark color scheme.</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Header" xml:space="preserve"><value>Show Inspector on the Right</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Desc" xml:space="preserve"><value>Move the inspector from the left side of the main window to the right side, matching the VOCALOID6 layout.</value></data>
+  <data name="TrackPropertiesView_Header" xml:space="preserve"><value>TRACK</value></data>
+  <data name="Enum_VoiceType_Power" xml:space="preserve"><value>Power</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>Spectrum Visualizer</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>Does not work properly when using ASIO</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>Show Notes from Other Tracks</value></data>
@@ -21,7 +28,7 @@
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>Rounded Notes</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>Center Lyrics</value></data>
   <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>Use SynthV Editor Style for Waveform Display</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>Opacity</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>Waveform Opacity</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>Show Voicebank Cover</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>Cover Size</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>Horizontal</value></data>

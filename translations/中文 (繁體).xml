@@ -13,6 +13,13 @@
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>鋼琴窗</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其他</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>小工具</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Layout" xml:space="preserve"><value>佈局</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Header" xml:space="preserve"><value>使用 V6 工具列配色</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Desc" xml:space="preserve"><value>將選單列、工具列與標題列恢復為 VOCALOID6 的深色配色。</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Header" xml:space="preserve"><value>屬性面板顯示在右側</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Desc" xml:space="preserve"><value>將屬性面板從主視窗左側移動到右側，與 VOCALOID6 的配置一致。</value></data>
+  <data name="TrackPropertiesView_Header" xml:space="preserve"><value>軌道</value></data>
+  <data name="Enum_VoiceType_Power" xml:space="preserve"><value>力量</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>頻譜視覺化</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>使用 ASIO 時無法正常運作</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>顯示其他軌道的音符</value></data>
@@ -21,7 +28,7 @@
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>使用圓角音符</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>置中顯示歌詞</value></data>
   <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>波形顯示使用 SV 編輯器樣式</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>波形不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>顯示聲庫立繪</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>立繪大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>水平位置</value></data>

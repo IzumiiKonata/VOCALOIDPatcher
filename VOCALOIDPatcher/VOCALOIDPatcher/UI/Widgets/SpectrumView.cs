@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 using VOCALOIDPatcher.Utils.Audio;
 
 namespace VOCALOIDPatcher.UI.Widgets;
@@ -14,9 +15,8 @@ public sealed class SpectrumView : FrameworkElement
     private const double MaxFreq = 18000.0;
     private const double MinDb = -82.0;
     private const double MaxDb = -12.0;
-    private const long FrameIntervalMs = 10;
-    private const double AttackSmoothing = 0.92;
-    private const double DecaySmoothing = 0.6;
+    private const double AttackSmoothing = 0.95;
+    private const double DecaySmoothing = 0.68;
     private const int LowFreqSmoothCount = 22;
 
     private static readonly Pen CurvePen;
@@ -33,8 +33,9 @@ public sealed class SpectrumView : FrameworkElement
     private readonly object _dataLock = new();
 
     private bool _enabled;
-    private bool _hooked;
     private volatile bool _analyzing;
+    private int _analysisGeneration;
+    private int _renderPending;
     private Thread? _analysisThread;
 
     static SpectrumView()
@@ -67,7 +68,7 @@ public sealed class SpectrumView : FrameworkElement
         Visibility = Visibility.Collapsed;
 
         Loaded += (_, _) => Sync();
-        Unloaded += (_, _) => Unhook();
+        Unloaded += (_, _) => Sync();
     }
 
     public bool Enabled
@@ -88,11 +89,9 @@ public sealed class SpectrumView : FrameworkElement
         {
             if (!_capture.IsRunning) _capture.Start();
             StartAnalysis();
-            Hook();
         }
         else
         {
-            Unhook();
             StopAnalysis();
             if (_capture.IsRunning) _capture.Stop();
             lock (_dataLock)
@@ -108,7 +107,8 @@ public sealed class SpectrumView : FrameworkElement
     {
         if (_analyzing) return;
         _analyzing = true;
-        _analysisThread = new Thread(AnalysisLoop)
+        var generation = ++_analysisGeneration;
+        _analysisThread = new Thread(() => AnalysisLoop(generation))
         {
             IsBackground = true,
             Name = "VOCALOIDPatcher.SpectrumAnalysis"
@@ -118,44 +118,40 @@ public sealed class SpectrumView : FrameworkElement
 
     private void StopAnalysis()
     {
+        _analysisGeneration++;
         _analyzing = false;
         _analysisThread = null;
     }
 
-    private void AnalysisLoop()
+    private void AnalysisLoop(int generation)
     {
-        while (_analyzing)
+        while (_analyzing && generation == _analysisGeneration)
         {
             try
             {
+                if (!_capture.WaitForData(50))
+                    continue;
+
                 Analyze();
+                RequestRender();
             }
             catch
             {
                 /* ignore */
             }
-
-            Thread.Sleep((int)FrameIntervalMs);
         }
     }
 
-    private void Hook()
+    private void RequestRender()
     {
-        if (_hooked) return;
-        CompositionTarget.Rendering += OnRendering;
-        _hooked = true;
-    }
+        if (Interlocked.Exchange(ref _renderPending, 1) != 0)
+            return;
 
-    private void Unhook()
-    {
-        if (!_hooked) return;
-        CompositionTarget.Rendering -= OnRendering;
-        _hooked = false;
-    }
-
-    private void OnRendering(object? sender, EventArgs e)
-    {
-        InvalidateVisual();
+        Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+        {
+            Interlocked.Exchange(ref _renderPending, 0);
+            InvalidateVisual();
+        }));
     }
 
     private void Analyze()

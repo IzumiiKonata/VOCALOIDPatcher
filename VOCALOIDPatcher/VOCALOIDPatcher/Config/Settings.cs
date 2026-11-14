@@ -146,8 +146,24 @@ public static class Settings
 
     public static double WaveformOpacity
     {
-        get => Patcher.ConfigManager.Get(WaveformOpacityKey, 0.6);
+        get => Patcher.ConfigManager.Get(WaveformOpacityKey, 1.0);
         set => Patcher.ConfigManager.Set(WaveformOpacityKey, value);
+    }
+
+    public static string V6ToolbarStyleKey => "V6ToolbarStyle";
+
+    public static bool V6ToolbarStyle
+    {
+        get => Patcher.ConfigManager.Get(V6ToolbarStyleKey, false);
+        set => Patcher.ConfigManager.Set(V6ToolbarStyleKey, value);
+    }
+
+    public static string InspectorOnRightKey => "InspectorOnRight";
+
+    public static bool InspectorOnRight
+    {
+        get => Patcher.ConfigManager.Get(InspectorOnRightKey, false);
+        set => Patcher.ConfigManager.Set(InspectorOnRightKey, value);
     }
 
     public static string AutoSaveEnabledKey => "AutoSaveEnabled";

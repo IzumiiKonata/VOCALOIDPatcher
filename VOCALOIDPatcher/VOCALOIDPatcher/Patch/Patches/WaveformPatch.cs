@@ -98,7 +98,7 @@ public class WaveformRenderPatch : PatchBase
     private static bool Prefix(UIRenderedWave __instance, DrawingContext drawingContext, out int __state)
     {
         __state = 0;
-        if (!Settings.SvEditorStyle || drawingContext == null)
+        if (drawingContext == null)
             return true;
 
         double opacity = Math.Clamp(Settings.WaveformOpacity, 0.0, 1.0);
@@ -107,6 +107,9 @@ public class WaveformRenderPatch : PatchBase
             drawingContext.PushOpacity(opacity);
             __state = 1;
         }
+
+        if (!Settings.SvEditorStyle)
+            return true;
 
         if (WaveformSvState.HasBaselines)
         {

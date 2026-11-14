@@ -129,6 +129,7 @@ public class SettingsWindow : Window
     {
         List<(string, UIElement)> result = new() {
             ("VOCALOIDPatcher_Settings_Category_General", BuildGeneralPanel()),
+            ("VOCALOIDPatcher_Settings_Category_Layout", BuildLayoutPanel()),
             ("VOCALOIDPatcher_Settings_Category_Pianoroll", BuildPianorollPanel()),
             ("VOCALOIDPatcher_Settings_Category_Widgets", BuildWidgetsPanel()),
             ("VOCALOIDPatcher_Settings_Category_Other", BuildOtherPanel())
@@ -224,6 +225,33 @@ public class SettingsWindow : Window
         return panel;
     }
 
+    private StackPanel BuildLayoutPanel()
+    {
+        var panel = new StackPanel();
+        panel.Children.Add(SectionTitle("VOCALOIDPatcher_Settings_Category_Layout"));
+
+        var v6Toolbar = DescribedToggle("VOCALOIDPatcher_V6ToolbarStyle_Header",
+            "VOCALOIDPatcher_V6ToolbarStyle_Desc",
+            Settings.V6ToolbarStyle, new Thickness(0, 6, 0, 0), checkbox =>
+            {
+                Settings.V6ToolbarStyle = checkbox.IsChecked == true;
+                LayoutPatch.ApplyV6ToolbarStyle(Settings.V6ToolbarStyle);
+            });
+
+        var inspectorOnRight = DescribedToggle("VOCALOIDPatcher_InspectorOnRight_Header",
+            "VOCALOIDPatcher_InspectorOnRight_Desc",
+            Settings.InspectorOnRight, new Thickness(0, 18, 0, 0), checkbox =>
+            {
+                Settings.InspectorOnRight = checkbox.IsChecked == true;
+                LayoutPatch.ApplyInspectorOnRight(Settings.InspectorOnRight);
+            });
+
+        panel.Children.Add(v6Toolbar);
+        panel.Children.Add(inspectorOnRight);
+
+        return panel;
+    }
+
     private StackPanel BuildPianorollPanel()
     {
         var panel = new StackPanel();
@@ -267,22 +295,18 @@ public class SettingsWindow : Window
                 CenteredLyricPatch.RefreshLyrics();
             });
 
+        var svEditorStyle = Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
+            Settings.SvEditorStyle, new Thickness(0, 18, 0, 0), checkbox =>
+            {
+                Settings.SvEditorStyle = checkbox.IsChecked == true;
+                ShowOtherTracksNotesPatch.RequestRefreshPianoroll();
+            });
+
         var waveformOpacity = SliderRow("VOCALOIDPatcher_WaveformOpacity_Header",
             0.1, 1.0, Settings.WaveformOpacity,
             v => { Settings.WaveformOpacity = v; ShowOtherTracksNotesPatch.RequestRefreshPianoroll(); });
-        waveformOpacity.Margin = new Thickness(28, 0, 0, 10);
-        waveformOpacity.IsEnabled = Settings.SvEditorStyle;
-        waveformOpacity.Opacity = Settings.SvEditorStyle ? 1.0 : 0.4;
-
-        var svEditorStyle = Toggle("VOCALOIDPatcher_SvEditorStyle_Header",
-            Settings.SvEditorStyle, new Thickness(0, 18, 0, 8), checkbox =>
-            {
-                var enabled = checkbox.IsChecked == true;
-                Settings.SvEditorStyle = enabled;
-                waveformOpacity.IsEnabled = enabled;
-                waveformOpacity.Opacity = enabled ? 1.0 : 0.4;
-                ShowOtherTracksNotesPatch.RequestRefreshPianoroll();
-            });
+        waveformOpacity.Margin = new Thickness(0, 10, 0, 12);
+        waveformOpacity.Height = 34;
 
         var artOptions = new StackPanel
         {
@@ -328,7 +352,7 @@ public class SettingsWindow : Window
         HideIfUnsupported(Settings.ShowNotePitchKey, showNotePitch);
         HideIfUnsupported(Settings.RoundedNotesKey, roundedNotes);
         HideIfUnsupported(Settings.CenteredLyricsKey, centeredLyrics);
-        HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle, waveformOpacity);
+        HideIfUnsupported(Settings.SvEditorStyleKey, svEditorStyle);
         HideIfUnsupported(Settings.ShowCharacterArtKey, showCharacterArt, artOptions);
 
         return panel;
@@ -466,7 +490,7 @@ public class SettingsWindow : Window
 
         var label = new TextBlock
         {
-            Width = 72,
+            Width = 96,
             Foreground = MutedBrush,
             FontSize = 12,
             VerticalAlignment = VerticalAlignment.Center

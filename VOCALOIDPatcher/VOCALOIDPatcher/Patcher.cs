@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "3.0.0";
+    public static string Version => "3.0.1";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
@@ -112,6 +112,7 @@ public static class Patcher
         Formats.LibreSvip.SvipFormatDragDrop.Install();
         AutoSaveService.UpdateFromSettings();
         SpectrumWidget.Install();
+        LayoutPatch.Install();
     }
 
     private static bool DetectVstPluginMode()
@@ -148,7 +149,6 @@ public static class Patcher
                 new AppLanguagePatch(),
                 new WpfTranslationPatch(),
                 new AttackReleaseEffectTabTranslationPatch(),
-                new ComboBoxTranslationPatch(),
                 new ResourceManagerPatch(),
                 new AudioEffectWindowTranslatePatch(),
                 new SwingMenuPatch(),

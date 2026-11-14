@@ -13,6 +13,13 @@
   <data name="VOCALOIDPatcher_Settings_Category_Pianoroll" xml:space="preserve"><value>钢琴窗</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Other" xml:space="preserve"><value>其他</value></data>
   <data name="VOCALOIDPatcher_Settings_Category_Widgets" xml:space="preserve"><value>小组件</value></data>
+  <data name="VOCALOIDPatcher_Settings_Category_Layout" xml:space="preserve"><value>布局</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Header" xml:space="preserve"><value>使用 V6 工具栏配色</value></data>
+  <data name="VOCALOIDPatcher_V6ToolbarStyle_Desc" xml:space="preserve"><value>将菜单栏、工具栏和标题栏恢复为 VOCALOID6 的深色配色。</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Header" xml:space="preserve"><value>属性面板显示在右侧</value></data>
+  <data name="VOCALOIDPatcher_InspectorOnRight_Desc" xml:space="preserve"><value>将属性面板从主窗口左侧移动到右侧，与 VOCALOID6 的布局保持一致。</value></data>
+  <data name="TrackPropertiesView_Header" xml:space="preserve"><value>轨道</value></data>
+  <data name="Enum_VoiceType_Power" xml:space="preserve"><value>力量</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Header" xml:space="preserve"><value>频谱可视化</value></data>
   <data name="VOCALOIDPatcher_SpectrumVisualizer_Hint" xml:space="preserve"><value>使用 ASIO 时无法正常工作</value></data>
   <data name="VOCALOIDPatcher_ShowOtherTracksNotes_Header" xml:space="preserve"><value>显示其他轨道的音符</value></data>
@@ -21,7 +28,7 @@
   <data name="VOCALOIDPatcher_RoundedNotes_Header" xml:space="preserve"><value>使用圆角音符</value></data>
   <data name="VOCALOIDPatcher_CenteredLyrics_Header" xml:space="preserve"><value>居中显示歌词</value></data>
   <data name="VOCALOIDPatcher_SvEditorStyle_Header" xml:space="preserve"><value>波形显示使用 SV 编辑器样式</value></data>
-  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>不透明度</value></data>
+  <data name="VOCALOIDPatcher_WaveformOpacity_Header" xml:space="preserve"><value>波形不透明度</value></data>
   <data name="VOCALOIDPatcher_ShowCharacterArt_Header" xml:space="preserve"><value>显示声库立绘</value></data>
   <data name="VOCALOIDPatcher_CharacterArtSize_Header" xml:space="preserve"><value>立绘大小</value></data>
   <data name="VOCALOIDPatcher_CharacterArtHorizontalPosition_Header" xml:space="preserve"><value>水平位置</value></data>
@@ -659,7 +666,13 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="AddTrackDlg_TrackName_Caption" xml:space="preserve"><value>轨道名称</value></data>
   <data name="ContextMenu_PitchToolGroup_Header" xml:space="preserve"><value>音高工具组(_P)</value></data>
   <data name="MsgBox_Add_TimeSig_Error" xml:space="preserve"><value>添加拍号失败。</value></data>
-  <data name="VerifyLicense_EditorTrial" xml:space="preserve"><value>VOCALOID7 编辑器未激活。\n\n请在 VOCALOID7 激活器中输入 VOCALOID7 的序列号进行激活。\n\n现在激活吗？\n\n（点击[立即激活]启动 VOCALOID7 激活器。）</value></data>
+  <data name="VerifyLicense_EditorTrial" xml:space="preserve"><value>VOCALOID7 编辑器未激活。
+
+请在 VOCALOID7 激活器中输入 VOCALOID7 的序列号进行激活。
+
+现在激活吗？
+
+点击[立即激活]启动 VOCALOID7 激活器。）</value></data>
   <data name="MainMenu_Transport_Stop_Header" xml:space="preserve"><value>停止</value></data>
   <data name="MsgBox_Open_Sequence_BackupFileHasBeenFound" xml:space="preserve"><value>已找到一个备份文件。是否要从中恢复？</value></data>
   <data name="CustomizeShortcutDlg_Import" xml:space="preserve"><value>导入文件...</value></data>
@@ -811,7 +824,12 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="CheckUpdate_Button_No" xml:space="preserve"><value>稍后再说</value></data>
   <data name="MainMenu_Help_CheckUpdate_Header" xml:space="preserve"><value>检查更新...</value></data>
   <data name="CustomizeShortcutDlg_CommandResetControlParametersToDefault" xml:space="preserve"><value>将控制参数重置为默认值</value></data>
-  <data name="VerifyLicense_EnterSerialNumberOrStartSplice" xml:space="preserve"><value>请在 VOCALOID7 激活器中输入该声库对应的序列号，或启动 Splice 并连接至互联网。\n（授权宽限期已过期或租赁期已到期的声库将无法使用。）\n\n现在进行授权？\n\n（点击[是]启动 VOCALOID7 激活器。）</value></data>
+  <data name="VerifyLicense_EnterSerialNumberOrStartSplice" xml:space="preserve"><value>请在 VOCALOID7 激活器中输入该声库对应的序列号，或启动 Splice 并连接至互联网。
+（授权宽限期已过期或租赁期已到期的声库将无法使用。）
+
+现在进行授权？
+
+（点击[是]启动 VOCALOID7 激活器。）</value></data>
   <data name="MsgBox_Duplicate_Error" xml:space="preserve"><value>创建副本失败。</value></data>
   <data name="MsgBox_AudioEngineInitialization_Error" xml:space="preserve"><value>初始化音频引擎失败。</value></data>
   <data name="CustomizeShortcutDlg_MessageShortcutKeyDelete" xml:space="preserve"><value>您想删除这个快捷键吗？</value></data>
@@ -926,7 +944,12 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="CustomizeShortcutDlg_CommandImportVsqx" xml:space="preserve"><value>导入 - VSQX 文件</value></data>
   <data name="CustomizeShortcutDlg_CommandImportPpsf" xml:space="preserve"><value>导入 - PPSF 文件</value></data>
   <data name="CustomizeShortcutDlg_CommandImportMidi" xml:space="preserve"><value>导入 - MIDI 文件</value></data>
-  <data name="VerifyLicense_EnterSerialNumber" xml:space="preserve"><value>请在 VOCALOID7 激活器中输入相关声库的序列号进行激活。\n（已过试用期的声库将无法使用。）\n\n现在激活吗？\n\n（点击[是]启动 VOCALOID7 激活器。）</value></data>
+  <data name="VerifyLicense_EnterSerialNumber" xml:space="preserve"><value>请在 VOCALOID7 激活器中输入相关声库的序列号进行激活。
+（已过试用期的声库将无法使用。）
+
+现在激活吗？
+
+（点击[是]启动 VOCALOID7 激活器。）</value></data>
   <data name="MsgBox_Edit_ControlParameter_Error" xml:space="preserve"><value>无法编辑控制参数。</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Midi_Ai_Caption" xml:space="preserve"><value>VOCALOID:AI</value></data>
   <data name="FileDlg_SMF_Filter" xml:space="preserve"><value>SMF|*.mid;*.midi</value></data>
@@ -1144,7 +1167,8 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="Help_AmplitudeEndControl" xml:space="preserve"><value>后段表情;调整音符后半段的音量。</value></data>
   <data name="Help_AmplitudeStartControl" xml:space="preserve"><value>前段表情;调整音符前半段的音量。</value></data>
   <data name="Help_AmplitudeWholeControl" xml:space="preserve"><value>中段表情;调整音符中段的音量。</value></data>
-  <data name="Help_AttackReleaseEffectArea" xml:space="preserve"><value>起音/释音效果;可以为音符的起音或释音添加效果。\n点击图标应用效果，再次点击取消。</value></data>
+  <data name="Help_AttackReleaseEffectArea" xml:space="preserve"><value>起音/释音效果;可以为音符的起音或释音添加效果。
+点击图标应用效果，再次点击取消。</value></data>
   <data name="Help_AttackReleaseEffectControl" xml:space="preserve"><value>效果强度;调整效果的强度。设置范围为 SOFT (0.0) 至 HARD (1.0)。</value></data>
   <data name="Help_AudioPartArea" xml:space="preserve"><value>音频乐段;包含音频波形数据的乐段，可用于音频轨道。</value></data>
   <data name="Help_BreakPointControl" xml:space="preserve"><value>断点;断点是在特定时间点改变控制参数值的标记。在不同位置设置断点可以对参数变化进行精细调整。</value></data>
@@ -1189,19 +1213,29 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="Help_StyleAirControl" xml:space="preserve"><value>空气感;调整混入发音的呼吸量。使用 VOCALOID: AI 声库时取值范围为气声较弱 (-100) 至气声较强 (+100)；使用 VOCALOID 声库时为气声较弱 (0) 至气声较强 (127)。</value></data>
   <data name="Help_StyleAmountControl" xml:space="preserve"><value>量;调整抑扬程度。</value></data>
   <data name="Help_StyleBreathCombo" xml:space="preserve"><value>呼吸;此功能会分析序列并在合适的位置自动插入呼吸。也可以设置呼吸插入的频率。</value></data>
-  <data name="Help_StyleBreathinessControl" xml:space="preserve"><value>气声;调整混入发音的呼吸量以及元音的音色。\n设置范围为清晰 (0) 至明亮 (127)。</value></data>
-  <data name="Help_StyleCharacterControl" xml:space="preserve"><value>性别值;调整发音的共振峰。\n数值越高越偏女性化，越低越偏男性化。\n设置范围为冷酷 (-64) 至可爱 (+63)。</value></data>
+  <data name="Help_StyleBreathinessControl" xml:space="preserve"><value>气声;调整混入发音的呼吸量以及元音的音色。
+设置范围为清晰 (0) 至明亮 (127)。</value></data>
+  <data name="Help_StyleCharacterControl" xml:space="preserve"><value>性别值;调整发音的共振峰。
+数值越高越偏女性化，越低越偏男性化。
+设置范围为冷酷 (-64) 至可爱 (+63)。</value></data>
   <data name="Help_StyleCombo" xml:space="preserve"><value>风格设置;此区域用于选择风格。下拉列表会优先显示与主声库关联的风格。</value></data>
-  <data name="Help_StyleExciterControl" xml:space="preserve"><value>激励;调整声音的音色。\n设置范围为沉闷 (-64) 至明亮 (+63)。</value></data>
+  <data name="Help_StyleExciterControl" xml:space="preserve"><value>激励;调整声音的音色。
+设置范围为沉闷 (-64) 至明亮 (+63)。</value></data>
   <data name="Help_StyleExhalationControl" xml:space="preserve"><value>呼气;设置插入的呼吸音量。</value></data>
-  <data name="Help_StyleGrowlControl" xml:space="preserve"><value>怒音;调整怒音的程度。\n设置范围为清晰 (0) 至强烈 (127)。</value></data>
-  <data name="Help_StyleMouthControl" xml:space="preserve"><value>开口度;调整发音的咬字（张口程度）。\n设置范围为闭合 (-127) 至张开 (0)。</value></data>
+  <data name="Help_StyleGrowlControl" xml:space="preserve"><value>怒音;调整怒音的程度。
+设置范围为清晰 (0) 至强烈 (127)。</value></data>
+  <data name="Help_StyleMouthControl" xml:space="preserve"><value>开口度;调整发音的咬字（张口程度）。
+设置范围为闭合 (-127) 至张开 (0)。</value></data>
   <data name="Help_StylePowerButton" xml:space="preserve"><value>效果开关;按钮关闭时，效果将被旁通。</value></data>
-  <data name="Help_StyleRobotVoiceCombo" xml:space="preserve"><value>机械音;将声音变为机械音。\n可选择 HARD/NORMAL/SOFT 三种模式。</value></data>
+  <data name="Help_StyleRobotVoiceCombo" xml:space="preserve"><value>机械音;将声音变为机械音。
+可选择 HARD/NORMAL/SOFT 三种模式。</value></data>
   <data name="Help_StyleS5AirControl" xml:space="preserve"><value>空气感;调整混入发音的呼吸量。使用 VOCALOID: AI 声库时取值范围为气声较弱 (-100) 至气声较强 (+100)；使用 VOCALOID 声库时为气声较弱 (0) 至气声较强 (127)。</value></data>
   <data name="Help_StyleS5AttackControl" xml:space="preserve"><value>发音起始清晰度;调整发音起始的清晰度。取值范围为 SLOW (-100) 至 FAST (100)。</value></data>
-  <data name="Help_StyleS5CharacterControl" xml:space="preserve"><value>性别值;调整发音的共振峰。\n数值越高越偏女性化，越低越偏男性化。\n设置范围为冷酷 (-64) 至可爱 (+63)。</value></data>
-  <data name="Help_StyleS5ExpressionControl" xml:space="preserve"><value>表情;设置传递给合成引擎的音量变化过渡。\n设置范围为柔和 (0) 至强劲 (100)。</value></data>
+  <data name="Help_StyleS5CharacterControl" xml:space="preserve"><value>性别值;调整发音的共振峰。
+数值越高越偏女性化，越低越偏男性化。
+设置范围为冷酷 (-64) 至可爱 (+63)。</value></data>
+  <data name="Help_StyleS5ExpressionControl" xml:space="preserve"><value>表情;设置传递给合成引擎的音量变化过渡。
+设置范围为柔和 (0) 至强劲 (100)。</value></data>
   <data name="Help_StyleSaveButton" xml:space="preserve"><value>保存风格预设;可以将当前设置保存为风格预设。</value></data>
   <data name="Help_StyleSingingSkillCombo" xml:space="preserve"><value>歌唱技巧;此 MIDI 效果会根据序列自动应用合适的音高弯曲和音量。此功能仅在使用 VOCALOID 声库时可用。</value></data>
   <data name="Help_StyleSkillControl" xml:space="preserve"><value>技巧;调整歌唱技巧的程度。</value></data>
@@ -1226,7 +1260,8 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="Help_ToolbarAutoScroll" xml:space="preserve"><value>自动滚动;开启或关闭自动滚动。开启后，编辑器会跟随歌曲位置，可以随时查看播放位置。</value></data>
   <data name="Help_ToolbarBrowser" xml:space="preserve"><value>浏览器;打开浏览器。</value></data>
   <data name="Help_ToolbarEditor" xml:space="preserve"><value>编辑器;选中 VOCALOID 乐段时打开音乐编辑器，选中音频乐段时打开波形编辑器。</value></data>
-  <data name="Help_ToolbarEmotionMode" xml:space="preserve"><value>情感工具;调整每个音符演唱时的“重音”。\n如果应用了歌唱技巧且未应用起音/释音效果，点击橙色条带会在下方显示重音滑块。</value></data>
+  <data name="Help_ToolbarEmotionMode" xml:space="preserve"><value>情感工具;调整每个音符演唱时的“重音”。
+如果应用了歌唱技巧且未应用起音/释音效果，点击橙色条带会在下方显示重音滑块。</value></data>
   <data name="Help_ToolbarGrid" xml:space="preserve"><value>网格工具;将输入位置的时序自动校正为下拉列表中选定的值（OFF 除外）。</value></data>
   <data name="Help_ToolbarInspector" xml:space="preserve"><value>属性面板;在主窗口左侧显示属性面板。</value></data>
   <data name="Help_ToolbarInspectorHelp" xml:space="preserve"><value>上下文帮助;在属性面板底部显示上下文帮助窗口。</value></data>
@@ -1240,7 +1275,8 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="Help_ToolbarPitchCurveView" xml:space="preserve"><value>音高曲线显示;开启/关闭音乐编辑器中的音高曲线显示。</value></data>
   <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>音高橡皮工具;可以使用音高铅笔工具和音高橡皮工具直接编辑 VOCALOID 乐段的音高轨迹。</value></data>
   <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>音高铅笔工具;可以使用音高铅笔工具和音高橡皮工具直接编辑 VOCALOID 乐段的音高轨迹。</value></data>
-  <data name="Help_ToolbarPlayback" xml:space="preserve"><value>停止/回到开头;停止播放。\n停止时点击此按钮，或播放中双击，可回到开头。</value></data>
+  <data name="Help_ToolbarPlayback" xml:space="preserve"><value>停止/回到开头;停止播放。
+停止时点击此按钮，或播放中双击，可回到开头。</value></data>
   <data name="Help_ToolbarRecord" xml:space="preserve"><value>录音;录制输入的 MIDI 事件。需要先打开目标轨道视图标题栏上的录音按钮。</value></data>
   <data name="Help_ToolbarRepeat" xml:space="preserve"><value>循环;按钮开启时，循环播放轨道内起始标记与结束标记之间的区间。</value></data>
   <data name="Help_ToolbarScissors" xml:space="preserve"><value>剪刀工具;分割乐段或音符。</value></data>
@@ -1253,7 +1289,8 @@ VOCALOID7 将以 Lite 版本启动。</value></data>
   <data name="Help_ToolbarWaveformImageView" xml:space="preserve"><value>波形显示;开启/关闭音乐编辑器中的波形图像显示。</value></data>
   <data name="Help_TrackBodyArea" xml:space="preserve"><value>轨道编辑器;这是查看和编辑乐段及自动化数据的区域。</value></data>
   <data name="Help_TrackColor" xml:space="preserve"><value>轨道颜色;此区域用于显示和编辑轨道的颜色。</value></data>
-  <data name="Help_TrackHeaderArea" xml:space="preserve"><value>轨道;轨道是管理多个乐段（声音块）的单元。\n可以为每个轨道设置音量、左右分布（声像）等。</value></data>
+  <data name="Help_TrackHeaderArea" xml:space="preserve"><value>轨道;轨道是管理多个乐段（声音块）的单元。
+可以为每个轨道设置音量、左右分布（声像）等。</value></data>
   <data name="Help_TrackNameTextBox" xml:space="preserve"><value>轨道名称;此区域用于显示和编辑轨道名称。</value></data>
   <data name="Help_TrackPanpotAutomationButton" xml:space="preserve"><value>显示轨道声像自动化;可以显示或隐藏轨道声像自动化区域。</value></data>
   <data name="Help_TrackPanpotControl" xml:space="preserve"><value>轨道声像;移动轨道的声像位置。</value></data>
