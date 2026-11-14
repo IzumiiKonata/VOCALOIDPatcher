@@ -421,6 +421,23 @@ public class WpfTranslationPatch : PatchBase
         return BindingOperations.GetBindingExpressionBase(obj, dp) != null;
     }
 
+    private static bool IsInsideFlatMenuComboBox(DependencyObject element)
+    {
+        DependencyObject? current = element;
+
+        while (current != null)
+        {
+            if (current is FlatMenuComboBox)
+                return true;
+
+            current = current is Visual or Visual3D
+                ? VisualTreeHelper.GetParent(current)
+                : LogicalTreeHelper.GetParent(current);
+        }
+
+        return false;
+    }
+
     private static void TranslateBoundText(TextBlock textBlock)
     {
         try
@@ -495,6 +512,9 @@ public class WpfTranslationPatch : PatchBase
             EnsureComboBoxHandlers(combo);
 
         if (element is DependencyObject dep && (bool)dep.GetValue(UntranslatableProperty))
+            return;
+
+        if (element is DependencyObject flatMenuElement && IsInsideFlatMenuComboBox(flatMenuElement))
             return;
 
         if (Untranslatable.TryGetValue(element, out _))
