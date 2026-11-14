@@ -35,7 +35,7 @@ public static class Patcher
 
     public static bool VstPluginMode;
 
-    public static string Version => "2.3.1";
+    public static string Version => "2.3.2";
 
 #pragma warning disable CA2255
     [ModuleInitializer]
@@ -101,7 +101,7 @@ public static class Patcher
 
         if (!VstPluginMode) PostInject();
 
-        UpdateChecker.CheckAsync();
+        // UpdateChecker.CheckAsync();
     }
 
     public static void PostInject()
