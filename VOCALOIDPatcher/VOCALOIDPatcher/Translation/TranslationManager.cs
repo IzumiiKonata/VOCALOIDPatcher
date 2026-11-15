@@ -30,6 +30,15 @@ public static class TranslationManager
 
     public static List<string> AvailableLanguages { get; } = new();
 
+    // Translation files are named after their native language name, so map the
+    // Windows UI language to the matching file name instead of only handling Chinese.
+    private static readonly Dictionary<string, string[]> SystemLanguageCandidates = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["en"] = new[] { "English" },
+        ["ja"] = new[] { "日本語" },
+        ["es"] = new[] { "Español" }
+    };
+
     public static string? CurrentLanguage { get; private set; }
 
     public static event EventHandler<string>? LanguageChanged;
@@ -57,12 +66,12 @@ public static class TranslationManager
         }
 
         var configured = Patcher.ConfigManager.Contains("Language")
-            ? Patcher.ConfigManager.Get("Language", AvailableLanguages[0])
+            ? Patcher.ConfigManager.Get("Language", string.Empty)
             : ResolveSystemLanguage();
 
         if (!LoadLanguage(configured))
         {
-            configured = AvailableLanguages[0];
+            configured = ResolveSystemLanguage();
             LoadLanguage(configured);
         }
 
@@ -93,24 +102,15 @@ public static class TranslationManager
         try
         {
             var culture = GetUserUiCulture();
-            if (culture.TwoLetterISOLanguageName == "zh")
+
+            foreach (var candidate in GetLanguageCandidates(culture))
             {
-                var name = culture.Name;
-                var traditional = name.Contains("Hant", StringComparison.OrdinalIgnoreCase)
-                                  || name.EndsWith("-TW", StringComparison.OrdinalIgnoreCase)
-                                  || name.EndsWith("-HK", StringComparison.OrdinalIgnoreCase)
-                                  || name.EndsWith("-MO", StringComparison.OrdinalIgnoreCase);
+                var language = FindAvailableLanguage(candidate);
+                if (language == null)
+                    continue;
 
-                var preferred = traditional
-                    ? new[] { "中文 (繁體)", "中文 (简体)" }
-                    : new[] { "中文 (简体)", "中文 (繁體)" };
-
-                foreach (var lang in preferred)
-                    if (AvailableLanguages.Contains(lang))
-                    {
-                        Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang", name, lang));
-                        return lang;
-                    }
+                Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_FirstRunSystemLang", culture.Name, language));
+                return language;
             }
         }
         catch (Exception e)
@@ -118,7 +118,38 @@ public static class TranslationManager
             Debug.Print(Tr("VOCALOIDPatcher_Debug_Translation_MatchSystemLangFailed", e.Message));
         }
 
-        return AvailableLanguages.Contains("English") ? "English" : AvailableLanguages[0];
+        return FindAvailableLanguage("English") ?? AvailableLanguages[0];
+    }
+
+    private static IEnumerable<string> GetLanguageCandidates(CultureInfo culture)
+    {
+        var isoLanguage = culture.TwoLetterISOLanguageName;
+
+        if (string.Equals(isoLanguage, "zh", StringComparison.OrdinalIgnoreCase))
+        {
+            var name = culture.Name;
+            var traditional = name.Contains("Hant", StringComparison.OrdinalIgnoreCase)
+                              || name.EndsWith("-TW", StringComparison.OrdinalIgnoreCase)
+                              || name.EndsWith("-HK", StringComparison.OrdinalIgnoreCase)
+                              || name.EndsWith("-MO", StringComparison.OrdinalIgnoreCase);
+
+            return traditional
+                ? new[] { "中文 (繁體)", "中文 (简体)" }
+                : new[] { "中文 (简体)", "中文 (繁體)" };
+        }
+
+        return SystemLanguageCandidates.TryGetValue(isoLanguage, out var candidates)
+            ? candidates
+            : Array.Empty<string>();
+    }
+
+    private static string? FindAvailableLanguage(string name)
+    {
+        foreach (var language in AvailableLanguages)
+            if (string.Equals(language, name, StringComparison.OrdinalIgnoreCase))
+                return language;
+
+        return null;
     }
 
     private static void BuildResourceIndex()

@@ -156,10 +156,10 @@ public class SettingsWindow : Window
 
         foreach (var category in categories)
         {
-            var item = new ListBoxItem();
             var captured = category;
-            Localize(() => item.Content = TranslationManager.Tr(captured.Key));
-            nav.Items.Add(item);
+            var label = new TextBlock { TextWrapping = TextWrapping.Wrap };
+            Localize(() => label.Text = TranslationManager.Tr(captured.Key));
+            nav.Items.Add(new ListBoxItem { Content = label });
         }
 
         nav.SelectedIndex = 0;
@@ -306,7 +306,7 @@ public class SettingsWindow : Window
             0.1, 1.0, Settings.WaveformOpacity,
             v => { Settings.WaveformOpacity = v; ShowOtherTracksNotesPatch.RequestRefreshPianoroll(); });
         waveformOpacity.Margin = new Thickness(0, 10, 0, 12);
-        waveformOpacity.Height = 34;
+        waveformOpacity.MinHeight = 34;
 
         var artOptions = new StackPanel
         {
@@ -371,7 +371,7 @@ public class SettingsWindow : Window
         };
         _artBankLabel = bankLabel;
 
-        var buttonRow = new StackPanel { Orientation = Orientation.Horizontal };
+        var buttonRow = new WrapPanel();
 
         var uploadButton = new Button { Margin = new Thickness(0, 0, 10, 0) };
         Localize(() => uploadButton.Content = TranslationManager.Tr("VOCALOIDPatcher_CharacterArtUpload_Header"));
@@ -483,17 +483,20 @@ public class SettingsWindow : Window
         return panel;
     }
 
-    private FrameworkElement SliderRow(string key, double min, double max, double value,
+    private Grid SliderRow(string key, double min, double max, double value,
         Action<double> onChanged)
     {
-        var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 10) };
+        var row = new Grid { Margin = new Thickness(0, 0, 0, 10) };
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var label = new TextBlock
         {
-            Width = 96,
             Foreground = MutedBrush,
             FontSize = 12,
-            VerticalAlignment = VerticalAlignment.Center
+            TextWrapping = TextWrapping.Wrap,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 12, 0)
         };
         Localize(() => label.Text = TranslationManager.Tr(key));
 
@@ -507,6 +510,7 @@ public class SettingsWindow : Window
         };
         slider.ValueChanged += (_, _) => onChanged(slider.Value);
 
+        Grid.SetColumn(slider, 1);
         row.Children.Add(label);
         row.Children.Add(slider);
         return row;
@@ -641,8 +645,10 @@ public class SettingsWindow : Window
     {
         var container = new StackPanel { Margin = margin };
 
-        var checkbox = new CheckBox { IsChecked = initial };
-        Localize(() => checkbox.Content = TranslationManager.Tr(key));
+        var header = new TextBlock { TextWrapping = TextWrapping.Wrap };
+        Localize(() => header.Text = TranslationManager.Tr(key));
+
+        var checkbox = new CheckBox { IsChecked = initial, Content = header };
         checkbox.Click += (_, _) => onClick(checkbox);
 
         var desc = new TextBlock
@@ -671,12 +677,15 @@ public class SettingsWindow : Window
 
     private CheckBox Toggle(string key, bool initial, Thickness margin, Action<CheckBox> onClick)
     {
+        var label = new TextBlock { TextWrapping = TextWrapping.Wrap };
+        Localize(() => label.Text = TranslationManager.Tr(key));
+
         var checkbox = new CheckBox
         {
             Margin = margin,
-            IsChecked = initial
+            IsChecked = initial,
+            Content = label
         };
-        Localize(() => checkbox.Content = TranslationManager.Tr(key));
         checkbox.Click += (_, _) => onClick(checkbox);
         return checkbox;
     }
@@ -688,6 +697,7 @@ public class SettingsWindow : Window
             FontSize = 19,
             FontWeight = FontWeights.SemiBold,
             Foreground = ForegroundBrush,
+            TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(0, 0, 0, 18)
         };
         Localize(() => title.Text = TranslationManager.Tr(key));
@@ -854,7 +864,11 @@ public class SettingsWindow : Window
   <Setter Property='Template'>
     <Setter.Value>
       <ControlTemplate TargetType='CheckBox'>
-        <StackPanel Orientation='Horizontal' Background='Transparent'>
+        <Grid Background='Transparent'>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width='Auto'/>
+            <ColumnDefinition Width='*'/>
+          </Grid.ColumnDefinitions>
           <Border Width='42' Height='22' CornerRadius='11' VerticalAlignment='Center'>
             <Border.Background><SolidColorBrush x:Name='trackBrush' Color='#45454D'/></Border.Background>
             <Border Width='16' Height='16' CornerRadius='8' HorizontalAlignment='Left' Margin='3,0,0,0'>
@@ -863,8 +877,8 @@ public class SettingsWindow : Window
               <Border.Effect><DropShadowEffect BlurRadius='4' ShadowDepth='0' Opacity='0.35' Color='#000000'/></Border.Effect>
             </Border>
           </Border>
-          <ContentPresenter VerticalAlignment='Center' Margin='12,0,0,0' RecognizesAccessKey='True'/>
-        </StackPanel>
+          <ContentPresenter Grid.Column='1' VerticalAlignment='Center' Margin='12,0,0,0' RecognizesAccessKey='True'/>
+        </Grid>
         <ControlTemplate.Triggers>
           <Trigger Property='IsChecked' Value='True'>
             <Trigger.EnterActions>
