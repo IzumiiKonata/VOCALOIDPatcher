@@ -18,17 +18,23 @@ $translationsDir = Join-Path $root 'translations'
 $hardcodedMap    = Join-Path $root 'HardcodedPropertyMap.xml'
 $thirdParty      = Join-Path $root 'THIRD-PARTY-NOTICES.txt'
 $srcDir          = Join-Path $root 'VOCALOIDPatcher\VOCALOIDPatcher'
-$readmeName      = '请先读我! README.txt'
+$readmeName      = 'README 请先读我.txt'
 
 $readmeDefault = @'
 VOCALOIDPatcher
+
 用于为 Yamaha VOCALOID7 Editor 提供更多功能的补丁
 理论上支持所有 VOCALOID7 编辑器
+将压缩包内所有文件解压并替换到 C:\Program Files\VOCALOID7\Editor\ 中即可
+
+------------------------------------------------------------------
+
+A patch that adds extra features to the Yamaha VOCALOID7 Editor.
+Works with all VOCALOID7 editors in theory.
+Extract all files from the archive and replace them in C:\Program Files\VOCALOID7\Editor\.
 
 https://github.com/IzumiiKonata/VOCALOIDPatcher
 https://www.vsqx.top/project/vn15117
-
-将压缩包内所有文件解压并替换到 C:\Program Files\VOCALOID7\Editor\ 中即可
 
 Made with <3 by IzumiiKonata
 '@
@@ -37,7 +43,7 @@ function Resolve-Version {
     if ($Version) { return $Version }
     $text = Get-Content $patcherCs -Raw
     if ($text -match 'Version\s*=>\s*"([^"]+)"') { return $Matches[1] }
-    throw "无法从 Patcher.cs 解析版本号，请用 -Version 指定。"
+    throw "Failed to parse the version from Patcher.cs. Specify it with -Version."
 }
 
 function Resolve-ReadmeText {
@@ -60,7 +66,7 @@ function Warn-IfStale([string]$mergedDll) {
     $newest = ($sources | Sort-Object LastWriteTime -Descending | Select-Object -First 1).LastWriteTime
     $dllTime = (Get-Item $mergedDll).LastWriteTime
     if ($newest -gt $dllTime) {
-        Write-Warning "源码 ($($newest.ToString('MM-dd HH:mm'))) 比合并 DLL ($($dllTime.ToString('MM-dd HH:mm'))) 新，建议先重新构建 (加 -Build)。"
+        Write-Warning "Sources ($($newest.ToString('MM-dd HH:mm'))) are newer than the merged DLL ($($dllTime.ToString('MM-dd HH:mm'))). Rebuild first (add -Build)."
     }
 }
 
@@ -93,15 +99,15 @@ $targets = @(
 if ($Tfm -ne 'all') { $targets = $targets | Where-Object Key -eq $Tfm }
 
 if ($Build) {
-    Write-Host "正在以 Release 构建..." -ForegroundColor Cyan
+    Write-Host "Building in Release..." -ForegroundColor Cyan
     & dotnet build $proj -c Release
     if ($LASTEXITCODE -ne 0) {
-        throw "构建失败。若 VOCALOID7 编辑器正在运行会锁定输出 DLL，请先关闭再试。"
+        throw "Build failed. If the VOCALOID7 editor is running, it locks the output DLL; close it and try again."
     }
 }
 
-Write-Host "版本: $Version" -ForegroundColor Green
-Write-Host "输出目录: $OutputDir" -ForegroundColor Green
+Write-Host "Version: $Version" -ForegroundColor Green
+Write-Host "Output directory: $OutputDir" -ForegroundColor Green
 
 $readmeTmp = Join-Path ([System.IO.Path]::GetTempPath()) $readmeName
 [System.IO.File]::WriteAllText($readmeTmp, $readmeText, (New-Object System.Text.UTF8Encoding($false)))
@@ -112,7 +118,7 @@ foreach ($t in $targets) {
     $mergedDll = Join-Path $tfmDir 'out\Microsoft.Xaml.Behaviors.dll'
 
     if (-not (Test-Path $mergedDll)) {
-        Write-Warning "[$($t.Key)] 找不到合并 DLL: $mergedDll —— 跳过 (请先以 Release 构建，或加 -Build)。"
+        Write-Warning "[$($t.Key)] Merged DLL not found: $mergedDll - skipping (build in Release first, or add -Build)."
         continue
     }
 
@@ -133,16 +139,16 @@ foreach ($t in $targets) {
     New-ReleaseZip $zipPath $entries
 
     $sizeMb = [math]::Round((Get-Item $zipPath).Length / 1MB, 2)
-    Write-Host "[$($t.Key)] 已生成 $zipName ($sizeMb MB)" -ForegroundColor Green
+    Write-Host "[$($t.Key)] Created $zipName ($sizeMb MB)" -ForegroundColor Green
     $results += $zipPath
 }
 
 Remove-Item $readmeTmp -Force -ErrorAction SilentlyContinue
 
 if (-not $results) {
-    throw "未生成任何发行包。请确认已构建 Release，或检查 -Tfm 参数。"
+    throw "No release package was generated. Make sure Release is built, or check the -Tfm parameter."
 }
 
 Write-Host ""
-Write-Host "完成，共 $($results.Count) 个发行包:" -ForegroundColor Cyan
+Write-Host "Done. Generated $($results.Count) release package(s):" -ForegroundColor Cyan
 $results | ForEach-Object { Write-Host "  $_" }
