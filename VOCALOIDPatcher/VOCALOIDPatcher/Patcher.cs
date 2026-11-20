@@ -154,6 +154,7 @@ public static class Patcher
                 new SwingMenuPatch(),
                 new TouchpadHorizontalScrollPatch(),
                 new TrackTouchpadHorizontalScrollPatch(),
+                new AudioEffectTouchpadHorizontalScrollPatch(),
                 new CursorNoteNameTranslationFixPatch(),
                 new FastCanvasViewportRectPatch(),
                 new FastCanvasViewportRangePatch(),

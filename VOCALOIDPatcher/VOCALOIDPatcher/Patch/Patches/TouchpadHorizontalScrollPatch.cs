@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using HarmonyLib;
 using Yamaha.VOCALOID;
+using Yamaha.VOCALOID.AudioEffect;
 using MusicalZoomScrollViewer = Yamaha.VOCALOID.MusicalEditor.ZoomScrollViewer;
 using TrackZoomScrollViewer = Yamaha.VOCALOID.TrackEditor.ZoomScrollViewer;
 
@@ -23,7 +24,7 @@ internal static class TouchpadHorizontalScroll
 
     private static readonly ConditionalWeakTable<ScrollViewer, HookEntry> Entries = new();
 
-    public static void Attach(ScrollViewer sv, Action<bool> disableAutoScroll)
+    public static void Attach(ScrollViewer sv, Action<bool>? disableAutoScroll = null)
     {
         Entries.GetOrCreateValue(sv).DisableAutoScroll = disableAutoScroll;
 
@@ -107,4 +108,30 @@ public class TrackTouchpadHorizontalScrollPatch : PatchBase
     [HarmonyPostfix]
     private static void Postfix(TrackZoomScrollViewer __instance)
         => TouchpadHorizontalScroll.Attach(__instance, v => __instance.ShouldDisableAutoScroll = v);
+}
+
+public class AudioEffectTouchpadHorizontalScrollPatch : PatchBase
+{
+    public override string PatchName        => "AudioEffectTouchpadHorizontalScrollPatch";
+    public override Type   TargetClass      => typeof(AudioEffectView);
+    public override string TargetMethodName => string.Empty;
+    public override bool   IsConstructor    => true;
+
+    [HarmonyPostfix]
+    private static void Postfix(AudioEffectView __instance)
+    {
+        __instance.Loaded -= OnLoaded;
+        __instance.Loaded += OnLoaded;
+    }
+
+    private static void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is not AudioEffectView view) return;
+
+        foreach (var scroller in ShowOtherTracksNotesPatch.FindVisualChildren<FlatScrollViewer>(view))
+        {
+            TouchpadHorizontalScroll.Attach(scroller);
+            return;
+        }
+    }
 }
