@@ -76,7 +76,7 @@
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Grid" xml:space="preserve"><value>Cuadrícula</value></data>
   <data name="VOCALOIDPatcher_Job_QuantizeLength_Strength" xml:space="preserve"><value>Intensidad (%)</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Header" xml:space="preserve"><value>Generar armonía</value></data>
-  <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>Tónica de la escala</value></data>
+  <data name="VOCALOIDPatcher_Job_Harmony_Root" xml:space="preserve"><value>Tónica</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_Track" xml:space="preserve"><value>Pista de destino</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackExisting" xml:space="preserve"><value>Usar pista existente</value></data>
   <data name="VOCALOIDPatcher_Job_Harmony_TrackNew" xml:space="preserve"><value>Crear pista nueva</value></data>
@@ -503,11 +503,11 @@ VOCALOID7 se iniciará en la versión Lite.</value></data>
   <data name="CustomizeShortcutDlg_CommandStaccatoNote" xml:space="preserve"><value>Staccato</value></data>
   <data name="MsgBox_VSMInitialization_Error" xml:space="preserve"><value>No se pudo inicializar VSM.</value></data>
   <data name="TextBox_ContextMenu_Paste_Gesture" xml:space="preserve"><value>Ctrl+V</value></data>
-  <data name="DataUseDlg_Message" xml:space="preserve"><value>Con el fin de mejorar la calidad de este software/servicio, este software envía a terceros datos que no identifican a las personas. Yamaha y los terceros involucrados recopilan y almacenan datos relacionados con el uso de este software, incluidas las condiciones de acceso de los clientes, los dispositivos, las versiones del sistema operativo y el número de usuarios.
+  <data name="DataUseDlg_Message" xml:space="preserve"><value>Para mejorar la calidad de este software/servicio, se envían a terceros datos que no permiten identificar a las personas. Yamaha y los terceros involucrados recopilan y almacenan datos sobre el uso del software, como las condiciones de acceso, los dispositivos, las versiones del sistema operativo y el número de usuarios.
 
-Si es menor de edad, realice esta selección únicamente después de obtener el consentimiento de su padre, madre o tutor legal para usar este software y transmitir esta información.
+Si es menor de edad, elija una opción solo con el consentimiento de su padre, madre o tutor legal.
 
-¿Permite la transmisión de las condiciones de uso del software?</value></data>
+¿Permite el envío de estos datos de uso?</value></data>
   <data name="ToolBar_Line_ToolTip" xml:space="preserve"><value>Línea</value></data>
   <data name="MainMenu_Job_LyricInputMode_Header" xml:space="preserve"><value>Modo de entrada de letra</value></data>
   <data name="PrivacyPolicy_URL" xml:space="preserve"><value>https://www.yamaha.com/en/apps_docs/apps_dmi/dmi_PP_GA-20220412EN.html</value></data>
@@ -530,7 +530,7 @@ Si es menor de edad, realice esta selección únicamente después de obtener el 
   <data name="CustomizeShortcutDlg_MessageOverWrite" xml:space="preserve"><value>¿Sobrescribir el atajo de teclado?</value></data>
   <data name="MainMenu_Transport_AutoScroll_Header" xml:space="preserve"><value>Desplazamiento automático</value></data>
   <data name="MainMenu_Job_PartAudioMixDown_Header" xml:space="preserve"><value>Exportar a archivo de audio...</value></data>
-  <data name="MainMenu_Transport_Header" xml:space="preserve"><value>Transporte</value></data>
+  <data name="MainMenu_Transport_Header" xml:space="preserve"><value>Reproducción</value></data>
   <data name="MsgBox_Duplicate_Tempo_Error" xml:space="preserve"><value>No se pudo duplicar el tempo.</value></data>
   <data name="String_OpenTutorialURL" xml:space="preserve"><value>https://www.vocaloid.com/en/learn</value></data>
   <data name="MsgBox_TooManyCharacters_Warning" xml:space="preserve"><value>Se introdujeron demasiados caracteres y se han truncado a {0} caracteres.</value></data>
@@ -549,7 +549,7 @@ Si es menor de edad, realice esta selección únicamente después de obtener el 
   <data name="MainMenu_View_ZoomInHorizontally_Header" xml:space="preserve"><value>Acercar horizontalmente</value></data>
   <data name="MsgBox_HalfTempo_Error" xml:space="preserve"><value>No se pudo reducir el tempo a la mitad.</value></data>
   <data name="MainMenu_Help_About_Header" xml:space="preserve"><value>Acerca de VOCALOID7 Editor...</value></data>
-  <data name="ContentList_Waiting" xml:space="preserve"><value>Obteniendo información del contenido.</value></data>
+  <data name="ContentList_Waiting" xml:space="preserve"><value>Obteniendo contenido…</value></data>
   <data name="ToolBar_Amplitude_ToolTip" xml:space="preserve"><value>Expresión</value></data>
   <data name="AudioMixdownDlg_Channel_Stereo" xml:space="preserve"><value>Estéreo</value></data>
   <data name="MsgBox_Edit_Pitch_Error" xml:space="preserve"><value>No se pudo editar el tono.</value></data>
@@ -569,7 +569,7 @@ Si es menor de edad, realice esta selección únicamente después de obtener el 
   <data name="EditHandle_PitchDriftEnd_DisplayName" xml:space="preserve"><value>Deriva final</value></data>
   <data name="CustomizeShortcutDlg_CommandResetLyrics" xml:space="preserve"><value>Restablecer letra</value></data>
   <data name="MsgBox_AudioMixdown_FailedMixdown" xml:space="preserve"><value>No se pudo mezclar el audio.</value></data>
-  <data name="MsgBox_Load_WavFile_Error" xml:space="preserve"><value>No se pudo cargar el archivo Wav.</value></data>
+  <data name="MsgBox_Load_WavFile_Error" xml:space="preserve"><value>No se pudo cargar el archivo WAV.</value></data>
   <data name="PreferencesDlg_Audio_Tab_Header" xml:space="preserve"><value>Audio</value></data>
   <data name="MainMenu_View_ToggleLowerZone_Header" xml:space="preserve"><value>Mostrar u ocultar la zona inferior</value></data>
   <data name="MsgBox_Wave_TimeStretch_Error" xml:space="preserve"><value>No se pudo realizar el estiramiento temporal. Error </value></data>
@@ -598,7 +598,7 @@ Si es menor de edad, realice esta selección únicamente después de obtener el 
   <data name="Button_Close" xml:space="preserve"><value>Cerrar</value></data>
   <data name="ToolBar_Play_ToolTip" xml:space="preserve"><value>Reproducir</value></data>
   <data name="ContextMenu_NormalizeWave_Header" xml:space="preserve"><value>Normalizar onda de audio(_N)</value></data>
-  <data name="AudioMixdownDlg_SamplingRate" xml:space="preserve"><value>Frecuencia de muestreo</value></data>
+  <data name="AudioMixdownDlg_SamplingRate" xml:space="preserve"><value>Tasa de muestreo</value></data>
   <data name="PreferencesDlg_General_SoundPreview_Caption" xml:space="preserve"><value>Previsualización de sonido</value></data>
   <data name="CustomizeShortcutDlg_CommandExtractLyrics" xml:space="preserve"><value>Extraer letra</value></data>
   <data name="StyleSaveAsDlg_Title" xml:space="preserve"><value>Guardar estilo</value></data>
@@ -613,7 +613,7 @@ Si es menor de edad, realice esta selección únicamente después de obtener el 
   <data name="Button_OK" xml:space="preserve"><value>Aceptar</value></data>
   <data name="AddTrackDlg_Creation_Caption" xml:space="preserve"><value>Crear</value></data>
   <data name="StyleEditDlg_Title" xml:space="preserve"><value>Editar propiedades del preajuste de estilo</value></data>
-  <data name="MainMenu_Job_Header" xml:space="preserve"><value>Trabajo</value></data>
+  <data name="MainMenu_Job_Header" xml:space="preserve"><value>Tarea</value></data>
   <data name="CustomizeShortcutDlg_CommandBeginEditSongPosition" xml:space="preserve"><value>Editar posición de la canción</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Spanish" xml:space="preserve"><value>Español</value></data>
   <data name="PreferencesDlg_Audio_Bit_Caption" xml:space="preserve"><value>Bits</value></data>
@@ -706,7 +706,7 @@ Introduzca un código de serie válido de VOCALOID7 en VOCALOID7 Authorizer.
 Esta acción no se puede deshacer.
 ¿Desea continuar?</value></data>
   <data name="MainMenu_Edit_Redo_Header" xml:space="preserve"><value>Rehacer</value></data>
-  <data name="ToolBar_PitchPencil_ToolTip" xml:space="preserve"><value>Lápiz de tono</value></data>
+  <data name="ToolBar_PitchPencil_ToolTip" xml:space="preserve"><value>Dibujar tono</value></data>
   <data name="ContextMenu_Scissors_Header" xml:space="preserve"><value>Tijeras(_S)</value></data>
   <data name="VoiceBanksVersionDlg_Languages_Header" xml:space="preserve"><value>Idiomas</value></data>
   <data name="MainMenu_View_Inspector_Header" xml:space="preserve"><value>Inspector</value></data>
@@ -767,7 +767,7 @@ Esta acción no se puede deshacer.
   <data name="VoiceChangedDlg_Msg1" xml:space="preserve"><value>En el proyecto se utilizan bancos de voz que no están instalados.</value></data>
   <data name="VoiceChangedDlg_Msg2" xml:space="preserve"><value>Se reemplazarán por los bancos de voz instalados.</value></data>
   <data name="AudioMixdownDlg_Title" xml:space="preserve"><value>Mezcla de audio</value></data>
-  <data name="ContextMenu_MusicalEditorJob_Header" xml:space="preserve"><value>Trabajo(_J)</value></data>
+  <data name="ContextMenu_MusicalEditorJob_Header" xml:space="preserve"><value>Tarea(_J)</value></data>
   <data name="VerifyLicense_VoiceNotAuthorizedOrExpiredLeaseFile" xml:space="preserve"><value>La siguiente voz no ha sido autorizada o su arrendamiento ha vencido.</value></data>
   <data name="Window_Title" xml:space="preserve"><value>VOCALOID7 Editor</value></data>
   <data name="PreferencesDlg_Advanced_DefaultTrackColor_Audio_Caption" xml:space="preserve"><value>Audio</value></data>
@@ -813,7 +813,7 @@ Guarde el proyecto con otro nombre y vuelva a iniciar la aplicación.</value></d
   <data name="PreferencesDlg_Advanced_Plugin_Caption" xml:space="preserve"><value>Plugin</value></data>
   <data name="EditHandle_AmplitudeWhole_DisplayName" xml:space="preserve"><value>Expresión central</value></data>
   <data name="CustomizeShortcutDlg_DeletePreset" xml:space="preserve"><value>Eliminar</value></data>
-  <data name="ToolGroup_PitchPencil_Caption" xml:space="preserve"><value>Lápiz de tono</value></data>
+  <data name="ToolGroup_PitchPencil_Caption" xml:space="preserve"><value>Dibujar tono</value></data>
   <data name="MsgBox_Add_AudioPart_Error" xml:space="preserve"><value>No se pudo añadir la parte de audio.</value></data>
   <data name="MsgBox_ImportFile_Load_Error_DueToUnsupportedVersion" xml:space="preserve"><value>No se pudo importar el archivo.
 Esta versión del archivo no es compatible.</value></data>
@@ -822,7 +822,7 @@ Esta versión del archivo no es compatible.</value></data>
   <data name="StyleSaveAsDlg_Button_AddNewGenre" xml:space="preserve"><value>Añadir nuevo género</value></data>
   <data name="StyleSaveAsDlg_Button_AddNewColor" xml:space="preserve"><value>Añadir nuevo color</value></data>
   <data name="MainMenu_View_ZoomInVertically_Header" xml:space="preserve"><value>Acercar verticalmente</value></data>
-  <data name="ToolBar_PitchEraser_ToolTip" xml:space="preserve"><value>Borrador de tono</value></data>
+  <data name="ToolBar_PitchEraser_ToolTip" xml:space="preserve"><value>Borrar tono</value></data>
   <data name="MsgBox_Delete_ControlParameter_Error" xml:space="preserve"><value>No se pudo eliminar el parámetro de control.</value></data>
   <data name="CheckUpdate_Button_No" xml:space="preserve"><value>Recordármelo más tarde</value></data>
   <data name="MainMenu_Help_CheckUpdate_Header" xml:space="preserve"><value>Buscar actualizaciones...</value></data>
@@ -836,13 +836,13 @@ Esta versión del archivo no es compatible.</value></data>
   <data name="MsgBox_Duplicate_Error" xml:space="preserve"><value>No se pudo duplicar.</value></data>
   <data name="MsgBox_AudioEngineInitialization_Error" xml:space="preserve"><value>No se pudo inicializar el motor de audio.</value></data>
   <data name="CustomizeShortcutDlg_MessageShortcutKeyDelete" xml:space="preserve"><value>¿Quitar el atajo de teclado seleccionado?</value></data>
-  <data name="ToolGroup_PitchEraser_Caption" xml:space="preserve"><value>Borrador de tono</value></data>
+  <data name="ToolGroup_PitchEraser_Caption" xml:space="preserve"><value>Borrar tono</value></data>
   <data name="MainMenu_File_ImportVpr_Header" xml:space="preserve"><value>Archivo VPR...</value></data>
   <data name="MsgBox_UserConfiguration_Corrupted_Error" xml:space="preserve"><value>El archivo de configuración del usuario se inicializará porque está dañado.</value></data>
   <data name="SplitNote_Title" xml:space="preserve"><value>Dividir nota</value></data>
   <data name="MainMenu_Edit_JoinEvents_Header" xml:space="preserve"><value>Unir eventos</value></data>
   <data name="MainMenu_Edit_AddMidiTrack_Header" xml:space="preserve"><value>Añadir pista VOCALOID</value></data>
-  <data name="MsgBox_HowToImportAudio" xml:space="preserve"><value>¿Insertar el audio en una sola pista o cada uno en una pista diferente?</value></data>
+  <data name="MsgBox_HowToImportAudio" xml:space="preserve"><value>¿Insertar el audio en una sola pista o cada archivo en una pista diferente?</value></data>
   <data name="FileDlg_PPSF_Filter" xml:space="preserve"><value>Canción de Piapro Studio|*.ppsf|Todos los archivos|*.*</value></data>
   <data name="NormalizeNote_Alert_Label" xml:space="preserve"><value>No hay notas superpuestas.</value></data>
   <data name="CheckUpdate_GettingInfomation_Error" xml:space="preserve"><value>No se pudo obtener la información del actualizador.</value></data>
@@ -916,7 +916,7 @@ Introduzca un código de serie válido de VOCALOID7 en VOCALOID7 Authorizer.</va
   <data name="MsgBox_AudioMixdown_FailedOpenExplorer" xml:space="preserve"><value>No se pudo abrir el explorador.</value></data>
   <data name="MsgBox_Move_Panpot_Error" xml:space="preserve"><value>No se pudo mover el panorama.</value></data>
   <data name="EditHandle_AmplitudeEnd_DisplayName" xml:space="preserve"><value>Expresión final</value></data>
-  <data name="AudioMixdownDlg_OpenExplorer" xml:space="preserve"><value>Abrir la carpeta después de exportar el archivo de audio</value></data>
+  <data name="AudioMixdownDlg_OpenExplorer" xml:space="preserve"><value>Abrir carpeta tras exportar</value></data>
   <data name="StyleSaveAsDlg_NewStyle" xml:space="preserve"><value>(Nuevo)</value></data>
   <data name="ContextMenu_New_Header" xml:space="preserve"><value>Crear compás en la posición de la canción(_N)</value></data>
   <data name="ConvertPhoneticSymbolsDlg_Languages_English" xml:space="preserve"><value>Inglés</value></data>
@@ -1030,9 +1030,9 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="MsgBox_VoiceBank_Update_Prompt" xml:space="preserve"><value>Consulte los sitios web de los fabricantes de bancos de voz.</value></data>
   <data name="ContextMenu_PhonemeTiming_Header" xml:space="preserve"><value>Temporización(_H)</value></data>
   <data name="CustomizeShortcutDlg_CommandSetPaintToolGroup" xml:space="preserve"><value>Grupo de herramientas de pintura</value></data>
-  <data name="FileDlg_Wave_Filter" xml:space="preserve"><value>Archivo Wave|*.wav|Todos los archivos|*.*</value></data>
+  <data name="FileDlg_Wave_Filter" xml:space="preserve"><value>Archivo WAV|*.wav|Todos los archivos|*.*</value></data>
   <data name="MsgBox_Duplicate_AudioPart_Error" xml:space="preserve"><value>No se pudo duplicar la parte de audio.</value></data>
-  <data name="CheckUpdate_Waiting" xml:space="preserve"><value>Obteniendo información del actualizador.</value></data>
+  <data name="CheckUpdate_Waiting" xml:space="preserve"><value>Buscando actualizaciones…</value></data>
   <data name="PreferencesDlg_Advanced_LanguagePriority_Extension" xml:space="preserve"><value>(Extensión)</value></data>
   <data name="CustomizeShortcutDlg_ChangePresetName" xml:space="preserve"><value>Renombrar</value></data>
   <data name="ImportSettingsDlg_Title" xml:space="preserve"><value>Ajustes de importación</value></data>
@@ -1080,8 +1080,8 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="Enum_VSMRobotVoiceMode_Normal" xml:space="preserve"><value>Normal</value></data>
   <data name="Enum_VSMRobotVoiceMode_Soft" xml:space="preserve"><value>Suave</value></data>
 
-  <data name="Enum_VSMBreathType_Female" xml:space="preserve"><value>Femenino</value></data>
-  <data name="Enum_VSMBreathType_Male" xml:space="preserve"><value>Masculino</value></data>
+  <data name="Enum_VSMBreathType_Female" xml:space="preserve"><value>Femenina</value></data>
+  <data name="Enum_VSMBreathType_Male" xml:space="preserve"><value>Masculina</value></data>
   <data name="Enum_VSMBreathMode_Often" xml:space="preserve"><value>Con frecuencia</value></data>
   <data name="Enum_VSMBreathMode_Sometimes" xml:space="preserve"><value>A veces</value></data>
   <data name="Enum_VSMBreathMode_Rarely" xml:space="preserve"><value>Rara vez</value></data>
@@ -1109,7 +1109,7 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <!-- Filled from editor resources / ComboBox values -->
   <data name="AudioMixdownDlg_BitRate" xml:space="preserve"><value>Tasa de bits</value></data>
   <data name="AudioMixdownDlg_RenderingOptions" xml:space="preserve"><value>Opciones de renderizado</value></data>
-  <data name="Button_Reset" xml:space="preserve"><value>Restablecer</value></data>
+  <data name="Button_Reset" xml:space="preserve"><value>Predet.</value></data>
   <data name="ContextMenu_ClearNoteDirectPitches_Header" xml:space="preserve"><value>Liberar tono de las notas</value></data>
   <data name="ContextMenu_Disable_Selected_Tracks" xml:space="preserve"><value>Desactivar pistas seleccionadas</value></data>
   <data name="ContextMenu_Enable_Selected_Tracks" xml:space="preserve"><value>Activar pistas seleccionadas</value></data>
@@ -1117,9 +1117,9 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="ContextMenu_SetDirectPitchesFromRenderedPitches_Header" xml:space="preserve"><value>Fijar tono a las notas</value></data>
   <data name="CustomizeShortcutDlg_CommandConvertToBreath" xml:space="preserve"><value>Convertir en respiración</value></data>
   <data name="CustomizeShortcutDlg_CommandConvertToSilence" xml:space="preserve"><value>Convertir en silencio</value></data>
-  <data name="CustomizeShortcutDlg_EmotionToolTemporarySwitch" xml:space="preserve"><value>Cambio temporal de la herramienta de emoción</value></data>
-  <data name="CustomizeShortcutDlg_GridTemporarySwitch" xml:space="preserve"><value>Cambio temporal de la cuadrícula</value></data>
-  <data name="CustomizeShortcutDlg_PencilToolTemporarySwitch" xml:space="preserve"><value>Cambio temporal de la herramienta lápiz</value></data>
+  <data name="CustomizeShortcutDlg_EmotionToolTemporarySwitch" xml:space="preserve"><value>Herramienta de emoción temporal</value></data>
+  <data name="CustomizeShortcutDlg_GridTemporarySwitch" xml:space="preserve"><value>Cuadrícula temporal</value></data>
+  <data name="CustomizeShortcutDlg_PencilToolTemporarySwitch" xml:space="preserve"><value>Herramienta lápiz temporal</value></data>
   <data name="HomeWindow_NewProject_Caption" xml:space="preserve"><value>NUEVO PROY.</value></data>
   <data name="HomeWindow_OpenDemoSong_Caption" xml:space="preserve"><value>ABRIR DEMO</value></data>
   <data name="HomeWindow_Open_Caption" xml:space="preserve"><value>ABRIR</value></data>
@@ -1133,15 +1133,15 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="MainMenu_File_ImportTssln_Header" xml:space="preserve"><value>Archivo TSSLN...</value></data>
   <data name="MainMenu_File_ImportUst_Header" xml:space="preserve"><value>Archivo UST...</value></data>
   <data name="MainMenu_File_ImportVprx_Header" xml:space="preserve"><value>Archivo VPRX...</value></data>
-  <data name="MainMenu_File_ImportWave_Header" xml:space="preserve"><value>Archivo Wave...</value></data>
+  <data name="MainMenu_File_ImportWave_Header" xml:space="preserve"><value>Archivo WAV...</value></data>
   <data name="MainMenu_Transport_MetronomeSettings_Header" xml:space="preserve"><value>Ajustes del metrónomo...</value></data>
   <data name="MainMenu_Transport_Metronome_Header" xml:space="preserve"><value>Metrónomo</value></data>
   <data name="MainMenu_View_Browser_Header" xml:space="preserve"><value>Navegador</value></data>
   <data name="MainMenu_View_InspectorHelp_Header" xml:space="preserve"><value>Ayuda contextual</value></data>
   <data name="ManualVibrato_Label" xml:space="preserve"><value>Manual</value></data>
   <data name="MetronomeSettingsDlg_ClickLabel" xml:space="preserve"><value>Ajustes del clic</value></data>
-  <data name="MetronomeSettingsDlg_HiLabel" xml:space="preserve"><value>Agudo</value></data>
-  <data name="MetronomeSettingsDlg_LoLabel" xml:space="preserve"><value>Grave</value></data>
+  <data name="MetronomeSettingsDlg_HiLabel" xml:space="preserve"><value>Ag.</value></data>
+  <data name="MetronomeSettingsDlg_LoLabel" xml:space="preserve"><value>Gr.</value></data>
   <data name="MetronomeSettingsDlg_Title" xml:space="preserve"><value>Ajustes del metrónomo</value></data>
   <data name="MusicalEditor_ActionComboBox_DisplayText" xml:space="preserve"><value>Acción</value></data>
   <data name="NoteInspectorTitle_AttackEffect" xml:space="preserve"><value>EFECTO DE ATAQUE</value></data>
@@ -1153,7 +1153,7 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="NotePropertyDlg_ManualVibrato" xml:space="preserve"><value>Manual</value></data>
   <data name="PreferencesDlg_General_ShowVoicebankIcon_Caption" xml:space="preserve"><value>Mostrar iconos de bancos de voz</value></data>
   <data name="PreferencesDlg_General_ShowVoicebankIcon_Enable_Caption" xml:space="preserve"><value>Activar</value></data>
-  <data name="ProjectSettingDlg_MeasureOffset" xml:space="preserve"><value>Desfase de compases</value></data>
+  <data name="ProjectSettingDlg_MeasureOffset" xml:space="preserve"><value>Desfase</value></data>
   <data name="ToolBar_Browser_ToolTip" xml:space="preserve"><value>Navegador</value></data>
   <data name="ToolBar_InspectorHelp_ToolTip" xml:space="preserve"><value>Ayuda contextual</value></data>
   <data name="ToolBar_MetronomeSettings_ToolTip" xml:space="preserve"><value>Ajustes del metrónomo</value></data>
@@ -1182,7 +1182,7 @@ Introduzca su clave de licencia para activar la aplicación.</value></data>
   <data name="CustomizeShortcutDlg_CommandImportTssln" xml:space="preserve"><value>Importar - Archivo TSSLN</value></data>
   <data name="CustomizeShortcutDlg_CommandImportUst" xml:space="preserve"><value>Importar - Archivo UST</value></data>
   <data name="CustomizeShortcutDlg_CommandImportVprx" xml:space="preserve"><value>Importar - Archivo VPRX</value></data>
-  <data name="CustomizeShortcutDlg_CommandImportWave" xml:space="preserve"><value>Importar - Archivo Wave</value></data>
+  <data name="CustomizeShortcutDlg_CommandImportWave" xml:space="preserve"><value>Importar - Archivo WAV</value></data>
   <data name="CustomizeShortcutDlg_CommandMidiTrackAddMidiPart" xml:space="preserve"><value>Crear parte en la posición de la canción</value></data>
   <data name="CustomizeShortcutDlg_CommandSelectAllMainVolumes" xml:space="preserve"><value>Seleccionar todos los volúmenes principales</value></data>
   <data name="CustomizeShortcutDlg_CommandSelectAllNotes" xml:space="preserve"><value>Seleccionar todas las notas</value></data>
@@ -1308,8 +1308,8 @@ Si se aplica la habilidad de canto y no el efecto de ataque/liberación, haga cl
   <data name="Help_ToolbarPencil" xml:space="preserve"><value>Herramienta lápiz;Se utiliza principalmente para introducir partes y automatización, o para editar el tempo y el compás. La herramienta lápiz cambia a la herramienta flecha al moverla a la regla, a la barra de menús o a la barra de herramientas.</value></data>
   <data name="Help_ToolbarPitch" xml:space="preserve"><value>Herramienta de tono;Permite ajustar el tono de las notas.</value></data>
   <data name="Help_ToolbarPitchCurveView" xml:space="preserve"><value>Visualización de la curva de tono;Activa o desactiva la visualización de la curva de tono en el editor musical.</value></data>
-  <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>Herramienta borrador de tono;Puede editar directamente la trayectoria de tono de la parte VOCALOID con las herramientas lápiz de tono y borrador de tono.</value></data>
-  <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>Herramienta lápiz de tono;Puede editar directamente la trayectoria de tono de la parte VOCALOID con las herramientas lápiz de tono y borrador de tono.</value></data>
+  <data name="Help_ToolbarPitchEraser" xml:space="preserve"><value>Herramienta Borrar tono;Puede editar directamente la trayectoria de tono de la parte VOCALOID con las herramientas Dibujar tono y Borrar tono.</value></data>
+  <data name="Help_ToolbarPitchPencil" xml:space="preserve"><value>Herramienta Dibujar tono;Puede editar directamente la trayectoria de tono de la parte VOCALOID con las herramientas Dibujar tono y Borrar tono.</value></data>
   <data name="Help_ToolbarPlayback" xml:space="preserve"><value>Detener/Ir a cero;Detiene la reproducción.
 Haga clic en este botón con la reproducción detenida, o haga doble clic durante la reproducción, para volver al inicio.</value></data>
   <data name="Help_ToolbarRecord" xml:space="preserve"><value>Grabar;Graba los eventos MIDI de entrada. Es necesario activar el botón de grabación en el encabezado de la pista que desea grabar.</value></data>
@@ -1358,7 +1358,7 @@ Puede ajustar para cada pista el volumen, la distribución izquierda-derecha (pa
   <data name="MsgBox_AudioTranscoderInitialization_Error" xml:space="preserve"><value>No se pudo inicializar el transcodificador de audio.</value></data>
   <data name="MsgBox_AudioTranscoder_FailedTranscode" xml:space="preserve"><value>No se pudo transcodificar el audio.</value></data>
   <data name="MsgBox_MidiEffectManagerInitialization_Error" xml:space="preserve"><value>No se pudo inicializar MIDI Effect Manager.</value></data>
-  <data name="MsgBox_MixedAudioFormat_Error" xml:space="preserve"><value>No se pueden importar archivos Wav y archivos MP3 al mismo tiempo.</value></data>
+  <data name="MsgBox_MixedAudioFormat_Error" xml:space="preserve"><value>No se pueden importar archivos WAV y archivos MP3 al mismo tiempo.</value></data>
   <data name="MsgBox_OpenDemoSong_Error" xml:space="preserve"><value>No se pudo abrir la canción de demostración.</value></data>
   <data name="MusicalEditor_ActionComboBox_ConvertToBreath" xml:space="preserve"><value>Convertir en respiración</value></data>
   <data name="MusicalEditor_ActionComboBox_ConvertToSilence" xml:space="preserve"><value>Convertir en silencio</value></data>
@@ -1415,12 +1415,12 @@ Puede ajustar para cada pista el volumen, la distribución izquierda-derecha (pa
   <data name="VOCALOIDPatcher_Debug_AutoSave_Succeeded" xml:space="preserve"><value>Guardado automático correcto: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Failed" xml:space="preserve"><value>Error en el guardado automático: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_AutoSave_Exception" xml:space="preserve"><value>Excepción en el guardado automático: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_Job_SwingFailed" xml:space="preserve"><value>[Trabajo] Error en el swing: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_Job_LyricFailed" xml:space="preserve"><value>[Trabajo] Error al reemplazar la letra: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_Job_QuantizeFailed" xml:space="preserve"><value>[Trabajo] Error al cuantizar la duración: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_Job_HarmonyNoTrack" xml:space="preserve"><value>[Trabajo] Armonía: no hay pistas libres y no se pudo crear una nueva</value></data>
-  <data name="VOCALOIDPatcher_Debug_Job_HarmonyFailed" xml:space="preserve"><value>[Trabajo] Error en la armonía: {0}</value></data>
-  <data name="VOCALOIDPatcher_Debug_JobMenu_MenuNotFound" xml:space="preserve"><value>[JobMenu] No se encontró el menú Trabajo en la barra de menús</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_SwingFailed" xml:space="preserve"><value>[Tarea] Error en el swing: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_LyricFailed" xml:space="preserve"><value>[Tarea] Error al reemplazar la letra: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_QuantizeFailed" xml:space="preserve"><value>[Tarea] Error al cuantizar la duración: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyNoTrack" xml:space="preserve"><value>[Tarea] Armonía: no hay pistas libres y no se pudo crear una nueva</value></data>
+  <data name="VOCALOIDPatcher_Debug_Job_HarmonyFailed" xml:space="preserve"><value>[Tarea] Error en la armonía: {0}</value></data>
+  <data name="VOCALOIDPatcher_Debug_JobMenu_MenuNotFound" xml:space="preserve"><value>[JobMenu] No se encontró el menú Tarea en la barra de menús</value></data>
   <data name="VOCALOIDPatcher_Debug_JobMenu_InstallFailed" xml:space="preserve"><value>[JobMenu] Error de instalación: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_SwingMenu_Exception" xml:space="preserve"><value>[SwingMenu] Excepción: {0}</value></data>
   <data name="VOCALOIDPatcher_Debug_DarkTitleBarFailed" xml:space="preserve"><value>No se pudo establecer la barra de título oscura: {0}</value></data>
